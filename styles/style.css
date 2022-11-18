@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+:root{
+    --primaryColor: #937DC2;
+    --secondaryColor: #680865;
+    --light:#f2f2f2 ;
+    --color:#202020;
+    --backgroundColor:white;
+    --font:'Nunito', sans-serif !important;
+    --fontSize:0.99rem;
+    --navWidth:95%;
+    --navHeight:50px;
+    --navAlign:center;
+    --sideBarWidth:250px;
+    --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
+
+}
+
+/* Normalise */
+*{font-family: var(--font);font-size: var(--fontSize);}
+.p-bg{background-color: var(--primaryColor) !important;}
+.p-text{color: var(--primaryColor);}
+body{background-color: var(--backgroundColor);}
+.heading{font-size: 3rem !important;}
+.h1{font-size: 2.5rem !important;font-weight: 800 !important;}
+p{margin: 20px 0 !important;}
+.m-section{margin: 40px 0 !important;}
+.central{display: flex;align-items: center;
+justify-content: center;}
+.card{
+    background-color: var(--light);
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: -.5rem .5rem 0rem 0rem rgba(0,0,0,0.1) !important;
+
+}
+.input{
+    padding: 1rem !important;
+    border: none;
+    width: 100%;
+    min-height: 40px;
+    border-radius: .2rem;
+    outline: none;
+    transition: 0.3s linear;
+    background-color: var(--light);
+    font-weight: bold;
+    border-bottom: none !important;
+    color: var(--color);
+    }
+    .input:focus{
+        outline: 1px solid var(--primaryColor);
+    }
+    .btn{
+        padding: 1rem;
+        border-radius: .2rem;
+        border: none !important;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .primaryBtn{
+        background-color: var(--primaryColor);
+        color: white;
+    }
+    .outlineBtn{
+        border: 1px solid var(--primaryColor);
+        background: none;
+        padding: .5rem .8rem;
+        color: var(--primaryColor);
+        cursor: pointer;
+    }
+    .outlineBtn:hover{
+        color: var(--secondaryColor);
+        border: 1px solid var(--secondaryColor);
+    }
+
+/* Navbar */
+.navBar{width: var(--navWidth);height: var(--navHeight);display: flex;justify-content: var(--navAlign);align-items: center;}
+.sideBar{
+position: fixed;
+top: 0;
+left: 0;
+width: var(--navWidth);
+z-index: 5;
+}
+.gradient{background: var(--linearGradient);}
+
+/* login */
+.loginLeft{
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 49%;
+    padding: 2rem;
+}
+.loginRight{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    padding: 2rem;
+}
+@media(max-width:800px){
+    .loginLeft{display: none;}
+    .loginRight{position: static;width: 100%;}
+}
+.form{max-width: 500px;width: 100%;}

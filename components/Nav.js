@@ -50,8 +50,8 @@ if(lMode === "black"){
           </Link>
         </div>
         <div>
-        <Link href="/" className='navLink'>
-       <i className="icon-home"></i> Home
+        <Link href="/dashboard" className='navLink'>
+       <i className="icon-grid"></i> Home
         </Link>
         <Link href="/staff/profiling" className='navLink'>
         <i className="icon-bag"></i> Staff Profiling

@@ -86,11 +86,6 @@ return (
     <div className="col sm-12 md-6 lg-6 padding">
     <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT</button>
     </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-          <Link href="/" className='link'> 
-            Login Account
-          </Link>
-    </div>
     </div>
 </div>
 </div>

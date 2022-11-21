@@ -31,11 +31,6 @@ export default function Home() {
           <input type="password" name="" className='input' id="" placeholder='PASSWORD'/>
          </p>
          <p>
-          <Link href="/register" className='link'>
-            Create Account
-          </Link>
-         </p>
-         <p>
          <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>
          </p>
         </div>

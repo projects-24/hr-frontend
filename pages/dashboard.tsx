@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React, { PureComponent } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Nav from './../components/Nav';
 const data = [
     {
       name: 'All Staffs',
@@ -23,13 +24,14 @@ const data = [
 export default function Dashboard() {
 
   return (
-    <div className='padding-top-30'>
-        <div className="width-800-max center padding">
+    <div className='content'>
+        <Nav />
+        <div className="">
             <div className="h1 p-text">Dashboard And Analytics</div>
             <div>Check daily analytics and graphs</div>
             <div className="m-section row">
                 <div className="col sm-6 md-3 lg-3 padding">
-                    <Link href="/">
+                    <Link href="/staff/profiling">
                     <button className="outlineBtn full-width">
                         Staff Profiling
                     </button>

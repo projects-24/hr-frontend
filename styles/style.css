@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 :root{
     --primaryColor: #937DC2;
     --secondaryColor: #680865;
     --light:#f2f2f2 ;
     --color:#202020;
     --backgroundColor:white;
-    --font:'Nunito', sans-serif !important;
-    --fontSize:0.99rem;
+    --font:'Open Sans', sans-serif !important;
+    --fontSize:0.92rem;
     --navWidth:95%;
     --navHeight:50px;
     --navAlign:center;
@@ -16,6 +16,10 @@
 }
 
 /* Normalise */
+body,.modal-content{
+    background-color: var(--backgroundColor) !important;
+    color: var(--color);
+}
 *{font-family: var(--font);font-size: var(--fontSize);}
 .p-bg{background-color: var(--primaryColor) !important;}
 .p-text{color: var(--primaryColor);}
@@ -26,6 +30,12 @@ p{margin: 20px 0 !important;}
 .m-section{margin: 40px 0 !important;}
 .central{display: flex;align-items: center;
 justify-content: center;}
+.row{align-items: center;}
+
+.content{
+    max-width: 800px;
+    margin: 80px auto;
+}
 .card{
     background-color: var(--light);
     padding: 2rem;
@@ -33,6 +43,7 @@ justify-content: center;}
     box-shadow: -.5rem .5rem 0rem 0rem rgba(0,0,0,0.1) !important;
 
 }
+button{font-weight: bold !important;}
 .link{
     font-weight: bold;
     color: var(--secondaryColor) !important;
@@ -86,6 +97,42 @@ top: 0;
 left: 0;
 width: var(--navWidth);
 z-index: 5;
+}
+.navigationBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-radius: .5rem;
+    position: fixed;
+    top: 10px;
+    left: 2.5%;
+    width: var(--navWidth);
+    height: var(--navHeight);
+    z-index: 4;
+    background-color: var(--light);
+    box-shadow: 0 2rem 3rem 0rem rgba(0,0,0,0.1);
+}
+.navLink{
+    font-weight: bold;
+    margin: 0 1rem;
+}
+.navLink > i{
+    color: var(--primaryColor);
+}
+.navigationBar .logo{
+    margin-right:2rem;
+    font-size: 1.5rem;
+}
+.Avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 .gradient{background: var(--linearGradient);}
 

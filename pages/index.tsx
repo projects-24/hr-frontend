@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 export default function Home() {
   const handleLogin = ()=>{
@@ -28,6 +29,11 @@ export default function Home() {
          </p>
          <p>
           <input type="password" name="" className='input' id="" placeholder='PASSWORD'/>
+         </p>
+         <p>
+          <Link href="/register" className='link'>
+            Create Account
+          </Link>
          </p>
          <p>
          <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>

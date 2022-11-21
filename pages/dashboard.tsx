@@ -1,27 +1,27 @@
 import Link from 'next/link'
 import React, { PureComponent } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+const data = [
+    {
+      name: 'All Staffs',
+      number: 4000,
+    },
+    {
+      name: 'At Post',
+      number: 2000,
+    },
+    {
+      name: 'On Leave',
+      number: 4000,
+    },
+    {
+      name: 'Due Promotion',
+      number: 1000,
+    }
+    
+  ];
 export default function Dashboard() {
-    const data = [
-        {
-          name: 'All Staffs',
-          number: 4000,
-        },
-        {
-          name: 'At Post',
-          number: 2000,
-        },
-        {
-          name: 'On Leave',
-          number: 4000,
-        },
-        {
-          name: 'Due Promotion',
-          number: 1000,
-        }
-        
-      ];
+
   return (
     <div className='padding-top-30'>
         <div className="width-800-max center padding">

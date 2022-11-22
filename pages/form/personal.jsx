@@ -15,7 +15,6 @@ export default function Personal() {
             </div>
         </div>
         <div className="padding-top-20">
-            <form>
             <div className="row">
             <div className="col sm-12 md-12 lg-12 padding">
                 <div className="h4">Personal Details</div>
@@ -97,7 +96,6 @@ export default function Personal() {
              <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/parents")}>Next Step</button>
             </div>
             </div>
-            </form>
         </div>
     </div>
   )

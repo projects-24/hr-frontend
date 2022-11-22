@@ -80,7 +80,7 @@ export default function Dashboard() {
                 </div>
                 <div className="col sm-12 md-3 lg-3 padding">
                     <div className="card padding text-center">
-                        <img src="/leave.png" className='fit width-50-max' alt="" />
+                        <img src="/LEAVE.png" className='fit width-50-max' alt="" />
                         <div className="section text-bold">
                             On leave
                         </div>

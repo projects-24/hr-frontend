@@ -18,6 +18,9 @@ export default function Home() {
         </div>
         <div className="loginRight central">
         <div className="form">
+          <div className="h1 p-text">
+            GSS HR MANAGEMENT SYSTEM 
+          </div>
         <div className='m-section'>
           <div className="h1">Login Account</div>
           <div className='text-bold'>

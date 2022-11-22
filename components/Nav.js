@@ -45,17 +45,17 @@ if(lMode === "black"){
         <div>
           <Link href="/" >
          <span className="logo">
-         Hr Management
+         HR Management
         </span>
           </Link>
         </div>
         <div>
         <Link href="/dashboard" className='navLink'>
-       <i className="icon-grid"></i> Home
+       <i className="icon-grid"></i> Dashboard
         </Link>
-        <Link href="/staff/profiling" className='navLink'>
+        {/* <Link href="/staff/profiling" className='navLink'>
         <i className="icon-bag"></i> Staff Profiling
-        </Link>
+        </Link> */}
         <Link href="/register" className='navLink'>
         <i className="icon-user"></i> Create Account
         </Link>

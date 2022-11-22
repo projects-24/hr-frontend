@@ -29,7 +29,7 @@ export default function Profiling() {
                 <input type="text" className='input' placeholder='Search for staff' />
             </div>
             <div className="col sm-4 lg-4 md-4 padding">
-                <button className="btn primaryBtn full-width">
+                <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/personal")}>
                     NEW STAFF
                 </button>
             </div>

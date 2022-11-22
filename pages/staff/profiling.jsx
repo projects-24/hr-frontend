@@ -35,6 +35,7 @@ export default function Profiling() {
             </div>
         </div>
         <div className="padding-top-50">
+            <div className="padding">
             <table className='table border'>
                 <thead>
                     <th>Fullname</th>
@@ -73,6 +74,7 @@ export default function Profiling() {
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
   )

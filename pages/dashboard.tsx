@@ -99,7 +99,7 @@ export default function Dashboard() {
             </div>
             <div className="m-section">
                 <div className="card" style={{overflowX:"auto"}}>
-                <BarChart
+                    <BarChart
           width={800}
           height={300}
           data={data}

@@ -10,8 +10,8 @@ export default function Parents() {
             <div className="row-flex">
                 <div className="dash active"></div>
                 <div className="dash active"></div>
-                <div className="dash"></div>
-                <div className="dash"></div>
+                <div className="dash active"></div>
+
             </div>
             <div>
                 <div className="row">
@@ -47,7 +47,9 @@ export default function Parents() {
             </div>
 
             <div className="col sm-12 md-6 lg-6 padding">
-             <button className="btn primaryBtn full-width">Next Step</button>
+              <Link href="/staff/profiling">
+              <button className="btn primaryBtn full-width">Submit</button>
+              </Link>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
           <Link href="/form/parents" className='text-bold p-text'>

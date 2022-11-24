@@ -9,8 +9,7 @@ export default function Parents() {
         <div className="content">
             <div className="row-flex">
                 <div className="dash active"></div>
-                <div className="dash"></div>
-                <div className="dash"></div>
+                <div className="dash active"></div>
                 <div className="dash"></div>
             </div>
             <div>

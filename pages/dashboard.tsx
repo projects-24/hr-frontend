@@ -2,7 +2,10 @@ import Link from 'next/link'
 import React, { PureComponent } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Nav from './../components/Nav';
-const data = [
+import { useState } from 'react';
+
+export default function Dashboard() {
+const [data, setdata] = useState([
     {
       name: 'All Staffs',
       number: 4000,
@@ -19,10 +22,13 @@ const data = [
       name: 'Due Promotion',
       number: 1000,
     }
+    ,
+    {
+      name: 'On Field',
+      number: 500,
+    }
     
-  ];
-export default function Dashboard() {
-
+  ])
   return (
     <div className='content'>
         <Nav />
@@ -38,76 +44,85 @@ export default function Dashboard() {
                     </Link>
                 </div>
                 <div className="col sm-6 md-3 lg-3 padding">
-                    <Link href="/">
+                    <Link href="/staff/leave">
                     <button className="outlineBtn full-width">
-                        Leave
+                        Leave Mgt
                     </button>
                     </Link>
                 </div>
                 <div className="col sm-6 md-3 lg-3 padding">
-                    <Link href="/">
+                    <Link href="/staff/promotion">
                     <button className="outlineBtn full-width">
-                        Promotion
+                        Promotion Mgt
                     </button>
                     </Link>
                 </div>
                 <div className="col sm-6 md-3 lg-3 padding">
-                    <Link href="/">
+                    <Link href="/staff/retirement">
                     <button className="outlineBtn full-width">
-                     Retirement
+                     Retirement Mgt
                     </button>
                     </Link>
                 </div>
             </div>
-            <div className="row m-section">
-                <div className="col sm-12 md-3 lg-3 padding">
+            <div className="row m-section central">
+                <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">
-                        <img src="/select-users.png" className='fit width-50-max' alt="" />
+                        <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                         <div className="section text-bold">
                             All staffs
                         </div>
-                        <div className="h2 p-text">200</div>
+                        <div className="h4 text-success">200</div>
                     </div>
                 </div>
-                <div className="col sm-12 md-3 lg-3 padding">
+                <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">
-                        <img src="/select-users.png" className='fit width-50-max' alt="" />
+                        <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                         <div className="section text-bold">
                             At post
                         </div>
-                        <div className="h2 p-text">200</div>
+                        <div className="h4 text-success">200</div>
                     </div>
                 </div>
-                <div className="col sm-12 md-3 lg-3 padding">
+                <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">
-                        <img src="/leave.png" className='fit width-50-max' alt="" />
+                        <img src="/leave.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                         <div className="section text-bold">
                             On leave
                         </div>
-                        <div className="h2 p-text">200</div>
+                        <div className="h4 text-success">200</div>
                     </div>
                 </div>
-                <div className="col sm-12 md-3 lg-3 padding">
+                <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">
-                        <img src="/promotion.png" className='fit width-50-max' alt="" />
+                        <img src="/promotion.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                         <div className="section text-bold">
-                             Due promotion
+                              promotion
                         </div>
-                        <div className="h2 p-text">200</div>
+                        <div className="h4 text-success">200</div>
+                    </div>
+                </div>
+                <div className="col sm-12 md-2 lg-2 padding">
+                    <div className="card padding text-center">
+                        <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" />
+                        <div className="section text-bold">
+                             On Field
+                        </div>
+                        <div className="h4 text-success">200</div>
                     </div>
                 </div>
             </div>
             <div className="m-section">
                 <div className="card" style={{overflowX:"auto"}}>
                     <BarChart
-          width={800}
+          width={600}
           height={300}
           data={data}
           margin={{
             top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
+            right: 50,
+            left: 50,
+            bottom: 5
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

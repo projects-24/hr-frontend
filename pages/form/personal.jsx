@@ -1,7 +1,10 @@
 import React from 'react'
 import Nav from './../../components/Nav';
+import { useState } from 'react';
 
 export default function Personal() {
+    const [crime, setcrime] = useState(false)
+    const [dismissed, setdismissed] = useState(false)
   return (
     <div className='content'>
         <Nav />
@@ -80,17 +83,43 @@ export default function Personal() {
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Convicted Of A Crime</div>
-            <select name="crime" id="" className="input">
+            <select name="crime" id="" className="input" onChange={(e)=>{
+                if(e.target.value === "yes"){
+                    setcrime(true)
+                }else if (e.target.value === "no"){
+                    setcrime(false)
+                }
+            }}>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
             </select>
+            {
+                crime ?
+                <div className="section">
+            <input type="text" name='crimereason' className='input' placeholder='Enter details' />
+            </div>
+            :""
+            }
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Ever dismissed from a public service</div>
-            <select name="service" id="" className="input">
+            <select name="service" id="" className="input" onChange={(e)=>{
+                if(e.target.value === "yes"){
+                    setdismissed(true)
+                }else if (e.target.value === "no"){
+                    setdismissed(false)
+                }
+            }}>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
             </select>
+            {
+                dismissed ?
+                <div className="section">
+            <input type="text" name='servicereason' className='input' placeholder='Enter details' />
+            </div>
+            :""
+            }
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
              <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/parents")}>Next Step</button>

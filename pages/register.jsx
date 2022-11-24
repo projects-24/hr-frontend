@@ -83,9 +83,17 @@ return (
         placeholder="Position"
         />
     </div>
+
     <div className="col sm-12 md-6 lg-6 padding">
     <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT</button>
     </div>
+    <div className="col sm-12 md-12 lg-12 padding">
+            <Link href="/dashboard">
+               <button class="button info text-white">
+                <i className="icon-grid"></i> BACK TO DASHBOARD
+               </button>
+            </Link>
+         </div>
     </div>
 </div>
 </div>

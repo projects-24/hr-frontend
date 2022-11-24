@@ -41,7 +41,7 @@
   }
   .loading:before {
     color:white;
-    content: attr(data-loading-text);
+    content: "In Development";
   }
   .loading:after {
     top: 0;
@@ -51,7 +51,7 @@
     color: var(--primaryColor);
     overflow: hidden;
     position: absolute;
-    content: attr(data-loading-text);
+    content: "In Development";
     -webkit-animation: loading 1s infinite linear;
             animation: loading 1s infinite linear;
   }

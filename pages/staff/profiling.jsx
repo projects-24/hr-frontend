@@ -1,11 +1,28 @@
 import Link from 'next/link'
 import React from 'react'
 import Nav from './../../components/Nav';
+import { useState } from 'react';
 
 export default function Profiling() {
+    const [search, setsearch] = useState("")
+    const [print, setprint] = useState(false)
+    const handlePrint = ()=>{
+        new Promise((resolve, reject) => {
+            setprint(true)
+            resolve()
+        }).then(()=>{
+            window.print()
+            setprint(false)
+        })
+    }
   return (
     <div className='content'>
-        <Nav />
+        {
+            !print ?
+            <Nav />
+            : ""
+        }        {
+            !print ?
         <div className="row">
             <div className="col sm-12 md-6 lg-6 padding">
             <div className="h1">Staff Profiling</div>
@@ -14,9 +31,9 @@ export default function Profiling() {
          </div>
          <div className="section">
             <Link href="/dashboard">
-               <button class="button">
+               <div class="padding-top-10 text-bold p-text">
                 <i className="icon-grid"></i>  DASHBOARD
-               </button>
+               </div>
             </Link>
          </div>
             </div>
@@ -24,9 +41,13 @@ export default function Profiling() {
                 <img src="/collaborate.svg" className='fit' alt="" />
             </div>
         </div>
+        :""
+        }
+                {
+            !print ?
         <div className="section row">
             <div className="col sm-8 lg-8 md-8 padding">
-                <input type="text" className='input' placeholder='Search for staff' />
+                <input type="text" className='input' placeholder='Search for staff' onChange={(e)=>setsearch(e.target.value)} />
             </div>
             <div className="col sm-4 lg-4 md-4 padding">
                 <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/personal")}>
@@ -34,8 +55,19 @@ export default function Profiling() {
                 </button>
             </div>
         </div>
+        :""
+                }
         <div className="padding-top-50">
+        {
+            !print ?
+            <div className="section">
+            <button className="button success text-white" onClick={handlePrint}>
+            <i className="icon-printer"></i>    Print
+            </button>
+            </div>
+            :""}
             <div className="padding">
+                
             <table className='table border'>
                 <thead>
                     <th>Fullname</th>

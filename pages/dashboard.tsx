@@ -86,7 +86,7 @@ const [data, setdata] = useState([
                 </div>
                 <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">
-                        <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" />
+                        <img src="/leave.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                         <div className="section text-bold">
                             On leave
                         </div>

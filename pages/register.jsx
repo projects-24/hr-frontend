@@ -19,7 +19,7 @@ return (
     </div>
 </div>
 <div className="section">
-   <form ref={form}>
+   <form>
    <div className="row">
     <div className="col sm-12 md-6 lg-6 padding">
         <input

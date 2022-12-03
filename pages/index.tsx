@@ -1,9 +1,20 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import {useState} from "react"
 
 export default function Home() {
+  const [email , setemail] = useState("")
+    const [password , setpassword] = useState("")
   const handleLogin = ()=>{
-    window.location.assign("/dashboard")
+    if(email && password){
+    if(email === "admin@statsghana.gov.gh" && password === "gss123?"){
+    window.location.assign("/dashboard")    
+    }else{
+           alert("Wrong credentials")
+    }
+    }else{
+      alert("Make sure to enter your email and password")
+     }
   }
   return (
     <div>
@@ -28,10 +39,10 @@ export default function Home() {
          </div>
          </div>
          <p>
-          <input type="email" name="" className='input' id="" placeholder='EMAIL'/>
+          <input type="email" name="" className='input' id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
          </p>
          <p>
-          <input type="password" name="" className='input' id="" placeholder='PASSWORD'/>
+          <input type="password" name="" className='input' id="" placeholder='PASSWORD' onChange={(e)=>setpassword(e.target.value)}/>
          </p>
          <p>
          <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>

@@ -255,9 +255,6 @@ export default function Personal() {
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="date" name='motherdob' className='input' placeholder='Date Of Birth' />
             </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-             <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/school")}>Next Step</button>
-            </div>
             {/* <div className="col sm-12 md-6 lg-6 padding">
           <Link href="/form/personal" className='text-bold p-text'>
            <i className="icon-arrow-left"></i> BACK TO PERSONAL 

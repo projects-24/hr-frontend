@@ -5,7 +5,6 @@ import Nav from '../../components/Nav'
 export default function Parents() {
   return (
     <div className='edgeDesign'>
-        <Nav />
         <div className="content">
             <div className="row-flex">
                 <div className="dash active"></div>

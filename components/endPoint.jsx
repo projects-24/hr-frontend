@@ -1,0 +1,1 @@
+export default "https://gsshrapi.herokuapp.com"

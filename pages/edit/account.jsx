@@ -27,10 +27,12 @@ return (
 <div className="content">
 <div className="width-600-max ">
 <div className="m-section">
-    <div className="h1">Edit User Account</div>
+<div className="padding">
+<div className="h1">Edit User Account</div>
     <div className="text-bold section">
     Edit and update user account
     </div>
+</div>
 </div>
 <div className="section">
    <form ref={form}>

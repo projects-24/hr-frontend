@@ -27,10 +27,12 @@ return (
 <div className="content">
 <div className="width-600-max ">
 <div className="m-section">
-    <div className="h1">Register Account</div>
+ <div className="padding">
+ <div className="h1">Register Account</div>
     <div className="text-bold section">
     Enter a valid email and password to login your account
     </div>
+ </div>
 </div>
 <div className="section">
    <form ref={form}>

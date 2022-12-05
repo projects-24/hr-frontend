@@ -250,9 +250,11 @@ export default function Profiling() {
                         <td>
                         {
                     !print ?
-                            <button className='button text-info'>
+                          <Link href="/edit/account">
+                              <button className='button text-info'>
                             <i className="lni lni-pencil"></i> Edit
                             </button>
+                          </Link>
                             :""
                         }
                         </td>

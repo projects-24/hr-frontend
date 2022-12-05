@@ -34,8 +34,8 @@ const [data, setdata] = useState([
         <Nav />
         <div className="">
             <div className="h1 p-text">Dashboard And Analytics</div>
-            <div>Check daily analytics and graphs</div>
-            <div className="m-section row">
+            <div className='section text-bold'>Check daily analytics and graphs</div>
+            {/* <div className="m-section row">
                 <div className="col sm-6 md-3 lg-3 padding">
                     <Link href="/staff/profiling">
                     <button className="outlineBtn full-width">
@@ -64,7 +64,7 @@ const [data, setdata] = useState([
                     </button>
                     </Link>
                 </div>
-            </div>
+            </div> */}
             <div className="row m-section central">
                 <div className="col sm-12 md-2 lg-2 padding">
                     <div className="card padding text-center">

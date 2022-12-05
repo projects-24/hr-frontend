@@ -93,21 +93,26 @@ justify-content: center;}
 .row{align-items: center;}
 
 .content{
-    max-width: 800px;
-    margin: 80px auto;
-    padding: 1rem;
+    position: absolute;
+    top: calc(var(--navHeight) + 50px);
+    right: 0;
+    width: calc(97.5% - 220px) ;
+    padding: 0 10%;
+    /* max-width: 800px; */
+
+
 }
 .card{
-    background-color: var(--light);
+    /* background-color: var(--light); */
     padding: 2rem;
     border-radius: .5rem;
-    box-shadow: -.5rem .5rem 0rem 0rem rgba(0,0,0,0.1) !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
 
 }
 .shadow{
     padding: 2rem;
     border-radius: .5rem;
-    box-shadow: -.5rem .5rem 0rem 0rem rgba(0,0,0,0.1) !important;
+ box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
 
 }
 button{font-weight: bold !important;}
@@ -157,7 +162,12 @@ button{font-weight: bold !important;}
     }
 
 /* Navbar */
-.navBar{width: var(--navWidth);height: var(--navHeight);display: flex;justify-content: var(--navAlign);align-items: center;}
+.navBar{
+    width: var(--navWidth);
+    height: var(--navHeight);
+    display: flex;
+    justify-content: var(--navAlign);
+    align-items: center;}
 .sideBar{
 position: fixed;
 top: 0;
@@ -176,9 +186,9 @@ z-index: 5;
     left: 2.5%;
     width: var(--navWidth);
     height: var(--navHeight);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    background-color: var(--backgroundColor);
     z-index: 4;
-    background-color: var(--light);
-    box-shadow: 0 2rem 3rem 0rem rgba(0,0,0,0.1);
 }
 .navLink{
     font-weight: bold;
@@ -191,6 +201,43 @@ z-index: 5;
     margin-right:2rem;
     font-size: 1.5rem;
 }
+.leaveSidebar{
+    position: fixed;
+    top: 100px;
+    left: 2.5%;
+    width: 220px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    padding: 1rem;
+    height: calc(100% - 120px);
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+    overflow: auto;
+}
+.sideLink{
+    font-weight: bold !important;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 3rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.sideLink.active{
+    background-color: #eaf1fb;
+
+}
+.sideLink:hover{
+    background-color: #eaf1fb;
+}
+.sideLink > i{margin: 0 5px;color: var(--secondaryColor);}
+
+
+/* dropdown */
+.dropContent{
+    transition: 0.2s linear;
+}
+
 .Avatar{
     width: 40px;
     height: 40px;
@@ -247,4 +294,11 @@ z-index: 5;
 .active{
     background-color: var(--primaryColor);
 }
-button,input{border-radius:50rem !important;}
+
+
+/* Account */
+.positionText{
+    font-size: 1.2rem;
+    color: #888;
+    font-weight: bold !important;
+}

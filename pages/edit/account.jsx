@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Nav from "../components/Nav";
+import Nav from "../../components/Nav";
 import {useRef} from 'react';
 
 export default function Register() {
@@ -27,9 +27,9 @@ return (
 <div className="content">
 <div className="width-600-max ">
 <div className="m-section">
-    <div className="h1">Register Account</div>
+    <div className="h1">Edit User Account</div>
     <div className="text-bold section">
-    Enter a valid email and password to login your account
+    Edit and update user account
     </div>
 </div>
 <div className="section">
@@ -100,15 +100,9 @@ return (
     </div>
 
     <div className="col sm-12 md-6 lg-6 padding">
-    <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT <i className="icon-user-following"></i></button>
+    <button className="primaryBtn btn full-width" onClick={handleLogin}>Make Changes <i className="icon-pencil"></i></button>
     </div>
-    {/* <div className="col sm-12 md-12 lg-12 padding">
-            <Link href="/dashboard">
-               <button class="button info text-white">
-                <i className="icon-grid"></i> BACK TO DASHBOARD
-               </button>
-            </Link>
-         </div> */}
+
     </div>
    </form>
 </div>

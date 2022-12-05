@@ -2,6 +2,15 @@ import Link from "next/link";
 import { useEffect ,useState} from "react";
 const Nav = () => {
   const [mode, setmode] = useState("")
+  const [dropdown, setdropdown] = useState(0)
+
+  const TriggerDrop = ()=>{
+    if(dropdown === 0){
+      setdropdown(300)
+    }else{
+      setdropdown(0)
+    }
+  }
  const getMode = ()=>{
   const lMode  = JSON.parse(localStorage.getItem("mode"))
     if(lMode === "black"){
@@ -50,21 +59,7 @@ if(lMode === "black"){
           </Link>
         </div>
         <div>
-        <Link href="/dashboard" className='navLink'>
-       <i className="icon-grid"></i> Dashboard
-        </Link>
-        {/* <Link href="/staff/profiling" className='navLink'>
-        <i className="icon-bag"></i> Staff Profiling
-        </Link> */}
-        <Link href="/register" className='navLink'>
-        <i className="icon-user"></i> Create Account
-        </Link>
-        {/* <Link href="/stockin" className='navLink'>
-        <i className="icon-grid"></i> Add Stock
-        </Link>
-        <Link href="/product/sell" className='navLink'>
-        <i className="icon-bag"></i> Sell Product
-        </Link> */}
+
         </div>
         <div>
           <div className="Avatar" onClick={handleMode}>
@@ -78,7 +73,76 @@ if(lMode === "black"){
           </div>
         </div>
       </div>
+      <div className="leaveSidebar">
 
+        <div className="">
+        <Link href="/account">
+            <div className='sideLink'>
+            <i className="icon-user"></i> My Account
+            </div>
+        </Link>
+            <div className='sideLink'>
+            <i className="icon-logout"></i> Logout
+            </div>
+      <div className="section hr"></div>
+        <Link href="/dashboard">
+            <div className='sideLink'>
+            <i className="icon-graph"></i> Dashboard
+            </div>
+          </Link>
+        <Link href="/register">
+            <div className='sideLink'>
+            <i className="icon-user"></i> New Account
+            </div>
+          </Link>
+        <Link href="/staff/profiling">
+            <div className='sideLink'>
+            <i className="icon-people"></i> Staff Profiling
+            </div>
+          </Link>
+          <div className="section hr"></div>
+          <div className="dropDown">
+          <div className='sideLink trigger' onClick={TriggerDrop}>
+            <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
+            </div>
+            <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+            <Link href="/leave/annual">
+            <div className='sideLink'>
+            <i className="icon-user"></i> Annual Leave
+            </div>
+          </Link>
+          <Link href="/leave/maternity">
+            <div className='sideLink'>
+            <i className="icon-login"></i> Maternity Leave
+            </div>
+          </Link>
+          <Link href="/leave/casual">
+            <div className='sideLink'>
+            <i className="icon-grid"></i> Casual Leave
+            </div>
+          </Link>
+          <Link href="/leave/study">
+            <div className='sideLink'>
+            <i className="icon-check"></i> Study Leave
+            </div>
+          </Link>
+            </div>
+          </div>
+          <div className="section hr"></div>
+          <Link href="/register">
+            <div className='sideLink'>
+            <i className="icon-direction"></i> Promotion Mgt
+            </div>
+          </Link>
+          <Link href="/register">
+            <div className='sideLink'>
+            <i className="icon-clock"></i> Retirement Mgt
+            </div>
+          </Link>
+          <div className="section hr"></div>
+
+        </div>
+      </div>
       
         </div>
      );

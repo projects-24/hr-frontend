@@ -17,45 +17,67 @@ export default function Personal() {
         e.preventDefault()
         const current = form.current
         const id = current["id"].value
+        const email = current["email"].value
+        const password = current["password"].value
+
+        //personal details
+        const staffType = current["staffType"].value
+        const post = current["post"].value
+        const ghanaCard = current["ghanaCard"].value
         const surName = current["surname"].value
         const middleName = current["middlename"].value
         const lastName = current["lastname"].value
         const gender = current["gender"].value
-        const department = current["surname"].value
         const address = current["surname"].value
         const nationality = current["surname"].value
         const tel = current["surname"].value
         const dob = current["surname"].value
         const salary = current["surname"].value
         const appointment = current["surname"].value
+
+        // marital status
+        const maritalStatus = current["maritalStatus"].value
         const spouse = current["surname"].value
+        const availableChildren = current["availableChildren"].value
+        const nextKin = current["nextKin"].value
+        const nextKin_Relation = current["nextKinRelation"].value
+
+        //department
+        const department = current["surname"].value
+        const section = current["section"].value
+
+        //passport
         const passport = current["surname"].value
         const passportIssueDate = current["surname"].value
         const passportplace = current["surname"].value
+
+        //other
         const crime = current["surname"].value
         const crimereason = current["surname"].value
         const service = current["surname"].value
         const servicereason = current["surname"].value
-        const school1 = current["school1"].value
-        const from1 = current["from1"].value
-        const to1 = current["to1"].value
-        const school2 = current["school2"].value
-        const from2 = current["from2"].value
-        const to2 = current["to2"].value
-        const school3 = current["school3"].value
-        const from3 = current["from3"].value
+
+        //father
         const father = current["father"].value
         const fatheroccupation = current["fatheroccupation"].value
         const fathernationality = current["fathernationality"].value
         const fatherdob = current["fatherdob"].value
+
+        //mother
         const mother = current["mother"].value
         const motheroccupation = current["motheroccupation"].value
         const mothernationality = current["mothernationality"].value
         const motherdob = current["motherdob"].value
 
+        //school
+        const school = current["school"].value
+        const from = current["from"].value
+        const to = current["to"].value
+        const particulars = current["particulars"].value
+
         const data  = {
-            email:"",
-            password:"",
+            email:email,
+            password:password,
             personalSetails:{
             staffId:id,
             surname:surName,
@@ -65,25 +87,25 @@ export default function Personal() {
             department:department,
             address:address,
             nationality:nationality,
-            ghanaCard:"",
+            ghanaCard:ghanaCard,
             contact:tel,
             dob:dob,
             salaryLevel:salary,
-            typeStaff:"",
+            typeStaff:staffType,
             presentAppointment:appointment,
-            post:""
+            post:post
             },
             maritalDetail:{
-            maritalStatus:"",
+            maritalStatus:maritalStatus,
             spouse:spouse,
-            availableChildren:"",
-            nextKin:"",
-            nextKin_Relation:""
+            availableChildren:availableChildren,
+            nextKin:nextKin,
+            nextKin_Relation:nextKin_Relation
 
             },
             departmentDetails:{
-                department:"",
-                section:""
+                department:department,
+                section:section
             },
             passportDetails:{
             passportNumber:passport,
@@ -112,10 +134,10 @@ export default function Personal() {
             },
 
             school:{
-                schoolname:"",
-                yearFrom:from1,
-                yearTo:to1,
-                particulars:""
+                schoolname:school,
+                yearFrom:from,
+                yearTo:to,
+                particulars:particulars
             }
     
 
@@ -144,8 +166,14 @@ export default function Personal() {
         </div>
         <div className="padding-top-20">
             <div className="row">
-            <div className="col sm-12 md-6 lg-6 padding">
+            <div className="col sm-12 md-12 lg-12 section padding">
                 <div className="h4">Personal Details</div>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='email' className='input' placeholder='Email' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="password" name='password' className='input' placeholder='Password' />
             </div>
             <div className="col sm-12 md-12 lg-12 padding">
             <input type="text" name='id' className='input' placeholder='Staff ID' />
@@ -159,12 +187,10 @@ export default function Personal() {
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='lastname' className='input' placeholder='Lastname' />
             </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='post' className='input' placeholder='Post' />
-            </div> */}
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='department' className='input' placeholder='Department' />
+            <input type="text" name='post' className='input' placeholder='Post' />
             </div>
+
             <div className="col sm-12 md-12 lg-12 padding">
             <textarea rows={5} name='address' className='input' placeholder='Address' />
             </div>
@@ -172,7 +198,20 @@ export default function Personal() {
             <input type="text" name='nationality' className='input' placeholder='Nationality' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='ghanaCard' className='input' placeholder='Ghana Card' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='appointment' className='input' placeholder='Present Appointment' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='tel' className='input' placeholder='Tel Number' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select name="gender" id="" className="input">
+                <option value="">Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Date of birth</div>
@@ -182,18 +221,36 @@ export default function Personal() {
             <input type="number" name='Salary' className='input' placeholder='Salary' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='appointment' className='input' placeholder='Present Appointment' />
+            <input type="number" name='staffType' className='input' placeholder='Salary' />
             </div>
+            <div className="col sm-12 md-12 lg-12 padding">
+                <div className="h4">Marital Details</div>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select name="maritalStatus" id="" className="input">
+                <option value="">Marital Status</option>
+                <option value="married">Married</option>
+                <option value="single">Single</option>
+                <option value="Divorced">Divorced</option>
+            </select>
+            </div>
+        
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='spouse' className='input' placeholder='Name Of Spouse' />
             </div>
+        
             <div className="col sm-12 md-6 lg-6 padding">
-            <select name="gender" id="" className="input">
-                <option value="">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <input type="number" name='availableChildren' className='input' placeholder='Number of children' />
             </div>
+        
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='nextKin' className='input' placeholder='Next of kin' />
+            </div>
+        
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='nextKinRelation' className='input' placeholder='Relation with next of kin' />
+            </div>
+       
             <div className="col sm-12 md-12 lg-12  padding-top-20">
                 <div className="h4 padding">Passport Details</div>
             </div>
@@ -205,6 +262,15 @@ export default function Personal() {
             </div>
             <div className="col sm-12 md-12 lg-12  padding">
             <input type="text" name='passportplace' className='input' placeholder='Place Of Issue' />
+            </div>
+            <div className="col sm-12 md-12 lg-12 padding">
+                <div className="h4">Department Details</div>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='department' className='input' placeholder='Department' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='section' className='input' placeholder='Section' />
             </div>
             <div className="col sm-12 md-12 lg-12 padding-top-20">
                 <div className="h4 padding">Other Details</div>
@@ -322,33 +388,18 @@ export default function Personal() {
                 <div className="h4">School</div>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='school1' className='input' placeholder='School' />
+            <input type="text" name='school' className='input' placeholder='School' />
             </div>
             <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='from1' className='input' placeholder='From' />
+            <input type="text" name='from' className='input' placeholder='From' />
             </div>
             <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='to1' className='input' placeholder='To' />
+            <input type="text" name='to' className='input' placeholder='To' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='school2' className='input' placeholder='School' />
+            <input type="text" name='particulars' className='input' placeholder='Particulars' />
             </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='from2' className='input' placeholder='From' />
-            </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='to2' className='input' placeholder='To' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='school3' className='input' placeholder='School' />
-            </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='from3' className='input' placeholder='From' />
-            </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='to3' className='input' placeholder='To' />
-            </div>
-
+  
             <div className="col sm-12 md-6 lg-6 padding">
               <button className="btn primaryBtn full-width" onClick={submitData}>Submit</button>
             </div>

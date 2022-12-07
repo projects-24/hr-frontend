@@ -95,6 +95,8 @@ if(lMode === "black"){
             <i className="icon-user"></i> New Account
             </div>
           </Link>
+          <div className="section hr"></div>
+
         <Link href="/staff/profiling">
             <div className='sideLink'>
             <i className="icon-people"></i> Staff Profiling
@@ -134,12 +136,13 @@ if(lMode === "black"){
             <i className="icon-direction"></i> Promotion Mgt
             </div>
           </Link>
+          <div className="section hr"></div>
+
           <Link href="/register">
             <div className='sideLink'>
             <i className="icon-clock"></i> Retirement Mgt
             </div>
           </Link>
-          <div className="section hr"></div>
 
         </div>
       </div>

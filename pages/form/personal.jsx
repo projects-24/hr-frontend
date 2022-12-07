@@ -54,29 +54,70 @@ export default function Personal() {
         const motherdob = current["motherdob"].value
 
         const data  = {
+            email:"",
+            password:"",
+            personalSetails:{
             staffId:id,
             surname:surName,
             middleName:middleName,
             lastName:lastName,
+            gender:gender,
             department:department,
             address:address,
             nationality:nationality,
+            ghanaCard:"",
             contact:tel,
             dob:dob,
             salaryLevel:salary,
+            typeStaff:"",
             presentAppointment:appointment,
+            post:""
+            },
+            maritalDetail:{
+            maritalStatus:"",
             spouse:spouse,
-            gender:gender,
+            availableChildren:"",
+            nextKin:"",
+            nextKin_Relation:""
+
+            },
+            departmentDetails:{
+                department:"",
+                section:""
+            },
+            passportDetails:{
             passportNumber:passport,
             passportIssueDate:passportIssueDate,
-            placeIssue:passportplace,
-            crimeConvict: crime == "yes" ? true : false,
-            detailReason:crimereason,
-            dismissedPublicService:service == "yes" ? true : false,
-            publicServiceReason:servicereason,
-            school:school1,
-            yearFrom:from1,
-            yearTo:to1,
+            placeIssue:passportplace
+            },
+            otherDetails:{
+                crimeConvict: crime == "yes" ? true : false,
+                detailReason:crimereason,
+                dismissedPublicService:service == "yes" ? true : false,
+                publicServiceReason:servicereason,
+            },
+            father:{
+                fullName:father,
+                occupation:fatheroccupation,
+                nationality:fathernationality,
+                placeofBirth:fatherdob
+
+            },
+            mother:{
+                fullName:mother,
+                occupation:motheroccupation,
+                nationality:mothernationality,
+                placeofBirth:motherdob
+
+            },
+
+            school:{
+                schoolname:"",
+                yearFrom:from1,
+                yearTo:to1,
+                particulars:""
+            }
+    
 
 
 

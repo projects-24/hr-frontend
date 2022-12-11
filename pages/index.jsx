@@ -17,7 +17,7 @@ export default function Home() {
           resolve()
           localStorage.setItem("user" , JSON.stringify(doc.data.staff))
           localStorage.setItem("token" , JSON.stringify(doc.data.token))
-        }).then(()=>window.location.assign("account"))
+        }).then(()=>window.location.assign("/dashboard"))
       }).catch(err=>{
         if(err.message === "Request failed with status code 422"){
           alert("Wrong credentials")

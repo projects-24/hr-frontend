@@ -48,10 +48,10 @@ export default function Personal() {
         const middleName = current["middlename"].value
         // const lastName = current["lastname"].value
         const gender = current["gender"].value
-        const address = current["surname"].value
-        const nationality = current["surname"].value
-        const tel = current["surname"].value
-        const dob = current["surname"].value
+        const address = current["address"].value
+        const nationality = current["nationality"].value
+        const tel = current["tel"].value
+        const dob = current["dob"].value
 
         //personal new added
         const title = current["title"].value
@@ -60,7 +60,7 @@ export default function Personal() {
 
         // marital status
         const maritalStatus = current["maritalStatus"].value
-        const spouse = current["surname"].value
+        const spouse = current["spouse"].value
         const availableChildren = current["availableChildren"].value
         const nextKin = current["nextKin"].value
         const nextKin_Relation = current["nextKinRelation"].value
@@ -68,7 +68,7 @@ export default function Personal() {
         const nextKin_Address = current["nextKinAddress"].value
         const numberChildren = current["numberChildren"].value
         //department
-        const department = current["surname"].value
+        const department = current["department"].value
         const section = current["section"].value
         const region = current["region"].value
 
@@ -77,20 +77,20 @@ export default function Personal() {
         const grade = current["grade"].value
         const employmentStatus = current["grade"].value
         const appointDate = current["grade"].value
-        const salary = current["surname"].value
+        const salary = current["salary"].value
         const status = current["status"].value
 
 
         //passport
-        const passport = current["surname"].value
-        const passportIssueDate = current["surname"].value
-        const passportplace = current["surname"].value
+        const passport = current["passport"].value
+        const passportIssueDate = current["passportdate"].value
+        const passportplace = current["passportplace"].value
 
         //other
-        const crime = current["surname"].value
-        const crimereason = current["surname"].value
-        const service = current["surname"].value
-        const servicereason = current["surname"].value
+        const crime = current["crime"].value
+        const crimereason = current["crimereason"].value
+        const service = current["service"].value
+        const servicereason = current["servicereason"].value
 
         //father
         const father = current["father"].value
@@ -119,92 +119,83 @@ export default function Personal() {
         const data  = {
             email:email,
             password:password,
-
-            personalDetails:{
-            staffId:id,
-            title:title,
-            surname:surName,
-            middleName:middleName,
-            firstName:firstName,
-            gender:gender,
-            address:address,
-            nationality:nationality,
-            ghanaCard:ghanaCard,
-            ssnitNumber:ssnitNumber,
-            contact:tel,
-            dob:dob,
-            },
-
-            maritalDetail:{
-            maritalStatus:maritalStatus,
-            spouse:spouse,
-            availableChildren:availableChildren,
-            numberChildren:numberChildren,
-            nextKin:nextKin,
-            nextKin_Relation:nextKin_Relation,
-            nextKin_Tel:nextKin_Tel,
-            nextKin_Address:nextKin_Address
-            },
-
-            departmentDetails:{
-                department:department,
-                section:section,
-                region:region
-            },
-
-            jobInformation:{
-                jobTitle:jobTitle,
-                grade:grade,
-                employmentStatus:employmentStatus,
-                appointDate:appointDate,
-                salaryLevel:salary,
-                status:status
-            
-            },
-
-            passportDetails:{
-                passportNumber:passport,
-                passportIssueDate:passportIssueDate,
-                placeIssue:passportplace
-                },
-
-            otherDetails:{
-                crimeConvict: crime == "yes" ? true : false,
-                detailReason:crimereason,
-                dismissedPublicService:service == "yes" ? true : false,
-                publicServiceReason:servicereason,
-            },
-            father:{
-                fullName:father,
-                occupation:fatheroccupation,
-                nationality:fathernationality,
-                placeofBirth:fatherdob,
-                alive_or_dead:fatherLife
-
-            },
-            mother:{
-                fullName:mother,
-                occupation:motheroccupation,
-                nationality:mothernationality,
-                placeofBirth:motherdob,
-                alive_or_dead:motherLife
-
-
-            },
-
-            school:{
-                schoolname:school,
-                yearFrom:from,
-                yearTo:to,
-                type_of_certificate:type_of_certificate,
-                particulars:particulars,
-            }
+         personalDetails:{
+        staffId:id,
+        title:title,
+        surname:surName,
+        middleName:middleName,
+        firstName:firstName,
+        gender:gender,
+        address: address,
+        nationality:nationality,
+        ghanaCard:ghanaCard,
+        ssnitNumber:surName,
+        contact: tel,
+        dob: tel
+    },
+    maritalDetail:{
+        maritalStatus:maritalStatus,
+        spouse:spouse,
+        availableChildren:availableChildren,
+        numberChildren:numberChildren,
+        nextKin:nextKin,
+        nextKin_Relation:nextKin_Relation,
+        nextKin_Tel: nextKin_Tel,
+        nextKin_Address:nextKin_Address
+        
+    },
+    departmentDetails:{
+        department:department,
+        section:section,
+        region:region
+    },
+    jobInformation:{
+        jobTitle:jobTitle,
+        grade:grade,
+        employmentStatus:employmentStatus,
+        appointDate:appointDate,
+        salaryLevel: salary,
+        status:status
     
-
-
-
+    },
+    passportDetails:{
+        passportNumber:passport,
+        passportIssueDate:passportIssueDate,
+        placeIssue:passportplace
+    },
+    otherDetails:{
+       crimeConvict: crime,
+       detailReason: crimereason,
+       dismissedPublicService:service,
+       publicServiceReason: servicereason 
+    },
+    
+    father: {
+        fullName:father,
+        occupation: fatheroccupation,
+        nationality:fathernationality,
+        placeofBirth:fatherdob,
+        alive_or_dead:fatherLife
+    
+    },
+    mother: {
+        fullName:mother,
+        occupation:motheroccupation,
+        nationality:mothernationality,
+        placeofBirth: motherdob,
+        alive_or_dead: motherLife
+    
+    },
+    
+    school:{
+        schoolname: school,
+        yearFrom: from,
+        yearTo: to,
+        type_of_certificate:type_of_certificate,
+        particulars: particulars
+    }
+    
         }
-        console.log(data)
         Axios.post(endPoint + "/staff/register",
          data,
          {
@@ -390,7 +381,7 @@ export default function Personal() {
             
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select name="" id="region" className="input">
+            <select name="region" id="region" className="input">
                         <option value="">Region</option>
                         {
                             regions.map(docs=>(
@@ -425,8 +416,9 @@ export default function Personal() {
             <div className="col sm-12 md-6 lg-6 padding">
             <select name="status" id="" className="input">
                 <option value="">Status</option>
-                <option value="leave">Onleave</option>
-                <option value="field">Onfield</option>
+                <option value="leave">On Leave</option>
+                <option value="field">On Field</option>
+                <option value="post">On Post</option>
             </select>
             </div>
             

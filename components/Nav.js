@@ -48,6 +48,19 @@ if(lMode === "black"){
 }
 }
 
+useEffect(() => {
+  if(!localStorage.getItem("token")){
+     window.location.assign("/")
+  }
+})
+
+const removeAct = ()=>{
+  localStorage.removeItem("token")
+}
+const LogOut = ()=>{
+removeAct(()=>window.location.assign("/"))
+}
+
     return ( 
         <div>
                 <div className="navigationBar">
@@ -81,7 +94,12 @@ if(lMode === "black"){
             <i className="icon-user"></i> My Account
             </div>
         </Link>
+        <Link href="/user/password">
             <div className='sideLink'>
+            <i className="icon-shield"></i> Change password
+            </div>
+        </Link>
+            <div className='sideLink' onClick={LogOut}>
             <i className="icon-logout"></i> Logout
             </div>
       <div className="section hr"></div>

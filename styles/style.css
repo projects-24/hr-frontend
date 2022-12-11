@@ -210,8 +210,6 @@ z-index: 5;
     padding: 1rem;
     height: calc(100% - 120px);
     border-radius: .5rem;
-    display: flex;
-    align-items: center;
     overflow: auto;
 }
 @media (max-width:800px){

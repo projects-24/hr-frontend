@@ -2,9 +2,26 @@ import Link from "next/link";
 import Nav from "../components/Nav";
 import {useRef} from 'react';
 import endPoint from "../components/endPoint";
-
+import {useEffect, useState} from "react"
+import Axios  from 'axios';
 export default function Register() {
     const form = useRef(null)
+    const [token, settoken] = useState("")
+    const [user, setuser] = useState("")  
+    useEffect(() => {
+      if(localStorage.getItem("token")  && !token ){
+          settoken(
+              JSON.parse(
+                  localStorage.getItem("token")
+              )
+          )
+          setuser(
+              JSON.parse(
+                  localStorage.getItem("user")
+              )
+          )
+      }
+  })
 const handleLogin = (e) => {
     e.preventDefault()
 const current = form.current
@@ -14,11 +31,26 @@ const contact =  current["contact"].value
 const post =  current["post"].value
 const directorate =  current["directorate"].value
 const section =  current["section"].value
-const position =  current["position"].value
-if(userName && email && contact && post && directorate && section && position){
+const role =  current["role"].value
+if(userName && email && contact && post && directorate && section && role){
 Axios.post(endPoint + "/staff/register" , {
-    
-})
+name:userName,
+email:email,
+contact:contact,
+post:post,
+directorate:directorate,
+section:section,
+password:12345,
+role:role
+
+},   {
+    headers: {
+         authorization: `Bearer ${token}`,
+       
+      }
+       
+   }).then(()=>alert("account created successfully"))
+   .catch(err=>alert(err.message))
 }else{
     alert("Make sure to enter all details")
 }
@@ -97,10 +129,10 @@ return (
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
-        name="position"
+        name="role"
         className="input"
         id=""
-        placeholder="Position"
+        placeholder="Role"
         />
     </div>
 

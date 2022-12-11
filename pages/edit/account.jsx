@@ -24,7 +24,6 @@ Axios
     alert("Make sure to enter all details")
 }
 };
-if(user){
     return (
         <div>
         <div className="">
@@ -118,7 +117,4 @@ if(user){
         </div>
         </div>
         );
-}else{
-    return ""
-}
 }

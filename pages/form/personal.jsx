@@ -7,6 +7,7 @@ import endPoint from '../../components/endPoint';
 import Loader from '../../components/loader';
 import { useEffect } from 'react';
 import departments from '../../data/departments';
+import regions from '../../data/regions';
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
@@ -389,7 +390,14 @@ export default function Personal() {
             
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='region' className='input' placeholder='Region' />
+            <select name="" id="region" className="input">
+                        <option value="">Region</option>
+                        {
+                            regions.map(docs=>(
+                                <option value={docs.name} key={docs._id}> {docs.name} </option>
+                            ))
+                        }
+                    </select>
             </div>
             
        

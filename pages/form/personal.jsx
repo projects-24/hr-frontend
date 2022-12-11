@@ -126,15 +126,13 @@ export default function Personal() {
             surname:surName,
             middleName:middleName,
             firstName:firstName,
-            // lastName:lastName,
             gender:gender,
             address:address,
             nationality:nationality,
             ghanaCard:ghanaCard,
+            ssnitNumber:ssnitNumber,
             contact:tel,
             dob:dob,
-            ssnitNumber:ssnitNumber
-            // post:post
             },
 
             maritalDetail:{
@@ -206,6 +204,7 @@ export default function Personal() {
 
 
         }
+        console.log(data)
         Axios.post(endPoint + "/staff/register",
          data,
          {
@@ -277,6 +276,7 @@ export default function Personal() {
                 <option value="">Title</option>
                 <option value="Prof">Prof</option>
                 <option value="Dr.">Dr.</option>
+                <option value="Mr">Mr</option>
                 <option value="Mrs">Mrs</option>
                 <option value="Miss">Miss</option>
             </select>
@@ -522,7 +522,7 @@ export default function Personal() {
             <input type="date" name='fatherdob' className='input' placeholder='Date Of Birth' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="date" name='fatherLife' className='input' >
+            <select name='fatherLife' className='input' >
                 <option value="">Dead Or Alive</option>
                 <option value="Alive">Alive</option>
                 <option value="Dead">Decease</option>
@@ -545,7 +545,7 @@ export default function Personal() {
             <input type="date" name='motherdob' className='input' placeholder='Date Of Birth' />
             </div>
                   <div className="col sm-12 md-6 lg-6 padding">
-            <select type="date" name='motherLife' className='input' >
+            <select name='motherLife' className='input' >
                 <option value="">Dead Or Alive</option>
                 <option value="Alive">Alive</option>
                 <option value="Dead">Dead</option>

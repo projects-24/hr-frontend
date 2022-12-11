@@ -214,6 +214,10 @@ z-index: 5;
     align-items: center;
     overflow: auto;
 }
+@media (max-width:800px){
+  .leaveSidebar{display: none;}
+  .content{position: static;width: 100%;}
+}
 .sideLink{
     font-weight: bold !important;
     width: 100%;

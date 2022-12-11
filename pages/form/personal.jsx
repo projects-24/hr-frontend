@@ -4,6 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Axios  from 'axios';
 import endPoint from '../../components/endPoint';
+import Loader from '../../components/loader';
+import { useEffect } from 'react';
+import departments from '../../data/departments';
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
@@ -11,9 +14,24 @@ export default function Personal() {
     const [personal, setpersonal] = useState(true)
     const [parents, setparents] = useState(true)
     const [school, setschool] = useState(true)
+    const [loader, setloader] = useState(false)
+    const [token, settoken] = useState("")
+    const [marital, setmarital] = useState("")
+    const [childrens, setchildrens] = useState("")
     const form = useRef(null)
+    useEffect(() => {
+        if(localStorage.getItem("token")  && !token ){
+            settoken(
+                JSON.parse(
+                    localStorage.getItem("token")
+                )
+            )
+        }
+    })
+    
 
     const submitData = (e)=>{
+        setloader(true)
         e.preventDefault()
         const current = form.current
         const id = current["id"].value
@@ -21,19 +39,23 @@ export default function Personal() {
         const password = current["password"].value
 
         //personal details
-        const staffType = current["staffType"].value
-        const post = current["post"].value
+        // const staffType = current["staffType"].value
+        // const post = current["post"].value
         const ghanaCard = current["ghanaCard"].value
+        const firstName = current["firstName"].value
         const surName = current["surname"].value
         const middleName = current["middlename"].value
-        const lastName = current["lastname"].value
+        // const lastName = current["lastname"].value
         const gender = current["gender"].value
         const address = current["surname"].value
         const nationality = current["surname"].value
         const tel = current["surname"].value
         const dob = current["surname"].value
-        const salary = current["surname"].value
-        const appointment = current["surname"].value
+
+        //personal new added
+        const title = current["title"].value
+        const ssnitNumber = current["ssnitNumber"].value
+        
 
         // marital status
         const maritalStatus = current["maritalStatus"].value
@@ -41,10 +63,22 @@ export default function Personal() {
         const availableChildren = current["availableChildren"].value
         const nextKin = current["nextKin"].value
         const nextKin_Relation = current["nextKinRelation"].value
-
+        const nextKin_Tel = current["nextKinTel"].value
+        const nextKin_Address = current["nextKinAddress"].value
+        const numberChildren = current["numberChildren"].value
         //department
         const department = current["surname"].value
         const section = current["section"].value
+        const region = current["region"].value
+
+        //job Info
+        const jobTitle = current["jobTitle"].value
+        const grade = current["grade"].value
+        const employmentStatus = current["grade"].value
+        const appointDate = current["grade"].value
+        const salary = current["surname"].value
+        const status = current["status"].value
+
 
         //passport
         const passport = current["surname"].value
@@ -62,56 +96,79 @@ export default function Personal() {
         const fatheroccupation = current["fatheroccupation"].value
         const fathernationality = current["fathernationality"].value
         const fatherdob = current["fatherdob"].value
+        const fatherLife = current["fatherLife"].value
 
         //mother
         const mother = current["mother"].value
         const motheroccupation = current["motheroccupation"].value
         const mothernationality = current["mothernationality"].value
         const motherdob = current["motherdob"].value
+        const motherLife = current["motherLife"].value
 
         //school
         const school = current["school"].value
         const from = current["from"].value
         const to = current["to"].value
+        const type_of_certificate = current["certificate"].value
         const particulars = current["particulars"].value
+
+        setmarital(maritalStatus)
+        setchildrens(availableChildren)
 
         const data  = {
             email:email,
             password:password,
-            personalSetails:{
+
+            personalDetails:{
             staffId:id,
+            title:title,
             surname:surName,
             middleName:middleName,
-            lastName:lastName,
+            firstName:firstName,
+            // lastName:lastName,
             gender:gender,
-            department:department,
             address:address,
             nationality:nationality,
             ghanaCard:ghanaCard,
             contact:tel,
             dob:dob,
-            salaryLevel:salary,
-            typeStaff:staffType,
-            presentAppointment:appointment,
-            post:post
+            ssnitNumber:ssnitNumber
+            // post:post
             },
+
             maritalDetail:{
             maritalStatus:maritalStatus,
             spouse:spouse,
             availableChildren:availableChildren,
+            numberChildren:numberChildren,
             nextKin:nextKin,
-            nextKin_Relation:nextKin_Relation
-
+            nextKin_Relation:nextKin_Relation,
+            nextKin_Tel:nextKin_Tel,
+            nextKin_Address:nextKin_Address
             },
+
             departmentDetails:{
                 department:department,
-                section:section
+                section:section,
+                region:region
             },
+
+            jobInformation:{
+                jobTitle:jobTitle,
+                grade:grade,
+                employmentStatus:employmentStatus,
+                appointDate:appointDate,
+                salaryLevel:salary,
+                status:status
+            
+            },
+
             passportDetails:{
-            passportNumber:passport,
-            passportIssueDate:passportIssueDate,
-            placeIssue:passportplace
-            },
+                passportNumber:passport,
+                passportIssueDate:passportIssueDate,
+                placeIssue:passportplace
+                },
+
             otherDetails:{
                 crimeConvict: crime == "yes" ? true : false,
                 detailReason:crimereason,
@@ -122,14 +179,17 @@ export default function Personal() {
                 fullName:father,
                 occupation:fatheroccupation,
                 nationality:fathernationality,
-                placeofBirth:fatherdob
+                placeofBirth:fatherdob,
+                alive_or_dead:fatherLife
 
             },
             mother:{
                 fullName:mother,
                 occupation:motheroccupation,
                 nationality:mothernationality,
-                placeofBirth:motherdob
+                placeofBirth:motherdob,
+                alive_or_dead:motherLife
+
 
             },
 
@@ -137,22 +197,42 @@ export default function Personal() {
                 schoolname:school,
                 yearFrom:from,
                 yearTo:to,
-                particulars:particulars
+                type_of_certificate:type_of_certificate,
+                particulars:particulars,
             }
     
 
 
 
         }
-        Axios.post(endPoint + "/staff/register" , data).then(()=>{
+        Axios.post(endPoint + "/staff/register",
+         data,
+         {
+          headers: {
+               authorization: `Bearer ${token}`,
+             
+            }
+             
+         }
+         ).then(()=>{
             alert("successfully registered")
+        setloader(false)
+
         }).catch(err=>{
             alert(err.message)
+        setloader(false)
+
         })
     }
   return (
     <div className='content'>
         <Nav />
+        {
+            loader ?
+            <Loader />
+            :""
+        }
+
         <form ref={form}>
             <div>
                         <div className="row">
@@ -182,14 +262,24 @@ export default function Personal() {
             <input type="text" name='surname' className='input' placeholder='Surname' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='firstName' className='input' placeholder='First Name' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='middlename' className='input' placeholder='Middle Name' />
             </div>
-            <div className="col sm-12 md-6 lg-6 padding">
+            {/* <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='lastname' className='input' placeholder='Lastname' />
             </div>
+          */}
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='post' className='input' placeholder='Post' />
-            </div>
+            <select type="text" name='title' className='input' >
+                <option value="">Title</option>
+                <option value="Prof">Prof</option>
+                <option value="Dr.">Dr.</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Miss">Miss</option>
+            </select>
+            </div>       
 
             <div className="col sm-12 md-12 lg-12 padding">
             <textarea rows={5} name='address' className='input' placeholder='Address' />
@@ -201,8 +291,11 @@ export default function Personal() {
             <input type="text" name='ghanaCard' className='input' placeholder='Ghana Card' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='appointment' className='input' placeholder='Present Appointment' />
+            <input type="text" name='ssnitNumber' className='input' placeholder='SSNIT' />
             </div>
+            {/* <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='appointment' className='input' placeholder='Present Appointment' />
+            </div> */}
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='tel' className='input' placeholder='Tel Number' />
             </div>
@@ -217,30 +310,51 @@ export default function Personal() {
                 <div className="text-bold">Date of birth</div>
             <input type="date" name='dob' className='input' />
             </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="number" name='Salary' className='input' placeholder='Salary' />
-            </div>
+{/* 
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="number" name='staffType' className='input' placeholder='Salary' />
-            </div>
+            </div> */}
             <div className="col sm-12 md-12 lg-12 padding">
                 <div className="h4">Marital Details</div>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select name="maritalStatus" id="" className="input">
+            <select name="maritalStatus" id="" className="input" onChange={(e)=>setmarital(e.target.value)}>
                 <option value="">Marital Status</option>
                 <option value="married">Married</option>
                 <option value="single">Single</option>
-                <option value="Divorced">Divorced</option>
+                <option value="divorced">Divorced</option>
+                <option value="widow">Widow</option>
+                <option value="Co-Habition">Co-Habition</option>
             </select>
             </div>
         
             <div className="col sm-12 md-6 lg-6 padding">
+           {
+            marital === "married" || marital === "widow" || marital === "Co-Habition" ?
             <input type="text" name='spouse' className='input' placeholder='Name Of Spouse' />
+            :
+            <input disabled type="text" name='spouse' className='input' placeholder='Name Of Spouse' />
+           }
+            {/* disable is divoced or single */}
             </div>
         
             <div className="col sm-12 md-6 lg-6 padding">
-            <input type="number" name='availableChildren' className='input' placeholder='Number of children' />
+            <select type="number" name='availableChildren' className='input'  onChange={(e)=>setchildrens(e.target.value)}>
+            <option value=""> Available Children </option>
+            <option value="yes"> Yes </option>
+            <option value="no"> No </option>
+            </select>
+
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+                {/* if available children */}
+            {
+                childrens === "yes" ?
+                <input type="number" name='numberChildren' className='input' placeholder='Number of children' />
+                :
+                <input disabled type="number" name='numberChildren' className='input' placeholder='Number of children' />
+
+            }
             </div>
         
             <div className="col sm-12 md-6 lg-6 padding">
@@ -250,6 +364,65 @@ export default function Personal() {
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='nextKinRelation' className='input' placeholder='Relation with next of kin' />
             </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='nextKinTel' className='input' placeholder='Next of kin contact' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='nextKinAddress' className='input' placeholder='Next of kin address' />
+            </div>
+
+            <div className="col sm-12 md-12 lg-12 padding">
+                <div className="h4">Department Details</div>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='department' className='input'>
+                <option value="">Department</option>
+            {
+                departments.map(docs=>(
+                    <option value={docs.department} key={docs.department}>{docs.department}</option>
+                ))
+            }
+            </select>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='section' className='input' placeholder='Section' />
+            
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='region' className='input' placeholder='Region' />
+            </div>
+            
+       
+            <div className="col sm-12 md-12 lg-12 padding">
+                <div className="h4">Job Infomation</div>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='jobTitle' className='input' placeholder='Job Title' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='grade' className='input' placeholder='Grade' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='employmentStatus' className='input' placeholder='Employment Status' />
+            </div>
+            
+            <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Date of appointment</div>
+            <input type="date" name='appointDate' className='input' placeholder='Date of appointment' />
+            </div>
+            
+            <div className="col sm-12 md-6 lg-6 padding">
+            <input type="text" name='salary' className='input' placeholder='Salary Level' />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select name="status" id="" className="input">
+                <option value="">Status</option>
+                <option value="leave">Onleave</option>
+                <option value="field">Onfield</option>
+            </select>
+            </div>
+            
+            
        
             <div className="col sm-12 md-12 lg-12  padding-top-20">
                 <div className="h4 padding">Passport Details</div>
@@ -258,20 +431,14 @@ export default function Personal() {
             <input type="text" name='passport' className='input' placeholder='Name' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Passport Date</div>
             <input type="date" name='passportdate' className='input' placeholder='Date' />
             </div>
             <div className="col sm-12 md-12 lg-12  padding">
             <input type="text" name='passportplace' className='input' placeholder='Place Of Issue' />
             </div>
-            <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">Department Details</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='department' className='input' placeholder='Department' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='section' className='input' placeholder='Section' />
-            </div>
+
+           
             <div className="col sm-12 md-12 lg-12 padding-top-20">
                 <div className="h4 padding">Other Details</div>
             </div>
@@ -315,9 +482,7 @@ export default function Personal() {
             :""
             }
             </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-             <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/parents")}>Next Step</button>
-            </div> */}
+
             </div>
         </div>
             </div>
@@ -345,8 +510,17 @@ export default function Personal() {
             <input type="text" name='fathernationality' className='input' placeholder='Nationality' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Date of birth</div>
             <input type="date" name='fatherdob' className='input' placeholder='Date Of Birth' />
             </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="date" name='fatherLife' className='input' >
+                <option value="">Dead Or Alive</option>
+                <option value="Alive">Alive</option>
+                <option value="Dead">Decease</option>
+            </select>
+            </div>
+
                 <div className="col sm-12 md-12 lg-12 padding-top-20">
                 <div className="h4 padding">Mother</div>
             </div>
@@ -362,11 +536,14 @@ export default function Personal() {
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="date" name='motherdob' className='input' placeholder='Date Of Birth' />
             </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-          <Link href="/form/personal" className='text-bold p-text'>
-           <i className="icon-arrow-left"></i> BACK TO PERSONAL 
-          </Link>
-            </div> */}
+                  <div className="col sm-12 md-6 lg-6 padding">
+            <select type="date" name='motherLife' className='input' >
+                <option value="">Dead Or Alive</option>
+                <option value="Alive">Alive</option>
+                <option value="Dead">Dead</option>
+            </select>
+            </div>
+            
                 </div>
             </div>
         </div>
@@ -401,14 +578,20 @@ export default function Personal() {
             </div>
   
             <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='certificate' className='input' placeholder='' >
+                <option value=""> Type of certificate </option>
+                <option value="professional"> profesional </option>
+                <option value="academic"> Academic </option>
+                </select> 
+            {/* 
+             
+            
+             */}
+            </div>
+  
+            <div className="col sm-12 md-6 lg-6 padding">
               <button className="btn primaryBtn full-width" onClick={submitData}>Submit</button>
             </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-          <Link href="/form/parents" className='text-bold p-text'>
-           <i className="icon-arrow-left"></i> BACK TO PARENTS 
-          </Link>
-
-            </div> */}
                 </div>
             </div>
         </div>

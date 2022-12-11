@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Nav from "../components/Nav";
 import {useRef} from 'react';
+import endPoint from "../components/endPoint";
 
 export default function Register() {
     const form = useRef(null)
@@ -15,7 +16,9 @@ const directorate =  current["directorate"].value
 const section =  current["section"].value
 const position =  current["position"].value
 if(userName && email && contact && post && directorate && section && position){
-Axios
+Axios.post(endPoint + "/staff/register" , {
+    
+})
 }else{
     alert("Make sure to enter all details")
 }

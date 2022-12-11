@@ -1,0 +1,16 @@
+export default [
+   {department:"business industry and trade"},
+   {department:"Economy"},
+   {department:"methods and standards"},
+   {department:"research and data science"},
+   {department:"Social"},
+   {department:"Demography"},
+   {department:"survey and censuses org"},
+   {department:"Regional Offices"},
+   {department:"comm and dissemition"},
+   {department:"Administration"},
+   {department:"Human resource"},
+   {department:"Finance"},
+   {department:"IT"},
+   {department:"Internal and External Co-operation"},
+]

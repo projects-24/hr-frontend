@@ -19,6 +19,8 @@ export default function Personal() {
     const [token, settoken] = useState("")
     const [marital, setmarital] = useState("")
     const [childrens, setchildrens] = useState("")
+    const [crimereason, setcrimereason] = useState("")
+    const [servicereason, setservicereason] = useState("")
     const form = useRef(null)
     useEffect(() => {
         if(localStorage.getItem("token")  && !token ){
@@ -88,9 +90,9 @@ export default function Personal() {
 
         //other
         const crime = current["crime"].value
-        const crimereason = current["crimereason"].value
+        // const crimereason = current["crimereason"].value
         const service = current["service"].value
-        const servicereason = current["servicereason"].value
+        // const servicereason = current["servicereason"].value
 
         //father
         const father = current["father"].value
@@ -196,7 +198,7 @@ export default function Personal() {
     }
     
         }
-        Axios.post(endPoint + "/staff/register",
+        Axios.patch(endPoint + "/staff/updatestaff/63961e8d91436fae7549a991",
          data,
          {
           headers: {
@@ -457,7 +459,7 @@ export default function Personal() {
             {
                 crime ?
                 <div className="section">
-            <input type="text" name='crimereason' className='input' placeholder='Enter details' />
+            <input type="text" name='crimereason' className='input' placeholder='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
             </div>
             :""
             }
@@ -477,7 +479,7 @@ export default function Personal() {
             {
                 dismissed ?
                 <div className="section">
-            <input type="text" name='servicereason' className='input' placeholder='Enter details' />
+            <input type="text" name='servicereason' className='input' placeholder='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
             </div>
             :""
             }

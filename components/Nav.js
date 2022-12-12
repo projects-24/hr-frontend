@@ -117,7 +117,12 @@ removeAct(()=>window.location.assign("/"))
 
         <Link href="/staff/profiling">
             <div className='sideLink'>
-            <i className="icon-people"></i> Staff Profiling
+            <i className="lni lni-users"></i> Staff Profiling
+            </div>
+          </Link>
+        <Link href="/form/personal">
+            <div className='sideLink'>
+            <i className="lni lni-user"></i> New Staff
             </div>
           </Link>
           <div className="section hr"></div>

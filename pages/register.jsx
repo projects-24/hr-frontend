@@ -25,25 +25,101 @@ export default function Register() {
 const handleLogin = (e) => {
     e.preventDefault()
 const current = form.current
-const userName =  current["name"].value
-const email =  current["email"].value
-const contact =  current["contact"].value
-const post =  current["post"].value
-const directorate =  current["directorate"].value
-const section =  current["section"].value
-const role =  current["role"].value
-if(userName && email && contact && post && directorate && section && role){
-Axios.post(endPoint + "/staff/register" , {
-name:userName,
-email:email,
-contact:contact,
-post:post,
-directorate:directorate,
-section:section,
-password:12345,
-role:role
+const id = current["id"].value
+const email = current["email"].value
+const password = current["password"].value
+const title = current["title"].value
 
-},   {
+const firstName = current["firstName"].value
+const surName = current["surname"].value
+const middleName = current["middlename"].value
+
+const grade = current["grade"].value
+const section = current["section"].value
+
+if(email && password){
+Axios.post(endPoint + "/staff/register" , 
+{
+    email:email,
+    password:password,
+ personalDetails:{
+staffId:id,
+title:title,
+surname:surName,
+middleName:middleName,
+firstName:firstName,
+gender:"",
+address: "",
+nationality:"",
+ghanaCard:"",
+ssnitNumber:"",
+contact: "",
+dob: ""
+},
+maritalDetail:{
+maritalStatus:"",
+spouse:"",
+availableChildren:false,
+numberChildren:"",
+nextKin:"",
+nextKin_Relation:"",
+nextKin_Tel: "",
+nextKin_Address:""
+
+},
+departmentDetails:{
+department:"",
+section:section,
+region:""
+},
+jobInformation:{
+jobTitle:"",
+grade:grade,
+employmentStatus:"",
+appointDate:"",
+salaryLevel: "",
+status:""
+
+},
+passportDetails:{
+passportNumber:"",
+passportIssueDate:"",
+placeIssue:""
+},
+otherDetails:{
+crimeConvict: false,
+detailReason: "",
+dismissedPublicService:false,
+publicServiceReason: "" 
+},
+
+father: {
+fullName:"",
+occupation: "",
+nationality:"",
+placeofBirth:"",
+alive_or_dead:""
+
+},
+mother: {
+fullName:"",
+occupation:"",
+nationality:"",
+placeofBirth: "",
+alive_or_dead: ""
+
+},
+
+school:{
+schoolname: "",
+yearFrom: "",
+yearTo: "",
+type_of_certificate:"",
+particulars: ""
+}
+
+}
+,   {
     headers: {
          authorization: `Bearer ${token}`,
        
@@ -75,10 +151,10 @@ return (
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
-        name="name"
+        name="id"
         className="input"
         id=""
-        placeholder="Name"
+        placeholder="Staff ID"
         />
     </div>
     <div className="col sm-12 md-6 lg-6 padding">
@@ -92,31 +168,51 @@ return (
     </div>
     <div className="col sm-12 md-6 lg-6 padding">
         <input
-        type="tel"
-        name="contact"
+        type="password"
+        name="password"
         className="input"
         id=""
-        placeholder="Contact"
+        placeholder="Password"
         />
     </div>
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
-        name="post"
+        name="firstName"
         className="input"
         id=""
-        placeholder="Post"
+        placeholder="First Name"
         />
     </div>
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
-        name="directorate"
+        name="surname"
         className="input"
         id=""
-        placeholder="Directorate"
+        placeholder="Surname"
         />
     </div>
+    <div className="col sm-12 md-6 lg-6 padding">
+        <input
+        type="text"
+        name="middlename"
+        className="input"
+        id=""
+        placeholder="Middle Name"
+        />
+    </div>
+    <div className="col sm-12 md-6 lg-6 padding">
+    <select type="text" name='title' className='input' >
+                <option value="">Title</option>
+                <option value="Prof">Prof</option>
+                <option value="Dr.">Dr.</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Miss">Miss</option>
+            </select>
+    </div>
+
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
@@ -129,10 +225,10 @@ return (
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
-        name="role"
+        name="grade"
         className="input"
         id=""
-        placeholder="Role"
+        placeholder="Grade"
         />
     </div>
 

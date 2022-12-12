@@ -1,15 +1,34 @@
 import Link from 'next/link'
 import React from 'react'
 import Nav from './../../components/Nav';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import regions from '../../data/regions';
 import Loader from '../../components/loader';
+import Axios from 'axios';
+import endPoint from '../../components/endPoint';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [print, setprint] = useState(false)
     const [leave, setleave] = useState(false)
     const [loading, setloading] = useState(false)
     const [directorate, setdirectorate] = useState("")
+    const [token, settoken] = useState("")
+    const [user, setuser] = useState("")  
+    const [docs, setdocs] = useState(null)
+    useEffect(() => {
+      if(localStorage.getItem("token")  && !token ){
+          settoken(
+              JSON.parse(
+                  localStorage.getItem("token")
+              )
+          )
+          setuser(
+              JSON.parse(
+                  localStorage.getItem("user")
+              )
+          )
+      }
+  })
     const handlePrint = ()=>{
         new Promise((resolve, reject) => {
             setprint(true)
@@ -38,6 +57,20 @@ export default function Profiling() {
             }
         })
     }
+
+useEffect(() => {
+if(!docs){
+Axios.get(endPoint  + "/staff/showall" , {
+    headers:{
+        authorization:`Bearer ${token}`
+    }
+}).then(dataDocs=>{
+    setdocs(dataDocs.data.staff)
+    console.log(dataDocs.data)
+}).catch(err=>console.log(err.message))
+}
+})
+    
   return (
     <div className='content'>
         {
@@ -187,7 +220,7 @@ export default function Profiling() {
             :""
            }
            <div className="horizontal-scroll shadow" style={{padding:"0px"}}>
-           <table className='table border text-center  text-small'>
+           <table className='table border  text-small'>
                 <thead>
                     <th>Full Name</th>
                     <th>Post</th>
@@ -203,64 +236,32 @@ export default function Profiling() {
                 }
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Iddris Abdul Wahab</td>
-                        <td>GSS</td>
-                        <td>Wa</td>
-                        <td>0552500930</td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td><i className="lni lni-close text-red"></i></td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td>
-                        {
-                    !print ?
-                            <button className='button text-info'>
-                            <i className="lni lni-pencil"></i> Edit
-                            </button>
-                            :""
-                        }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Iddris Abdul Wahab</td>
-                        <td>GSS</td>
-                        <td>Wa</td>
-                        <td>0552500930</td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td><i className="lni lni-close text-red"></i></td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td>
-                        {
-                    !print ?
-                            <button className='button text-info'>
-                            <i className="lni lni-pencil"></i> Edit
-                            </button>
-                            :""
-                        }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Iddris Abdul Wahab</td>
-                        <td>GSS</td>
-                        <td>Wa</td>
-                        <td>0552500930</td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td><i className="lni lni-close text-red"></i></td>
-                        <td><i className="lni lni-checkmark text-success"></i></td>
-                        <td>
-                        {
-                    !print ?
-                          <Link href="/edit/account">
-                              <button className='button text-info'>
-                            <i className="lni lni-pencil"></i> Edit
-                            </button>
-                          </Link>
-                            :""
-                        }
-                        </td>
-                    </tr>
+                    {
+                        docs ?
+                        docs.map(doc=>(
+                            <tr>
+                            <td> {user.personalDetails.surname} {user.personalDetails.middleName} {user.personalDetails.lastName}</td>
+                            <td>{doc.post}</td>
+                            <td>{doc.directorate}</td>
+                            <td>{doc.contact}</td>
+                            <td><i className="lni lni-checkmark text-success"></i></td>
+                            <td><i className="lni lni-close text-red"></i></td>
+                            <td><i className="lni lni-checkmark text-success"></i></td>
+                            <td>
+                            {
+                        !print ?
+                                <button className='button text-info'>
+                                <i className="lni lni-pencil"></i> Edit
+                                </button>
+                                :""
+                            }
+                            </td>
+                        </tr>
+                      
     
-
+                        ))
+                        :""
+                    }
                 </tbody>
             </table>
            </div>

@@ -4,10 +4,15 @@ import {useRef} from 'react';
 import endPoint from "../components/endPoint";
 import {useEffect, useState} from "react"
 import Axios  from 'axios';
+import departments from "../data/departments";
+import Loader from './../components/loader';
+import sections from "../data/sections"
 export default function Register() {
     const form = useRef(null)
     const [token, settoken] = useState("")
     const [user, setuser] = useState("")  
+    const [loading, setloading] = useState(false)
+    const [selectedDepartment, setselectedDepartment] = useState("")
     useEffect(() => {
       if(localStorage.getItem("token")  && !token ){
           settoken(
@@ -27,103 +32,30 @@ const handleLogin = (e) => {
 const current = form.current
 const id = current["id"].value
 const email = current["email"].value
-const password = current["password"].value
 const title = current["title"].value
-
 const firstName = current["firstName"].value
 const surName = current["surname"].value
 const middleName = current["middlename"].value
 
 const grade = current["grade"].value
+const department = current["department"].value
 const section = current["section"].value
 
-if(email && password){
+if(email){
+    setloading(true)
 Axios.post(endPoint + "/staff/register/" , 
 {
 email:email,
-password:password,
-
-// personalDetails:{
-// staffId:id,
-// title:title,
-// surname:surName,
-// middleName:middleName,
-// firstName:firstName,
-// gender:"",
-// address: "",
-// nationality:"",
-// ghanaCard:"",
-// ssnitNumber:"",
-// contact: "",
-// dob: ""
-// },
-
-// maritalDetail:{
-// maritalStatus:"",
-// spouse:"",
-// availableChildren:false,
-// numberChildren:"",
-// nextKin:"",
-// nextKin_Relation:"",
-// nextKin_Tel: "",
-// nextKin_Address:""
-// },
-
-// departmentDetails:{
-// department:"",
-// section:section,
-// region:""
-// },
-
-// jobInformation:{
-// jobTitle:"",
-// grade:grade,
-// employmentStatus:"",
-// appointDate:"",
-// salaryLevel: "",
-// status:""
-
-// },
-
-// passportDetails:{
-// passportNumber:"",
-// passportIssueDate:"",
-// placeIssue:""
-// },
-
-// otherDetails:{
-// crimeConvict: false,
-// detailReason: "",
-// dismissedPublicService:false,
-// publicServiceReason: "" 
-// },
-
-// father: {
-// fullName:"",
-// occupation: "",
-// nationality:"",
-// placeofBirth:"",
-// alive_or_dead:""
-
-// },
-
-// mother: {
-// fullName:"",
-// occupation:"",
-// nationality:"",
-// placeofBirth: "",
-// alive_or_dead: ""
-
-// },
-
-// school:{
-// schoolname: "",
-// yearFrom: "",
-// yearTo: "",
-// type_of_certificate:"",
-// particulars: ""
-// }
-
+password:12345,
+staffId:id,
+title:title,
+firstName:firstName,
+middleName:middleName,
+surname:surName,
+grade:grade,
+department:department,
+section:section,
+editfield:false
 }
 ,   {
     headers: {
@@ -131,15 +63,27 @@ password:password,
        
       }
        
-   }).then(()=>alert("account created successfully"))
-   .catch(err=>alert(err.message))
+   }).then(()=>{
+    setloading(false)
+    alert("account created successfully")
+   })
+   .catch(err=>{
+    setloading(false)
+    alert(err.message)
+   })
 }else{
     alert("Make sure to enter all details")
+    setloading(false)
 }
 };
 return (
 <div>
 <div className="">
+    {
+        loading ?
+        <Loader />
+        :""
+    }
 <Nav />
 <div className="content">
 <div className="width-600-max ">
@@ -172,15 +116,7 @@ return (
         placeholder="Email"
         />
     </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="password"
-        name="password"
-        className="input"
-        id=""
-        placeholder="Password"
-        />
-    </div>
+
     <div className="col sm-12 md-6 lg-6 padding">
         <input
         type="text"
@@ -218,25 +154,41 @@ return (
                 <option value="Miss">Miss</option>
             </select>
     </div>
+    <div className="col sm-12 md-6 lg-6 padding">
+    <select type="text" name='department' className='input' onChange={(e)=>setselectedDepartment(e.target.value)}>
+                <option value="">-- Department --</option>
+            {
+                departments.map(docs=>( 
+                    <option value={docs.department} key={docs.department}>{docs.department}</option>
+                ))
+            }
+    </select>
+    </div>
+    <div className="col sm-12 md-6 lg-6 padding">
+    <select type="text" name='section' className='input'>
+                <option value="">-- Select your Section --</option>
+            {
+                sections.filter(docs=>{
+                    if(selectedDepartment.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
+                        return docs
+                    }
+                }).map(docs=>(
+                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
+                ))
+            }
+            </select>
+    </div>
+    <div className="col sm-12 md-6 lg-6 padding">
+    <select type="text" name='grade' className='input'>
+                <option value="">-- Select your grade --</option>
+            {
+                departments.map(docs=>(
+                    <option value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</option>
+                ))
+            }
+            </select>
+    </div>
 
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="section"
-        className="input"
-        id=""
-        placeholder="Section"
-        />
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="grade"
-        className="input"
-        id=""
-        placeholder="Grade"
-        />
-    </div>
 
     <div className="col sm-12 md-6 lg-6 padding">
     <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT <i className="icon-user-following"></i></button>

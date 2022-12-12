@@ -66,7 +66,6 @@ Axios.get(endPoint  + "/staff/showall" , {
     }
 }).then(dataDocs=>{
     setdocs(dataDocs.data.staff)
-    console.log(dataDocs.data)
 }).catch(err=>console.log(err.message))
 }
 })

@@ -119,9 +119,11 @@ export default function Personal() {
         setchildrens(availableChildren)
 
         const data  = {
-            email:email,
-            password:password,
-         personalDetails:{
+
+        email:email,
+        password:password,
+
+        personalDetails:{
         staffId:id,
         title:title,
         surname:surName,
@@ -135,6 +137,7 @@ export default function Personal() {
         contact: tel,
         dob: tel
     },
+
     maritalDetail:{
         maritalStatus:maritalStatus,
         spouse:spouse,
@@ -146,11 +149,13 @@ export default function Personal() {
         nextKin_Address:nextKin_Address
         
     },
+
     departmentDetails:{
         department:department,
         section:section,
         region:region
     },
+
     jobInformation:{
         jobTitle:jobTitle,
         grade:grade,
@@ -160,11 +165,13 @@ export default function Personal() {
         status:status
     
     },
+
     passportDetails:{
         passportNumber:passport,
         passportIssueDate:passportIssueDate,
         placeIssue:passportplace
     },
+
     otherDetails:{
        crimeConvict: crime,
        detailReason: crimereason,
@@ -180,6 +187,7 @@ export default function Personal() {
         alive_or_dead:fatherLife
     
     },
+    
     mother: {
         fullName:mother,
         occupation:motheroccupation,

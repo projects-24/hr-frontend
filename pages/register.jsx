@@ -38,11 +38,12 @@ const grade = current["grade"].value
 const section = current["section"].value
 
 if(email && password){
-Axios.post(endPoint + "/staff/register" , 
+Axios.post(endPoint + "/staff/register/" , 
 {
-    email:email,
-    password:password,
- personalDetails:{
+email:email,
+password:password,
+
+personalDetails:{
 staffId:id,
 title:title,
 surname:surName,
@@ -56,6 +57,7 @@ ssnitNumber:"",
 contact: "",
 dob: ""
 },
+
 maritalDetail:{
 maritalStatus:"",
 spouse:"",
@@ -65,13 +67,14 @@ nextKin:"",
 nextKin_Relation:"",
 nextKin_Tel: "",
 nextKin_Address:""
-
 },
+
 departmentDetails:{
 department:"",
 section:section,
 region:""
 },
+
 jobInformation:{
 jobTitle:"",
 grade:grade,
@@ -81,11 +84,13 @@ salaryLevel: "",
 status:""
 
 },
+
 passportDetails:{
 passportNumber:"",
 passportIssueDate:"",
 placeIssue:""
 },
+
 otherDetails:{
 crimeConvict: false,
 detailReason: "",
@@ -101,6 +106,7 @@ placeofBirth:"",
 alive_or_dead:""
 
 },
+
 mother: {
 fullName:"",
 occupation:"",

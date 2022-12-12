@@ -115,7 +115,7 @@ Axios.get(endPoint  + "/staff/showall" , {
              </div>
             </div>
             <div className="col sm-12 lg-4 md-4 padding">
-                <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/personal")}>
+                <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/personal/new")}>
                 <i class="lni lni-plus"></i>  NEW STAFF
                 </button>
             </div>
@@ -218,8 +218,8 @@ Axios.get(endPoint  + "/staff/showall" , {
             <div className="h4 section text-center text-bold">Ghana Statistical Service</div> 
             :""
            }
-           <div className="horizontal-scroll shadow" style={{padding:"0px"}}>
-           <table className='table border  text-small'>
+           <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
+           <table className={ "table  text-small border"}>
                 <thead>
                     <th>Full Name</th>
                     <th>Post</th>
@@ -249,9 +249,11 @@ Axios.get(endPoint  + "/staff/showall" , {
                             <td>
                             {
                         !print ?
-                                <button className='button text-info'>
+                             <Link href={`/form/${doc._id}`}>
+                                   <button className='button text-info'>
                                 <i className="lni lni-pencil"></i> Edit
                                 </button>
+                             </Link>
                                 :""
                             }
                             </td>

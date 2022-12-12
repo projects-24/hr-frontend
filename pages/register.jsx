@@ -43,86 +43,86 @@ Axios.post(endPoint + "/staff/register/" ,
 email:email,
 password:password,
 
-personalDetails:{
-staffId:id,
-title:title,
-surname:surName,
-middleName:middleName,
-firstName:firstName,
-gender:"",
-address: "",
-nationality:"",
-ghanaCard:"",
-ssnitNumber:"",
-contact: "",
-dob: ""
-},
+// personalDetails:{
+// staffId:id,
+// title:title,
+// surname:surName,
+// middleName:middleName,
+// firstName:firstName,
+// gender:"",
+// address: "",
+// nationality:"",
+// ghanaCard:"",
+// ssnitNumber:"",
+// contact: "",
+// dob: ""
+// },
 
-maritalDetail:{
-maritalStatus:"",
-spouse:"",
-availableChildren:false,
-numberChildren:"",
-nextKin:"",
-nextKin_Relation:"",
-nextKin_Tel: "",
-nextKin_Address:""
-},
+// maritalDetail:{
+// maritalStatus:"",
+// spouse:"",
+// availableChildren:false,
+// numberChildren:"",
+// nextKin:"",
+// nextKin_Relation:"",
+// nextKin_Tel: "",
+// nextKin_Address:""
+// },
 
-departmentDetails:{
-department:"",
-section:section,
-region:""
-},
+// departmentDetails:{
+// department:"",
+// section:section,
+// region:""
+// },
 
-jobInformation:{
-jobTitle:"",
-grade:grade,
-employmentStatus:"",
-appointDate:"",
-salaryLevel: "",
-status:""
+// jobInformation:{
+// jobTitle:"",
+// grade:grade,
+// employmentStatus:"",
+// appointDate:"",
+// salaryLevel: "",
+// status:""
 
-},
+// },
 
-passportDetails:{
-passportNumber:"",
-passportIssueDate:"",
-placeIssue:""
-},
+// passportDetails:{
+// passportNumber:"",
+// passportIssueDate:"",
+// placeIssue:""
+// },
 
-otherDetails:{
-crimeConvict: false,
-detailReason: "",
-dismissedPublicService:false,
-publicServiceReason: "" 
-},
+// otherDetails:{
+// crimeConvict: false,
+// detailReason: "",
+// dismissedPublicService:false,
+// publicServiceReason: "" 
+// },
 
-father: {
-fullName:"",
-occupation: "",
-nationality:"",
-placeofBirth:"",
-alive_or_dead:""
+// father: {
+// fullName:"",
+// occupation: "",
+// nationality:"",
+// placeofBirth:"",
+// alive_or_dead:""
 
-},
+// },
 
-mother: {
-fullName:"",
-occupation:"",
-nationality:"",
-placeofBirth: "",
-alive_or_dead: ""
+// mother: {
+// fullName:"",
+// occupation:"",
+// nationality:"",
+// placeofBirth: "",
+// alive_or_dead: ""
 
-},
+// },
 
-school:{
-schoolname: "",
-yearFrom: "",
-yearTo: "",
-type_of_certificate:"",
-particulars: ""
-}
+// school:{
+// schoolname: "",
+// yearFrom: "",
+// yearTo: "",
+// type_of_certificate:"",
+// particulars: ""
+// }
 
 }
 ,   {

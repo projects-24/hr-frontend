@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Nav from './../../components/Nav';
+import Nav from '../../components/Nav';
 import { useState } from 'react';
 import Link from 'next/link';
 import Axios  from 'axios';
@@ -8,20 +8,22 @@ import Loader from '../../components/loader';
 import { useEffect } from 'react';
 import departments from '../../data/departments';
 import regions from '../../data/regions';
+import { useRouter } from 'next/router';
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
     const [dismissed, setdismissed] = useState(false)
-    const [personal, setpersonal] = useState(true)
-    const [parents, setparents] = useState(true)
-    const [school, setschool] = useState(true)
     const [loader, setloader] = useState(false)
     const [token, settoken] = useState("")
     const [marital, setmarital] = useState("")
     const [childrens, setchildrens] = useState("")
     const [crimereason, setcrimereason] = useState("")
     const [servicereason, setservicereason] = useState("")
+
+    const router = useRouter()
+    const {personal } = router.query
     const form = useRef(null)
+
     useEffect(() => {
         if(localStorage.getItem("token")  && !token ){
             settoken(
@@ -38,8 +40,8 @@ export default function Personal() {
         e.preventDefault()
         const current = form.current
         const id = current["id"].value
-        const email = current["email"].value
-        const password = current["password"].value
+        // const email = current["email"].value
+        // const password = current["password"].value
 
         //personal details
         // const staffType = current["staffType"].value
@@ -120,8 +122,8 @@ export default function Personal() {
 
         const data  = {
 
-        email:email,
-        password:password,
+        // email:email,
+        // password:password,
 
         personalDetails:{
         staffId:id,
@@ -206,7 +208,12 @@ export default function Personal() {
     }
     
         }
-        Axios.patch(endPoint + "/staff/updatestaff/63961e8d91436fae7549a991",
+
+        if(personal === "new"){
+            // new 
+        }else{
+
+        Axios.patch(endPoint + "/staff/updatestaff/" + personal,
          data,
          {
           headers: {
@@ -216,7 +223,7 @@ export default function Personal() {
              
          }
          ).then(()=>{
-            alert("successfully registered")
+            alert("successfully updated")
         setloader(false)
 
         }).catch(err=>{
@@ -224,6 +231,7 @@ export default function Personal() {
         setloader(false)
 
         })
+        }
     }
   return (
     <div className='content'>
@@ -250,12 +258,12 @@ export default function Personal() {
             <div className="col sm-12 md-12 lg-12 section padding">
                 <div className="h4">Personal Details</div>
             </div>
-            <div className="col sm-12 md-6 lg-6 padding">
+            {/* <div className="col sm-12 md-6 lg-6 padding">
             <input type="text" name='email' className='input' placeholder='Email' />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
             <input type="password" name='password' className='input' placeholder='Password' />
-            </div>
+            </div> */}
             <div className="col sm-12 md-12 lg-12 padding">
             <input type="text" name='id' className='input' placeholder='Staff ID' />
             </div>

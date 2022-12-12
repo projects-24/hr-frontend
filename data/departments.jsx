@@ -12,5 +12,5 @@ export default [
    {department:"Human resource"},
    {department:"Finance"},
    {department:"IT"},
-   {department:"Internal and External Co-operation"},
+   {department:"Internal and External Cooperation"},
 ]

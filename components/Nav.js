@@ -66,12 +66,15 @@ useEffect(() => {
   }
 })
 
-const removeAct = ()=>{
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
-}
+
 const LogOut = ()=>{
-removeAct(()=>window.location.assign("/"))
+  new Promise((resolve, reject) => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    resolve()
+  }).then(()=>{
+    window.location.assign("/")
+  })
 }
 if(user){
   return ( 

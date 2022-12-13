@@ -238,7 +238,7 @@ Axios.get(endPoint  + "/staff/showall" , {
                     {
                         docs ?
                         docs.map(doc=>(
-                            <tr>
+                            <tr key={doc._id}>
                             <td> {user.personalDetails.surname} {user.personalDetails.middleName} {user.personalDetails.lastName}</td>
                             <td>{doc.post}</td>
                             <td>{doc.directorate}</td>

@@ -4,6 +4,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 import Nav from './../components/Nav';
 import { useState,useEffect } from 'react';
 import Loader from '../components/loader';
+import Super from '../data/super';
 
 export default function Dashboard() {
     const [user, setuser] = useState("")  
@@ -54,8 +55,10 @@ const [data, setdata] = useState([
                     Welcome  <span className="text-bold  h4">{user.title} {user.firstName}  {user.surname} </span>
                 </div>
                 </p>
-
-                <div className="row m-section central">
+                {
+                    user.grade === Super ?
+                  <div>
+                      <div className="row m-section central">
                     <div className="col sm-12 md-2 lg-2 padding">
                         <div className="card padding text-center">
                             <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
@@ -124,6 +127,9 @@ const [data, setdata] = useState([
             </BarChart>
                     </div>
                 </div>
+                  </div>
+                :""
+                }
             </div>
         </div>
       )

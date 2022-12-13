@@ -1,1 +1,1 @@
-export default "http://gsshrapi.herokuapp.com"
+export default "https://gsshrapi.herokuapp.com"

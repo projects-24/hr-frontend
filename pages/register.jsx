@@ -46,7 +46,7 @@ if(email){
 Axios.post(endPoint + "/staff/register/" , 
 {
 email:email,
-password:12345,
+password:"12345",
 staffId:id,
 title:title,
 firstName:firstName,

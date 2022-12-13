@@ -21,6 +21,7 @@ export default function Home() {
       }).catch(err=>{
         if(err.message === "Request failed with status code 422"){
           alert("Wrong credentials")
+          setloader(false)
         }else{
         alert(err.message)
         setloader(false)
@@ -29,6 +30,7 @@ export default function Home() {
       })
     }else{
       alert("Make sure to enter your email and password")
+      setloader(false)
      }
   }
   return (

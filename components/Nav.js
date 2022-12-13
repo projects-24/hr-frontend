@@ -68,6 +68,7 @@ useEffect(() => {
 
 const removeAct = ()=>{
   localStorage.removeItem("token")
+  localStorage.removeItem("user")
 }
 const LogOut = ()=>{
 removeAct(()=>window.location.assign("/"))

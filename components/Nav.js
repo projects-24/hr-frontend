@@ -81,11 +81,9 @@ if(user){
     <div>
             <div className="navigationBar">
     <div>
-      <Link href="/" >
      <span className="logo">
-     HR Management
+      <img src="/logo.png" className="height-40-max" />
     </span>
-      </Link>
     </div>
     <div>
 

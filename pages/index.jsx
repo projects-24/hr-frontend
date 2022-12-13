@@ -4,6 +4,7 @@ import {useState} from "react"
 import  Axios  from 'axios';
 import endPoint from "../components/endPoint"
 import Loader from '../components/loader';
+import TextField from '@mui/material/TextField';
 export default function Home() {
   const [email , setemail] = useState("")
     const [password , setpassword] = useState("")
@@ -62,10 +63,10 @@ export default function Home() {
          </div>
          </div>
          <p>
-          <input type="email" name="" className='input' id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
+          <TextField fullWidth label="Enter your email" variant="outlined" type="email" name=""  id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
          </p>
          <p>
-          <input type="password" name="" className='input' id="" placeholder='PASSWORD' onChange={(e)=>setpassword(e.target.value)}/>
+          <TextField fullWidth label="Enter your password" variant="outlined" type="password" name=""  id="" placeholder='PASSWORD' onChange={(e)=>setpassword(e.target.value)}/>
          </p>
          <p>
          <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>

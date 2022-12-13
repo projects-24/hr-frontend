@@ -90,14 +90,14 @@ p{margin: 20px 0 !important;}
 .m-section{margin: 40px 0 !important;}
 .central{display: flex;align-items: center;
 justify-content: center;}
-.row{align-items: center;}
-
+.row ,.row-flex{align-items: center;}
+.space-between{justify-content:space-between}
 .content{
     position: absolute;
     top: calc(var(--navHeight) + 50px);
     right: 0;
     width: calc(97.5% - 220px) ;
-    padding: 0 10%;
+    padding: 20px 10%;
     /* max-width: 800px; */
 
 

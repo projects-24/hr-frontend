@@ -7,9 +7,11 @@ import endPoint from '../../components/endPoint';
 import Loader from '../../components/loader';
 import { useEffect } from 'react';
 import departments from '../../data/departments';
+import sections from "../../data/sections"
 import regions from '../../data/regions';
 import { useRouter } from 'next/router';
-
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 export default function Personal() {
     const [crime, setcrime] = useState(false)
     const [dismissed, setdismissed] = useState(false)
@@ -19,6 +21,20 @@ export default function Personal() {
     const [childrens, setchildrens] = useState("")
     const [crimereason, setcrimereason] = useState("")
     const [servicereason, setservicereason] = useState("")
+    const [user, setuser] = useState(null)
+    const [selectedDepartment, setselectedDepartment] = useState("")
+
+    useEffect(() => {
+        if(!user){
+            if(localStorage.getItem("user")){
+                setuser(
+                    JSON.parse(
+                        localStorage.getItem("user")
+                    )
+                )
+            }
+        }
+    })
 
     const router = useRouter()
     const {personal } = router.query
@@ -34,30 +50,28 @@ export default function Personal() {
         }
     })
     
+    // handle section
+    useEffect(()=>{
+        const current = form.current
+    })
 
     const submitData = (e)=>{
         setloader(true)
         e.preventDefault()
         const current = form.current
         const id = current["id"].value
-        // const email = current["email"].value
-        // const password = current["password"].value
 
-        //personal details
-        // const staffType = current["staffType"].value
-        // const post = current["post"].value
         const ghanaCard = current["ghanaCard"].value
         const firstName = current["firstName"].value
         const surName = current["surname"].value
         const middleName = current["middlename"].value
-        // const lastName = current["lastname"].value
+  
         const gender = current["gender"].value
         const address = current["address"].value
         const nationality = current["nationality"].value
         const tel = current["tel"].value
         const dob = current["dob"].value
 
-        //personal new added
         const title = current["title"].value
         const ssnitNumber = current["ssnitNumber"].value
         
@@ -121,11 +135,6 @@ export default function Personal() {
         setchildrens(availableChildren)
 
         const data  = {
-
-        // email:email,
-        // password:password,
-
-        personalDetails:{
         staffId:id,
         title:title,
         surname:surName,
@@ -135,12 +144,9 @@ export default function Personal() {
         address: address,
         nationality:nationality,
         ghanaCard:ghanaCard,
-        ssnitNumber:surName,
+        ssnitNumber:ssnitNumber,
         contact: tel,
-        dob: tel
-    },
-
-    maritalDetail:{
+        dob: dob,
         maritalStatus:maritalStatus,
         spouse:spouse,
         availableChildren:availableChildren,
@@ -148,64 +154,39 @@ export default function Personal() {
         nextKin:nextKin,
         nextKin_Relation:nextKin_Relation,
         nextKin_Tel: nextKin_Tel,
-        nextKin_Address:nextKin_Address
-        
-    },
-
-    departmentDetails:{
+        nextKin_Address:nextKin_Address,
         department:department,
         section:section,
-        region:region
-    },
-
-    jobInformation:{
+        region:region,
         jobTitle:jobTitle,
         grade:grade,
         employmentStatus:employmentStatus,
         appointDate:appointDate,
         salaryLevel: salary,
-        status:status
-    
-    },
-
-    passportDetails:{
+        status:status,
         passportNumber:passport,
         passportIssueDate:passportIssueDate,
-        placeIssue:passportplace
-    },
-
-    otherDetails:{
+        placeIssue:passportplace,
        crimeConvict: crime,
        detailReason: crimereason,
        dismissedPublicService:service,
-       publicServiceReason: servicereason 
-    },
-    
-    father: {
-        fullName:father,
-        occupation: fatheroccupation,
-        nationality:fathernationality,
-        placeofBirth:fatherdob,
-        alive_or_dead:fatherLife
-    
-    },
-    
-    mother: {
-        fullName:mother,
-        occupation:motheroccupation,
-        nationality:mothernationality,
-        placeofBirth: motherdob,
-        alive_or_dead: motherLife
-    
-    },
-    
-    school:{
+       publicServiceReason: servicereason ,
+       father_fullName:father,
+       father_occupation: fatheroccupation,
+       father_nationality:fathernationality,
+       father_placeofBirth:fatherdob,
+       father_alive_or_dead:fatherLife,
+       mother_fullName:mother,
+       mother_occupation:motheroccupation,
+       mother_nationality:mothernationality,
+       mother_placeofBirth: motherdob,
+       mother_alive_or_dead: motherLife,
         schoolname: school,
         yearFrom: from,
         yearTo: to,
         type_of_certificate:type_of_certificate,
-        particulars: particulars
-    }
+        particulars: particulars,
+        editfield:true
     
         }
 
@@ -233,391 +214,386 @@ export default function Personal() {
         })
         }
     }
-  return (
-    <div className='content'>
-        <Nav />
-        {
-            loader ?
-            <Loader />
-            :""
-        }
-
-        <form ref={form}>
-            <div>
-                        <div className="row">
-            <div className="col sm-12 md-8 lg-8 padding">
-            <div className="h1 p-text">Personal Records Form</div>
-            <div className='section'>Make sure to enter all details before submitting</div>
-            </div>
-            <div className="col sm-12 md-4 lg-4 padding">
-                <img src="/profiling.svg"  className='fit' alt="" />
-            </div>
-        </div>
-        <div className="padding-top-20">
-            <div className="row">
-            <div className="col sm-12 md-12 lg-12 section padding">
-                <div className="h4">Personal Details</div>
-            </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='email' className='input' placeholder='Email' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="password" name='password' className='input' placeholder='Password' />
-            </div> */}
-            <div className="col sm-12 md-12 lg-12 padding">
-            <input type="text" name='id' className='input' placeholder='Staff ID' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='surname' className='input' placeholder='Surname' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='firstName' className='input' placeholder='First Name' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='middlename' className='input' placeholder='Middle Name' />
-            </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='lastname' className='input' placeholder='Lastname' />
-            </div>
-          */}
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='title' className='input' >
-                <option value="">Title</option>
-                <option value="Prof">Prof</option>
-                <option value="Dr.">Dr.</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-            </select>
-            </div>       
-
-            <div className="col sm-12 md-12 lg-12 padding">
-            <textarea rows={5} name='address' className='input' placeholder='Address' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='nationality' className='input' placeholder='Nationality' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='ghanaCard' className='input' placeholder='Ghana Card' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='ssnitNumber' className='input' placeholder='SSNIT' />
-            </div>
-            {/* <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='appointment' className='input' placeholder='Present Appointment' />
-            </div> */}
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='tel' className='input' placeholder='Tel Number' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select name="gender" id="" className="input">
-                <option value="">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Date of birth</div>
-            <input type="date" name='dob' className='input' />
-            </div>
-{/* 
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="number" name='staffType' className='input' placeholder='Salary' />
-            </div> */}
-            <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">Marital Details</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select name="maritalStatus" id="" className="input" onChange={(e)=>setmarital(e.target.value)}>
-                <option value="">Marital Status</option>
-                <option value="married">Married</option>
-                <option value="single">Single</option>
-                <option value="divorced">Divorced</option>
-                <option value="widow">Widow</option>
-                <option value="Co-Habition">Co-Habition</option>
-            </select>
-            </div>
-        
-            <div className="col sm-12 md-6 lg-6 padding">
-           {
-            marital === "married" || marital === "widow" || marital === "Co-Habition" ?
-            <input type="text" name='spouse' className='input' placeholder='Name Of Spouse' />
-            :
-            <input disabled type="text" name='spouse' className='input' placeholder='Name Of Spouse' />
-           }
-            {/* disable is divoced or single */}
-            </div>
-        
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select type="number" name='availableChildren' className='input'  onChange={(e)=>setchildrens(e.target.value)}>
-            <option value=""> Available Children </option>
-            <option value="yes"> Yes </option>
-            <option value="no"> No </option>
-            </select>
-
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                {/* if available children */}
+ if(user){
+    return (
+        <div className='content'>
+            <Nav />
             {
-                childrens === "yes" ?
-                <input type="number" name='numberChildren' className='input' placeholder='Number of children' />
+                loader ?
+                <Loader />
+                :""
+            }
+    
+            <form ref={form}>
+                <div>
+                            <div className="row">
+                <div className="col sm-12 md-8 lg-8 padding">
+                <div className="h1 p-text">Personal Records Form</div>
+                <div className='section'>Make sure to enter all details before submitting</div>
+                </div>
+                <div className="col sm-12 md-4 lg-4 padding">
+                    <img src="/profiling.svg"  className='fit' alt="" />
+                </div>
+            </div>
+            <div className="padding-top-20">
+                <div className="row">
+                <div className="col sm-12 md-12 lg-12 section padding">
+                    <div className="h4">Personal Details</div>
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField variant="outlined" type="text" defaultValue={user.staffId} name='id' fullWidth label='Staff ID' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" defaultValue={user.surname}  type="text" name='surname' fullWidth label='Surname' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" defaultValue={user.firstName} type="text" name='firstName' fullWidth label='First Name' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" defaultValue={user.middleName} type="text" name='middlename' fullWidth label='Middle Name' />
+                </div>
+    
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField select fullWidth type="text" defaultValue={user.title} name='title'  >
+                    <MenuItem value="">Title</MenuItem>
+                    <MenuItem value="Prof">Prof</MenuItem>
+                    <MenuItem value="Dr.">Dr.</MenuItem>
+                    <MenuItem value="Mr">Mr</MenuItem>
+                    <MenuItem value="Mrs">Mrs</MenuItem>
+                    <MenuItem value="Miss">Miss</MenuItem>
+                </TextField>
+                </div>       
+    
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField multiline rows={5} name='address' fullWidth label='Address' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='ghanaCard' fullWidth label='Ghana Card' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='ssnitNumber' fullWidth label='SSNIT' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='tel' fullWidth label='Tel Number' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Gender</div>
+                <TextField select fullWidth name="gender" id="" >
+                    <MenuItem value="">Gender</MenuItem>
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                </TextField>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Date of birth</div>
+                <TextField variant="outlined" fullWidth type="date" name='dob'  />
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4">Marital Details</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Marital Status</div>
+                <TextField select fullWidth name="maritalStatus" id=""  onChange={(e)=>setmarital(e.target.value)}>
+                    <MenuItem value="married">Married</MenuItem>
+                    <MenuItem value="single">Single</MenuItem>
+                    <MenuItem value="divorced">Divorced</MenuItem>
+                    <MenuItem value="widow">Widow</MenuItem>
+                    <MenuItem value="Co-Habition">Co-Habition</MenuItem>
+                </TextField>
+                </div>
+            
+                <div className="col sm-12 md-6 lg-6 padding">
+               {
+                marital === "married" || marital === "widow" || marital === "Co-Habition" ?
+                <TextField variant="outlined" type="text" name='spouse' fullWidth label='Name Of Spouse' />
                 :
-                <input disabled type="number" name='numberChildren' className='input' placeholder='Number of children' />
-
-            }
-            </div>
-        
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='nextKin' className='input' placeholder='Next of kin' />
-            </div>
-        
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='nextKinRelation' className='input' placeholder='Relation with next of kin' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='nextKinTel' className='input' placeholder='Next of kin contact' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='nextKinAddress' className='input' placeholder='Next of kin address' />
-            </div>
-
-            <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">Department Details</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='department' className='input'>
-                <option value="">Department</option>
-            {
-                departments.map(docs=>(
-                    <option value={docs.department} key={docs.department}>{docs.department}</option>
-                ))
-            }
-            </select>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='section' className='input' placeholder='Section' />
+                <TextField variant="outlined" disabled type="text" name='spouse' fullWidth label='Name Of Spouse' />
+               }
+                {/* disable is divoced or single */}
+                </div>
             
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select name="region" id="region" className="input">
-                        <option value="">Region</option>
-                        {
-                            regions.map(docs=>(
-                                <option value={docs.name} key={docs._id}> {docs.name} </option>
-                            ))
-                        }
-                    </select>
-            </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Available Children</div>
+                <TextField select fullWidth type="number" name='availableChildren'   onChange={(e)=>setchildrens(e.target.value)}>
+                <MenuItem value="yes"> Yes </MenuItem>
+                <MenuItem value="no"> No </MenuItem>
+                </TextField>
+    
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    {/* if available children */}
+                {
+                    childrens === "yes" ?
+                    <TextField variant="outlined" type="number" name='numberChildren' fullWidth label='Number of children' />
+                    :
+                    <TextField variant="outlined" disabled type="number" name='numberChildren' fullWidth label='Number of children' />
+    
+                }
+                </div>
             
-       
-            <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">Job Infomation</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='jobTitle' className='input' placeholder='Job Title' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='grade' className='input' placeholder='Grade' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='employmentStatus' className='input' placeholder='Employment Status' />
-            </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='nextKin' fullWidth label='Next of kin' />
+                </div>
             
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Date of appointment</div>
-            <input type="date" name='appointDate' className='input' placeholder='Date of appointment' />
-            </div>
-            
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='salary' className='input' placeholder='Salary Level' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select name="status" id="" className="input">
-                <option value="">Status</option>
-                <option value="leave">On Leave</option>
-                <option value="field">On Field</option>
-                <option value="post">On Post</option>
-            </select>
-            </div>
-            
-            
-       
-            <div className="col sm-12 md-12 lg-12  padding-top-20">
-                <div className="h4 padding">Passport Details</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='passport' className='input' placeholder='Name' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Passport Date</div>
-            <input type="date" name='passportdate' className='input' placeholder='Date' />
-            </div>
-            <div className="col sm-12 md-12 lg-12  padding">
-            <input type="text" name='passportplace' className='input' placeholder='Place Of Issue' />
-            </div>
-
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='nextKinRelation' fullWidth label='Relation with next of kin' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='nextKinTel' fullWidth label='Next of kin contact' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='nextKinAddress' fullWidth label='Next of kin address' />
+                </div>
+    
+                <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4">Department Details</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField select fullWidth type="text" defaultValue={user.department} name='department' >
+                    <MenuItem value="">Department</MenuItem>
+                {
+                    departments.map(docs=>(
+                        <MenuItem value={docs.department} key={docs.department}>{docs.department}</MenuItem>
+                    ))
+                }
+                </TextField>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Section</div>
+                <TextField select fullWidth type="text" name='section'  defaultValue={user.section} >
+                    {
+                        sections.map(docs=>(
+                            <MenuItem value={`${docs.section}`} key={docs.section}> {docs.section}</MenuItem>
+                        ))
+                    }
+                    </TextField>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Region</div>
+                <TextField select fullWidth name="region" id="region" >
+                            {
+                                regions.map(docs=>(
+                                    <MenuItem value={docs.name} key={docs._id}> {docs.name} </MenuItem>
+                                ))
+                            }
+                        </TextField>
+                </div>
+                
            
-            <div className="col sm-12 md-12 lg-12 padding-top-20">
-                <div className="h4 padding">Other Details</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Convicted Of A Crime</div>
-            <select name="crime" id="" className="input" onChange={(e)=>{
-                if(e.target.value === "yes"){
-                    setcrime(true)
-                }else if (e.target.value === "no"){
-                    setcrime(false)
-                }
-            }}>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-            {
-                crime ?
-                <div className="section">
-            <input type="text" name='crimereason' className='input' placeholder='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
-            </div>
-            :""
-            }
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Ever dismissed from a public service</div>
-            <select name="service" id="" className="input" onChange={(e)=>{
-                if(e.target.value === "yes"){
-                    setdismissed(true)
-                }else if (e.target.value === "no"){
-                    setdismissed(false)
-                }
-            }}>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-            {
-                dismissed ?
-                <div className="section">
-            <input type="text" name='servicereason' className='input' placeholder='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
-            </div>
-            :""
-            }
-            </div>
-
-            </div>
-        </div>
-            </div>
-
-            <div>
-  <div className='edgeDesign'>
-        <div className="">
-            <div className="row-flex">
-                <div className="dash active"></div>
-                <div className="dash active"></div>
-                <div className="dash"></div>
-            </div>
-            <div>
-                <div className="row">
                 <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">Father</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='father' className='input' placeholder='Fullname' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='fatheroccupation' className='input' placeholder='Occupation' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='fathernationality' className='input' placeholder='Nationality' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Date of birth</div>
-            <input type="date" name='fatherdob' className='input' placeholder='Date Of Birth' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select name='fatherLife' className='input' >
-                <option value="">Dead Or Alive</option>
-                <option value="Alive">Alive</option>
-                <option value="Dead">Decease</option>
-            </select>
-            </div>
-
+                    <div className="h4">Job Infomation</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='jobTitle' fullWidth label='Job Title' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='grade' fullWidth label='Grade' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status' />
+                </div>
+                
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Date of appointment</div>
+                <TextField variant="outlined" type="date" name='appointDate' fullWidth label='Date of appointment' />
+                </div>
+                
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='salary' fullWidth label='Salary Level' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Status</div>
+                <TextField select fullWidth name="status" id="" >
+                    <MenuItem value="leave">On Leave</MenuItem>
+                    <MenuItem value="field">On Field</MenuItem>
+                    <MenuItem value="post">On Post</MenuItem>
+                </TextField>
+                </div>
+                
+                
+           
+                <div className="col sm-12 md-12 lg-12  padding-top-20">
+                    <div className="h4 padding">Passport Details</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='passport' fullWidth label='Name' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Passport Date</div>
+                <TextField variant="outlined" type="date" name='passportdate' fullWidth label='Date' />
+                </div>
+                <div className="col sm-12 md-12 lg-12  padding">
+                <TextField variant="outlined" type="text" name='passportplace' fullWidth label='Place Of Issue' />
+                </div>
+    
+               
                 <div className="col sm-12 md-12 lg-12 padding-top-20">
-                <div className="h4 padding">Mother</div>
+                    <div className="h4 padding">Other Details</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Convicted Of A Crime</div>
+                <TextField select fullWidth name="crime" id=""  onChange={(e)=>{
+                    if(e.target.value === "yes"){
+                        setcrime(true)
+                    }else if (e.target.value === "no"){
+                        setcrime(false)
+                    }
+                }}>
+                    <MenuItem value="no">No</MenuItem>
+                    <MenuItem value="yes">Yes</MenuItem>
+                </TextField>
+                {
+                    crime ?
+                    <div className="section">
+                <TextField variant="outlined" type="text" name='crimereason' fullWidth label='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
+                </div>
+                :""
+                }
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Ever dismissed from a public service</div>
+                <TextField select fullWidth name="service" id=""  onChange={(e)=>{
+                    if(e.target.value === "yes"){
+                        setdismissed(true)
+                    }else if (e.target.value === "no"){
+                        setdismissed(false)
+                    }
+                }}>
+                    <MenuItem value="no">No</MenuItem>
+                    <MenuItem value="yes">Yes</MenuItem>
+                </TextField>
+                {
+                    dismissed ?
+                    <div className="section">
+                <TextField variant="outlined" type="text" name='servicereason' fullWidth label='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
+                </div>
+                :""
+                }
+                </div>
+    
+                </div>
             </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='mother' className='input' placeholder='Fullname' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='motheroccupation' className='input' placeholder='Occupation' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='mothernationality' className='input' placeholder='Nationality' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="date" name='motherdob' className='input' placeholder='Date Of Birth' />
-            </div>
-                  <div className="col sm-12 md-6 lg-6 padding">
-            <select name='motherLife' className='input' >
-                <option value="">Dead Or Alive</option>
-                <option value="Alive">Alive</option>
-                <option value="Dead">Dead</option>
-            </select>
-            </div>
-            
+                </div>
+    
+                <div>
+      <div className='edgeDesign'>
+            <div className="">
+                <div className="row-flex">
+                    <div className="dash active"></div>
+                    <div className="dash active"></div>
+                    <div className="dash"></div>
+                </div>
+                <div>
+                    <div className="row">
+                    <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4">Father</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='father' fullWidth label='Fullname' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Date of birth</div>
+                <TextField variant="outlined" type="date" name='fatherdob' fullWidth label='Date Of Birth' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Decease Or Alive</div>
+                <TextField select fullWidth name='fatherLife'  >
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Dead">Decease</MenuItem>
+                </TextField>
+                </div>
+    
+                    <div className="col sm-12 md-12 lg-12 padding-top-20">
+                    <div className="h4 padding">Mother</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='mother' fullWidth label='Fullname' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="date" name='motherdob' fullWidth label='Date Of Birth' />
+                </div>
+                      <div className="col sm-12 md-6 lg-6 padding">
+                      <div className="text-bold">Decease Or Alive</div>
+                <TextField select fullWidth name='motherLife'  >
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Dead">Dead</MenuItem>
+                </TextField>
+                </div>
+                
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-            </div>
-
-            <div>
-    <div className='edgeDesign'>
-        <div >
-            <div className="row-flex">
-                <div className="dash active"></div>
-                <div className="dash active"></div>
-                <div className="dash active"></div>
-
-            </div>
-            <div>
-                <div className="row">
-                <div className="col sm-12 md-12 lg-12 padding">
-                <div className="h4">School</div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='school' className='input' placeholder='School' />
-            </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='from' className='input' placeholder='From' />
-            </div>
-            <div className="col sm-12 md-3 lg-3 padding">
-            <input type="text" name='to' className='input' placeholder='To' />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-            <input type="text" name='particulars' className='input' placeholder='Particulars' />
-            </div>
-  
-            <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='certificate' className='input' placeholder='' >
-                <option value=""> Type of certificate </option>
-                <option value="professional"> profesional </option>
-                <option value="academic"> Academic </option>
-                </select> 
-            {/* 
-             
-            
-             */}
-            </div>
-  
-            <div className="col sm-12 md-6 lg-6 padding">
-              <button className="btn primaryBtn full-width" onClick={submitData}>Submit</button>
-            </div>
+                </div>
+    
+                <div>
+        <div className='edgeDesign'>
+            <div >
+                <div className="row-flex">
+                    <div className="dash active"></div>
+                    <div className="dash active"></div>
+                    <div className="dash active"></div>
+    
+                </div>
+                <div>
+                    <div className="row">
+                    <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4">School</div>
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='school' fullWidth label='School' />
+                </div>
+                <div className="col sm-12 md-3 lg-3 padding">
+                <TextField variant="outlined" type="text" name='from' fullWidth label='From' />
+                </div>
+                <div className="col sm-12 md-3 lg-3 padding">
+                <TextField variant="outlined" type="text" name='to' fullWidth label='To' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='particulars' fullWidth label='Particulars' />
+                </div>
+      
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Type of certificate </div>
+                <TextField select fullWidth type="text" name='certificate'  >
+                    <MenuItem value="professional"> profesional </MenuItem>
+                    <MenuItem value="academic"> Academic </MenuItem>
+                    </TextField> 
+                {/* 
+                 
+                
+                 */}
+                </div>
+      
+                <div className="col sm-12 md-6 lg-6 padding">
+                  <button className="btn primaryBtn full-width" onClick={submitData}>Submit</button>
+                </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-            </div>
-
-
-            </form>
-    </div>
-  )
+                </div>
+    
+    
+                </form>
+        </div>
+      )
+ }else{
+    return ""
+ }
 }

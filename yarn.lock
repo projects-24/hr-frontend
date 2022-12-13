@@ -1910,6 +1910,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+table-to-excel@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/table-to-excel/-/table-to-excel-1.0.6.tgz#17900174000d797b6dc3bddab5672bc2e9c14a68"
+  integrity sha512-/6+KlLgJw2Jc9tfpRkoyxhHDSnX/w0NvjxlF7oVpan8VozpebQWn7i/fJIfxnVhQ5IxM9Nyp/x1qiEETAdJe8Q==
+
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"

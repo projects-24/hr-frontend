@@ -14,7 +14,7 @@ export default function Account() {
                setuser(
                    JSON.parse(
                        localStorage.getItem("user")
-                   ).personalDetails
+                   )
                )
            }
        }
@@ -31,32 +31,29 @@ if(user){
               <div className="col sm-12 md-8 lg-8 padding">
             <div className="padding">
             <div className="h4">
-               {user.surname} {user.middleName} {user.lastName}
+            {user.firstName} {user.middleName} {user.surname}
             </div>
-               <div className="section positionText">{user.typeStaff}</div>
+               <div className="section positionText">{user.grade}</div>
             </div>
                <div className="row">
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Department:</span> {user.department}
                   </div>
                   <div className="col sm-12 md-6 lg-6 padding">
-                     <span className="text-bold"> Contact:</span> {user.contact}
+                     <span className="text-bold"> Section:</span> {user.section}
                   </div>
                   <div className="col sm-12 md-6 lg-6 padding">
-                     <span className="text-bold"> Post:</span> {user.post}
+                     <span className="text-bold"> Employment status:</span> {user.employmentStatus}
                   </div>
-                  <div className="col sm-12 md-6 lg-6 padding">
-                     <span className="text-bold"> Gender:</span> {user.gender}
-                  </div>
-                  <div className="col sm-12 md-6 lg-6 padding">
+                  {/* <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Appointment:</span> {user.presentAppointment}
                   </div>
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Address:</span> {user.address}
-                  </div>
-                  <div className="col sm-12 md-6 lg-6 padding">
+                  </div> */}
+                  <div className="col sm-12 md-12 lg-12 padding">
                     <Link href="/edit/account">
-                    <button className="btn primaryBtn section full-width">
+                    <button className="btn primaryBtn section ">
                     Update Profile <i className="icon-pencil"></i>
                     </button>
                     </Link>

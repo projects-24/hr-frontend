@@ -6,6 +6,8 @@ import regions from '../../data/regions';
 import Loader from '../../components/loader';
 import Axios from 'axios';
 import endPoint from '../../components/endPoint';
+
+
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [print, setprint] = useState(false)
@@ -114,11 +116,11 @@ Axios.get(endPoint  + "/staff/showall" , {
              </button>
              </div>
             </div>
-            <div className="col sm-12 lg-4 md-4 padding">
+            {/* <div className="col sm-12 lg-4 md-4 padding">
                 <button className="btn primaryBtn full-width" onClick={()=>window.location.assign("/form/personal/new")}>
                 <i class="lni lni-plus"></i>  NEW STAFF
                 </button>
-            </div>
+            </div> */}
         </div>
         :""
                 }
@@ -221,17 +223,20 @@ Axios.get(endPoint  + "/staff/showall" , {
            <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
            <table className={ "table  text-small border"}>
                 <thead>
+                    <th>Staff ID</th>
                     <th>Full Name</th>
-                    <th>Post</th>
-                    <th>Directorate</th>
-                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Grade</th>
+                    <th>Section</th>
+                    <th>Employment Status</th>
+                    {/* <th>Contact</th>
                     <th>At Post</th>
                     <th>on Leave</th>
-                    <th>on Field</th>
+                    <th>on Field</th> */}
                 {
-                    !print ?
-                    <th>Edit</th>
-                    :""
+                    // !print ?
+                    // <th>Edit</th>
+                    // :""
                 }
                 </thead>
                 <tbody>
@@ -239,22 +244,24 @@ Axios.get(endPoint  + "/staff/showall" , {
                         docs ?
                         docs.map(doc=>(
                             <tr key={doc._id}>
-                            <td> {user.personalDetails.surname} {user.personalDetails.middleName} {user.personalDetails.lastName}</td>
-                            <td>{doc.post}</td>
-                            <td>{doc.directorate}</td>
-                            <td>{doc.contact}</td>
-                            <td><i className="lni lni-checkmark text-success"></i></td>
+                            <td>  {doc.id}</td>
+                            <td> {doc.surname} {doc.middleName} {doc.lastName}</td>
+                            <td>{doc.department}</td>
+                            <td>{doc.grade}</td>
+                            <td>{doc.section}</td>
+                            <td>{doc.employmentStatus}</td>
+                            {/* <td><i className="lni lni-checkmark text-success"></i></td>
                             <td><i className="lni lni-close text-red"></i></td>
-                            <td><i className="lni lni-checkmark text-success"></i></td>
+                            <td><i className="lni lni-checkmark text-success"></i></td> */}
                             <td>
                             {
-                        !print ?
-                             <Link href={`/form/${doc._id}`}>
-                                   <button className='button text-info'>
-                                <i className="lni lni-pencil"></i> Edit
-                                </button>
-                             </Link>
-                                :""
+                        // !print ?
+                        //      <Link href={`/form/${doc._id}`}>
+                        //            <button className='button text-info'>
+                        //         <i className="lni lni-pencil"></i> Edit
+                        //         </button>
+                        //      </Link>
+                        //         :""
                             }
                             </td>
                         </tr>

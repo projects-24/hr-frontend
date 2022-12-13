@@ -50,7 +50,7 @@ export default function Password() {
       </div>
            </div>
            <div className="padding-top-40">
-           <div className="text-bold">For {user.personalDetails.firstName}</div>
+           <div className="text-bold">For {user.firstName}</div>
             <div className="section">
             <input type="password" className="input" placeholder='Enter your new password' onChange={(e)=>setpassword(e.target.value)}/>
               </div>

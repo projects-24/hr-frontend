@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect ,useState} from "react";
 import Loader from './loader';
-
+import Super from "../data/super"
 const Nav = () => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
@@ -119,7 +119,10 @@ if(user){
         <i className="icon-logout"></i> Logout
         </div>
   <div className="section hr"></div>
-    <Link href="/dashboard">
+{
+  user.grade === Super ?
+  <>
+      <Link href="/dashboard">
         <div className='sideLink'>
         <i className="icon-graph"></i> Dashboard
         </div>
@@ -142,6 +145,11 @@ if(user){
         </div>
       </Link>
       <div className="section hr"></div>
+  </>
+
+  :""
+}
+
       <div className="dropDown">
       <div className='sideLink trigger' onClick={TriggerDrop}>
         <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}

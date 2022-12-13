@@ -7,6 +7,7 @@ import Axios  from 'axios';
 import departments from "../data/departments";
 import Loader from './../components/loader';
 import sections from "../data/sections"
+import Super from "../data/super";
 export default function Register() {
     const form = useRef(null)
     const [token, settoken] = useState("")
@@ -40,6 +41,7 @@ const middleName = current["middlename"].value
 const grade = current["grade"].value
 const department = current["department"].value
 const section = current["section"].value
+const employmentStatus = current["employmentStatus"].value
 
 if(email){
     setloading(true)
@@ -55,7 +57,8 @@ surname:surName,
 grade:grade,
 department:department,
 section:section,
-editfield:false
+editfield:false,
+employmentStatus:employmentStatus
 }
 ,   {
     headers: {
@@ -76,136 +79,141 @@ editfield:false
     setloading(false)
 }
 };
-return (
-<div>
-<div className="">
-    {
-        loading ?
-        <Loader />
-        :""
-    }
-<Nav />
-<div className="content">
-<div className="width-600-max ">
-<div className="m-section">
- <div className="padding">
- <div className="h1">Register Account</div>
-    <div className="text-bold section">
-    Enter a valid email and password to login your account
-    </div>
- </div>
-</div>
-<div className="section">
-   <form ref={form}>
-   <div className="row">
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="id"
-        className="input"
-        id=""
-        placeholder="Staff ID"
-        />
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="email"
-        name="email"
-        className="input"
-        id=""
-        placeholder="Email"
-        />
-    </div>
-
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="firstName"
-        className="input"
-        id=""
-        placeholder="First Name"
-        />
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="surname"
-        className="input"
-        id=""
-        placeholder="Surname"
-        />
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-        <input
-        type="text"
-        name="middlename"
-        className="input"
-        id=""
-        placeholder="Middle Name"
-        />
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-    <select type="text" name='title' className='input' >
-                <option value="">Title</option>
-                <option value="Prof">Prof</option>
-                <option value="Dr.">Dr.</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Miss">Miss</option>
-            </select>
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-    <select type="text" name='department' className='input' onChange={(e)=>setselectedDepartment(e.target.value)}>
-                <option value="">-- Department --</option>
+if(user.grade === Super){
+    return (
+        <div>
+        <div className="">
             {
-                departments.map(docs=>( 
-                    <option value={docs.department} key={docs.department}>{docs.department}</option>
-                ))
+                loading ?
+                <Loader />
+                :""
             }
-    </select>
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-    <select type="text" name='section' className='input'>
-                <option value="">-- Select your Section --</option>
-            {
-                sections.filter(docs=>{
-                    if(selectedDepartment.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
-                        return docs
+        <Nav />
+        <div className="content">
+        <div className="width-600-max ">
+        <div className="m-section">
+         <div className="padding">
+         <div className="h1">Register Account</div>
+            <div className="text-bold section">
+            Enter a valid email and password to login your account
+            </div>
+         </div>
+        </div>
+        <div className="section">
+           <form ref={form}>
+           <div className="row">
+            <div className="col sm-12 md-6 lg-6 padding">
+                <input
+                type="text"
+                name="id"
+                className="input"
+                id=""
+                placeholder="Staff ID"
+                />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+                <input
+                type="email"
+                name="email"
+                className="input"
+                id=""
+                placeholder="Email"
+                />
+            </div>
+        
+            <div className="col sm-12 md-6 lg-6 padding">
+                <input
+                type="text"
+                name="firstName"
+                className="input"
+                id=""
+                placeholder="First Name"
+                />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+                <input
+                type="text"
+                name="surname"
+                className="input"
+                id=""
+                placeholder="Surname"
+                />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+                <input
+                type="text"
+                name="middlename"
+                className="input"
+                id=""
+                placeholder="Middle Name"
+                />
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='title' className='input' >
+                        <option value="">Title</option>
+                        <option value="Prof">Prof</option>
+                        <option value="Dr.">Dr.</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Miss">Miss</option>
+                    </select>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='department' className='input' onChange={(e)=>setselectedDepartment(e.target.value)}>
+                        <option value="">-- Department --</option>
+                    {
+                        departments.map(docs=>( 
+                            <option value={docs.department} key={docs.department}>{docs.department}</option>
+                        ))
                     }
-                }).map(docs=>(
-                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
-                ))
-            }
             </select>
-    </div>
-    <div className="col sm-12 md-6 lg-6 padding">
-    <select type="text" name='grade' className='input'>
-                <option value="">-- Select your grade --</option>
-            {
-                departments.map(docs=>(
-                    <option value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</option>
-                ))
-            }
-            </select>
-    </div>
-
-
-    <div className="col sm-12 md-6 lg-6 padding">
-    <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT <i className="icon-user-following"></i></button>
-    </div>
-    {/* <div className="col sm-12 md-12 lg-12 padding">
-            <Link href="/dashboard">
-               <button class="button info text-white">
-                <i className="icon-grid"></i> BACK TO DASHBOARD
-               </button>
-            </Link>
-         </div> */}
-    </div>
-   </form>
-</div>
-</div>
-</div>
-</div>
-</div>
-);
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='section' className='input'>
+                        <option value="">-- Select your Section --</option>
+                    {
+                        sections.filter(docs=>{
+                            if(selectedDepartment.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
+                                return docs
+                            }
+                        }).map(docs=>(
+                            <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
+                        ))
+                    }
+                    </select>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='grade' className='input'>
+                        <option value="">-- Select your grade --</option>
+                    {
+                        departments.map(docs=>(
+                            <option value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</option>
+                        ))
+                    }
+                    </select>
+            </div>
+            <div className="col sm-12 md-6 lg-6 padding">
+            <select type="text" name='employmentStatus' className='input'>
+                        <option value="">-- Employment Status --</option>
+                        <option value="permanent">-- permanent --</option>
+                        <option value="temporary">-- Temporary --</option>
+                    </select>
+            </div>
+        
+        
+            <div className="col sm-12 md-6 lg-6 padding">
+            <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT <i className="icon-user-following"></i></button>
+            </div>
+        
+            </div>
+           </form>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        );
+}else{
+    return <Loader />
+}
 }

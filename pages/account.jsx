@@ -51,13 +51,18 @@ if(user){
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Address:</span> {user.address}
                   </div> */}
-                  <div className="col sm-12 md-12 lg-12 padding">
-                    <Link href={`/form/${user._id}`}>
-                    <button className="btn primaryBtn section ">
-                    Update Profile <i className="icon-pencil"></i>
-                    </button>
-                    </Link>
-                  </div>
+                  {
+                     !user.editfield ?
+                     <div className="col sm-12 md-12 lg-12 padding">
+                     <Link href={`/form/${user._id}`}>
+                     <button className="btn primaryBtn section ">
+                     Complete registration <i className="icon-pencil"></i>
+                     </button>
+                     </Link>
+                   </div>
+                   :""
+                  }
+           
                </div>
               </div>
           </div>

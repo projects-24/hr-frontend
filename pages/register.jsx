@@ -237,8 +237,8 @@ if(user.grade === Super){
             <div className="col sm-12 md-6 lg-6 padding">
             <select type="text" name='employmentStatus' className='input'>
                         <option value="">-- Employment Status --</option>
-                        <option value="permanent">-- permanent --</option>
-                        <option value="temporary">-- Temporary --</option>
+                        <option value="permanent">permanent</option>
+                        <option value="Contract">Contract</option>
                     </select>
             </div>
         

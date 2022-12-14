@@ -189,29 +189,33 @@ export default function Personal() {
         editfield:true
     
         }
-
-        if(personal === "new"){
-            // new 
-        }else{
-
-        Axios.patch(endPoint + "/staff/updatestaff/" + personal,
-         data,
-         {
-          headers: {
-               authorization: `Bearer ${token}`,
-             
+        const proceed = prompt("Make sure all details are correct. Type Yes to proceed and No to quite");
+        if(proceed){
+            if(proceed.toString().trim().toLowerCase() === "yes"){
+                Axios.patch(endPoint + "/staff/updatestaff/" + personal,
+                data,
+                {
+                 headers: {
+                      authorization: `Bearer ${token}`,
+                    
+                   }
+                    
+                }
+                ).then(()=>{
+                   alert("successfully updated")
+               setloader(false)
+       
+               }).catch(err=>{
+                   alert(err.message)
+               setloader(false)
+       
+               })
+       
+            }else{
+                setloader(false)
             }
-             
-         }
-         ).then(()=>{
-            alert("successfully updated")
-        setloader(false)
-
-        }).catch(err=>{
-            alert(err.message)
-        setloader(false)
-
-        })
+        }else{
+            setloader(false)
         }
     }
  if(user){
@@ -223,10 +227,7 @@ export default function Personal() {
                 <Loader />
                 :""
             }
-    
-            <form ref={form}>
-                <div>
-                            <div className="row">
+                       <div className="row">
                 <div className="col sm-12 md-8 lg-8 padding">
                 <div className="h1 p-text">Personal Records Form</div>
                 <div className='section'>Make sure to enter all details before submitting</div>
@@ -235,6 +236,10 @@ export default function Personal() {
                     <img src="/profiling.svg"  className='fit' alt="" />
                 </div>
             </div>
+    
+            <form ref={form}>
+                <div>
+                 
             <div className="padding-top-20">
                 <div className="row">
                 <div className="col sm-12 md-12 lg-12 section padding">
@@ -292,7 +297,7 @@ export default function Personal() {
                 <TextField variant="outlined" fullWidth type="date" name='dob'  />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4">Marital Details</div>
+                    <div className="h4 padding-top-20">Marital Details</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Marital Status</div>
@@ -481,11 +486,7 @@ export default function Personal() {
                 <div>
       <div className='edgeDesign'>
             <div className="">
-                <div className="row-flex">
-                    <div className="dash active"></div>
-                    <div className="dash active"></div>
-                    <div className="dash"></div>
-                </div>
+          
                 <div>
                     <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">
@@ -544,12 +545,7 @@ export default function Personal() {
                 <div>
         <div className='edgeDesign'>
             <div >
-                <div className="row-flex">
-                    <div className="dash active"></div>
-                    <div className="dash active"></div>
-                    <div className="dash active"></div>
-    
-                </div>
+           
                 <div>
                     <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">

@@ -6,50 +6,73 @@ import { useState,useEffect } from 'react';
 import Loader from '../components/loader';
 import Super from '../data/super';
 import Account from "./account"
+import  Axios from 'axios';
+import endPoint from '../components/endPoint';
+
 export default function Dashboard() {
     const [user, setuser] = useState("")  
+    const [docs, setdocs] = useState(null)
+    const [token, settoken] = useState("")
+    const [post, setpost] = useState(0)
+    const [field, setfield] = useState(0)
+    const [leave, setleave] = useState(0)
+
     useEffect(() => {
       if(localStorage.getItem("token") && !user ){
         setuser(
           JSON.parse(
               localStorage.getItem("user")
           )
-      )
+        )
+          settoken(
+            JSON.parse(
+                localStorage.getItem("token")
+            )
+        )
+      
           }
   
     })
+
+    useEffect(() => {
+      if(!docs){
+      Axios.get(endPoint  + "/staff/showall" , {
+          headers:{
+              authorization:`Bearer ${token}`
+          }
+      }).then(dataDocs=>{
+          setdocs(dataDocs.data.staff)
+      }).catch(err=>console.log(err.message))
+      }
+      })
+          
 const [data, setdata] = useState([
     {
       name: 'All Staffs',
-      number: 4000,
+      number: docs ? docs.length : "",
     },
     {
       name: 'At Post',
-      number: 2000,
+      number: post,
     },
     {
       name: 'On Leave',
-      number: 4000,
+      number: leave,
     },
     {
-      name: 'Due Promotion',
-      number: 1000,
-    }
-    ,
-    {
       name: 'On Field',
-      number: 500,
+      number: field,
     }
     
   ])
 
- if(user){
+ if(user && docs){
   if(user.grade === Super){
     return (
       <div className='content'>
           <Nav />
     
-          <div className="">
+          <div cl assName="">
               <div className="h1 p-text">Dashboard And Analytics</div>
               <p>
               <div className="h4">
@@ -67,16 +90,25 @@ const [data, setdata] = useState([
                           <div className="section text-bold">
                               All staffs
                           </div>
-                          <div className="h4 text-success">200</div>
+                          <div className="h4 text-success">
+                            {docs.length}
+                          </div>
                       </div>
                   </div>
                   <div className="col sm-12 md-2 lg-2 padding">
                       <div className="card padding text-center">
                           <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                           <div className="section text-bold">
-                              At post
+                              On post
                           </div>
-                          <div className="h4 text-success">200</div>
+                          <div className="h4 text-success">
+                          {/* {docs.filter(doc=>{
+                            if(doc.status.toString().trim() === "post"){
+                              setpost(doc.length)
+                              return doc
+                            }
+                          }).length} */}
+                          </div>
                       </div>
                   </div>
                   <div className="col sm-12 md-2 lg-2 padding">
@@ -85,25 +117,31 @@ const [data, setdata] = useState([
                           <div className="section text-bold">
                               On leave
                           </div>
-                          <div className="h4 text-success">200</div>
-                      </div>
-                  </div>
-                  <div className="col sm-12 md-2 lg-2 padding">
-                      <div className="card padding text-center">
-                          <img src="/promotion.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                          <div className="section text-bold">
-                                promotion
+                          <div className="h4 text-success">
+                          {/* {docs.filter(doc=>{
+                            if(doc.status.toString().trim() === "leave"){
+                              setleave(doc.length)
+                              return doc
+                            }
+                          }).length} */}
                           </div>
-                          <div className="h4 text-success">200</div>
                       </div>
                   </div>
+         
                   <div className="col sm-12 md-2 lg-2 padding">
                       <div className="card padding text-center">
                           <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" />
                           <div className="section text-bold">
                                On Field
                           </div>
-                          <div className="h4 text-success">200</div>
+                          <div className="h4 text-success"> 
+                            {/* {docs.filter(doc=>{
+                            if(doc.status.toString().trim() === "field"){
+                              setfield(doc.length)
+                              return doc
+                            }
+                          }).length} */}
+                          </div>
                       </div>
                   </div>
               </div>

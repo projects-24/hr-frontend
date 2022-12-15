@@ -89,15 +89,9 @@ if(user){
 
     </div>
     <div>
-      <div className="Avatar" onClick={handleMode}>
-        {
-          mode === "dark" ?
-          <i className="lni lni-sun mode"></i>
-          :
-          <i className="lni lni-night mode"></i>
-        }
-    
-      </div>
+    <div className='sideLink' onClick={LogOut}>
+        <i className="icon-logout"></i> Logout
+        </div>
     </div>
   </div>
   <div className="leaveSidebar">
@@ -113,9 +107,7 @@ if(user){
         <i className="icon-shield"></i> Change password
         </div>
     </Link>
-        <div className='sideLink' onClick={LogOut}>
-        <i className="icon-logout"></i> Logout
-        </div>
+
   <div className="section hr"></div>
 {
   user.grade === Super ?

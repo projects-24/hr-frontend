@@ -19,7 +19,16 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
-
+import Departments from "../../data/departments"
+import Sections from "../../data/sections"
+import TextField  from '@mui/material/TextField';
+import  MenuItem  from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -30,6 +39,19 @@ export default function Profiling() {
     const [token, settoken] = useState("")
     const [user, setuser] = useState("")  
     const [docs, setdocs] = useState(null)
+    const [department, setdepartment] = useState("")
+    const [section, setsection] = useState("")
+    const [status, setstatus] = useState("")
+    const [employment, setemployment] = useState("")
+    const [open, setOpen] = React.useState(false);
+    const [current, setcurrent] = useState(null)
+    const [currentId, setcurrentId] = useState("")
+    const [userStatus, setuserStatus] = useState("")
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
     useEffect(() => {
       if(localStorage.getItem("token")  && !token ){
           settoken(
@@ -87,10 +109,67 @@ Axios.get(endPoint  + "/staff/showall" , {
     
 const handleSearch = ()=>{
     setsearch(inputData)
+
+
  
+}
+
+const handleStatus = (doc)=>{
+    setcurrent(doc)
+    setcurrentId(doc._id)
+    setOpen(true);
+}
+
+const Edit = ()=>{
+    Axios.patch(endPoint + "/staff/updatestaff/" + currentId,
+    {status:userStatus},
+    {
+     headers: {
+          authorization: `Bearer ${token}`,
+        
+       }
+        
+    }
+    ).then(()=>{
+       alert("successfully updated")
+       setOpen(false)
+       setdocs(null)
+   }).catch(err=>{
+       alert(err.message)
+       setOpen(false)
+
+   })
 }
   return (
     <div className={print ? "" : "content"}>
+        <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Select the users status.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            select
+            id="name"
+            label="Select user status"
+            type="email"
+            defaultValue={current ? current.status : ""}
+            fullWidth
+            onChange={(e)=>setuserStatus(e.target.value)}
+            variant="outlined"
+          >
+         <MenuItem value="leave">On Leave</MenuItem>
+                    <MenuItem value="field">On Field</MenuItem>
+                    <MenuItem value="post">On Post</MenuItem>
+            </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={Edit}>Make Changes</Button>
+        </DialogActions>
+      </Dialog>
         {
         loading ? 
         <Loader />
@@ -128,84 +207,39 @@ const handleSearch = ()=>{
             !print ?
             <div>
 
-                {/* <div className="row padding border section fit shadow">
+                <div className="row padding border section fit shadow">
                     <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER </div>
                 <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input">
-                        <option value="">Post</option>
+                    <TextField fullWidth label="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
+                        <MenuItem value="">All Departments</MenuItem>
                         {
-                            regions.map(docs=>(
-                                <option value={docs.name} key={docs._id}> {docs.name} </option>
+                            Departments &&
+                            Departments.map(docs=>(
+                                <MenuItem value={docs.department} key={docs.department}> {docs.department} </MenuItem>
                             ))
                         }
-                    </select>
+                    </TextField>
                 </div>
                 <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input" onChange={(e)=>setdirectorate(e.target.value)}>
-                        <option value="">Directorate</option>
-                        <option value="it">IT</option>
-                        <option value="soc">SOC</option>
-                        <option value="datascience">Data Science</option>
-                    </select>
+                    <TextField fullWidth label="Section" select name="" id=""  onChange={(e)=>setsection(e.target.value)}>
+                        <MenuItem value="">All Sections</MenuItem>
+                        {
+                            Sections &&
+                            Sections.map(docs=>(
+                                <MenuItem value={docs.section} key={docs.section}> {docs.section} </MenuItem>
+                            ))
+                        }
+                    </TextField>
                 </div>
                 <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input">
-                        <option value="">Section</option>
-                    {
-                        directorate === "it" ?
-                        <>
-                        <option value="infrustructure">Infrastructure</option>
-                        <option value="itsupport">IT Support</option>
-                        <option value="database">Database / Application</option>
-                        </>
-                        : directorate === "soc" ?
-                        <>
-                        <option value="infrustructure">Soc 1</option>
-                        <option value="itsupport">Soc 2</option>
-                        <option value="database">Soc 3</option>
-                        </>
-                        : directorate === "datascience" ?
-                        <>
-                        <option value="infrustructure">Data Science 1</option>
-                        <option value="itsupport">Data Science 2</option>
-                        <option value="database">Data Science 3</option>
-                        </>
-                        :
-                        ""
-                    }
-                    </select>
+                    <TextField fullWidth defaultValue={""} label="Employment Status" select name="" id=""  onChange={(e)=>setemployment(e.target.value)}>
+                        <MenuItem value="">All</MenuItem>
+                        <MenuItem value="permanent">Permanent</MenuItem>
+                        <MenuItem value="contract">Contract</MenuItem>
+                    </TextField>
                 </div>
-                <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input" onChange={(e)=>setleave(e.target.value)}>
-                        <option value="">Leave</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
+              
                 </div>
-                {
-                    leave != "yes" ? 
-                    <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input">
-                        <option value="">On Field</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                :""
-
-                }
-                            {
-                    leave != "yes" ? 
-                <div className="padding-5 col sm-12 md-2 lg-2">
-                    <select name="" id="" className="input">
-                        <option value="">On Post</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                :""
-                }
-                </div> */}
 
                 {
             !print ?
@@ -263,14 +297,22 @@ const handleSearch = ()=>{
             <TableCell style={{fontWeight:"bold"}} align="left">Grade</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="left">Section</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="left">Employment Status</TableCell>
+            <TableCell style={{fontWeight:"bold"}} align="left"> Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {docs ? docs.filter(doc=>{
-            if(search === ""){
+            if(search === "" && 
+            department  === "" && 
+            section  === "" && 
+            employment  === ""
+            ){
                 return docs
             }else if(
-                search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase())
+                search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
+                department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
+                section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
+                employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
             ){
                 return doc
             }
@@ -287,6 +329,11 @@ const handleSearch = ()=>{
               <TableCell align="left">{row.grade}</TableCell>
               <TableCell align="left">{row.section}</TableCell>
               <TableCell align="left">{row.employmentStatus}</TableCell>
+              <TableCell align="left">
+             <div className="avatar" onClick={()=>handleStatus(row)}>
+              {row.status  === "post" ? <i className="lni lni-checkmark text-success"></i> : row.status  === "leave" ? <i className="lni lni-close text-danger"></i> : row.status  === "field" ? <i className="lni lni-checkmark text-info"></i> : ""}
+             </div>
+              </TableCell>
             </TableRow>
           ))
         :""

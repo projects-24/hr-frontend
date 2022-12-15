@@ -145,11 +145,11 @@ if(user){
         <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
         </div>
         <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <Link href="/leave/annual">
+        {/* <Link href="/leave/annual">
         <div className='sideLink'>
         <i className="icon-user"></i> Annual Leave
         </div>
-      </Link>
+      </Link> */}
       <Link href="/leave/maternity">
         <div className='sideLink'>
         <i className="icon-login"></i> Maternity Leave
@@ -168,9 +168,9 @@ if(user){
         </div>
       </div>
       <div className="section hr"></div>
-      <Link href="/register">
+      <Link href="/appraisal">
         <div className='sideLink'>
-        <i className="icon-direction"></i> Promotion Mgt
+        <i className="icon-direction"></i> Pfm | Appraisal
         </div>
       </Link>
       <div className="section hr"></div>

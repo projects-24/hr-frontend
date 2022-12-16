@@ -1,5 +1,6 @@
 import React from 'react'
 import Nav from '../../components/Nav'
+import TextField from '@mui/material/TextField';
 
 export default function Annual() {
   return (
@@ -12,32 +13,32 @@ export default function Annual() {
            <form>
            <div className="row">
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Number Of Days' />
+                        <TextField type="text" name='days' variant="outlined" label='Number Of Days' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Leave Address' />
+                        <TextField type="text" name='days' variant="outlined" label='Leave Address' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Home Address' />
+                        <TextField type="text" name='days' variant="outlined" label='Home Address' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Date Of Leave' />
+                        <TextField type="text" name='days' variant="outlined" label='Date Of Leave' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Days Reffered On Last Year' />
+                        <TextField type="text" name='days' variant="outlined" label='Days Reffered On Last Year' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Number Of days On Leave' />
+                        <TextField type="text" name='days' variant="outlined" label='Number Of days On Leave' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <input type="text" name='days' className="input" placeholder='Number Of days Requested' />
+                        <TextField type="text" name='days' variant="outlined" label='Number Of days Requested' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <input type="text" name='days' className="input" placeholder='Officer Taking Over' />
+                    <TextField type="text" name='days' variant="outlined" label='Officer Taking Over' />
                     </div>
                     <div className="col sm-12 md-12 lg-12 padding">
                         <div className="text-bold">Resumption date</div>
-                        <input type="date" name='days' className="input" />
+                        <TextField type="date" name='days' className="input" />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <button className='primaryBtn btn full-width'> Submit Request <i className="icon-paper-plane"></i></button>

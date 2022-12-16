@@ -8,12 +8,15 @@ import departments from "../data/departments";
 import Loader from './../components/loader';
 import sections from "../data/sections"
 import Super from "../data/super";
+import positions from "../data/positions";
+import TextField  from '@mui/material/TextField';
+import MenuItem from "@mui/material/MenuItem"
 export default function Register() {
     const form = useRef(null)
     const [token, settoken] = useState("")
     const [user, setuser] = useState("")  
     const [loading, setloading] = useState(false)
-    const [selectedDepartment, setselectedDepartment] = useState("")
+    const [Department, setDepartment] = useState("")
     useEffect(() => {
       if(localStorage.getItem("token")  && !token ){
           settoken(
@@ -41,6 +44,7 @@ const middleName = current["middlename"].value
 const grade = current["grade"].value
 const department = current["department"].value
 const section = current["section"].value
+const position = current["position"].value
 const employmentStatus = current["employmentStatus"].value
 
 if(email){
@@ -132,7 +136,7 @@ if(user.grade === Super){
             }
         <Nav />
         <div className="content">
-        <div className="width-600-max ">
+        <div className="width-700-max ">
         <div className="m-section">
          <div className="padding">
          <div className="h1">Register Account</div>
@@ -145,103 +149,107 @@ if(user.grade === Super){
            <form ref={form}>
            <div className="row">
             <div className="col sm-12 md-6 lg-6 padding">
-                <input
+                <TextField fullWidth
                 type="text"
                 name="id"
-                className="input"
+                variant="outlined"
                 id=""
-                placeholder="Staff ID"
+                label="Staff ID"
                 />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-                <input
+                <TextField fullWidth
                 type="email"
                 name="email"
-                className="input"
+                variant="outlined"
                 id=""
-                placeholder="Email"
+                label="Email"
                 />
             </div>
         
             <div className="col sm-12 md-6 lg-6 padding">
-                <input
+                <TextField fullWidth
                 type="text"
                 name="firstName"
-                className="input"
+                variant="outlined"
                 id=""
-                placeholder="First Name"
+                label="First Name"
                 />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-                <input
+                <TextField fullWidth
                 type="text"
                 name="surname"
-                className="input"
+                variant="outlined"
                 id=""
-                placeholder="Surname"
+                label="Surname"
                 />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-                <input
+                <TextField fullWidth
                 type="text"
                 name="middlename"
-                className="input"
+                variant="outlined"
                 id=""
-                placeholder="Middle Name"
+                label="Middle Name"
                 />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='title' className='input' >
-                        <option value="">Title</option>
-                        <option value="Prof">Prof</option>
-                        <option value="Dr.">Dr.</option>
-                        <option value="Mr">Mr</option>
-                        <option value="Mrs">Mrs</option>
-                        <option value="Miss">Miss</option>
-                    </select>
+            <TextField fullWidth type="text" select label="Title" name='title' variant="outlined" >
+                        <MenuItem value="">Title</MenuItem>
+                        <MenuItem value="Prof">Prof</MenuItem>
+                        <MenuItem value="Dr.">Dr.</MenuItem>
+                        <MenuItem value="Mr">Mr</MenuItem>
+                        <MenuItem value="Mrs">Mrs</MenuItem>
+                        <MenuItem value="Miss">Miss</MenuItem>
+                    </TextField>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='department' className='input' onChange={(e)=>setselectedDepartment(e.target.value)}>
-                        <option value="">-- Department --</option>
+            <TextField fullWidth type="text" select name='department' label="Department" variant="outlined" onChange={(e)=>setDepartment(e.target.value)}>
                     {
                         departments.map(docs=>( 
-                            <option value={docs.department} key={docs.department}>{docs.department}</option>
+                            <MenuItem value={docs.department} key={docs.department}>{docs.department}</MenuItem>
                         ))
                     }
-            </select>
+            </TextField>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='section' className='input'>
-                        <option value="">-- Select your Section --</option>
+            <TextField fullWidth type="text" select label="Section" name='section' variant="outlined">
                     {
                         sections.filter(docs=>{
-                            if(selectedDepartment.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
+                            if(Department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
                                 return docs
                             }
                         }).map(docs=>(
-                            <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
+                            <MenuItem value={`${docs.section}`} key={docs.section}> {docs.section}</MenuItem>
                         ))
                     }
-                    </select>
+                    </TextField>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='grade' className='input'>
-                        <option value="">-- Select your grade --</option>
+            <TextField fullWidth type="text" select label="Grade" name='grade' variant="outlined">
                     {
                         departments.map(docs=>(
-                            <option value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</option>
+                            <MenuItem value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</MenuItem>
                         ))
                     }
-                    </select>
+                    </TextField>
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
-            <select type="text" name='employmentStatus' className='input'>
-                        <option value="">-- Employment Status --</option>
-                        <option value="permanent">permanent</option>
-                        <option value="Contract">Contract</option>
-                    </select>
+            <TextField fullWidth type="text" select label="Employment Status" name='employmentStatus' variant="outlined">
+                        <MenuItem value="permanent">permanent</MenuItem>
+                        <MenuItem value="Contract">Contract</MenuItem>
+                    </TextField>
             </div>
-        
+            <div className="col sm-12 md-12 lg-12 padding">
+            <TextField fullWidth type="text" select label="Position" name='position' variant="outlined">
+                    {
+                        positions.map(docs=>(
+                            <MenuItem value={`${docs.position}`} key={docs.position}> {docs.position}</MenuItem>
+                        ))
+                    }
+                    </TextField>
+            </div>
         
             <div className="col sm-12 md-6 lg-6 padding">
             <button className="primaryBtn btn full-width" onClick={handleLogin}>CREATE ACCOUNT <i className="icon-user-following"></i></button>

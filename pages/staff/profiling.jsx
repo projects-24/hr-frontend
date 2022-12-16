@@ -47,6 +47,7 @@ export default function Profiling() {
     const [current, setcurrent] = useState(null)
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
+    const [position, setposition] = useState("")
 
     const handleClose = () => {
       setOpen(false);

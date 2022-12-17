@@ -67,7 +67,12 @@ const [data, setdata] = useState([
   ])
 
  if(user && docs){
-  if(user.grade === Super){
+  if(user.position === "Director" 
+  || user.position === "Government Statistician (CEO)" 
+  || user.position === "Deputy Gov Statistician (DGS)"
+  || user.position === "Deputy Director"
+  || user.position === "Sectional Head"
+  || user.position === "Unit Head"){
     return (
       <div className='content'>
           <Nav />
@@ -81,7 +86,7 @@ const [data, setdata] = useState([
               </p>
 
               {
-                  user.grade === Super ?
+  
                 <div>
                     <div className="row m-section central">
                   <div className="col sm-12 md-2 lg-2 padding">
@@ -168,7 +173,7 @@ const [data, setdata] = useState([
                   </div>
               </div>
                 </div>
-              :""
+              
               }
           </div>
       </div>

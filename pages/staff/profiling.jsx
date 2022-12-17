@@ -38,7 +38,6 @@ export default function Profiling() {
     const [directorate, setdirectorate] = useState("")
     const [token, settoken] = useState("")
     const [user, setuser] = useState("")  
-    const [docs, setdocs] = useState(null)
     const [department, setdepartment] = useState("")
     const [section, setsection] = useState("")
     const [status, setstatus] = useState("")
@@ -47,7 +46,7 @@ export default function Profiling() {
     const [current, setcurrent] = useState(null)
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
-    const [position, setposition] = useState("")
+    const [docs, setdocs] = useState(null)
 
     const handleClose = () => {
       setOpen(false);
@@ -103,17 +102,16 @@ Axios.get(endPoint  + "/staff/showall" , {
         authorization:`Bearer ${token}`
     }
 }).then(dataDocs=>{
-    setdocs(dataDocs.data.staff)
+   const getDocs = dataDocs.data.staff
+   setdocs(getDocs)
 }).catch(err=>console.log(err.message))
 }
 })
     
 const handleSearch = ()=>{
     setsearch(inputData)
-
-
- 
 }
+
 
 const handleStatus = (doc)=>{
     setcurrent(doc)
@@ -287,6 +285,11 @@ const Edit = ()=>{
             <div className="h4 section text-center text-bold">Ghana Statistical Service</div> 
             :""
            }
+           <p> 
+            {
+
+            }
+           </p>
            <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
      <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -302,20 +305,45 @@ const Edit = ()=>{
           </TableRow>
         </TableHead>
         <TableBody>
-          {docs ? docs.filter(doc=>{
-            if(search === "" && 
-            department  === "" && 
-            section  === "" && 
-            employment  === ""
-            ){
-                return docs
-            }else if(
-                search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
-                department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
-                section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
-                employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
-            ){
-                return doc
+            {
+                // .filter(doc=>{
+                //     if(search === "" && 
+                //     department  === "" && 
+                //     section  === "" && 
+                //     employment  === ""
+                //     ){
+                //         return docs
+                //     }else if(
+                //         search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
+                //         department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
+                //         section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
+                //         employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
+                //     ){
+                //         return doc
+                //     }
+                //   }).filter
+            }
+          {docs ? docs.filter(filt=>{
+             if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)"){
+                setdocs(getDocs)
+            }else if(user.position === "Director" || user.position === "Deputy Director" ){
+                if(filt.department === user.department){
+                    return filt
+                }
+            }else if(user.position === "Sectional Head"){
+                    if(filt.section === user.section){
+                      return filt
+                    }
+            }else if(user.position === "Unit Head"){
+                if(filt.section === user.unit){
+                  return filt
+                }
+            }else{
+                getDocs.filter(filt =>{
+                    if(filt.staffId === user.staffId){
+                        setdocs(filt)
+                    }
+                }) 
             }
           }).map((row) => (
             <TableRow

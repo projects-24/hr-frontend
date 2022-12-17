@@ -45,12 +45,12 @@ if(user){
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Employment status:</span> {user.employmentStatus}
                   </div>
-                  {/* <div className="col sm-12 md-6 lg-6 padding">
-                     <span className="text-bold"> Appointment:</span> {user.presentAppointment}
+                  <div className="col sm-12 md-6 lg-6 padding">
+                     <span className="text-bold"> Grade:</span> {user.grade}
                   </div>
                   <div className="col sm-12 md-6 lg-6 padding">
-                     <span className="text-bold"> Address:</span> {user.address}
-                  </div> */}
+                     <span className="text-bold"> Position:</span> {user.position}
+                  </div>
                   {
                      !user.editfield ?
                      <div className="col sm-12 md-12 lg-12 padding">

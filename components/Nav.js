@@ -110,7 +110,12 @@ if(user){
 
   <div className="section hr"></div>
 {
-  user.grade === Super ?
+  user.position === "Director" 
+ || user.position === "Government Statistician (CEO)" 
+ || user.position === "Deputy Gov Statistician (DGS)"
+ || user.position === "Deputy Director"
+ || user.position === "Sectional Head"
+ || user.position === "Unit Head"?
   <>
       <Link href="/dashboard">
         <div className='sideLink'>

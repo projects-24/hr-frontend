@@ -7,6 +7,7 @@ import Axios  from 'axios';
 import departments from "../data/departments";
 import Loader from './../components/loader';
 import sections from "../data/sections"
+import grades from "../data/grades"
 import Super from "../data/super";
 import positions from "../data/positions";
 import TextField  from '@mui/material/TextField';
@@ -58,6 +59,8 @@ title:title,
 surname:surName,
 middleName:middleName,
 firstName:firstName,
+position:position,
+grade:grade,
 // gender:"",
 // address: "",
 // nationality:"",
@@ -125,7 +128,15 @@ editfield:true
     setloading(false)
 }
 };
-if(user.grade === Super){
+if(
+user.position === "Director" 
+|| user.position === "Government Statistician (CEO)" 
+|| user.position === "Deputy Gov Statistician (DGS)"
+|| user.position === "Deputy Director"
+|| user.position === "Sectional Head"
+|| user.position === "Unit Head"
+
+){
     return (
         <div>
         <div className="">
@@ -229,8 +240,8 @@ if(user.grade === Super){
             <div className="col sm-12 md-6 lg-6 padding">
             <TextField fullWidth type="text" select label="Grade" name='grade' variant="outlined">
                     {
-                        departments.map(docs=>(
-                            <MenuItem value={`${docs.department}`} key={docs.department}>Director Of {docs.department}</MenuItem>
+                        grades.map(docs=>(
+                            <MenuItem value={`${docs.grade}`} key={docs.grade}>{docs.grade}</MenuItem>
                         ))
                     }
                     </TextField>

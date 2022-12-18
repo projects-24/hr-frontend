@@ -12,12 +12,19 @@ import Super from "../data/super";
 import positions from "../data/positions";
 import TextField  from '@mui/material/TextField';
 import MenuItem from "@mui/material/MenuItem"
+import setmessage from "../Funcss/Components/setmessage"
 export default function Register() {
     const form = useRef(null)
     const [token, settoken] = useState("")
     const [user, setuser] = useState("")  
     const [loading, setloading] = useState(false)
     const [Department, setDepartment] = useState("")
+    const [message, setmessage] = useState("")
+    useEffect(()=>{
+        setTimeout(()=>{
+            setmessage(null)
+        }, 4000)
+    },[message])
     useEffect(() => {
       if(localStorage.getItem("token")  && !token ){
           settoken(
@@ -117,14 +124,14 @@ editfield:true
        
    }).then(()=>{
     setloading(false)
-    alert("account created successfully")
+    setmessage("account created successfully")
    })
    .catch(err=>{
     setloading(false)
-    alert(err.message)
+    setmessage(err.message)
    })
 }else{
-    alert("Make sure to enter all details")
+    setmessage("Make sure to enter all details")
     setloading(false)
 }
 };
@@ -140,6 +147,13 @@ user.position === "Director"
     return (
         <div>
         <div className="">
+        <div className="message">
+         {
+            message ?
+            <setmessage type="info" message={message}/>
+            :""
+         }
+         </div>
             {
                 loading ?
                 <Loader />

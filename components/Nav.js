@@ -170,6 +170,11 @@ if(user){
         <i className="icon-check"></i> Study Leave
         </div>
       </Link>
+      <Link href="/leave/requests">
+        <div className='sideLink'>
+        <i className="icon-check"></i>  Leave Requests
+        </div>
+      </Link>
         </div>
       </div>
       <div className="section hr"></div>

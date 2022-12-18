@@ -46,26 +46,63 @@ export default function Dashboard() {
       }
       })
           
-const [data, setdata] = useState([
-    {
-      name: 'All Staffs',
-      number: docs ? docs.length : "",
-    },
-    {
-      name: 'At Post',
-      number: post,
-    },
-    {
-      name: 'On Leave',
-      number: leave,
-    },
-    {
-      name: 'On Field',
-      number: field,
-    }
-    
-  ])
+const [data, setdata] = useState(null)
 
+  useEffect(()=>{
+    if(docs && !data){
+      setpost(
+        docs.filter(doc=>{
+          if(doc.status.toString().trim() === "post"){
+         return doc
+          }
+        }).length
+      )
+
+
+   
+      setleave(
+        docs.filter(doc=>{
+          if(doc.status.toString().trim() === "leave"){
+         return doc
+          }
+        }).length
+      )
+
+
+   
+      setfield(
+        docs.filter(doc=>{
+          if(doc.status.toString().trim() === "field"){
+         return doc
+          }
+        }).length
+      )
+
+
+   
+
+      setdata([
+        {
+          name: 'All Staffs',
+          number: docs ? docs.length : "",
+        },
+        {
+          name: 'At Post',
+          number: post,
+        },
+        {
+          name: 'On Leave',
+          number: leave,
+        },
+        {
+          name: 'On Field',
+          number: field,
+        }
+        
+      ])
+
+    }
+  })
  if(user && docs){
   if(user.position === "Director" 
   || user.position === "Government Statistician (CEO)" 
@@ -107,12 +144,11 @@ const [data, setdata] = useState([
                               On post
                           </div>
                           <div className="h4 text-success">
-                          {/* {docs.filter(doc=>{
+                          {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "post"){
-                              setpost(doc.length)
                               return doc
                             }
-                          }).length} */}
+                          }).length}
                           </div>
                       </div>
                   </div>
@@ -123,12 +159,11 @@ const [data, setdata] = useState([
                               On leave
                           </div>
                           <div className="h4 text-success">
-                          {/* {docs.filter(doc=>{
+                          {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "leave"){
-                              setleave(doc.length)
                               return doc
                             }
-                          }).length} */}
+                          }).length}
                           </div>
                       </div>
                   </div>
@@ -140,12 +175,11 @@ const [data, setdata] = useState([
                                On Field
                           </div>
                           <div className="h4 text-success"> 
-                            {/* {docs.filter(doc=>{
+                            {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "field"){
-                              setfield(doc.length)
                               return doc
                             }
-                          }).length} */}
+                          }).length}
                           </div>
                       </div>
                   </div>

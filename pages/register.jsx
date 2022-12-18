@@ -12,7 +12,7 @@ import Super from "../data/super";
 import positions from "../data/positions";
 import TextField  from '@mui/material/TextField';
 import MenuItem from "@mui/material/MenuItem"
-import setmessage from "../Funcss/Components/setmessage"
+import Alert from "../Funcss/Components/Alert"
 export default function Register() {
     const form = useRef(null)
     const [token, settoken] = useState("")

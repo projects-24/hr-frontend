@@ -324,8 +324,8 @@ const Edit = ()=>{
                 //   }).filter
             }
           {docs ? docs.filter(filt=>{
-             if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)"){
-                setdocs(getDocs)
+             if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)" || user.department === "Human resource"){
+                return docs
             }else if(user.position === "Director" || user.position === "Deputy Director" ){
                 if(filt.department === user.department){
                     return filt

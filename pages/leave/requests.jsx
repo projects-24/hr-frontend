@@ -117,163 +117,172 @@ const Edit = ()=>{
 
    })
 }
-  return (
-    <div className={print ? "" : "content"}>
-        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Select the users status.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            select
-            id="name"
-            label="Select user status"
-            type="email"
-            defaultValue={current ? current.status : ""}
-            fullWidth
-            onChange={(e)=>setuserStatus(e.target.value)}
-            variant="outlined"
-          >
-         <MenuItem value="leave">On Leave</MenuItem>
-                    <MenuItem value="field">On Field</MenuItem>
-                    <MenuItem value="post">On Post</MenuItem>
-            </TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={Edit}>Make Changes</Button>
-        </DialogActions>
-      </Dialog>
-        {
-        loading ? 
-        <Loader />
-        : ""
-        }
-        {
-            !print ?
-            <Nav />
-            : ""
-        }        {
-            !print ?
-        <div className="row">
-            <div className="col sm-12 md-6 lg-6 padding">
-            <div className="h1">Leave Requests</div>
-          <div className='text-bold section'>
-          Check all leave request and approvals
-         </div>
-   
-            </div>
-
-        </div>
-        :""
-        }
-
-        <div className="padding-top-20">
-        {
-            !print ?
-            <div>
-
-                {
-            !print ?
-        <div className="section row-flex fit space-between">
-            <div className="">
-       
-            </div>
-            <div className="padding-5 ">
-                <button className="button success text-white width-100-min" onClick={handlePrint}>
-            <i className="icon-printer"></i>    Print
-            </button>
-                </div>
-
-        </div>
-        :""
-                }
-                
-            </div>
-            :""}
-            <div className="padding-top-20">
-           {
-            print ?
-            <div className="h4 section text-center text-bold">Ghana Statistical Service Leave Requests</div> 
-            :""
-           }
-           <p> 
-            {
-
-            }
-           </p>
-           <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
-
-      <table className="table stripped" >
-        <thead>
-          <tr>
-            {/* <td style={{fontWeight:"bold"}} align="left">Full Name</td> */}
-            <td style={{fontWeight:"bold"}} align="left">Date</td>
-            <td style={{fontWeight:"bold"}} align="left">Deffered days</td>
-            <td style={{fontWeight:"bold"}} align="left">Number of days</td>
-            <td style={{fontWeight:"bold"}} align="left">Number of days remaining</td>
-            <td style={{fontWeight:"bold"}} align="left">officer taking over</td>
-            <td style={{fontWeight:"bold"}} align="left">Ressumption date</td>
-            <td style={{fontWeight:"bold"}} align="left"> Div head approval</td>
-            <td style={{fontWeight:"bold"}} align="left"> Sec head approval</td>
-            <td style={{fontWeight:"bold"}} align="left"> HR Approval</td>
-          </tr>
-        </thead>
-        <tbody>
-          {docs ? docs
-        //   .filter(filt=>{
-        //      if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)"){
-        //         setdocs(getDocs)
-        //     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-        //         if(filt.department === user.department){
-        //             return filt
-        //         }
-        //     }else if(user.position === "Sectional Head"){
-        //             if(filt.section === user.section){
-        //               return filt
-        //             }
-        //     }else if(user.position === "Unit Head"){
-        //         if(filt.section === user.unit){
-        //           return filt
-        //         }
-        //     }else{
-        //         getDocs.filter(filt =>{
-        //             if(filt.staffId === user.staffId){
-        //                 setdocs(filt)
-        //             }
-        //         }) 
-        //     }
-        //   })
-          .map((row) => (
-            <tr
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+  if(user){
+    return (
+      <div className={print ? "" : "content"}>
+          <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Select the users status.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              select
+              id="name"
+              label="Select user status"
+              type="email"
+              defaultValue={current ? current.status : ""}
+              fullWidth
+              onChange={(e)=>setuserStatus(e.target.value)}
+              variant="outlined"
             >
-              {/* <td component="th" scope="row">
-                {row.staffId}
-              </td> */}
-              <td align="left">{row.date_of_leave}</td>
-              <td align="left">{row.deferredDays}</td>
-              <td align="left">{row.number_of_days}</td>
-              <td align="left">{row.number_of_days_on_leave}</td>
-              <td align="left">{row.officerTakingover}</td>
-              <td align="left">{row.resumptionDate}</td>
-              <td align="left">{row.divisionalheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td>
-              <td align="left">{row.sectionheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td>
-              <td align="left">{row.hrdApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td>
-    
-            </tr>
-          ))
-        :""
-        }
-        </tbody>
-      </table>
+           <MenuItem value="leave">On Leave</MenuItem>
+                      <MenuItem value="field">On Field</MenuItem>
+                      <MenuItem value="post">On Post</MenuItem>
+              </TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={Edit}>Make Changes</Button>
+          </DialogActions>
+        </Dialog>
+          {
+          loading ? 
+          <Loader />
+          : ""
+          }
+          {
+              !print ?
+              <Nav />
+              : ""
+          }        {
+              !print ?
+          <div className="row">
+              <div className="col sm-12 md-6 lg-6 padding">
+              <div className="h1">Leave Requests</div>
+            <div className='text-bold section'>
+            Check all leave request and approvals
            </div>
-            </div>
-        </div>
-    </div>
-  )
+     
+              </div>
+  
+          </div>
+          :""
+          }
+  
+          <div className="padding-top-20">
+          {
+              !print ?
+              <div>
+  
+                  {
+              !print ?
+          <div className="section row-flex fit space-between">
+              <div className="">
+         
+              </div>
+              <div className="padding-5 ">
+                  <button className="button success text-white width-100-min" onClick={handlePrint}>
+              <i className="icon-printer"></i>    Print
+              </button>
+                  </div>
+  
+          </div>
+          :""
+                  }
+                  
+              </div>
+              :""}
+              <div className="padding-top-20">
+             {
+              print ?
+              <div className="h4 section text-center text-bold">Ghana Statistical Service Leave Requests</div> 
+              :""
+             }
+           
+             <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
+  
+        <table className="table stripped" >
+          <thead>
+            <tr>
+              {/* <td style={{fontWeight:"bold"}} align="left">Full Name</td> */}
+              <td style={{fontWeight:"bold"}} align="left">Date</td>
+              <td style={{fontWeight:"bold"}} align="left">Deffered days</td>
+              <td style={{fontWeight:"bold"}} align="left">Number of days</td>
+              <td style={{fontWeight:"bold"}} align="left">Number of days remaining</td>
+              <td style={{fontWeight:"bold"}} align="left">officer taking over</td>
+              <td style={{fontWeight:"bold"}} align="left">Ressumption date</td>
+              <td style={{fontWeight:"bold"}} align="left"> Div head approval</td>
+              {
+                user.position === "Sectional Head" ?
+              <td style={{fontWeight:"bold"}} align="left"> Sec head approval</td>
+              :""
+              }
+              {
+                user.department === "Human resource" ?
+                <td style={{fontWeight:"bold"}} align="left"> HR Approval</td>
+                :""
+              }
+            </tr>
+          </thead>
+          <tbody>
+            {docs ? docs
+          //   .filter(filt=>{
+          //      if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)"){
+          //         setdocs(getDocs)
+          //     }else if(user.position === "Director" || user.position === "Deputy Director" ){
+          //         if(filt.department === user.department){
+          //             return filt
+          //         }
+          //     }else if(user.position === "Sectional Head"){
+          //             if(filt.section === user.section){
+          //               return filt
+          //             }
+          //     }else if(user.position === "Unit Head"){
+          //         if(filt.section === user.unit){
+          //           return filt
+          //         }
+          //     }else{
+          //         getDocs.filter(filt =>{
+          //             if(filt.staffId === user.staffId){
+          //                 setdocs(filt)
+          //             }
+          //         }) 
+          //     }
+          //   })
+            .map((row) => (
+              <tr
+                key={row.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                {/* <td component="th" scope="row">
+                  {row.staffId}
+                </td> */}
+                <td align="left">{row.date_of_leave}</td>
+                <td align="left">{row.deferredDays}</td>
+                <td align="left">{row.number_of_days}</td>
+                <td align="left">{row.number_of_days_on_leave}</td>
+                <td align="left">{row.officerTakingover}</td>
+                <td align="left">{row.resumptionDate}</td>
+                <td align="left">{row.divisionalheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td>
+                { user.position === "Sectional Head" ? <td align="left"> {row.sectionheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />} </td> : ""}
+               {user.department === "Human resource" ? <td align="left">{row.hrdApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td> :""}
+      
+              </tr>
+            ))
+          :""
+          }
+          </tbody>
+        </table>
+             </div>
+              </div>
+          </div>
+      </div>
+    )
+  }else{
+
+    return ""
+  }
 }

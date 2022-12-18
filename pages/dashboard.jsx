@@ -49,7 +49,7 @@ export default function Dashboard() {
 const [data, setdata] = useState(null)
 
   useEffect(()=>{
-    if(docs && !data){
+    if(docs){
       setpost(
         docs.filter(doc=>{
           if(doc.status.toString().trim() === "post"){
@@ -114,7 +114,7 @@ const [data, setdata] = useState(null)
       <div className='content'>
           <Nav />
     
-          <div cl assName="">
+          <div className="">
               <div className="h1 p-text">Dashboard And Analytics</div>
               <p>
               <div className="h4">

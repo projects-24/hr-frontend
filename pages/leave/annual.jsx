@@ -62,7 +62,7 @@ export default function Annual() {
         number_of_days_on_leave:days_remaining,
         officerTakingover:officer_taking_over,
         resumptionDate: resumption_date,
-        staffDetails:user
+        staffDetails:user._id
     }
 
 

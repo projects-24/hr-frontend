@@ -117,6 +117,26 @@ const Edit = ()=>{
 
    })
 }
+
+const divHead = (doc)=>{
+  setloading(true)
+  Axios.patch(endPoint + "/annualleave/update/" + doc._id , {divisionalheadApproval: true},
+  {
+    headers:{
+      authorization:`Bearer ${token}`
+    }
+  }
+  )
+.then(()=>{
+alert("Success")
+setloading(false)
+setdocs(null)
+
+}).catch(err=>{
+  alert(err.message)
+  setloading(false)  
+})
+}
   if(user){
     return (
       <div className={print ? "" : "content"}>
@@ -266,9 +286,9 @@ const Edit = ()=>{
                 <td align="left">{row.number_of_days_on_leave}</td>
                 <td align="left">{row.officerTakingover}</td>
                 <td align="left">{row.resumptionDate}</td>
-                <td align="left">{row.divisionalheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td>
-                { user.position === "Sectional Head" ? <td align="left"> {row.sectionheadApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />} </td> : ""}
-               {user.department === "Human resource" ? <td align="left">{row.hrdApproval ? <i className="lni lni-checkmark text-success" /> : <i className="lni lni-close text-red" />}</td> :""}
+                <td align="left" className="button" onClick={()=>divHead(row)}>{row.divisionalheadApproval ? <i className="lni lni-checkmark text-success" /> : "pending"}</td>
+                { user.position === "Sectional Head" ? <td align="left"> {row.sectionheadApproval ? <i className="lni lni-checkmark text-success" /> : "pending"} </td> : ""}
+               {user.department === "Human resource" ? <td align="left">{row.hrdApproval ? <i className="lni lni-checkmark text-success" /> : "pending"}</td> :""}
       
               </tr>
             ))

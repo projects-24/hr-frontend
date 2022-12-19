@@ -18,7 +18,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 // import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import Departments from "../../data/departments"
 import Sections from "../../data/sections"
 import TextField  from '@mui/material/TextField';
@@ -29,6 +28,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -47,7 +47,7 @@ export default function Profiling() {
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
     const [docs, setdocs] = useState(null)
-
+    
     const handleClose = () => {
       setOpen(false);
     };
@@ -139,8 +139,10 @@ const Edit = ()=>{
 
    })
 }
+
   return (
     <div className={print ? "" : "content"}>
+   
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
         <DialogContent>

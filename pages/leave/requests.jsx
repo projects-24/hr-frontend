@@ -227,7 +227,8 @@ setdocs(null)
         <table className="table stripped" >
           <thead>
             <tr>
-              {/* <td style={{fontWeight:"bold"}} align="left">Full Name</td> */}
+              <td style={{fontWeight:"bold"}} align="left">staffId</td>
+              <td style={{fontWeight:"bold"}} align="left">Full Name</td>
               <td style={{fontWeight:"bold"}} align="left">Date</td>
               <td style={{fontWeight:"bold"}} align="left">Deffered days</td>
               <td style={{fontWeight:"bold"}} align="left">Number of days</td>
@@ -277,9 +278,12 @@ setdocs(null)
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                {/* <td component="th" scope="row">
-                  {row.staffId}
-                </td> */}
+                <td component="th" scope="row">
+{row.staffDetails.staffId}
+                </td>
+                <td component="th" scope="row">
+{row.staffDetails.surname} {row.staffDetails.middleName} {row.staffDetails.lastName}
+                </td>
                 <td align="left">{row.date_of_leave}</td>
                 <td align="left">{row.deferredDays}</td>
                 <td align="left">{row.number_of_days}</td>

@@ -207,10 +207,16 @@ const Edit = ()=>{
         {
             !print ?
             <div>
+                <div className= 'section'>
+            <div className="h1">Staff Profiling</div>
+          <div className='text-bold section'>
+          Check all staffs, add and edit staff details and profile
+         </div>
+        </div>
 
-                <div className="row padding border section fit shadow">
-                    <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER </div>
-                <div className="padding-5 col sm-12 md-2 lg-2">
+                <div className="row padding border section fit">
+                    <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER DATA</div>
+                <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth label="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
                         <MenuItem value="">All Departments</MenuItem>
                         {
@@ -221,7 +227,7 @@ const Edit = ()=>{
                         }
                     </TextField>
                 </div>
-                <div className="padding-5 col sm-12 md-2 lg-2">
+                <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth label="Section" select name="" id=""  onChange={(e)=>setsection(e.target.value)}>
                         <MenuItem value="">All Sections</MenuItem>
                         {
@@ -232,7 +238,7 @@ const Edit = ()=>{
                         }
                     </TextField>
                 </div>
-                <div className="padding-5 col sm-12 md-2 lg-2">
+                <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth defaultValue={""} label="Employment Status" select name="" id=""  onChange={(e)=>setemployment(e.target.value)}>
                         <MenuItem value="">All</MenuItem>
                         <MenuItem value="permanent">Permanent</MenuItem>
@@ -308,7 +314,7 @@ const Edit = ()=>{
             <TableCell style={{fontWeight:"bold"}} align="left">Grade</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="left">Section</TableCell>
             <TableCell style={{fontWeight:"bold"}} align="left">Employment Status</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left"> Status</TableCell>
+            {/* <TableCell style={{fontWeight:"bold"}} align="left"> Status</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -331,7 +337,10 @@ const Edit = ()=>{
                 //   }).filter
             }
           {docs ? docs.filter(filt=>{
-             if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)" || user.department === "Human resource"){
+             if(user.position === "Government Statistician (CEO)"
+              || user.position === "Deputy Gov Statistician (DGS)"
+               || user.department === "Human resource"
+               ){
                 return docs
             }else if(user.position === "Director" || user.position === "Deputy Director" ){
                 if(filt.department === user.department){
@@ -352,7 +361,24 @@ const Edit = ()=>{
                     }
                 }) 
             }
-          }).map((row) => (
+          })
+                .filter(doc=>{
+                    if(search === "" && 
+                    department  === "" && 
+                    section  === "" && 
+                    employment  === ""
+                    ){
+                        return docs
+                    }else if(
+                        search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
+                        department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
+                        section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
+                        employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
+                    ){
+                        return doc
+                    }
+                  })
+          .map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -365,11 +391,11 @@ const Edit = ()=>{
               <TableCell align="left">{row.grade}</TableCell>
               <TableCell align="left">{row.section}</TableCell>
               <TableCell align="left">{row.employmentStatus}</TableCell>
-              <TableCell align="left">
+              {/* <TableCell align="left">
              <div className="avatar" onClick={()=>handleStatus(row)}>
               {row.status  === "post" ? <i className="lni lni-checkmark text-success"></i> : row.status  === "leave" ? <i className="lni lni-close text-danger"></i> : row.status  === "field" ? <i className="lni lni-checkmark text-info"></i> : ""}
              </div>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))
         :""

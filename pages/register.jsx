@@ -8,6 +8,7 @@ import departments from "../data/departments";
 import Loader from './../components/loader';
 import sections from "../data/sections"
 import grades from "../data/grades"
+import jobTitles from "../data/jobTitles"
 import Super from "../data/super";
 import positions from "../data/positions";
 import TextField  from '@mui/material/TextField';
@@ -53,6 +54,7 @@ const grade = current["grade"].value
 const department = current["department"].value
 const section = current["section"].value
 const position = current["position"].value
+const jobTitle = current["jobtitle"].value
 const employmentStatus = current["employmentStatus"].value
 
 if(email){
@@ -68,52 +70,52 @@ middleName:middleName,
 firstName:firstName,
 position:position,
 grade:grade,
-// gender:"",
-// address: "",
-// nationality:"",
-// ghanaCard:"",
-// ssnitNumber:"",
-// contact: "",
-// dob: "",
-// maritalStatus:"",
-// spouse:"",
-// availableChildren:"",
-// numberChildren:"",
-// nextKin:"",
-// nextKin_Relation:"",
-// nextKin_Tel: "",
-// nextKin_Address:"",
+gender:"",
+address: "",
+nationality:"",
+ghanaCard:"",
+ssnitNumber:"",
+contact: "",
+dob: "",
+maritalStatus:"",
+spouse:"",
+availableChildren:"",
+numberChildren:"",
+nextKin:"",
+nextKin_Relation:"",
+nextKin_Tel: "",
+nextKin_Address:"",
 department:department,
 section:section,
-// region:"",
-// jobTitle:"",
-// grade:"",
+region:"",
+jobTitle:jobTitle,
+grade:"",
 employmentStatus:employmentStatus,
-// appointDate:"",
-// salaryLevel: "",
+appointDate:"",
+salaryLevel: "",
 status:"field",
-// passportNumber:"",
-// passportIssueDate:"",
-// placeIssue:"",
-// crimeConvict: "",
-// detailReason: "",
-// dismissedPublicService:"",
-// publicServiceReason: "" ,
-// father_fullName:"",
-// father_occupation: "",
-// father_nationality:"",
-// father_placeofBirth:"",
-// father_alive_or_dead:"",
-// mother_fullName:"",
-// mother_occupation:"",
-// mother_nationality:"",
-// mother_placeofBirth: "",
-// mother_alive_or_dead: "",
-// schoolname: "",
-// yearFrom: "",
-// yearTo: "",
-// type_of_certificate:"",
-// particulars: "",
+passportNumber:"",
+passportIssueDate:"",
+placeIssue:"",
+crimeConvict: false,
+detailReason: "",
+dismissedPublicService:false,
+publicServiceReason: "" ,
+father_fullName:"",
+father_occupation: "",
+father_nationality:"",
+father_placeofBirth:"",
+father_alive_or_dead:"",
+mother_fullName:"",
+mother_occupation:"",
+mother_nationality:"",
+mother_placeofBirth: "",
+mother_alive_or_dead: "",
+schoolname: "",
+yearFrom: "",
+yearTo: "",
+type_of_certificate:"",
+particulars: "",
 editfield:true
 }
 ,   {
@@ -150,7 +152,7 @@ user.position === "Director"
         <div className="message">
          {
             message ?
-            <setmessage type="info" message={message}/>
+            <Alert type="info" message={message}/>
             :""
          }
          </div>
@@ -226,6 +228,7 @@ user.position === "Director"
                         <MenuItem value="Dr.">Dr.</MenuItem>
                         <MenuItem value="Mr">Mr</MenuItem>
                         <MenuItem value="Mrs">Mrs</MenuItem>
+                        <MenuItem value="Ms">Ms</MenuItem>
                         <MenuItem value="Miss">Miss</MenuItem>
                     </TextField>
             </div>
@@ -271,6 +274,15 @@ user.position === "Director"
                     {
                         positions.map(docs=>(
                             <MenuItem value={`${docs.position}`} key={docs.position}> {docs.position}</MenuItem>
+                        ))
+                    }
+                    </TextField>
+            </div>
+            <div className="col sm-12 md-12 lg-12 padding">
+            <TextField fullWidth type="text" select label="Job Title" name='jobtitle' variant="outlined">
+                    {
+                        jobTitles.map(docs=>(
+                            <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>
                         ))
                     }
                     </TextField>

@@ -181,26 +181,26 @@ const Edit = ()=>{
             <Nav />
             : ""
         }        {
-            !print ?
-        <div className="row">
-            <div className="col sm-12 md-6 lg-6 padding">
-            <div className="h1">Staff Profiling</div>
-          <div className='text-bold section'>
-          Check all staffs, add and edit staff details and profile
-         </div>
-         <div className="section">
-            <Link href="/dashboard">
-               <div class="padding-top-10 text-bold p-text">
-                <i className="icon-grid"></i> BACK TO DASHBOARD
-               </div>
-            </Link>
-         </div>
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding hide-small">
-                <img src="/collaborate.svg" className='fit' alt="" />
-            </div>
-        </div>
-        :""
+        //     !print ?
+        // <div className="row">
+        //     <div className="col sm-12 md-6 lg-6 padding">
+        //     <div className="h1">Staff Profiling</div>
+        //   <div className='text-bold section'>
+        //   Check all staffs, add and edit staff details and profile
+        //  </div>
+        //  <div className="section">
+        //     <Link href="/dashboard">
+        //        <div class="padding-top-10 text-bold p-text">
+        //         <i className="icon-grid"></i> BACK TO DASHBOARD
+        //        </div>
+        //     </Link>
+        //  </div>
+        //     </div>
+        //     <div className="col sm-12 md-6 lg-6 padding hide-small">
+        //         <img src="/collaborate.svg" className='fit' alt="" />
+        //     </div>
+        // </div>
+        // :""
         }
 
         <div className="padding-top-20">
@@ -270,9 +270,14 @@ const Edit = ()=>{
        
             </div>
             <div className="padding-5 ">
-                <button className="button success text-white width-100-min" onClick={handlePrint}>
+            <button className="button info text-white width-100-min" onClick={handlePrint}>
             <i className="icon-printer"></i>    Print
             </button>
+           <Link href="/register">
+           <button className="button success text-white width-100-min">
+            <i className="icon-user"></i> New Account
+            </button>
+            </Link>
                 </div>
 
         </div>

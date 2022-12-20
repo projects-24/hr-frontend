@@ -2,10 +2,24 @@ import Link from "next/link";
 import { useEffect ,useState} from "react";
 import Loader from './loader';
 import Super from "../data/super"
+import TextField  from '@mui/material/TextField';
+import  MenuItem  from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 const Nav = () => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
   const [user, setuser] = useState("")  
+  const [dropTrigger, setdropTrigger] = useState(false)
+  const [open, setOpen] = useState(false)
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(() => {
     if(localStorage.getItem("token") && !user ){
       setuser(
@@ -76,9 +90,64 @@ const LogOut = ()=>{
     window.location.assign("/")
   })
 }
+
+const handleDrop = (e)=>{
+      e.target.parentNode.children[1].classList.toggle("hidden");
+      // e.target.children[0].classList.toggle("rotate");
+  
+}
+const handleLeave = (e)=>{
+  const val =  e.target.value
+ switch (val) {
+  case "annual":
+    window.location.assign("/leave/annual")
+    break;
+ 
+  case "maternity":
+    window.location.assign("/leave/maternity")
+    break;
+ 
+  case "study":
+    window.location.assign("/leave/study")
+    break;
+ 
+  case "casual":
+    window.location.assign("/leave/casual")
+    break;
+ 
+  default:
+    break;
+ }
+}
 if(user){
   return ( 
     <div>
+           <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Leave Planing</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Select the the type of leave you seek to plan
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            select
+            id="name"
+            label="Select leave type"
+            fullWidth
+            onChange={handleLeave}
+            variant="outlined"
+          >
+         <MenuItem value="annual">Annual</MenuItem>
+                    <MenuItem value="maternity">Maternity</MenuItem>
+                    <MenuItem value="casual">Casual</MenuItem>
+                    <MenuItem value="study">Study</MenuItem>
+            </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
             <div className="navigationBar">
     <div>
      <span className="logo">
@@ -89,14 +158,9 @@ if(user){
 
     </div>
     <div>
-    <div className='sideLink' onClick={LogOut}>
-        <i className="icon-logout"></i> Logout
-        </div>
-    </div>
-  </div>
-  <div className="leaveSidebar">
-
-    <div className="">
+    <div className="context" id="dropContext">
+    <a className="dropdown text-bold" onClick={handleDrop}>{user.surname} {user.firstName}<i className="lni lni-chevron-down"></i></a>
+    <ul className="hidden">
     <Link href="/account">
         <div className='sideLink'>
         <i className="icon-user"></i> My Account
@@ -107,8 +171,18 @@ if(user){
         <i className="icon-shield"></i> Change password
         </div>
     </Link>
+    <li className="divisor"></li>
+        <div className='sideLink' onClick={LogOut}>
+        <i className="icon-logout"></i> Logout
+        </div>
+    </ul>
+</div>
 
-  <div className="section hr"></div>
+    </div>
+  </div>
+  <div className="leaveSidebar">
+
+    <div className="">
 {
   user.position === "Director" 
  || user.position === "Government Statistician (CEO)" 
@@ -122,21 +196,12 @@ if(user){
         <i className="icon-graph"></i> Dashboard
         </div>
       </Link>
-    <Link href="/register">
-        <div className='sideLink'>
-        <i className="icon-user"></i> New Account
-        </div>
-      </Link>
+
       <div className="section hr"></div>
 
     <Link href="/staff/profiling">
         <div className='sideLink'>
         <i className="lni lni-users"></i> Staff Profiling
-        </div>
-      </Link>
-    <Link href="/form/personal">
-        <div className='sideLink'>
-        <i className="lni lni-user"></i> New Staff
         </div>
       </Link>
       <div className="section hr"></div>
@@ -150,29 +215,12 @@ if(user){
         <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
         </div>
         <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <Link href="/leave/annual">
-        <div className='sideLink'>
-        <i className="icon-user"></i> Annual Leave
+        <div className='sideLink' onClick={()=>setOpen(true)}>
+        <i className="icon-check"></i> Leave Planing
         </div>
-      </Link>
-      <Link href="/leave/maternity">
-        <div className='sideLink'>
-        <i className="icon-login"></i> Maternity Leave
-        </div>
-      </Link>
-      <Link href="/leave/casual">
-        <div className='sideLink'>
-        <i className="icon-grid"></i> Casual Leave
-        </div>
-      </Link>
-      <Link href="/leave/study">
-        <div className='sideLink'>
-        <i className="icon-check"></i> Study Leave
-        </div>
-      </Link>
       <Link href="/leave/requests">
         <div className='sideLink'>
-        <i className="icon-check"></i>  Leave Requests
+        <i className="lni lni-bolt"></i>  Leave Requests
         </div>
       </Link>
         </div>

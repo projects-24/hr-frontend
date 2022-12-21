@@ -49,7 +49,6 @@ const title = current["title"].value
 const firstName = current["firstName"].value
 const surName = current["surname"].value
 const middleName = current["middlename"].value
-
 const grade = current["grade"].value
 const department = current["department"].value
 const section = current["section"].value

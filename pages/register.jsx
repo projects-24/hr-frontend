@@ -205,15 +205,6 @@ user.position === "Director"
             <div className="col sm-12 md-6 lg-6 padding">
                 <TextField fullWidth
                 type="text"
-                name="surname"
-                variant="outlined"
-                id=""
-                label="Surname"
-                />
-            </div>
-            <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth
-                type="text"
                 name="middlename"
                 variant="outlined"
                 id=""
@@ -221,8 +212,17 @@ user.position === "Director"
                 />
             </div>
             <div className="col sm-12 md-6 lg-6 padding">
+                <TextField fullWidth
+                type="text"
+                name="surname"
+                variant="outlined"
+                id=""
+                label="Last Name"
+                />
+            </div>
+    
+            <div className="col sm-12 md-6 lg-6 padding">
             <TextField fullWidth type="text" select label="Title" name='title' variant="outlined" >
-                        <MenuItem value="">Title</MenuItem>
                         <MenuItem value="Prof">Prof</MenuItem>
                         <MenuItem value="Dr.">Dr.</MenuItem>
                         <MenuItem value="Mr">Mr</MenuItem>

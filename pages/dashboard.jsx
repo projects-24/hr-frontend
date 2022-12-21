@@ -49,37 +49,11 @@ export default function Dashboard() {
 const [data, setdata] = useState(null)
 
   useEffect(()=>{
-    if(docs){
-      setpost(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "post"){
-         return doc
-          }
-        }).length
-      )
+    if(docs && !data){
+     new Promise((resolve, reject)=>{
 
-
-   
-      setleave(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "leave"){
-         return doc
-          }
-        }).length
-      )
-
-
-   
-      setfield(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "field"){
-         return doc
-          }
-        }).length
-      )
-
-
-   
+      resolve()
+     }).then(()=>{
 
       setdata([
         {
@@ -88,19 +62,31 @@ const [data, setdata] = useState(null)
         },
         {
           name: 'At Post',
-          number: post,
+          number:docs.filter(doc=>{
+            if(doc.status.toString().trim() === "post"){
+           return doc
+            }
+          }).length,
         },
         {
           name: 'On Leave',
-          number: leave,
+          number:docs.filter(doc=>{
+            if(doc.status.toString().trim() === "leave"){
+           return doc
+            }
+          }).length,
         },
         {
           name: 'On Field',
-          number: field,
+          number:docs.filter(doc=>{
+            if(doc.status.toString().trim() === "field"){
+           return doc
+            }
+          }).length,
         }
         
       ])
-
+     })
     }
   })
  if(user && docs){

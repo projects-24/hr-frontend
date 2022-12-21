@@ -16,7 +16,7 @@ export default [
     }
     ,
     {
-        grade:"Assistannt Chief"
+        grade:"Assistant Chief"
     }
     ,
     {

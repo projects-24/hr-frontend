@@ -14,7 +14,9 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
-
+.padding-5{
+  padding:5px !important;
+}
 /* loader */
 .loadContainer{
     min-height: 100vh;

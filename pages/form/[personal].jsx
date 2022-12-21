@@ -30,8 +30,9 @@ export default function Personal() {
     const [childDate, setchildDate] = useState("")
     const [childrens, setchildrens] = useState([])    
     const [getChildrens, setgetChildrens] = useState(true)
+    
     useEffect(() => {
-        if(sessionStorage.getItem("childrens") && setgetChildrens){
+        if(sessionStorage.getItem("childrens") && getChildrens){
             setchildrens(
                 JSON.parse(
                     sessionStorage.getItem("childrens")
@@ -504,7 +505,7 @@ export default function Personal() {
                     selectedGrade === "Officer" ? "18L" :
                     selectedGrade === "Senior" ? "19" :
                     selectedGrade === "Principal" ? "20" :
-                    selectedGrade === "Assistannt Chief" ? "21" :
+                    selectedGrade === "Assistant Chief" ? "21" :
                     selectedGrade === "Chief" ? "22" : ""
 
                 } name='salary' fullWidth disabled />

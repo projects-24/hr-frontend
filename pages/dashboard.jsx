@@ -48,61 +48,61 @@ export default function Dashboard() {
           
 const [data, setdata] = useState(null)
 
-  useEffect(()=>{
-    if(docs){
-      setpost(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "post"){
-         return doc
-          }
-        }).length
-      )
+  // useEffect(()=>{
+  //   if(docs){
+  //     setpost(
+  //       docs.filter(doc=>{
+  //         if(doc.status.toString().trim() === "post"){
+  //        return doc
+  //         }
+  //       }).length
+  //     )
 
 
    
-      setleave(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "leave"){
-         return doc
-          }
-        }).length
-      )
+  //     setleave(
+  //       docs.filter(doc=>{
+  //         if(doc.status.toString().trim() === "leave"){
+  //        return doc
+  //         }
+  //       }).length
+  //     )
 
 
    
-      setfield(
-        docs.filter(doc=>{
-          if(doc.status.toString().trim() === "field"){
-         return doc
-          }
-        }).length
-      )
+  //     setfield(
+  //       docs.filter(doc=>{
+  //         if(doc.status.toString().trim() === "field"){
+  //        return doc
+  //         }
+  //       }).length
+  //     )
 
 
    
 
-      setdata([
-        {
-          name: 'All Staffs',
-          number: docs ? docs.length : "",
-        },
-        {
-          name: 'At Post',
-          number: post,
-        },
-        {
-          name: 'On Leave',
-          number: leave,
-        },
-        {
-          name: 'On Field',
-          number: field,
-        }
+  //     setdata([
+  //       {
+  //         name: 'All Staffs',
+  //         number: docs ? docs.length : "",
+  //       },
+  //       {
+  //         name: 'At Post',
+  //         number: post,
+  //       },
+  //       {
+  //         name: 'On Leave',
+  //         number: leave,
+  //       },
+  //       {
+  //         name: 'On Field',
+  //         number: field,
+  //       }
         
-      ])
+  //     ])
 
-    }
-  })
+  //   }
+  // })
  if(user && docs){
   if(user.position === "Director" 
   || user.position === "Government Statistician (CEO)" 
@@ -133,7 +133,7 @@ const [data, setdata] = useState(null)
                               All staffs
                           </div>
                           <div className="h4 text-success">
-                            {docs.length}
+                            {/* {docs.length} */}
                           </div>
                       </div>
                   </div>
@@ -144,11 +144,11 @@ const [data, setdata] = useState(null)
                               On post
                           </div>
                           <div className="h4 text-success">
-                          {docs.filter(doc=>{
+                          {/* {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "post"){
                               return doc
                             }
-                          }).length}
+                          }).length} */}
                           </div>
                       </div>
                   </div>
@@ -159,11 +159,11 @@ const [data, setdata] = useState(null)
                               On leave
                           </div>
                           <div className="h4 text-success">
-                          {docs.filter(doc=>{
+                          {/* {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "leave"){
                               return doc
                             }
-                          }).length}
+                          }).length} */}
                           </div>
                       </div>
                   </div>
@@ -175,11 +175,11 @@ const [data, setdata] = useState(null)
                                On Field
                           </div>
                           <div className="h4 text-success"> 
-                            {docs.filter(doc=>{
+                            {/* {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "field"){
                               return doc
                             }
-                          }).length}
+                          }).length} */}
                           </div>
                       </div>
                   </div>

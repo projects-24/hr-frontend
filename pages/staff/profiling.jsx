@@ -284,6 +284,11 @@ const Edit = ()=>{
             <i className="icon-user"></i> New Account
             </button>
             </Link>
+           <Link href="/form/personal">
+           <button className="button indigo text-white width-100-min">
+           <i className="lni lni-user"></i> New Staff
+            </button>
+            </Link>
                 </div>
 
         </div>

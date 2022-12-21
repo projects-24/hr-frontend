@@ -9,21 +9,37 @@ import { useEffect } from 'react';
 import departments from '../../data/departments';
 import sections from "../../data/sections"
 import regions from '../../data/regions';
+import jobTitles from "../../data/jobTitles"
 import { useRouter } from 'next/router';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import grades from "../../data/grades"
 export default function Personal() {
     const [crime, setcrime] = useState(false)
     const [dismissed, setdismissed] = useState(false)
     const [loader, setloader] = useState(false)
     const [token, settoken] = useState("")
     const [marital, setmarital] = useState("")
-    const [childrens, setchildrens] = useState("")
+    // const [childrens, setchildrens] = useState("")
     const [crimereason, setcrimereason] = useState("")
     const [servicereason, setservicereason] = useState("")
     const [user, setuser] = useState(null)
-    const [selectedDepartment, setselectedDepartment] = useState("")
-
+    const [selectedGrade, setselectedGrade] = useState("")
+    const [child, setchild] = useState("")
+    const [childNumber, setchildNumber] = useState(0)
+    const [childDate, setchildDate] = useState("")
+    const [childrens, setchildrens] = useState([])    
+    const [getChildrens, setgetChildrens] = useState(true)
+    useEffect(() => {
+        if(sessionStorage.getItem("childrens") && setgetChildrens){
+            setchildrens(
+                JSON.parse(
+                    sessionStorage.getItem("childrens")
+                )
+            )
+            setgetChildrens(false)
+        }
+    })
     useEffect(() => {
         if(!user){
             if(localStorage.getItem("user")){
@@ -50,10 +66,6 @@ export default function Personal() {
         }
     })
     
-    // handle section
-    useEffect(()=>{
-        const current = form.current
-    })
 
     const submitData = (e)=>{
         setloader(true)
@@ -96,13 +108,13 @@ export default function Personal() {
         const employmentStatus = current["grade"].value
         const appointDate = current["grade"].value
         const salary = current["salary"].value
-        const status = current["status"].value
+        // const status = current["status"].value
 
 
         //passport
-        const passport = current["passport"].value
-        const passportIssueDate = current["passportdate"].value
-        const passportplace = current["passportplace"].value
+        // const passport = current["passport"].value
+        // const passportIssueDate = current["passportdate"].value
+        // const passportplace = current["passportplace"].value
 
         //other
         const crime = current["crime"].value
@@ -163,10 +175,10 @@ export default function Personal() {
         employmentStatus:employmentStatus,
         appointDate:appointDate,
         salaryLevel: salary,
-        status:status,
-        passportNumber:passport,
-        passportIssueDate:passportIssueDate,
-        placeIssue:passportplace,
+        // status:status,
+        passportNumber:"",
+        passportIssueDate:"",
+        placeIssue:"",
        crimeConvict: crime,
        detailReason: crimereason,
        dismissedPublicService:service,
@@ -192,7 +204,7 @@ export default function Personal() {
         const proceed = prompt("Make sure all details are correct. Type Yes to proceed and No to quite");
         if(proceed){
             if(proceed.toString().trim().toLowerCase() === "yes"){
-                Axios.patch(endPoint + "/staff/updatestaff/" + personal,
+                Axios.post(endPoint + "/staff/register/",
                 data,
                 {
                  headers: {
@@ -202,7 +214,7 @@ export default function Personal() {
                     
                 }
                 ).then(()=>{
-                   alert("successfully updated")
+                   alert("new staff added successfully")
                setloader(false)
        
                }).catch(err=>{
@@ -218,6 +230,24 @@ export default function Personal() {
             setloader(false)
         }
     }
+
+    const handleChild = (e)=>{
+        e.preventDefault()
+       if(child && childDate){
+        new Promise((resolve , reject)=>{
+            childrens.push({id:childrens.length + 1,child:child, dob:childDate})
+            resolve()
+        }).then(()=>{
+            sessionStorage.setItem("childrens" , JSON.stringify(childrens))
+            setchild("")
+            setchildDate("")
+            setgetChildrens(true)
+        })
+
+       }else{
+        alert("Make sure to enter child name and date of birth")
+       }
+    }
  if(user){
     return (
         <div className='content'>
@@ -229,11 +259,11 @@ export default function Personal() {
             }
                        <div className="row">
                 <div className="col sm-12 md-8 lg-8 padding">
-                <div className="h1 p-text">Personal Records Form</div>
+                <div className="h1 p-text">Register Staff</div>
                 <div className='section'>Make sure to enter all details before submitting</div>
                 </div>
                 <div className="col sm-12 md-4 lg-4 padding">
-                    <img src="/profiling.svg"  className='fit' alt="" />
+                    <img src="/connect.svg"  className='fit' alt="" />
                 </div>
             </div>
     
@@ -246,25 +276,25 @@ export default function Personal() {
                     <div className="h4"><img src="/hand/person.svg" className="height-50"/> Personal Details</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="text" defaultValue={user.staffId} name='id' fullWidth label='Staff ID' />
+                <TextField variant="outlined" type="text"  name='id' fullWidth label='Staff ID' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" defaultValue={user.surname}  type="text" name='surname' fullWidth label='Surname' />
+                <TextField variant="outlined"  type="text" name='firstName' fullWidth label='First Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" defaultValue={user.firstName} type="text" name='firstName' fullWidth label='First Name' />
+                <TextField variant="outlined"  type="text" name='middlename' fullWidth label='Middle Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" defaultValue={user.middleName} type="text" name='middlename' fullWidth label='Middle Name' />
+                <TextField variant="outlined" type="text" name='surname' fullWidth label='Last Name' />
                 </div>
-    
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" defaultValue={user.title} name='title'  >
+                <TextField select fullWidth type="text" name='title'  >
                     <MenuItem value="">Title</MenuItem>
                     <MenuItem value="Prof">Prof</MenuItem>
                     <MenuItem value="Dr.">Dr.</MenuItem>
                     <MenuItem value="Mr">Mr</MenuItem>
                     <MenuItem value="Mrs">Mrs</MenuItem>
+                    <MenuItem value="Ms">Ms</MenuItem>
                     <MenuItem value="Miss">Miss</MenuItem>
                 </TextField>
                 </div>       
@@ -276,10 +306,10 @@ export default function Personal() {
                 <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='ghanaCard' fullWidth label='Ghana Card' />
+                <TextField variant="outlined" type="text" name='ghanaCard' fullWidth label='Ghana Card Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='ssnitNumber' fullWidth label='SSNIT' />
+                <TextField variant="outlined" type="text" name='ssnitNumber' fullWidth label='SSNIT Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='tel' fullWidth label='Tel Number' />
@@ -296,7 +326,7 @@ export default function Personal() {
                 <TextField variant="outlined" fullWidth type="date" name='dob'  />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 padding-top-20"><img src="/hand/underline.svg" className="height-50"/> Marital Details</div>
+                    <div className="h4 padding-top-20"><img src="/hand/underline.svg" className="width-50"/> Marital Details</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="maritalStatus" id="" label="Marital Status" onChange={(e)=>setmarital(e.target.value)}>
@@ -313,7 +343,9 @@ export default function Personal() {
                 marital === "married" || marital === "widow" || marital === "Co-Habition" ?
                 <TextField variant="outlined" type="text" name='spouse' fullWidth label='Name Of Spouse' />
                 :
-                <TextField variant="outlined" disabled type="text" name='spouse' fullWidth label='Name Of Spouse' />
+              <div style={{opacity:0}}>
+                  <TextField variant="outlined" disabled type="text" name='spouse' fullWidth label='Name Of Spouse' />
+                  </div>
                }
                 {/* disable is divoced or single */}
                 </div>
@@ -354,7 +386,7 @@ export default function Personal() {
                     <div className="h4 padding-top-20"><img src="/hand/undraw_check.svg" className="height-50"/> Department Details</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" label="Department" defaultValue={user.department} name='department' >
+                <TextField select fullWidth type="text" label="Department"  name='department' >
                 {
                     departments.map(docs=>(
                         <MenuItem value={docs.department} key={docs.department}>{docs.department}</MenuItem>
@@ -363,7 +395,7 @@ export default function Personal() {
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" name='section' label="Section" defaultValue={user.section} >
+                <TextField select fullWidth type="text" name='section' label="Section" >
                     {
                         sections.map(docs=>(
                             <MenuItem value={`${docs.section}`} key={docs.section}> {docs.section}</MenuItem>
@@ -371,7 +403,7 @@ export default function Personal() {
                     }
                     </TextField>
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="col sm-12 md-12 lg-12 padding">
                 <TextField select fullWidth name="region" id="region" label="Region">
                             {
                                 regions.map(docs=>(
@@ -381,15 +413,105 @@ export default function Personal() {
                         </TextField>
                 </div>
                 
+                <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4 padding-top-20"><img src="/hand/underline.svg" className="width-50"/> Dependency</div>
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField variant="outlined" type="number"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                </div>
+                {
+                    childNumber > 0 ?
+                    <div className="col sm-12 md-6 lg-6 padding">
+                    <TextField variant="outlined" type="text"  fullWidth label='Name Of Child' onChange={(e)=>setchild(e.target.value)} />
+                    </div>
+                    :""
+                }
+                {
+                    childNumber > 0 ?
+                    <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Date Of Birth</div>
+                    <TextField variant="standard" type="date"  fullWidth onChange={(e)=>setchildDate(e.target.value)}/>
+                    </div>
+                    :""
+                }
+                {
+                    childNumber > 0 ?
+                    <div className="col sm-12 md-6 lg-6 padding">
+                    <button onClick={handleChild} className="button indigo text-white"><i className="lni lni-plus"></i> Add</button>
+                    </div>
+                    :""
+                }
+                {
+                    childNumber > 0 ?
+               
+                    <div className="col sm-12 md-12 lg-12 padding">
+                    {
+                        childrens ?
+                        childrens.map(docs=>(
+                            <div className="row-flex" key={docs.id}>
+                                <div className="padding">{docs.child}</div>
+                                <div className="padding">{docs.dob}</div>
+                                <div className="padding pointer hover-text-red" onClick={()=>{
+                                new Promise((resolve , reject)=>{
+                                    sessionStorage.setItem("childrens" , JSON.stringify(
+                                        childrens.filter(filt=>{
+                                            if(filt.id != docs.id){
+                                                return filt
+                                            }
+                                        })
+                                    ))
+                                    resolve()
+                                        
+                                    }).then(()=>setgetChildrens(true))
+                                }}><i className="lni lni-trash-can"></i> Delete</div>
+                            </div>
+                        ))
+                        :""
+                    }
+                </div>
+                    :""
+                }
            
+
+    
+
                 <div className="col sm-12 md-12 lg-12 padding">
                     <div className="h4 padding-top-20"><img src="/hand/undraw_note.svg" className="height-50"/> Job Infomation</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='jobTitle' fullWidth label='Job Title' />
+                <TextField fullWidth type="text" select label="Job Title" name='jobTitle' variant="outlined">
+                    {
+                        jobTitles.map(docs=>(
+                            <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>
+                        ))
+                    }
+                    </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='grade' fullWidth label='Grade' />
+                <TextField fullWidth type="text" select label="Grade" name='grade' variant="outlined" onChange={(e)=>setselectedGrade(e.target.value)}>
+                    {
+                        grades.map(docs=>(
+                            <MenuItem value={`${docs.grade}`} key={docs.grade}>{docs.grade}</MenuItem>
+                        ))
+                    }
+                    </TextField>
+                </div>
+     
+                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="text-bold">Salary Level</div>
+                <TextField variant="outlined" type="text" value={
+                    selectedGrade === "Assistant" ? "16H" :
+                    selectedGrade === "Officer" ? "18L" :
+                    selectedGrade === "Senior" ? "19" :
+                    selectedGrade === "Principal" ? "20" :
+                    selectedGrade === "Assistannt Chief" ? "21" :
+                    selectedGrade === "Chief" ? "22" : ""
+
+                } name='salary' fullWidth disabled />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="text-bold">Date of appointment</div>
+                <TextField variant="outlined" type="date" name='appointDate' fullWidth label='Date of appointment' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status'>
@@ -397,26 +519,18 @@ export default function Personal() {
                 <MenuItem value="Contract">Contract</MenuItem>
                 </TextField>
                 </div>
-                
-                <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="text-bold">Date of appointment</div>
-                <TextField variant="outlined" type="date" name='appointDate' fullWidth label='Date of appointment' />
-                </div>
-                
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='salary' fullWidth label='Salary Level' />
-                </div>
-                <div className="col sm-12 md-6 lg-6 padding">
+        
+                {/* <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="status" id="" label="Status" >
                     <MenuItem value="leave">On Leave</MenuItem>
                     <MenuItem value="field">On Field</MenuItem>
                     <MenuItem value="post">On Post</MenuItem>
                 </TextField>
-                </div>
+                </div> */}
                 
                 
            
-                <div className="col sm-12 md-12 lg-12  padding-top-20">
+                {/* <div className="col sm-12 md-12 lg-12  padding-top-20">
                     <div className="h4 padding"><img src="/hand/undraw_camera.svg" className="height-50"/> Passport Details</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
@@ -428,22 +542,24 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-12 lg-12  padding">
                 <TextField variant="outlined" type="text" name='passportplace' fullWidth label='Place Of Issue' />
-                </div>
+                </div> */}
     
                
                 <div className="col sm-12 md-12 lg-12 padding-top-20">
-                    <div className="h4 padding"><img src="/hand/undraw_exclamation-point.svg" className="height-50"/> Other Details</div>
+                    <div className="h4 padding">
+                        <img src="/hand/undraw_exclamation-point.svg" className="height-50"/> Criminal Details
+                        </div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="crime" id="" label="Convicted Of A Crime"  onChange={(e)=>{
-                    if(e.target.value === "yes"){
+                <TextField select fullWidth name="crime" id="" label="Convicted Of A Crime" onChange={(e)=>{
+                    if(e.target.value){
                         setcrime(true)
-                    }else if (e.target.value === "no"){
+                    }else if (!e.target.value){
                         setcrime(false)
                     }
                 }}>
-                    <MenuItem value="no">No</MenuItem>
-                    <MenuItem value="yes">Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                    <MenuItem value={true}>Yes</MenuItem>
                 </TextField>
                 {
                     crime ?
@@ -454,15 +570,15 @@ export default function Personal() {
                 }
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="service" id="" label="Ever dismissed from a public service"  onChange={(e)=>{
-                    if(e.target.value === "yes"){
+                <TextField select fullWidth name="service" id="" label="Ever dismissed from a public service" onChange={(e)=>{
+                    if(e.target.value){
                         setdismissed(true)
-                    }else if (e.target.value === "no"){
+                    }else if (!e.target.value){
                         setdismissed(false)
                     }
                 }}>
-                    <MenuItem value="no">No</MenuItem>
-                    <MenuItem value="yes">Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                    <MenuItem value={true}>Yes</MenuItem>
                 </TextField>
                 {
                     dismissed ?
@@ -486,6 +602,12 @@ export default function Personal() {
                     <div className="col sm-12 md-12 lg-12 padding">
                     <div className="h4 padding-top-20"><img src="/hand/person.svg" className="height-50"/> Father</div>
                 </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField select fullWidth name='fatherLife' label="Decease or alive">
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Dead">Decease</MenuItem>
+                </TextField>
+                </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='father' fullWidth label='Fullname' />
                 </div>
@@ -497,17 +619,18 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of birth</div>
-                <TextField variant="outlined" type="date" name='fatherdob' fullWidth label='Date Of Birth' />
+                <TextField variant="outlined" type="date" name='fatherdob' fullWidth />
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name='fatherLife' label="Decease or alive">
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Dead">Decease</MenuItem>
-                </TextField>
-                </div>
+
     
                     <div className="col sm-12 md-12 lg-12 padding-top-20">
                     <div className="h4 padding"><img src="/hand/person.svg" className="height-50"/> Mother</div>
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField select fullWidth name='motherLife' label="Decease or alive" >
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Dead">Dead</MenuItem>
+                </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='mother' fullWidth label='Fullname' />
@@ -521,12 +644,7 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="date" name='motherdob' fullWidth label='Date Of Birth' />
                 </div>
-                      <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name='motherLife' label="Decease or alive" >
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Dead">Dead</MenuItem>
-                </TextField>
-                </div>
+                
                 
                     </div>
                 </div>

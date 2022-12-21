@@ -1,6 +1,6 @@
 export default [
     {
-        grade:"Assistannt"
+        grade:"Assistant"
     }
     ,
     {

@@ -96,58 +96,11 @@ const handleDrop = (e)=>{
       // e.target.children[0].classList.toggle("rotate");
   
 }
-const handleLeave = (e)=>{
-  const val =  e.target.value
- switch (val) {
-  case "annual":
-    window.location.assign("/leave/annual")
-    break;
- 
-  case "maternity":
-    window.location.assign("/leave/maternity")
-    break;
- 
-  case "study":
-    window.location.assign("/leave/study")
-    break;
- 
-  case "casual":
-    window.location.assign("/leave/casual")
-    break;
- 
-  default:
-    break;
- }
-}
+
 if(user){
   return ( 
     <div>
-           <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Leave Planing</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Select the the type of leave you seek to plan
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            select
-            id="name"
-            label="Select leave type"
-            fullWidth
-            onChange={handleLeave}
-            variant="outlined"
-          >
-         <MenuItem value="annual">Annual</MenuItem>
-                    <MenuItem value="maternity">Maternity</MenuItem>
-                    <MenuItem value="casual">Casual</MenuItem>
-                    <MenuItem value="study">Study</MenuItem>
-            </TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
+   
             <div className="navigationBar">
     <div>
      <span className="logo">
@@ -159,7 +112,9 @@ if(user){
     </div>
     <div>
     <div className="context" id="dropContext">
-    <a className="dropdown text-bold" onClick={handleDrop}>{user.surname} {user.firstName}<i className="lni lni-chevron-down"></i></a>
+    <a className="dropdown text-bold" onClick={handleDrop}>
+    <i className="">  <img src="/avatar.svg" className="width-40 height-40 circle border" /></i>
+      </a>
     <ul className="hidden">
     <Link href="/account">
         <div className='sideLink'>
@@ -215,7 +170,7 @@ if(user){
         <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
         </div>
         <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <div className='sideLink' onClick={()=>setOpen(true)}>
+        <div className='sideLink'>
         <i className="icon-check"></i> Leave Planing
         </div>
       <Link href="/leave/requests">

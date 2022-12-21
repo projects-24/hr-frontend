@@ -226,7 +226,7 @@ z-index: 5;
 .context .dropdown {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 200px;
     gap: 4px;
     cursor: pointer;
@@ -234,10 +234,7 @@ z-index: 5;
     border-radius: 10px;
     transition: .3s;
 }
-.context .dropdown:hover {
-    background-color: rgb(0, 0, 0, .1);
-    border: 1px solid rgb(0, 0, 0, 0);
-}
+
 .context .dropdown i {
     margin-top: 2px;
     font-size: 1.3em;

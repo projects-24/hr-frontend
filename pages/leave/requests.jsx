@@ -37,6 +37,7 @@ export default function Profiling() {
     const [status, setstatus] = useState("")
     const [employment, setemployment] = useState("")
     const [open, setOpen] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
     const [current, setcurrent] = useState(null)
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
@@ -44,6 +45,7 @@ export default function Profiling() {
 
     const handleClose = () => {
       setOpen(false);
+      setOpen2(false);
     };
   
     useEffect(() => {
@@ -137,9 +139,58 @@ setdocs(null)
   setloading(false)  
 })
 }
+const handleLeave = (e)=>{
+  const val =  e.target.value
+ switch (val) {
+  case "annual":
+    window.location.assign("/leave/annual")
+    break;
+ 
+  case "maternity":
+    window.location.assign("/leave/maternity")
+    break;
+ 
+  case "study":
+    window.location.assign("/leave/study")
+    break;
+ 
+  case "casual":
+    window.location.assign("/leave/casual")
+    break;
+ 
+  default:
+    break;
+ }
+}
   if(user){
     return (
       <div className={print ? "" : "content"}>
+                <Dialog open={open2} onClose={handleClose}>
+        <DialogTitle>Leave Planing</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Select the the type of leave you seek to plan
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            select
+            id="name"
+            label="Select leave type"
+            fullWidth
+            onChange={handleLeave}
+            variant="outlined"
+          >
+         <MenuItem value="annual">Annual</MenuItem>
+                    <MenuItem value="maternity">Maternity</MenuItem>
+                    <MenuItem value="casual">Casual</MenuItem>
+                    <MenuItem value="study">Study</MenuItem>
+            </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
           <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
           <DialogContent>
@@ -206,6 +257,9 @@ setdocs(null)
               <div className="padding-5 ">
                   <button className="button success text-white width-100-min" onClick={handlePrint}>
               <i className="icon-printer"></i>    Print
+              </button>
+                  <button className="button indigo text-white width-100-min"  onClick={()=>setOpen2(true)}>
+                  <i className="lni lni-exit"></i>   Request Leave
               </button>
                   </div>
   

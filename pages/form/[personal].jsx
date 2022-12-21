@@ -20,7 +20,7 @@ export default function Personal() {
     const [loader, setloader] = useState(false)
     const [token, settoken] = useState("")
     const [marital, setmarital] = useState("")
-    // const [childrens, setchildrens] = useState("")
+    const [availableChildren, setavailableChildren] = useState(null)
     const [crimereason, setcrimereason] = useState("")
     const [servicereason, setservicereason] = useState("")
     const [user, setuser] = useState(null)
@@ -109,7 +109,7 @@ export default function Personal() {
         const employmentStatus = current["grade"].value
         const appointDate = current["grade"].value
         const salary = current["salary"].value
-        // const status = current["status"].value
+        const status = current["status"].value
 
 
         //passport
@@ -176,7 +176,7 @@ export default function Personal() {
         employmentStatus:employmentStatus,
         appointDate:appointDate,
         salaryLevel: salary,
-        // status:status,
+        status:status,
         passportNumber:"",
         passportIssueDate:"",
         placeIssue:"",
@@ -350,25 +350,7 @@ export default function Personal() {
                }
                 {/* disable is divoced or single */}
                 </div>
-            
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="number" name='availableChildren' label="Available Children"  onChange={(e)=>setchildrens(e.target.value)}>
-                <MenuItem value="yes"> Yes </MenuItem>
-                <MenuItem value="no"> No </MenuItem>
-                </TextField>
     
-                </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                    {/* if available children */}
-                {
-                    childrens === "yes" ?
-                    <TextField variant="outlined" type="number" name='numberChildren' fullWidth label='Number of children' />
-                    :
-                    <TextField variant="outlined" disabled type="number" name='numberChildren' fullWidth label='Number of children' />
-    
-                }
-                </div>
-            
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='nextKin' fullWidth label='Next of kin' />
                 </div>
@@ -417,8 +399,21 @@ export default function Personal() {
                 <div className="col sm-12 md-12 lg-12 padding">
                     <div className="h4 padding-top-20"><img src="/hand/underline.svg" className="width-50"/> Dependency</div>
                 </div>
+                        
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField select fullWidth type="number" name='availableChildren' label="Available Children"  onChange={(e)=>setavailableChildren(e.target.value)}>
+                <MenuItem value={true}> Yes </MenuItem>
+                <MenuItem value={false}> No </MenuItem>
+                </TextField>
+    
+                </div>
+        
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="number"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                    {
+                        availableChildren ?
+                <TextField variant="outlined" type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                : <TextField variant="outlined" disabled type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                    }
                 </div>
                 {
                     childNumber > 0 ?
@@ -521,13 +516,13 @@ export default function Personal() {
                 </TextField>
                 </div>
         
-                {/* <div className="col sm-12 md-6 lg-6 padding">
+                <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="status" id="" label="Status" >
                     <MenuItem value="leave">On Leave</MenuItem>
                     <MenuItem value="field">On Field</MenuItem>
                     <MenuItem value="post">On Post</MenuItem>
                 </TextField>
-                </div> */}
+                </div>
                 
                 
            

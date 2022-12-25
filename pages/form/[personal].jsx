@@ -418,7 +418,10 @@ export default function Personal() {
                     </div>
                     <div className="row card formSection">
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' />
+                <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' select>
+                    <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
+                    <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
+                </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='ghanaCard' fullWidth label='Ghana Card Number' />
@@ -661,7 +664,10 @@ export default function Personal() {
                 <TextField variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' />
+                <TextField variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' select>
+                <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
+                <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
+                </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of birth</div>
@@ -703,7 +709,10 @@ export default function Personal() {
                 <TextField variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' />
+                <TextField variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' select>
+                <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
+                    <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
+                </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Date of birth</div>

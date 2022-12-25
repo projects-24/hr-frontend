@@ -759,7 +759,7 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
                     <button onClick={handleSchool} className="button indigo text-white"><i className="lni lni-plus"></i> Add school</button>
-                  <table>
+                  <table className='table section'>
                     <thead>
                         <th>School</th>
                         <th>program</th>

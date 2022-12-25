@@ -236,6 +236,10 @@ export default function Personal() {
         const proceed = prompt("Make sure all details are correct. Type Yes to proceed and No to quite");
         if(proceed){
             if(proceed.toString().trim().toLowerCase() === "yes"){
+               if(
+                email &&
+                staffId
+               ){
                 Axios.post(endPoint + "/staff/register/",
                 data,
                 {
@@ -260,6 +264,9 @@ export default function Personal() {
                }
        
                })
+               }else{
+                setmessage("Enter compulsory details")
+               }
        
             }else{
                 setloader(false)

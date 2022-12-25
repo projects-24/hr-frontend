@@ -37,6 +37,10 @@ export default function Personal() {
     const [getSchools, setgetSchools] = useState(true)
     const [myschools, setmyschools] = useState([])
     const [message, setmessage] = useState("")
+    const [fatherContact, setfatherContact] = useState("")
+    const [motherContact, setmotherContact] = useState("")
+    const [father, setfather] = useState(false)
+    const [mother, setmother] = useState(false)
     useEffect(()=>{
         setTimeout(()=>{
             setmessage(null)
@@ -167,7 +171,7 @@ export default function Personal() {
         // const from = current["from"].value
         // const to = current["to"].value
         const type_of_certificate = current["certificate"].value
-        const particulars = current["particulars"].value
+        // const particulars = current["particulars"].value
 
         setmarital(maritalStatus)
         setchildrens(availableChildren)
@@ -215,20 +219,18 @@ export default function Personal() {
        publicServiceReason: servicereason ,
        father_fullName:father,
        father_occupation: fatheroccupation,
+       father_contact:fatherContact,
        father_nationality:fathernationality,
        father_placeofBirth:fatherdob,
        father_alive_or_dead:fatherLife,
        mother_fullName:mother,
        mother_occupation:motheroccupation,
+       mother_contact:motherContact,
        mother_nationality:mothernationality,
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
-        school: schools,
-        yearFrom: "",
-        yearTo: "",
-        type_of_certificate:type_of_certificate,
-        particulars: particulars,
-        editfield:true
+       school: schools,
+       editfield:true
     
         }
         const proceed = prompt("Make sure all details are correct. Type Yes to proceed and No to quite");
@@ -337,7 +339,6 @@ export default function Personal() {
                 <Loader />
                 :""
             }
-    
             <form ref={form}>
                 <div>
                  
@@ -633,7 +634,14 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/person.svg" className="height-50"/> Father</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='fatherLife' label="Decease or alive">
+                <TextField select fullWidth name='fatherLife' label="Decease or alive" onChange={(e)=>{
+                    if(e.target.value === "Alive"){
+                        setfather(true)
+                    }else{
+                        setfather(false)
+
+                    }
+                }}> 
                     <MenuItem value="Alive">Alive</MenuItem>
                     <MenuItem value="Dead">Decease</MenuItem>
                 </TextField>
@@ -651,6 +659,13 @@ export default function Personal() {
                     <div className="text-bold">Date of birth</div>
                 <TextField variant="standard" type="date" name='fatherdob' fullWidth />
                 </div>
+                {
+                    father ?
+                    <div className="col sm-12 md-12 lg-12 padding">
+                <TextField variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
+                </div>
+                :""
+                }
                     </div>
                     </div>
        
@@ -661,7 +676,14 @@ export default function Personal() {
                     <div className="h4 padding"><img src="/hand/person.svg" className="height-50"/> Mother</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='motherLife' label="Decease or alive" >
+                <TextField select fullWidth name='motherLife' label="Decease or alive"  onChange={(e)=>{
+                    if(e.target.value === "Alive"){
+                        setmother(true)
+                    }else{
+                        setmother(false)
+
+                    }
+                }}>
                     <MenuItem value="Alive">Alive</MenuItem>
                     <MenuItem value="Dead">Dead</MenuItem>
                 </TextField>
@@ -679,6 +701,13 @@ export default function Personal() {
                 <div className="text-bold">Date of birth</div>
                 <TextField variant="standard" type="date" name='motherdob' fullWidth />
                 </div>
+                {
+                    mother ?
+                    <div className="col sm-12 md-12 lg-12 padding">
+                <TextField variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setmotherContact(e.target.value)} />
+                </div>
+                :""
+                }
                         </div>
                     </div>
                     <div className="col sm-12 md-12 lg-12 div">
@@ -743,8 +772,13 @@ export default function Personal() {
 
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth type="text" name='certificate' id='certificate' label="Type of certificate" >
-                    <MenuItem value="professional"> profesional </MenuItem>
-                    <MenuItem value="academic"> Academic </MenuItem>
+                    <MenuItem value="PhD"> PhD </MenuItem>
+                    <MenuItem value="Mphil"> Mphil </MenuItem>
+                    <MenuItem value="MA/Msc"> MA/Msc </MenuItem>
+                    <MenuItem value="Bsc/BA/BCOM"> Bsc/BA/BCOM </MenuItem>
+                    <MenuItem value="HND"> HND </MenuItem>
+                    <MenuItem value="WASSCE"> WASSCE </MenuItem>
+                    <MenuItem value="Other"> Other </MenuItem>
                     </TextField> 
                 </div>
  

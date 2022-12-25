@@ -290,15 +290,19 @@ export default function Personal() {
         const school = current["school"].value
         const from = current["from"].value
         const to = current["to"].value
-        if(school && from && to){
+        const program = current["program"].value
+        const certificate = current["certificate"].value
+        if(school && from && to && certificate && program){
             new Promise((resolve , reject)=>{
-                myschools.push({id:schools.length + 1,school:school, from:from,to:to})
+                myschools.push({id:schools.length + 1,school:school, from:from,to:to , certificate:certificate , program:program})
                 resolve()
             }).then(()=>{
              sessionStorage.setItem("schools" , JSON.stringify(myschools))
              document.querySelector("#school").value = ""
              document.querySelector("#to").value = ""
              document.querySelector("#from").value = ""
+             document.querySelector("#certificate").value = ""
+             document.querySelector("#program").value = ""
                 setgetSchools(true)
             })
         }else{
@@ -744,35 +748,47 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>School</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='particulars' fullWidth label='Particulars' />
+                <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
                 </div>
-      
+
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" name='certificate' label="Type of certificate" >
+                <TextField select fullWidth type="text" name='certificate' id='certificate' label="Type of certificate" >
                     <MenuItem value="professional"> profesional </MenuItem>
                     <MenuItem value="academic"> Academic </MenuItem>
                     </TextField> 
                 </div>
  
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
-                </div>
                 <div className="col sm-12 md-3 lg-3 padding">
                 <TextField variant="outlined" type="text" name='from' id='from' fullWidth label='From' />
                 </div>
                 <div className="col sm-12 md-3 lg-3 padding">
                 <TextField variant="outlined" type="text" name='to'  id='to' fullWidth label='To' />
                 </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='program' id='program' fullWidth label='program of study' />
+                </div>
                 <div className="col sm-12 md-12 lg-12 padding">
                     <button onClick={handleSchool} className="button indigo text-white"><i className="lni lni-plus"></i> Add school</button>
+                  <table>
+                    <thead>
+                        <th>School</th>
+                        <th>program</th>
+                        <th>certificate Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
                     {
                         schools ?
                         schools.map(docs=>(
-                            <div className="row-flex" key={docs.id}>
-                                <div className="padding">{docs.school}</div>
-                                <div className="padding">{docs.from}</div>
-                                <div className="padding">{docs.to}</div>
-                                <div className="padding pointer hover-text-red" onClick={()=>{
+                            <tr className="" key={docs.id}>
+                                <td className="padding">{docs.school}</td>
+                                <td className="padding">{docs.program}</td>
+                                <td className="padding">{docs.certificate}</td>
+                                <td className="padding">{docs.from}</td>
+                                <td className="padding">{docs.to}</td>
+                                <td className="padding pointer hover-text-red" onClick={()=>{
                                 new Promise((resolve , reject)=>{
                                     sessionStorage.setItem("schools" , JSON.stringify(
                                         schools.filter(filt=>{
@@ -784,11 +800,13 @@ export default function Personal() {
                                     resolve()
                                         
                                     }).then(()=>setgetSchools(true))
-                                }}><i className="lni lni-trash-can"></i> Delete</div>
-                            </div>
+                                }}><i className="lni lni-trash-can"></i> Delete</td>
+                            </tr>
                         ))
                         :""
                     }
+                    </tbody>
+                  </table>
                     </div>
   
       

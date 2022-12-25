@@ -105,7 +105,7 @@ const [data, setdata] = useState(null)
               <div className="card">
               <div className="h1 p-text">Dashboard And Analytics</div>
               <div className="">
-                  Welcome  <span className="text-bold">{user.title} {user.firstName}  {user.surname} </span>
+                  Welcome  <span className="text-bold">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
               </div>
               </div>
 

@@ -1,18 +1,18 @@
  export default [
     {
-      "department": "business industry and trade",
+      "department": "Business Industry and Trade",
       "section": "Business"
     },
     {
-      "department": "business industry and trade",
+      "department": "Business Industry and Trade",
       "section": "Trade"
     },
     {
-      "department": "business industry and trade",
+      "department": "Business Industry and Trade",
       "section": "Service"
     },
     {
-      "department": "business industry and trade",
+      "department": "Business Industry and Trade",
       "section": "Labour"
     }
     ,
@@ -23,7 +23,7 @@
     ,
     {
       "department": "Economy",
-      "section": "Price Indices and inflation"
+      "section": "Price Indices and Inflation"
     }
     ,
     {
@@ -37,28 +37,28 @@
     }
     ,
     {
-      "department": "methods and standards",
+      "department": "Methods and Standards",
       "section": "Methodology"
     }
     ,
     {
-      "department": "methods and standards",
+      "department": "Methods and Standards",
       "section": "Statistical Coordination"
     }
     ,
     {
-      "department": "methods and standards",
+      "department": "Methods and Standards",
       "section": "Statistical Harmonisation"
     }
     ,
     {
-      "department": "methods and standards",
+      "department": "Methods and Standards",
       "section": "Training Institute"
     }  
     ,
     {
       "department": "research and data science",
-      "section": "Geographic information system and remote sensing"
+      "section": "Geographic Information system and remote sensing"
     }
     ,
     {
@@ -197,7 +197,7 @@
     ,
     {
       "department": "Human resource",
-      "section": "performance managment, training and development"
+      "section": "performance managment, Training and development"
     }
     
     ,

@@ -29,13 +29,15 @@ if(user){
                   <img src="/avatar.svg" className='fit' alt="" />
               </div>
               <div className="col sm-12 md-8 lg-8 padding">
-            <div className="padding">
+               <div className="card">
+               <div className="padding">
             <div className="h4">
             {user.firstName} {user.middleName} {user.surname}
             </div>
                <div className="section positionText">{user.grade}</div>
             </div>
                <div className="row">
+   
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Department:</span> {user.department}
                   </div>
@@ -63,6 +65,7 @@ if(user){
                    :""
                   }
            
+               </div>
                </div>
               </div>
           </div>

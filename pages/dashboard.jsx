@@ -97,16 +97,17 @@ const [data, setdata] = useState(null)
   || user.position === "Sectional Head"
   || user.position === "Unit Head"){
     return (
-      <div className='content'>
+      <div className="">
+        <div className='content'>
           <Nav />
     
           <div className="">
+              <div className="card">
               <div className="h1 p-text">Dashboard And Analytics</div>
-              <p>
-              <div className="h4">
-                  Welcome  <span className="text-bold  h4">{user.title} {user.firstName}  {user.surname} </span>
+              <div className="">
+                  Welcome  <span className="text-bold">{user.title} {user.firstName}  {user.surname} </span>
               </div>
-              </p>
+              </div>
 
               {
   
@@ -196,6 +197,7 @@ const [data, setdata] = useState(null)
               
               }
           </div>
+      </div>
       </div>
     )
   }else{

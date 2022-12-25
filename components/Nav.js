@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-const Nav = () => {
+const Nav = ({noSideBar}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
   const [user, setuser] = useState("")  
@@ -135,67 +135,71 @@ if(user){
 
     </div>
   </div>
-  <div className="leaveSidebar">
+ {
+  !noSideBar ?
+  <div className="leaveSidebar card">
 
-    <div className="">
+  <div className="">
 {
-  user.position === "Director" 
- || user.position === "Government Statistician (CEO)" 
- || user.position === "Deputy Gov Statistician (DGS)"
- || user.position === "Deputy Director"
- || user.position === "Sectional Head"
- || user.position === "Unit Head"?
-  <>
-      <Link href="/dashboard">
-        <div className='sideLink'>
-        <i className="icon-graph"></i> Dashboard
-        </div>
-      </Link>
+user.position === "Director" 
+|| user.position === "Government Statistician (CEO)" 
+|| user.position === "Deputy Gov Statistician (DGS)"
+|| user.position === "Deputy Director"
+|| user.position === "Sectional Head"
+|| user.position === "Unit Head"?
+<>
+    <Link href="/dashboard">
+      <div className='sideLink'>
+      <i className="icon-graph"></i> Dashboard
+      </div>
+    </Link>
 
-      <div className="section hr"></div>
+    <div className="section hr"></div>
 
-    <Link href="/staff/profiling">
-        <div className='sideLink'>
-        <i className="lni lni-users"></i> Staff Profiling
-        </div>
-      </Link>
-      <div className="section hr"></div>
-  </>
+  <Link href="/staff/profiling">
+      <div className='sideLink'>
+      <i className="lni lni-users"></i> Staff Profiling
+      </div>
+    </Link>
+    <div className="section hr"></div>
+</>
 
-  :""
+:""
 }
 
-      <div className="dropDown">
-      <div className='sideLink trigger' onClick={TriggerDrop}>
-        <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
-        </div>
-        <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <div className='sideLink'>
-        <i className="icon-check"></i> Leave Planing
-        </div>
-      <Link href="/leave/requests">
-        <div className='sideLink'>
-        <i className="lni lni-bolt"></i>  Leave Requests
-        </div>
-      </Link>
-        </div>
+    <div className="dropDown">
+    <div className='sideLink trigger' onClick={TriggerDrop}>
+      <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
-      <div className="section hr"></div>
-      <Link href="/appraisal">
-        <div className='sideLink'>
-        <i className="icon-direction"></i> Pfm | Appraisal
-        </div>
-      </Link>
-      <div className="section hr"></div>
-
-      <Link href="/register">
-        <div className='sideLink'>
-        <i className="icon-clock"></i> Retirement Mgt
-        </div>
-      </Link>
-
+      <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+      <div className='sideLink'>
+      <i className="icon-check"></i> Leave Planing
+      </div>
+    <Link href="/leave/requests">
+      <div className='sideLink'>
+      <i className="lni lni-bolt"></i>  Leave Requests
+      </div>
+    </Link>
+      </div>
     </div>
+    <div className="section hr"></div>
+    <Link href="/appraisal">
+      <div className='sideLink'>
+      <i className="icon-direction"></i> Pfm | Appraisal
+      </div>
+    </Link>
+    <div className="section hr"></div>
+
+    <Link href="/register">
+      <div className='sideLink'>
+      <i className="icon-clock"></i> Retirement Mgt
+      </div>
+    </Link>
+
   </div>
+</div>
+:""
+ }
   
     </div>
  );

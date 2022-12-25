@@ -203,18 +203,23 @@ const Edit = ()=>{
         // :""
         }
 
-        <div className="padding-top-20">
+        <div className="">
         {
             !print ?
             <div>
-                <div className= 'section'>
+                <div className= 'section padding-bottom-30'>
             <div className="h1">Staff Profiling</div>
           <div className='text-bold section'>
           Check all staffs, add and edit staff details and profile
          </div>
+         <div className="section row-flex">
+                    <Link href="/dashboard">Dashboard</Link>
+                    /
+                    <Link href="#">Staff profiling</Link>
+                </div>
         </div>
 
-                <div className="row padding border section fit">
+                <div className="row  card section fit">
                     <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER DATA</div>
                 <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth label="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
@@ -231,26 +236,29 @@ const Edit = ()=>{
                     <TextField fullWidth label="Section" select name="" id=""  onChange={(e)=>setsection(e.target.value)}>
                         <MenuItem value="">All Sections</MenuItem>
                         {
-                            Sections &&
-                            Sections.map(docs=>(
-                                <MenuItem value={docs.section} key={docs.section}> {docs.section} </MenuItem>
-                            ))
-                        }
+                                Sections.filter(docs=>{
+                                    if(department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
+                                        return docs
+                                    }
+                                }).map(docs=>(
+                                    <MenuItem value={`${docs.section}`} key={docs.section}> {docs.section}</MenuItem>
+                                ))
+                            }
                     </TextField>
                 </div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
+                {/* <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth defaultValue={""} label="Employment Status" select name="" id=""  onChange={(e)=>setemployment(e.target.value)}>
                         <MenuItem value="">All</MenuItem>
                         <MenuItem value="permanent">Permanent</MenuItem>
                         <MenuItem value="contract">Contract</MenuItem>
                     </TextField>
-                </div>
+                </div> */}
               
                 </div>
 
                 {
             !print ?
-        <div className="section row-flex fit space-between">
+        <div className="row-flex fit space-between m-section">
             <div className="">
             <Paper
       component="form"
@@ -279,11 +287,11 @@ const Edit = ()=>{
             <button className="button info text-white width-100-min" onClick={handlePrint}>
             <i className="icon-printer"></i>    Print
             </button>
-           <Link href="/register">
+           {/* <Link href="/register">
            <button className="button success text-white width-100-min">
             <i className="icon-user"></i> New Account
             </button>
-            </Link>
+            </Link> */}
            <Link href="/form/personal">
            <button className="button indigo text-white width-100-min">
            <i className="lni lni-user"></i> New Staff
@@ -309,6 +317,10 @@ const Edit = ()=>{
             }
            </p>
            <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
+            <div className="section row-flex space-between padding">
+                <div className='text-bold'>department:{department ? department : "All departments"}</div>
+                <div className='text-bold'>Section:{section ? section : "All section"}</div>
+            </div>
      <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

@@ -238,7 +238,7 @@ export default function Personal() {
             if(proceed.toString().trim().toLowerCase() === "yes"){
                if(
                 email &&
-                staffId
+                id
                ){
                 Axios.post(endPoint + "/staff/register/",
                 data,
@@ -266,6 +266,7 @@ export default function Personal() {
                })
                }else{
                 setmessage("Enter compulsory details")
+                setloader(false)
                }
        
             }else{

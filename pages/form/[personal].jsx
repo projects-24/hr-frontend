@@ -681,8 +681,8 @@ export default function Personal() {
                 </div>
                         </div>
                     </div>
-                    <div className="col sm-12 md-6 lg-6 div">
-                        <div className="formSection row card">
+                    <div className="col sm-12 md-12 lg-12 div">
+                        <div className="formSection row card" style={{justifyContent:"normal"}}>
                         <div className="col sm-12 md-12 lg-12 ">
                     <div className="h4 padding">
                         <img src="/hand/undraw_exclamation-point.svg" className="height-50"/> Criminal Details
@@ -699,27 +699,16 @@ export default function Personal() {
                     <MenuItem value={false}>No</MenuItem>
                     <MenuItem value={true}>Yes</MenuItem>
                 </TextField>
-        
-                </div>
                 {
                     crime ?
-                    <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="section">
                 <TextField variant="outlined" type="text" name='crimereason' fullWidth label='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
                 </div>
                 :""
                 }
-               
-                        </div>
-                    </div>
-       
-                    <div className="col sm-12 md-6 lg-6 div">
-                        <div className="card row formSection">
-                        <div className="col sm-12 md-12 lg-12 ">
-                    <div className="h4 padding">
-                        <img src="/hand/undraw_exclamation-point.svg" className="height-50"/> Criminal Details
-                        </div>
                 </div>
-                        <div className="col sm-12 md-6 lg-6 padding">
+          
+                          <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="service" id="" label="Ever dismissed from a public service" onChange={(e)=>{
                     if(e.target.value){
                         setdismissed(true)
@@ -730,17 +719,18 @@ export default function Personal() {
                     <MenuItem value={false}>No</MenuItem>
                     <MenuItem value={true}>Yes</MenuItem>
                 </TextField>
-            
-                </div>
                 {
                     dismissed ?
-                    <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="section">
                 <TextField variant="outlined" type="text" name='servicereason' fullWidth label='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
                 </div>
                 :""
                 }
+                </div>
+              
                         </div>
                     </div>
+       
                     <div className="col sm-12 md-12 lg-12 div">
                         <div className="formSection card row">
                         <div className="row">

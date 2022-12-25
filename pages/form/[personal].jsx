@@ -173,9 +173,9 @@ export default function Personal() {
         staffId:id,
         title:title,
         email:email,
-        surname:surName,
+        firstname:firstName,
         middleName:middleName,
-        firstName:firstName,
+        lastName:surName,
         gender:gender,
         address: address,
         nationality:nationality,
@@ -187,6 +187,7 @@ export default function Personal() {
         spouse:spouse,
         availableChildren:availableChildren,
         numberChildren:numberChildren,
+        children:childrens,
         nextKin:nextKin,
         nextKin_Relation:nextKin_Relation,
         nextKin_Tel: nextKin_Tel,
@@ -217,7 +218,7 @@ export default function Personal() {
        mother_nationality:mothernationality,
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
-        schoolname: schools.toString(),
+        school: schools,
         yearFrom: "",
         yearTo: "",
         type_of_certificate:type_of_certificate,
@@ -517,7 +518,7 @@ export default function Personal() {
                     <div className="col sm-12 md-12 lg-12 div">
                         <div className="card formSection row">
                         <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/underline.svg" className="width-50"/> Dependency</div>
+                    <div className="h4 "><img src="/hand/underline.svg" className="width-50"/> Dependancy</div>
                 </div>
                         
                 <div className="col sm-12 md-6 lg-6 padding">

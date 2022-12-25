@@ -380,6 +380,8 @@ export default function Personal() {
                     <MenuItem value="Mrs">Mrs</MenuItem>
                     <MenuItem value="Ms">Ms</MenuItem>
                     <MenuItem value="Miss">Miss</MenuItem>
+                    <MenuItem value="Rev(Mrs)">Rev(Mrs)</MenuItem>
+                    <MenuItem value="Rev(Mr)">Rev(Mr)</MenuItem>
                 </TextField>
                 </div>       
                 <div className="col sm-12 md-12 lg-12 padding">

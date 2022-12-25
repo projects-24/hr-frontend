@@ -124,6 +124,8 @@ export default function Personal() {
         const department = current["department"].value
         const section = current["section"].value
         const region = current["region"].value
+        const unit = current["unit"].value
+
 
         //job Info
         const jobTitle = current["jobTitle"].value
@@ -131,7 +133,6 @@ export default function Personal() {
         const employmentStatus = current["grade"].value
         const appointDate = current["grade"].value
         const salary = current["salary"].value
-        // const status = current["status"].value
 
 
         //passport
@@ -195,6 +196,7 @@ export default function Personal() {
         department:department,
         section:section,
         region:region,
+        unit:unit,
         jobTitle:jobTitle,
         grade:grade,
         employmentStatus:employmentStatus,
@@ -204,9 +206,9 @@ export default function Personal() {
         passportNumber:"",
         passportIssueDate:"",
         placeIssue:"",
-       crimeConvict: crime,
+       crimeConvict: crime ? crime : false,
        detailReason: crimereason,
-       dismissedPublicService:service,
+       dismissedPublicService:service ? service : false,
        publicServiceReason: servicereason ,
        father_fullName:father,
        father_occupation: fatheroccupation,
@@ -453,7 +455,7 @@ export default function Personal() {
                             }
                             </TextField>
                         </div>
-                        <div className="col sm-12 md-12 lg-12 padding">
+                        <div className="col sm-12 md-6 lg-6 padding">
                         <TextField select fullWidth name="region" id="region" label="Region">
                                     {
                                         regions.map(docs=>(
@@ -461,6 +463,9 @@ export default function Personal() {
                                         ))
                                     }
                                 </TextField>
+                        </div>
+                        <div className="col sm-12 md-6 lg-6 padding">
+                        <TextField disabled name="unit" label="Unit" />
                         </div>
                             </div>
                     </div>

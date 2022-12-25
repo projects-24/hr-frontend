@@ -94,6 +94,8 @@ export default function Personal() {
         const current = form.current
         const id = current["id"].value
 
+        const email = current["email"].value
+
         const ghanaCard = current["ghanaCard"].value
         const firstName = current["firstName"].value
         const surName = current["surname"].value
@@ -170,6 +172,7 @@ export default function Personal() {
         const data  = {
         staffId:id,
         title:title,
+        email:email,
         surname:surName,
         middleName:middleName,
         firstName:firstName,
@@ -214,9 +217,9 @@ export default function Personal() {
        mother_nationality:mothernationality,
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
-        schoolname: JSON.stringify(schools),
-        // yearFrom: "",
-        // yearTo: to,
+        schoolname: schools.toString(),
+        yearFrom: "",
+        yearTo: "",
         type_of_certificate:type_of_certificate,
         particulars: particulars,
         editfield:true
@@ -239,8 +242,14 @@ export default function Personal() {
                setloader(false)
        
                }).catch(err=>{
-                   setmessage(err.message)
-               setloader(false)
+         
+               if(err.message === "Request failed with status code 422"){
+                setmessage("email exist")
+                setloader(false)
+               }else{
+                setmessage(err.message)
+                setloader(false)
+               }
        
                })
        
@@ -329,8 +338,11 @@ export default function Personal() {
                     <div className="col sm-12 md-12 lg-12 section padding">
                     <div className="h4"><img src="/hand/person.svg" className="height-50"/> Personal Details</div>
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
+                <div className="col sm-6 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text"  name='id' fullWidth label='Staff ID' />
+                </div>
+                <div className="col sm-6 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text"  name='email' fullWidth label='Email' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined"  type="text" name='firstName' fullWidth label='First Name' />
@@ -491,11 +503,11 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of appointment</div>
-                <TextField variant="outlined" type="date" name='appointDate' fullWidth label='Date of appointment' />
+                <TextField variant="outlined" type="date" name='appointDate' fullWidth />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status'>
-                <MenuItem value="permanent">permanent</MenuItem>
+                <MenuItem value="permanent">Permanent</MenuItem>
                 <MenuItem value="Contract">Contract</MenuItem>
                 </TextField>
                 </div>
@@ -713,6 +725,17 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>School</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" name='particulars' fullWidth label='Particulars' />
+                </div>
+      
+                <div className="col sm-12 md-6 lg-6 padding">
+                <TextField select fullWidth type="text" name='certificate' label="Type of certificate" >
+                    <MenuItem value="professional"> profesional </MenuItem>
+                    <MenuItem value="academic"> Academic </MenuItem>
+                    </TextField> 
+                </div>
+ 
+                <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
                 </div>
                 <div className="col sm-12 md-3 lg-3 padding">
@@ -748,21 +771,7 @@ export default function Personal() {
                         :""
                     }
                     </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='particulars' fullWidth label='Particulars' />
-                </div>
-      
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" name='certificate' label="Type of certificate" >
-                    <MenuItem value="professional"> profesional </MenuItem>
-                    <MenuItem value="academic"> Academic </MenuItem>
-                    </TextField> 
-                {/* 
-                 
-                
-                 */}
-                </div>
- 
+  
       
                 <div className="col sm-12 md-6 lg-6 padding">
                   <button className="btn submitNewstaff" onClick={submitData}>

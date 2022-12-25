@@ -104,6 +104,7 @@ Axios.get(endPoint  + "/staff/showall" , {
 }).then(dataDocs=>{
    const getDocs = dataDocs.data.staff
    setdocs(getDocs)
+   console.log(getDocs)
 }).catch(err=>console.log(err.message))
 }
 })

@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import grades from "../../data/grades"
 import Alert from '../../Funcss/Components/Alert';
+import positions from '../../data/positions';
 export default function Personal() {
     const [crime, setcrime] = useState(false)
     const [dismissed, setdismissed] = useState(false)
@@ -133,6 +134,7 @@ export default function Personal() {
         const employmentStatus = current["grade"].value
         const appointDate = current["grade"].value
         const salary = current["salary"].value
+        const position = current["position"].value
 
 
         //passport
@@ -200,6 +202,7 @@ export default function Personal() {
         jobTitle:jobTitle,
         grade:grade,
         employmentStatus:employmentStatus,
+        position:position,
         appointDate:appointDate,
         salaryLevel: salary,
         status:"",
@@ -455,7 +458,7 @@ export default function Personal() {
                             }
                             </TextField>
                         </div>
-                        <div className="col sm-12 md-6 lg-6 padding">
+                        <div className="col sm-12 md-12 lg-12 padding">
                         <TextField select fullWidth name="region" id="region" label="Region">
                                     {
                                         regions.map(docs=>(
@@ -464,8 +467,8 @@ export default function Personal() {
                                     }
                                 </TextField>
                         </div>
-                        <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField disabled name="unit" label="Unit" />
+                        <div className="col sm-12 md-12 lg-12 padding">
+                        <TextField disabled fullWidth name="unit" label="Unit" />
                         </div>
                             </div>
                     </div>
@@ -494,6 +497,15 @@ export default function Personal() {
                     }
                     </TextField>
                 </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+            <TextField fullWidth type="text" select label="Position" name='position' variant="outlined">
+                    {
+                        positions.map(docs=>(
+                            <MenuItem value={`${docs.position}`} key={docs.position}> {docs.position}</MenuItem>
+                        ))
+                    }
+                    </TextField>
+            </div>
      
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Salary Level</div>
@@ -503,7 +515,7 @@ export default function Personal() {
                     selectedGrade === "Senior" ? "19" :
                     selectedGrade === "Principal" ? "20" :
                     selectedGrade === "Assistant Chief" ? "21" :
-                    selectedGrade === "Chief" ? "22" : ""
+                    selectedGrade === "Chief" ? "22" : "22"
 
                 } name='salary' fullWidth disabled />
                 </div>
@@ -511,12 +523,13 @@ export default function Personal() {
                     <div className="text-bold">Date of appointment</div>
                 <TextField variant="outlined" type="date" name='appointDate' fullWidth />
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="col sm-6 md-6 lg-6 padding">
                 <TextField select variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status'>
                 <MenuItem value="permanent">Permanent</MenuItem>
                 <MenuItem value="Contract">Contract</MenuItem>
                 </TextField>
                 </div>
+           
                         </div>
                     </div>
        

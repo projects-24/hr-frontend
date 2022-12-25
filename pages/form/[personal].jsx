@@ -103,7 +103,7 @@ export default function Personal() {
 
         const ghanaCard = current["ghanaCard"].value
         const firstName = current["firstName"].value
-        const surName = current["surname"].value
+        const lastName = current["lastName"].value
         const middleName = current["middlename"].value
   
         const gender = current["gender"].value
@@ -182,7 +182,7 @@ export default function Personal() {
         email:email,
         firstname:firstName,
         middleName:middleName,
-        lastName:surName,
+        lastName:lastName,
         gender:gender,
         address: address,
         nationality:nationality,
@@ -370,7 +370,7 @@ export default function Personal() {
                 <TextField variant="outlined"  type="text" name='middlename' fullWidth label='Middle Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='surname' fullWidth label='Last Name' />
+                <TextField variant="outlined" type="text" name='lastName' fullWidth label='Last Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth type="text" name='title' label="Title">

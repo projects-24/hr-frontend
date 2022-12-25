@@ -655,7 +655,7 @@ export default function Personal() {
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='father' fullWidth label='Fullname' />
+                <TextField variant="outlined" type="text" name='father' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
@@ -697,7 +697,7 @@ export default function Personal() {
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mother' fullWidth label='Fullname' />
+                <TextField variant="outlined" type="text" name='mother' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />

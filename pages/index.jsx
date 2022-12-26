@@ -49,13 +49,16 @@ export default function Home() {
 
       <div className="">
         <div className="central loginLeft gradient">
-          <img src="/connect.svg" className='fit' alt="" />
+        <div>
+
+        <div className="h1 text-white">
+            Ghana Statistical Service HR Management System 
+          </div>
+        </div>
         </div>
         <div className="loginRight central">
         <div className="form">
-          <div className="h1 p-text">
-            GSS HR MANAGEMENT SYSTEM 
-          </div>
+      
 
         <div className='m-section'>
           <div className="h1">Login Account</div>
@@ -63,6 +66,7 @@ export default function Home() {
           Enter a valid email and password to login your account
          </div>
          </div>
+         <div className="section card">
          <p>
           <TextField fullWidth label="Enter your email" variant="outlined" type="email" name=""  id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
          </p>
@@ -72,6 +76,7 @@ export default function Home() {
          <p>
          <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>
          </p>
+         </div>
         </div>
         </div>
       </div>

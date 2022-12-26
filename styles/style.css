@@ -353,6 +353,8 @@ z-index: 5;
     left: 0;
     width: 49%;
     padding: 2rem;
+    background:url("/gss.jpg");
+    background-size: cover;
 }
 .loginRight{
     position: absolute;

@@ -14,7 +14,7 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
-*{text-transform: capitalize !important;}
+div{text-transform: capitalize !important;}
 .text-small{font-size: 11px !important;}
 .row-flex{grid-gap: 0.5rem;}
 .padding-5{
@@ -268,8 +268,7 @@ z-index: 5;
     opacity: 1;
     width: 100%;
     padding: 0;
-    border-radius: 10px;
-    background-color: #F1F1F1;
+
     border: 1px solid rgb(0, 0, 0, .1);
     color: rgb(20, 20, 20);
     list-style-type: none;

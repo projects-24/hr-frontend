@@ -22,9 +22,73 @@ export default function Planing() {
  if(user){
   return (
     <div>
-        <Nav />
-        <div className="content">
-        <div className="row-flex">
+        <Nav noSideBar/>
+        <div className="row padding-top-80" style={{alignItems:"flex-start"}}>
+        <div className='col sm-12 md-6 lg-6 padding'>
+          <div className="card">
+            <table className="table">
+              <thead>
+              <th>Staff ID</th>
+                <th>Full Name</th>
+                <th>Department</th>
+                <th>Section</th>
+                <th>Leave</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>00393</td>
+                  <td>Iddris abdul wahab</td>
+                  <td>IT</td>
+                  <td>No department</td>
+                  <td>Annual</td>
+                  <td>01/01/2023</td>
+                  <td>01/01/2024</td>
+                </tr>
+                <tr>
+                  <td>00393</td>
+                  <td>Iddris abdul wahab</td>
+                  <td>IT</td>
+                  <td>No department</td>
+                  <td>Annual</td>
+                  <td>01/01/2023</td>
+                  <td>01/01/2024</td>
+                </tr>
+                <tr>
+                  <td>00393</td>
+                  <td>Iddris abdul wahab</td>
+                  <td>IT</td>
+                  <td>No department</td>
+                  <td>Annual</td>
+                  <td>01/01/2023</td>
+                  <td>01/01/2024</td>
+                </tr>
+                <tr>
+                  <td>00393</td>
+                  <td>Iddris abdul wahab</td>
+                  <td>IT</td>
+                  <td>No department</td>
+                  <td>Annual</td>
+                  <td>01/01/2023</td>
+                  <td>01/01/2024</td>
+                </tr>
+                <tr>
+                  <td>00393</td>
+                  <td>Iddris abdul wahab</td>
+                  <td>IT</td>
+                  <td>No department</td>
+                  <td>Annual</td>
+                  <td>01/01/2023</td>
+                  <td>01/01/2024</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+</div>
+
+          <div className='col sm-12 md-6 lg-6 padding'>
+          <div className="row-flex">
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
@@ -98,6 +162,8 @@ export default function Planing() {
             </div>
                 </div>
  
+          </div>
+
 
 
  {/* Submit btn */}

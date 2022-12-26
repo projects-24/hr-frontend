@@ -243,22 +243,25 @@ export default function Personal() {
        editfield:true
     
         }
-        setpreview(data)
-        setOpen(true)
+        if( email &&
+            staffId &&
+            firstname &&
+            middleName &&
+            lastName &&
+            address &&
+            nationality &&
+            contact ){
+                setpreview(data)
+                setOpen(true)
+            }else{
+                setloader(false)
+                setmessage("Make sure to enter all compulsory fields before you can submit data")
+            }
+ 
     }
 
     const postData = ()=>{
         setOpen(false)
-        if(
-            preview.email &&
-            preview.staffId &&
-            preview.firstname &&
-            preview.middleName &&
-            preview.lastName &&
-            preview.address &&
-            preview.nationality &&
-            preview.contact 
-           ){
             Axios.post(endPoint + "/staff/register/",
             preview,
             {
@@ -283,10 +286,7 @@ export default function Personal() {
            }
    
            })
-           }else{
-            setmessage("Enter compulsory details")
-            setloader(false)
-           }
+        
     }
 
     const handleChild = (e)=>{

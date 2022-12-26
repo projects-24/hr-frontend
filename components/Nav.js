@@ -111,11 +111,11 @@ if(user){
 
     </div>
     <div>
-    <div className="context" id="dropContext">
+    <div className="context " id="dropContext">
     <a className="dropdown text-bold" onClick={handleDrop}>
     <i className="">  <img src="/avatar.svg" className="width-40 height-40 circle border" /></i>
       </a>
-    <ul className="hidden">
+    <ul className="hidden card">
     <Link href="/account">
         <div className='sideLink'>
         <i className="icon-user"></i> My Account

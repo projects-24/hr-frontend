@@ -244,13 +244,13 @@ export default function Personal() {
     
         }
         if( email &&
-            staffId &&
-            firstname &&
+            id &&
+            firstName &&
             middleName &&
             lastName &&
             address &&
             nationality &&
-            contact ){
+            tel ){
                 setpreview(data)
                 setOpen(true)
             }else{

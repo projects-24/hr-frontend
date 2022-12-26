@@ -16,7 +16,30 @@ const Nav = ({noSideBar}) => {
   const [user, setuser] = useState("")  
   const [dropTrigger, setdropTrigger] = useState(false)
   const [open, setOpen] = useState(false)
-  
+  const [scrolledState, setscrolledState] = useState(0)
+  const [navDrop, setnavDrop] = useState(false)
+  useEffect(()=>{
+    // When the user scrolls the page, execute myFunction 
+    try {
+    
+    window.onscroll = function() {myFunction()};
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    setscrolledState(scrolled)
+    if(scrolled > 15){
+       setnavDrop(true)
+    }else{
+       setnavDrop(false)
+    }
+    } 
+    
+    } catch (error) {
+    console.log(error)
+    }
+    
+    })
   const handleClose = () => {
     setOpen(false);
   };
@@ -101,7 +124,7 @@ if(user){
   return ( 
     <div>
    
-            <div className="navigationBar">
+            <div className={`navigationBar ${navDrop ? "card" : ""} `}>
     <div>
      <span className="logo">
       <img src="/logo.png" className="height-40-max" />

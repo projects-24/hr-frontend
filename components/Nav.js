@@ -172,9 +172,11 @@ user.position === "Director"
       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-      <div className='sideLink'>
+   <Link href="/leave/planing">
+   <div className='sideLink'>
       <i className="icon-check"></i> Leave Planing
       </div>
+   </Link>
     <Link href="/leave/requests">
       <div className='sideLink'>
       <i className="lni lni-bolt"></i>  Leave Requests

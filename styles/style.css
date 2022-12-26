@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
 :root{
-    --primaryColor: #937DC2;
+    --primaryColor: #6C63FF;
     --secondaryColor: #680865;
-    --light:#fff !important;
+    --light:#eaf1fb !important;
     --color:#202020;
     --backgroundColor:#eaf1fb;
     --font:'Maven Pro', sans-serif !important;
@@ -14,13 +14,18 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
+*{text-transform: capitalize !important;}
+.text-small{font-size: 11px !important;}
 .row-flex{grid-gap: 0.5rem;}
 .padding-5{
   padding:5px !important;
 }
-/* .lightBg{
+.minSection{
+  margin: 5px 0;
+}
+.lightBg{
   background-color:var(--light) !important;
-} */
+}
 /* loader */
 .loadContainer{
     min-height: 100vh;
@@ -86,6 +91,8 @@
 .padding-5{
     padding: 5px;
 }
+.row.gap{grid-gap:1rem;}
+
 body{background-color: #EAF1FB !important;overflow: auto;height: 100%;position: relative;min-height: 100vh;}
 *{font-family: var(--font);font-size: var(--fontSize);}
 .p-bg{background-color: var(--primaryColor) !important;}
@@ -94,7 +101,7 @@ body{background-color: #EAF1FB !important;overflow: auto;height: 100%;position: 
 .heading{font-size: 3rem !important;}
 .h1{font-size: 2.5rem !important;font-weight: 800 !important;}
 p{margin: 20px 0 !important;}
-.m-section{margin: 20px 0 !important;}
+.m-section{margin:3rem 0 !important;}
 .central{display: flex;align-items: center;
 justify-content: center;}
 .row ,.row-flex{align-items: center;}

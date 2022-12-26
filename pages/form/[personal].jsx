@@ -16,6 +16,14 @@ import MenuItem from '@mui/material/MenuItem';
 import grades from "../../data/grades"
 import Alert from '../../Funcss/Components/Alert';
 import positions from '../../data/positions';
+import Typography from './../../Funcss/Components/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Button } from '@mui/material';
+
 export default function Personal() {
     const [crime, setcrime] = useState(false)
     const [dismissed, setdismissed] = useState(false)
@@ -31,37 +39,41 @@ export default function Personal() {
     const [childNumber, setchildNumber] = useState(0)
     const [childDate, setchildDate] = useState("")
     const [childrens, setchildrens] = useState([])    
+    const [childrenDocs, setchildrenDocs] = useState(null)
     const [getChildrens, setgetChildrens] = useState(true)
     const [Department, setDepartment] = useState("")
-    const [schools, setschools] = useState("")
+    const [schools, setschools] = useState([])
     const [getSchools, setgetSchools] = useState(true)
+    const [schoolDocs, setschoolDocs] = useState([])
     const [myschools, setmyschools] = useState([])
     const [message, setmessage] = useState("")
     const [fatherContact, setfatherContact] = useState("")
     const [motherContact, setmotherContact] = useState("")
     const [father, setfather] = useState(false)
     const [mother, setmother] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [preview, setpreview] = useState([])
+    const handleClose = () => {
+        setOpen(false);
+        setloader(false)
+      };
     useEffect(()=>{
         setTimeout(()=>{
             setmessage(null)
         }, 4000)
     },[message])
     useEffect(() => {
-        if(sessionStorage.getItem("childrens") && getChildrens){
-            setchildrens(
-                JSON.parse(
-                    sessionStorage.getItem("childrens")
-                )
+        if(getChildrens){
+            setchildrenDocs(
+              childrens
             )
             setgetChildrens(false)
         }
     })
     useEffect(() => {
-        if(sessionStorage.getItem("schools") && getSchools){
-            setschools(
-                JSON.parse(
-                    sessionStorage.getItem("schools")
-                )
+        if(getSchools){
+            setschoolDocs(
+             schools
             )
             setgetSchools(false)
         }
@@ -233,48 +245,50 @@ export default function Personal() {
        editfield:true
     
         }
-        const proceed = prompt("Make sure all details are correct. Type Yes to proceed and No to quite");
-        if(proceed){
-            if(proceed.toString().trim().toLowerCase() === "yes"){
-               if(
-                email &&
-                id
-               ){
-                Axios.post(endPoint + "/staff/register/",
-                data,
-                {
-                 headers: {
-                      authorization: `Bearer ${token}`,
-                    
-                   }
-                    
-                }
-                ).then(()=>{
-                   setmessage("new staff added successfully")
-               setloader(false)
-       
-               }).catch(err=>{
-         
-               if(err.message === "Request failed with status code 422"){
-                setmessage("email exist")
-                setloader(false)
-               }else{
-                setmessage(err.message)
-                setloader(false)
+        setpreview(data)
+        setOpen(true)
+    }
+
+    const postData = ()=>{
+        setOpen(false)
+        if(
+            preview.email &&
+            preview.staffId &&
+            preview.firstname &&
+            preview.middleName &&
+            preview.lastName &&
+            preview.address &&
+            preview.nationality &&
+            preview.contact 
+           ){
+            Axios.post(endPoint + "/staff/register/",
+            preview,
+            {
+             headers: {
+                  authorization: `Bearer ${token}`,
+                
                }
-       
-               })
-               }else{
-                setmessage("Enter compulsory details")
-                setloader(false)
-               }
-       
-            }else{
-                setloader(false)
+                
             }
-        }else{
+            ).then(()=>{
+               setmessage("new staff added successfully")
+           setloader(false)
+   
+           }).catch(err=>{
+     
+           if(err.message === "Request failed with status code 422"){
+            setmessage("email exist")
             setloader(false)
-        }
+           }else{
+            setmessage(err.message)
+            setloader(false)
+           }
+   
+           })
+           }else{
+            setmessage("Enter compulsory details")
+            setloader(false)
+           }
     }
 
     const handleChild = (e)=>{
@@ -284,9 +298,9 @@ export default function Personal() {
             childrens.push({id:childrens.length + 1,child:child, dob:childDate})
             resolve()
         }).then(()=>{
-            sessionStorage.setItem("childrens" , JSON.stringify(childrens))
-            setchild("")
-            setchildDate("")
+            // sessionStorage.setItem("childrens" , JSON.stringify(childrens))
+            document.querySelector("#child").value = ""
+            document.querySelector("#childDob").value = ""
             setgetChildrens(true)
         })
 
@@ -304,10 +318,9 @@ export default function Personal() {
         const certificate = current["certificate"].value
         if(school && from && to && certificate && program){
             new Promise((resolve , reject)=>{
-                myschools.push({id:schools.length + 1,school:school, from:from,to:to , certificate:certificate , program:program})
+                schools.push({id:schools.length + 1,school:school, from:from,to:to , certificate:certificate , program:program})
                 resolve()
             }).then(()=>{
-             sessionStorage.setItem("schools" , JSON.stringify(myschools))
              document.querySelector("#school").value = ""
              document.querySelector("#to").value = ""
              document.querySelector("#from").value = ""
@@ -330,7 +343,11 @@ export default function Personal() {
          }
          </div>
             <div className="padding-top-80"></div>
-            <div className="h1" style={{padding:"1rem"}}>
+           <div className="row-flex"  style={{padding:"1rem"}}>
+            <div>
+                <img src="/avatar.svg" className='width-100-max fit' alt="" />
+            </div>
+            <div className="h1">
                 Add a new staff
                 <div className="section row-flex">
                     <Link href="/dashboard">Dashboard</Link>
@@ -340,6 +357,7 @@ export default function Personal() {
                     <Link href="#">New Staff</Link>
                 </div>
             </div>
+           </div>
             <div className=''>
             <Nav noSideBar={true}/>
             {
@@ -358,19 +376,19 @@ export default function Personal() {
                     <div className="h4"><img src="/hand/person.svg" className="height-50"/> Personal Details</div>
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text"  name='id' fullWidth label='Staff ID' />
+                <TextField variant="outlined" type="text" required  name='id' fullWidth label='Staff ID' />
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text"  name='email' fullWidth label='Email' />
+                <TextField variant="outlined" type="text" required  name='email' fullWidth label='Email' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined"  type="text" name='firstName' fullWidth label='First Name' />
+                <TextField variant="outlined"  type="text" required name='firstName' fullWidth label='First Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined"  type="text" name='middlename' fullWidth label='Middle Name' />
+                <TextField variant="outlined"  type="text" required name='middlename' fullWidth label='Middle Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='lastName' fullWidth label='Last Name' />
+                <TextField variant="outlined" type="text" required name='lastName' fullWidth label='Last Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth type="text" name='title' label="Title">
@@ -575,7 +593,7 @@ export default function Personal() {
                 {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <TextField variant="outlined" type="text"  fullWidth label='Name Of Child' onChange={(e)=>setchild(e.target.value)} />
+                    <TextField id='child' variant="outlined" type="text"  fullWidth label='Name Of Child' onChange={(e)=>setchild(e.target.value)} />
                     </div>
                     :""
                 }
@@ -583,7 +601,7 @@ export default function Personal() {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date Of Birth</div>
-                    <TextField variant="standard" type="date"  fullWidth onChange={(e)=>setchildDate(e.target.value)}/>
+                    <TextField id='childDob' variant="standard" type="date"  fullWidth onChange={(e)=>setchildDate(e.target.value)}/>
                     </div>
                     :""
                 }
@@ -597,22 +615,22 @@ export default function Personal() {
                 {
                     childNumber > 0 ?
                
-                    <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="col sm-12  md-12 lg-12 padding">
                     {
-                        childrens ?
-                        childrens.map(docs=>(
+                        childrenDocs ?
+                        childrenDocs.map(docs=>(
                             <div className="row-flex" key={docs.id}>
                                 <div className="padding">{docs.child}</div>
                                 <div className="padding">{docs.dob}</div>
                                 <div className="padding pointer hover-text-red" onClick={()=>{
                                 new Promise((resolve , reject)=>{
-                                    sessionStorage.setItem("childrens" , JSON.stringify(
+                                    setchildrens(
                                         childrens.filter(filt=>{
                                             if(filt.id != docs.id){
                                                 return filt
                                             }
                                         })
-                                    ))
+                                    )
                                     resolve()
                                         
                                     }).then(()=>setgetChildrens(true))
@@ -823,8 +841,8 @@ export default function Personal() {
                     </thead>
                     <tbody>
                     {
-                        schools ?
-                        schools.map(docs=>(
+                        schoolDocs ?
+                        schoolDocs.map(docs=>(
                             <tr className="" key={docs.id}>
                                 <td className="padding">{docs.school}</td>
                                 <td className="padding">{docs.program}</td>
@@ -833,13 +851,11 @@ export default function Personal() {
                                 <td className="padding">{docs.to}</td>
                                 <td className="padding pointer hover-text-red" onClick={()=>{
                                 new Promise((resolve , reject)=>{
-                                    sessionStorage.setItem("schools" , JSON.stringify(
-                                        schools.filter(filt=>{
-                                            if(filt.id != docs.id){
-                                                return filt
-                                            }
-                                        })
-                                    ))
+                                   setschools( schools.filter(filt=>{
+                                    if(filt.id != docs.id){
+                                        return filt
+                                    }
+                                }))
                                     resolve()
                                         
                                     }).then(()=>setgetSchools(true))
@@ -898,7 +914,420 @@ export default function Personal() {
     
     
                 </form>
+
+
+
+
+
+
+
+
+
+                {/* Preview */}
+                <div id="preview">
+                <Dialog open={open} onClose={handleClose} style={{width:"90vw"}}>
+        <DialogTitle>Do you want to submit this data </DialogTitle>
+        <DialogContent >
+       
+
+<div className='row'>
+<div className="col sm-12 h4 lg-12 md-12 padding">
+    Personal Details
+</div>
+<div className="col sm-12 lg-12 md-12 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Email:</div> <div>{preview.email}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>staffId:</div> <div>{preview.staffId}</div>
+</div>
+    </div>
+</div>
+
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>First Name:</div> <div>{preview.firstname}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Middle Name:</div> <div>{preview.middleName}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>last Name:</div> <div>{preview.lastName}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Title:</div> <div>{preview.title}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Address:</div> <div>{preview.address}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Marital status:</div> <div>{preview.maritalStatus}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Spouse:</div> <div>{preview.spouse}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>staffId:</div> <div>{preview.nationality}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Ghana Card:</div> <div>{preview.ghanaCard}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Snnit Number:</div> <div>{preview.snnitNumber}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Contact:</div> <div>{preview.contact}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Gender:</div> <div>{preview.gender}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Date of birth:</div> <div>{preview.dob}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Department
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Department:</div> <div>{preview.department}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Section:</div> <div>{preview.section}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Region:</div> <div>{preview.region}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Unit:</div> <div>{preview.Unit}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Job Information
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Job Title:</div> <div>{preview.jobTitle}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Grade:</div> <div>{preview.grade}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Position:</div> <div>{preview.position}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Salary Level:</div> <div>{preview.salaryLevel}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Date of appointment:</div> <div>{preview.dateAppoint}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Employment Status:</div> <div>{preview.employmentStatus}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Dependancy
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Available Children:</div> <div>{preview.availableChildren ? "Yes" : ""}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Number of Children:</div> <div>{preview.childNumber}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Next of kin:</div> <div>{preview.nextKin}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Relation with next of kin:</div> <div>{preview.nextKinRelation}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Next of kin contact:</div> <div>{preview.nextKinTel}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Next of kin address:</div> <div>{preview.nextKinAddress}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding">
+<table className='table'>
+<thead>
+    <th>Child Name</th>
+    <th>Date of birth</th>
+</thead>
+<tbody>
+{
+preview.children ?
+preview.children.map(docs=>(
+<tr key={docs.id}>
+<td className="padding">{docs.child}</td>
+<td className="padding">{docs.dob}</td>
+</tr>
+))
+:""
+}
+</tbody>
+</table>
+</div>
+
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Father
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Full Name:</div> <div>{preview.father_fullName}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Dead/Alive:</div> <div>{preview.father_alive_or_dead}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Occupation:</div> <div>{preview.father_occupation}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Date of Birth:</div> <div>{preview.fatherdob}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Mother
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Full Name:</div> <div>{preview.mother_fullName}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Dead/Alive:</div> <div>{preview.mother_alive_or_dead}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Occupation:</div> <div>{preview.mother_occupation}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Date of Birth:</div> <div>{preview.motherdob}</div>
+</div>
+    </div>
+</div>
+
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+Criminal Details
+</div>
+
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Convicted of a crime:</div> <div>{preview.crimeConvict ? "Yes" : "No"}</div>
+</div>
+    </div>
+<div className="minSection padding light round-edge">
+<div className='text-bold text-small'>Reason:</div> <div>{preview.crimereason}</div>
+</div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Ever dismissed from public service:</div> <div>{preview.dismissedPublicService ? "Yes" : "No"}</div>
+</div>
+    </div>
+<div className="minSection padding light round-edge">
+<div className='text-bold text-small'>Reason:</div> <div>{preview.servicereason}</div>
+</div>
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding section">
+School
+</div>
+<div className="col sm-12 h4 lg-12 md-12 padding">
+<table className='table'>
+        <thead>
+            <th>School</th>
+            <th>program</th>
+            <th>certificate Type</th>
+            <th>From</th>
+            <th>To</th>
+        </thead>
+        <tbody>
+        {
+            preview.school ?
+            preview.school.map(docs=>(
+                <tr className="" key={docs.id}>
+                    <td className="pading">{docs.school}</td>
+                    <td className="padding">{docs.program}</td>
+                    <td className="padding">{docs.certificate}</td>
+                    <td className="padding">{docs.from}</td>
+                    <td className="padding">{docs.to}</td>
+                </tr>
+            ))
+            :""
+        }
+        </tbody>
+      </table>
+</div>
+
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
+
+    </div>
+
+    </DialogContent>
+        <DialogActions>
+          <Button  color="error" onClick={handleClose}>Cancel</Button> 
+          <Button  color="success" onClick={postData}>Yes, I want to submit</Button>
+        </DialogActions>
+      </Dialog>   
+                </div>
+
         </div>
+        
         </div>
       )
  }else{

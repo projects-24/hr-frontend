@@ -23,6 +23,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Annual from './annual';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -42,6 +43,7 @@ export default function Profiling() {
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
     const [docs, setdocs] = useState(null)
+    const [leaveType, setleaveType] = useState("")
 
     const handleClose = () => {
       setOpen(false);
@@ -141,30 +143,37 @@ setdocs(null)
 }
 const handleLeave = (e)=>{
   const val =  e.target.value
- switch (val) {
-  case "annual":
-    window.location.assign("/leave/annual")
-    break;
+  setleaveType(val)
+//  switch (val) {
+//   case "annual":
+//     window.location.assign("/leave/annual")
+//     break;
  
-  case "maternity":
-    window.location.assign("/leave/maternity")
-    break;
+//   case "maternity":
+//     window.location.assign("/leave/maternity")
+//     break;
  
-  case "study":
-    window.location.assign("/leave/study")
-    break;
+//   case "study":
+//     window.location.assign("/leave/study")
+//     break;
  
-  case "casual":
-    window.location.assign("/leave/casual")
-    break;
+//   case "casual":
+//     window.location.assign("/leave/casual")
+//     break;
  
-  default:
-    break;
- }
+//   default:
+//     break;
+//  }
 }
   if(user){
     return (
       <div className={print ? "" : "content"}>
+
+        {
+          leaveType === "annual" ?
+          <Annual modalOpen/>
+          :""
+        }
                 <Dialog open={open2} onClose={handleClose}>
         <DialogTitle>Leave Planing</DialogTitle>
         <DialogContent>
@@ -230,8 +239,11 @@ const handleLeave = (e)=>{
               : ""
           }        {
               !print ?
-          <div className="row">
-              <div className="col sm-12 md-6 lg-6 padding">
+          <div className="row-flex white padding round-edge">
+            <div>
+              <img src="/request.svg" className='width-100' alt="" />
+            </div>
+              <div className="">
               <div className="h1">Leave Requests</div>
             <div className='text-bold section'>
             Check all leave request and approvals

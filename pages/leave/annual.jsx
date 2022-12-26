@@ -7,8 +7,13 @@ import { useEffect } from 'react';
 import endPoint from '../../components/endPoint';
 import Alert from './../../Funcss/Components/Alert';
 import Axios from 'axios';
-
-export default function Annual() {
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+export default function Annual({modalOpen}) {
     const [loading, setloading] = useState(false)
     const [days, setdays] = useState(0)
     const [reffered, setreffered] = useState(0)
@@ -16,14 +21,22 @@ export default function Annual() {
     const [user, setuser] = useState("")  
     const form = useRef(null)
     const [message, setmessage] = useState("")
+    const [remaining, setremaining] = useState(0)
+    const [open, setOpen] = React.useState(modalOpen ? true :"");
+    const handleClose = () => {
+        setOpen(false);
+      };
+    
+
     useEffect(()=>{
         setTimeout(()=>{
             setmessage(null)
         }, 4000)
     },[message])
     useEffect(() => {
-        const remaining = document.querySelector("#remaining")
-        remaining.value = parseInt(days) + parseInt(reffered)
+        // const remaining = document.querySelector("#remaining")
+        // remaining.value = parseInt(days) + parseInt(reffered)
+        setremaining(parseInt(days) + parseInt(reffered))
     },[reffered , days])
     useEffect(() => {
         if(localStorage.getItem("token")  && !token ){
@@ -91,8 +104,7 @@ export default function Annual() {
             <Loader />
             :""
         }
-        <Nav />
-        <div className="content">
+        <div>
          <div className="message">
          {
             message ?
@@ -100,9 +112,13 @@ export default function Annual() {
             :""
          }
          </div>
+         <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
             <div className="h1">Annual Leave</div>
-            <div className="section text-bold">Make sure to enter all details correctly</div>
-            <div className="m-section">
+            <div className="section text-bold">Make sure to enter all details correctly</div></DialogTitle>
+        <DialogContent>
+ 
+            <div className="">
            <form ref={form}>
            <div className="row">
                     <div className="col sm-12 md-6 lg-6 padding">
@@ -123,7 +139,7 @@ export default function Annual() {
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <div className="text-bold">Number Of days Remaining</div>
-                        <TextField fullWidth type="text" disabled autoFocus id='remaining' name='daysremaining' variant="standard"  />
+                        <TextField fullWidth type="text" value={remaining} disabled autoFocus id='remaining' name='daysremaining' variant="standard"  />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <TextField fullWidth type="text" name='daysrequested' variant="outlined" label='Number Of days Requested' />
@@ -135,12 +151,26 @@ export default function Annual() {
                         <div className="text-bold">Resumption date</div>
                         <TextField fullWidth type="date" name='resumedate' />
                     </div>
-                    <div className="col sm-12 md-6 lg-6 padding">
-                        <button className='primaryBtn btn full-width' onClick={Submit}> Submit Request <i className="icon-paper-plane"></i></button>
-                    </div>
                 </div>
            </form>
             </div>
+        </DialogContent>
+        <DialogActions>
+          <Button color='error' onClick={handleClose}>Cancel</Button>
+          <button className='primaryBtn btn ' onClick={Submit}> Submit Request <i className="icon-paper-plane"></i></button>
+
+        </DialogActions>
+      </Dialog>
+         {/* <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Annual Leave</DialogTitle>
+        <DialogContent>
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog> */}
+           
         </div>
     </div>
   )

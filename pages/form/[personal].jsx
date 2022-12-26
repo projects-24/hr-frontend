@@ -204,7 +204,7 @@ export default function Personal() {
         spouse:spouse,
         availableChildren:availableChildren,
         numberChildren:numberChildren,
-        children:childrens,
+        children:childrenDocs,
         nextKin:nextKin,
         nextKin_Relation:nextKin_Relation,
         nextKin_Tel: nextKin_Tel,
@@ -239,7 +239,7 @@ export default function Personal() {
        mother_nationality:mothernationality,
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
-       school: schools,
+       school: schoolDocs,
        editfield:true
     
         }
@@ -294,20 +294,25 @@ export default function Personal() {
         const current = form.current
         const child = current["child"].value
         const childDate = current["childDate"].value
-       if(child && childDate){
-        new Promise((resolve , reject)=>{
-            childrens.push({id:childrens.length + 1,child:child, dob:childDate})
-            resolve()
-        }).then(()=>{
-            // sessionStorage.setItem("childrens" , JSON.stringify(childrens))
-            document.querySelector("#child").value = ""
-            document.querySelector("#childDob").value = ""
-            setgetChildrens(true)
-        })
-
-       }else{
-        setmessage("Make sure to enter child name and date of birth")
-       }
+        if( childrens.length < childNumber){
+            if(child && childDate){
+                new Promise((resolve , reject)=>{
+                    childrens.push({id:childrens.length + 1,child:child, dob:childDate})
+                    resolve()
+                }).then(()=>{
+                    // sessionStorage.setItem("childrens" , JSON.stringify(childrens))
+                    document.querySelector("#child").value = ""
+                    document.querySelector("#childDob").value = ""
+                    setgetChildrens(true)
+                })
+        
+               }else{
+                setmessage("Make sure to enter child name and date of birth")
+               }
+        }else{
+            setmessage("You can not add more than your children number")
+        }
+ 
     }
     const handleSchool = (e)=>{
         e.preventDefault()
@@ -471,7 +476,7 @@ export default function Personal() {
                     <div className="card row formSection">
                         
                         <div className="col sm-12 md-12 lg-12 padding">
-                            <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/> Department Details</div>
+                            <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/> Directorate Details</div>
                         </div>
                         <div className="col sm-12 md-6 lg-6 padding">
                         <TextField fullWidth type="text" select name='department' label="Department" variant="outlined" onChange={(e)=>setDepartment(e.target.value)}>
@@ -675,7 +680,7 @@ export default function Personal() {
                     }
                 }}> 
                     <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Dead">Decease</MenuItem>
+                    <MenuItem value="Deceased">Decease</MenuItem>
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
@@ -720,7 +725,7 @@ export default function Personal() {
                     }
                 }}>
                     <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Dead">Dead</MenuItem>
+                    <MenuItem value="Deceased">Deceased</MenuItem>
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
@@ -1051,7 +1056,7 @@ export default function Personal() {
     </div>
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding section">
-Department
+Directorate
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">

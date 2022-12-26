@@ -154,7 +154,7 @@
     } 
     ,
     {
-      "department": "comm and dissemition",
+      "department": "comm and dissemination",
       "section": "Editorial"
     }
     ,

@@ -35,9 +35,7 @@ export default function Personal() {
     const [servicereason, setservicereason] = useState("")
     const [user, setuser] = useState(null)
     const [selectedGrade, setselectedGrade] = useState("")
-    const [child, setchild] = useState("")
     const [childNumber, setchildNumber] = useState(0)
-    const [childDate, setchildDate] = useState("")
     const [childrens, setchildrens] = useState([])    
     const [childrenDocs, setchildrenDocs] = useState(null)
     const [getChildrens, setgetChildrens] = useState(true)
@@ -293,6 +291,9 @@ export default function Personal() {
 
     const handleChild = (e)=>{
         e.preventDefault()
+        const current = form.current
+        const child = current["child"].value
+        const childDate = current["childDate"].value
        if(child && childDate){
         new Promise((resolve , reject)=>{
             childrens.push({id:childrens.length + 1,child:child, dob:childDate})
@@ -593,7 +594,7 @@ export default function Personal() {
                 {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <TextField id='child' variant="outlined" type="text"  fullWidth label='Name Of Child' onChange={(e)=>setchild(e.target.value)} />
+                    <TextField id='child' name='child' variant="outlined" type="text"  fullWidth label='Name Of Child'  />
                     </div>
                     :""
                 }
@@ -601,7 +602,7 @@ export default function Personal() {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date Of Birth</div>
-                    <TextField id='childDob' variant="standard" type="date"  fullWidth onChange={(e)=>setchildDate(e.target.value)}/>
+                    <TextField id='childDob' name='childDate' variant="standard" type="date"  fullWidth />
                     </div>
                     :""
                 }
@@ -937,14 +938,14 @@ export default function Personal() {
 <div className="col sm-12 lg-12 md-12 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Email:</div> <div>{preview.email}</div>
+    <div className='text-bold text-small'>Email:</div> <div className='text-small'>{preview.email}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>staffId:</div> <div>{preview.staffId}</div>
+    <div className='text-bold text-small'>staffId:</div> <div className='text-small'>{preview.staffId}</div>
 </div>
     </div>
 </div>
@@ -952,22 +953,14 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>First Name:</div> <div>{preview.firstname}</div>
+    <div className='text-bold text-small'>First Name:</div> <div className='text-small'>{preview.firstname}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Middle Name:</div> <div>{preview.middleName}</div>
-</div>
-    </div>
-</div>
-  
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>last Name:</div> <div>{preview.lastName}</div>
+    <div className='text-bold text-small'>Middle Name:</div> <div className='text-small'>{preview.middleName}</div>
 </div>
     </div>
 </div>
@@ -975,7 +968,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Title:</div> <div>{preview.title}</div>
+    <div className='text-bold text-small'>last Name:</div> <div className='text-small'>{preview.lastName}</div>
 </div>
     </div>
 </div>
@@ -983,7 +976,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Address:</div> <div>{preview.address}</div>
+    <div className='text-bold text-small'>Title:</div> <div className='text-small'>{preview.title}</div>
 </div>
     </div>
 </div>
@@ -991,7 +984,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Marital status:</div> <div>{preview.maritalStatus}</div>
+    <div className='text-bold text-small'>Address:</div> <div className='text-small'>{preview.address}</div>
 </div>
     </div>
 </div>
@@ -999,7 +992,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Spouse:</div> <div>{preview.spouse}</div>
+    <div className='text-bold text-small'>Marital status:</div> <div className='text-small'>{preview.maritalStatus}</div>
 </div>
     </div>
 </div>
@@ -1007,7 +1000,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>staffId:</div> <div>{preview.nationality}</div>
+    <div className='text-bold text-small'>Spouse:</div> <div className='text-small'>{preview.spouse}</div>
 </div>
     </div>
 </div>
@@ -1015,7 +1008,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Ghana Card:</div> <div>{preview.ghanaCard}</div>
+    <div className='text-bold text-small'>staffId:</div> <div className='text-small'>{preview.nationality}</div>
 </div>
     </div>
 </div>
@@ -1023,7 +1016,7 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Snnit Number:</div> <div>{preview.snnitNumber}</div>
+    <div className='text-bold text-small'>Ghana Card:</div> <div className='text-small'>{preview.ghanaCard}</div>
 </div>
     </div>
 </div>
@@ -1031,21 +1024,29 @@ export default function Personal() {
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Contact:</div> <div>{preview.contact}</div>
+    <div className='text-bold text-small'>Snnit Number:</div> <div className='text-small'>{preview.snnitNumber}</div>
+</div>
+    </div>
+</div>
+  
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding light round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Contact:</div> <div className='text-small'>{preview.contact}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Gender:</div> <div>{preview.gender}</div>
+    <div className='text-bold text-small'>Gender:</div> <div className='text-small'>{preview.gender}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of birth:</div> <div>{preview.dob}</div>
+    <div className='text-bold text-small'>Date of birth:</div> <div className='text-small'>{preview.dob}</div>
 </div>
     </div>
 </div>
@@ -1055,28 +1056,28 @@ Department
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Department:</div> <div>{preview.department}</div>
+    <div className='text-bold text-small'>Department:</div> <div className='text-small'>{preview.department}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Section:</div> <div>{preview.section}</div>
+    <div className='text-bold text-small'>Section:</div> <div className='text-small'>{preview.section}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Region:</div> <div>{preview.region}</div>
+    <div className='text-bold text-small'>Region:</div> <div className='text-small'>{preview.region}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Unit:</div> <div>{preview.Unit}</div>
+    <div className='text-bold text-small'>Unit:</div> <div className='text-small'>{preview.Unit}</div>
 </div>
     </div>
 </div>
@@ -1086,42 +1087,42 @@ Job Information
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Job Title:</div> <div>{preview.jobTitle}</div>
+    <div className='text-bold text-small'>Job Title:</div> <div className='text-small'>{preview.jobTitle}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Grade:</div> <div>{preview.grade}</div>
+    <div className='text-bold text-small'>Grade:</div> <div className='text-small'>{preview.grade}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Position:</div> <div>{preview.position}</div>
+    <div className='text-bold text-small'>Position:</div> <div className='text-small'>{preview.position}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Salary Level:</div> <div>{preview.salaryLevel}</div>
+    <div className='text-bold text-small'>Salary Level:</div> <div className='text-small'>{preview.salaryLevel}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of appointment:</div> <div>{preview.dateAppoint}</div>
+    <div className='text-bold text-small'>Date of appointment:</div> <div className='text-small'>{preview.dateAppoint}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Employment Status:</div> <div>{preview.employmentStatus}</div>
+    <div className='text-bold text-small'>Employment Status:</div> <div className='text-small'>{preview.employmentStatus}</div>
 </div>
     </div>
 </div>
@@ -1131,42 +1132,42 @@ Dependancy
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Available Children:</div> <div>{preview.availableChildren ? "Yes" : ""}</div>
+    <div className='text-bold text-small'>Available Children:</div> <div className='text-small'>{preview.availableChildren ? "Yes" : ""}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Number of Children:</div> <div>{preview.childNumber}</div>
+    <div className='text-bold text-small'>Number of Children:</div> <div className='text-small'>{preview.childNumber}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin:</div> <div>{preview.nextKin}</div>
+    <div className='text-bold text-small'>Next of kin:</div> <div className='text-small'>{preview.nextKin}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Relation with next of kin:</div> <div>{preview.nextKinRelation}</div>
+    <div className='text-bold text-small'>Relation with next of kin:</div> <div className='text-small'>{preview.nextKinRelation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin contact:</div> <div>{preview.nextKinTel}</div>
+    <div className='text-bold text-small'>Next of kin contact:</div> <div className='text-small'>{preview.nextKinTel}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin address:</div> <div>{preview.nextKinAddress}</div>
+    <div className='text-bold text-small'>Next of kin address:</div> <div className='text-small'>{preview.nextKinAddress}</div>
 </div>
     </div>
 </div>
@@ -1197,28 +1198,28 @@ Father
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Full Name:</div> <div>{preview.father_fullName}</div>
+    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.father_fullName}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Dead/Alive:</div> <div>{preview.father_alive_or_dead}</div>
+    <div className='text-bold text-small'>Dead/Alive:</div> <div className='text-small'>{preview.father_alive_or_dead}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Occupation:</div> <div>{preview.father_occupation}</div>
+    <div className='text-bold text-small'>Occupation:</div> <div className='text-small'>{preview.father_occupation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of Birth:</div> <div>{preview.fatherdob}</div>
+    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.fatherdob}</div>
 </div>
     </div>
 </div>
@@ -1228,28 +1229,28 @@ Mother
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Full Name:</div> <div>{preview.mother_fullName}</div>
+    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.mother_fullName}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Dead/Alive:</div> <div>{preview.mother_alive_or_dead}</div>
+    <div className='text-bold text-small'>Dead/Alive:</div> <div className='text-small'>{preview.mother_alive_or_dead}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Occupation:</div> <div>{preview.mother_occupation}</div>
+    <div className='text-bold text-small'>Occupation:</div> <div className='text-small'>{preview.mother_occupation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of Birth:</div> <div>{preview.motherdob}</div>
+    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.motherdob}</div>
 </div>
     </div>
 </div>
@@ -1261,21 +1262,21 @@ Criminal Details
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Convicted of a crime:</div> <div>{preview.crimeConvict ? "Yes" : "No"}</div>
+    <div className='text-bold text-small'>Convicted of a crime:</div> <div className='text-small'>{preview.crimeConvict ? "Yes" : "No"}</div>
 </div>
     </div>
 <div className="minSection padding light round-edge">
-<div className='text-bold text-small'>Reason:</div> <div>{preview.crimereason}</div>
+<div className='text-bold text-small'>Reason:</div> <div className='text-small'>{preview.crimereason}</div>
 </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Ever dismissed from public service:</div> <div>{preview.dismissedPublicService ? "Yes" : "No"}</div>
+    <div className='text-bold text-small'>Ever dismissed from public service:</div> <div className='text-small'>{preview.dismissedPublicService ? "Yes" : "No"}</div>
 </div>
     </div>
 <div className="minSection padding light round-edge">
-<div className='text-bold text-small'>Reason:</div> <div>{preview.servicereason}</div>
+<div className='text-bold text-small'>Reason:</div> <div className='text-small'>{preview.servicereason}</div>
 </div>
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding section">

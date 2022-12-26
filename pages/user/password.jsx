@@ -3,10 +3,19 @@ import Nav from '../../components/Nav'
 import {useEffect, useState} from "react"
 import Axios  from 'axios';
 import endPoint from '../../components/endPoint';
+import Alert from '../../Funcss/Components/Alert';
 export default function Password() {
   const [password, setpassword] = useState("")
   const [token, settoken] = useState("")
   const [user, setuser] = useState("")
+  const [message, setmessage] = useState("")
+  
+  useEffect(()=>{
+    setTimeout(()=>{
+        setmessage(null)
+        clearTimeout()
+    }, 4000)
+},[message])
   useEffect(() => {
     if(localStorage.getItem("token")  && !token ){
         settoken(
@@ -31,10 +40,10 @@ export default function Password() {
           }
            
        }).then(()=>{
-        alert("password changed successfully")
-       }).catch(err=>alert(err.message))
+        setmessage("password changed successfully")
+       }).catch(err=>setmessage(err.message))
     }else{
-      alert("Make sure to enter your new password")
+      setmessage("Make sure to enter your new password")
     }
   }
   if(user){
@@ -42,19 +51,29 @@ export default function Password() {
       <div>
           <Nav />
           <div className="content">
-          <div className="width-500-max center">
+          <div className="width-600-max center">
+         <div className="row-flex">
+          <div>
+            <img src="/password.svg" className='width-100-max fit' alt="" />
+          </div>
           <div>
            <div className="h1">Change your password</div>
-      <div className="text-bold section">
+      <div className="text-bold minSection">
       Enter a valid password to change your password
       </div>
            </div>
+         </div>
            <div className="padding-top-40">
-           <div className="text-bold">For {user.firstName}</div>
+           <div className="text-bold">For {user.firstname} {user.middleName} {user.lastName}</div>
             <div className="section">
-            <input type="password" className="input" placeholder='Enter your new password' onChange={(e)=>setpassword(e.target.value)}/>
+            <input type="password" className="input card white" placeholder='Enter your new password' onChange={(e)=>setpassword(e.target.value)}/>
               </div>
-            <button className="btn primaryBtn section" onClick={Change}> Change password </button>
+              {
+                message ?
+                <Alert type="info" message={message}/>
+                :""
+              }
+            <button className="btn primaryBtn section full-width" onClick={Change}> Change password </button>
             </div>
           </div>
           </div>

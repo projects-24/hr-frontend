@@ -28,9 +28,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// import dynamic from "next/dynamic"
-// const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
-import 'table2excel';
+import dynamic from "next/dynamic"
+const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+// import 'table2excel';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -150,17 +150,22 @@ const Edit = ()=>{
 }
 
 const exportExcel = ()=>{
-const Table2Excel = window.Table2Excel;
+// const Table2Excel = window.Table2Excel;
+// new Promise((resolve, reject) => {
+//     setexportTrigger(true)
+//     resolve()
+// }).then(()=>{
+//     const table2excel = new Table2Excel();
+//     table2excel.export(document.querySelector("#records"));
+//     setdropdown(0)
+//     setexportTrigger(false)
+// })
 new Promise((resolve, reject) => {
-    setexportTrigger(true)
-    resolve()
+setexportTrigger(true)
 }).then(()=>{
-    const table2excel = new Table2Excel();
-    table2excel.export(document.querySelector("#records"));
     setdropdown(0)
     setexportTrigger(false)
 })
-
 
 }
 
@@ -173,7 +178,10 @@ const TriggerDrop = ()=>{
   }
   return (
     <div className={print ? "" : "content"}>
-    
+    {
+        exportTrigger ?
+        <Excel />:""
+    }
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
         <DialogContent>

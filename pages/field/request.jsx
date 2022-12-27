@@ -16,7 +16,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
 
-export default function Planing() {
+export default function fieldReuest() {
   const [user, setuser] = useState(null)
   const [token, settoken] = useState("")
   const [message, setmessage] = useState("")
@@ -55,19 +55,22 @@ const handlePlaning = (e)=>{
 e.preventDefault()
 const current = form.current
 const id = user._id
-const type_leave = current["leavetype"].value
 const start_date = current["startdate"].value
 const end_date = current["enddate"].value
+const project_name = current["project"].value
+const coordinator = current["coordinator"].value
 
 const data = {
   staffDetails_id:id,
-  type_leave:type_leave,
   start_date:start_date,
-  end_date:end_date
+  end_date:end_date,
+  projectName:project_name,
+  projectCoordinator:coordinator,
+
 }
 
-if(start_date && end_date && type_leave){
-Axios.post(endPoint + "/leaveplanner/register" , data , {
+if(start_date && end_date && project_name && coordinator){
+Axios.post(endPoint + "/fieldrequest" , data , {
   headers:{
     authorization:`Bearer ${token}`
   }
@@ -76,6 +79,8 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
   document.querySelector("#startDate").value = ""
   document.querySelector("#endDate").value = ""
   document.querySelector("#leaveType").value = ""
+  document.querySelector("#project").value = ""
+  document.querySelector("#coorodinator").value = ""
   setdocs(null)
   setrender("requests")
 }).catch(err=>setmessage(err.message))
@@ -106,7 +111,7 @@ useEffect(() => {
   }
 
   const Approved = ()=>{
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true, isPending:false} , {
+    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true} , {
       headers:{
         authorization:`Bearer ${token}`
       }
@@ -120,7 +125,7 @@ useEffect(() => {
     })
   }
   const disApproved = ()=>{
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false , isPending:false} , {
+    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
@@ -176,19 +181,19 @@ useEffect(() => {
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
-                Leave Planing
+                Field Request
         </div>
         <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
-                    <Link href="#">Leave planing</Link>
+                    <Link href="#">Field Request</Link>
 
                 </div>
             </div>
         </div>
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
+          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Make Request</button>
         </div>
         <div className="section padding row-flex">
        <div>
@@ -212,7 +217,8 @@ useEffect(() => {
                   <th>Full Name</th>
                   <th>Department</th>
                   <th>Section</th>
-                  <th>Leave</th>
+                  <th>project name</th>
+                  <th>project coordinator</th>
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>status</th>
@@ -273,7 +279,7 @@ useEffect(() => {
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
-                        !doc.approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.approval ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
                         doc.isPending ? 
@@ -331,7 +337,7 @@ useEffect(() => {
       </div>
     </div>
       </div>
-      <div className=" col sm-12 md-12 lg-12 padding">
+      <div className=" col sm-12 md-6 lg-6 padding">
     <div className="card">
       <div className="h4 padding">Department Details</div>
       <div className="row">
@@ -346,17 +352,19 @@ useEffect(() => {
       </div>
     </div>
       </div>
-      <div className=" col sm-12 md-12 lg-12 padding">
+      <div className=" col sm-12 md-6 lg-6 padding">
     <div className="card">
-      <div className="h4 padding">Type of Leave</div>
-     <div className="padding">
-      <select name="leavetype" id="leaveType" className="input">
-      <option value="annual">Annual</option>
-      <option value="maternity">Maternity</option>
-      <option value="casual">Casual</option>
-      <option value="study">Study</option>
-      </select>
-     </div>
+      <div className="h4 padding">Project Details</div>
+      <div className="row">
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Project Name</div>
+          <input id='project' type="text" name='project' placeholder='Enter project name' className='input' defaultValue={user.department}/>
+        </div>
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Project Coordinator</div>
+          <input id='coordinator' type="text" name='coordinator' placeholder='Enter project coordinator' className='input' defaultValue={user.section} />
+        </div>
+      </div>
     </div>
       </div>
 </div>

@@ -5,90 +5,106 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Axios from 'axios';
+import endPoint from '../../components/endPoint';
+import Alert from './../../Funcss/Components/Alert';
+
 export default function Planing() {
   const [user, setuser] = useState(null)
+  const [token, settoken] = useState("")
+  const [message, setmessage] = useState("")
+  const [success, setsuccess] = useState("")
+  const [docs, setdocs] = useState("")
+  const [render, setrender] = useState("plan")
+  useEffect(()=>{
+    setTimeout(()=>{
+        setmessage(null)
+    }, 4000)
+},[message])
+  useEffect(()=>{
+    setTimeout(()=>{
+        setsuccess(null)
+    }, 4000)
+},[success])
+  const form = useRef(null)
   useEffect(() => {
-    if(!user){
-        if(localStorage.getItem("user")){
-            setuser(
-                JSON.parse(
-                    localStorage.getItem("user")
-                )
+    if(localStorage.getItem("token")  && !token ){
+        settoken(
+            JSON.parse(
+                localStorage.getItem("token")
             )
-        }
+        )
+        setuser(
+            JSON.parse(
+                localStorage.getItem("user")
+            )
+        )
     }
 })
+const handlePlaning = (e)=>{
+e.preventDefault()
+const current = form.current
+const id = user._id
+const type_leave = current["leavetype"].value
+const start_date = current["startdate"].value
+const end_date = current["enddate"].value
+
+const data = {
+  staffDetails_id:id,
+  type_leave:type_leave,
+  start_date:start_date,
+  end_date:end_date
+}
+
+if(start_date && end_date && type_leave){
+Axios.post(endPoint + "/leaveplanner/register" , data , {
+  headers:{
+    authorization:`Bearer ${token}`
+  }
+}).then(()=>{
+  setsuccess("Request made successfully")
+  document.querySelector("#startDate").value = ""
+  document.querySelector("#endDate").value = ""
+  document.querySelector("#leaveType").value = ""
+  setdocs(null)
+}).catch(err=>setmessage(err.message))
+}else{
+  setmessage("Make sure to enter all compulsory fields")
+}
+}
+useEffect(() => {
+  if(!docs){
+  Axios.get(endPoint  + "/leaveplanner/showall" , {
+      headers:{
+          authorization:`Bearer ${token}`
+      }
+  }).then(dataDocs=>{
+     const getDocs = dataDocs.data.LeavePlanner
+     console.log(getDocs)
+     setdocs(getDocs)
+  }).catch(err=>setmessage(err.message))
+  }
+  })
  if(user){
   return (
-    <div>
-        <Nav noSideBar/>
-        <div className="row padding-top-80" style={{alignItems:"flex-start"}}>
-        <div className='col sm-12 md-6 lg-6 padding'>
-          <div className="card">
-            <table className="table">
-              <thead>
-              <th>Staff ID</th>
-                <th>Full Name</th>
-                <th>Department</th>
-                <th>Section</th>
-                <th>Leave</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>00393</td>
-                  <td>Iddris abdul wahab</td>
-                  <td>IT</td>
-                  <td>No department</td>
-                  <td>Annual</td>
-                  <td>01/01/2023</td>
-                  <td>01/01/2024</td>
-                </tr>
-                <tr>
-                  <td>00393</td>
-                  <td>Iddris abdul wahab</td>
-                  <td>IT</td>
-                  <td>No department</td>
-                  <td>Annual</td>
-                  <td>01/01/2023</td>
-                  <td>01/01/2024</td>
-                </tr>
-                <tr>
-                  <td>00393</td>
-                  <td>Iddris abdul wahab</td>
-                  <td>IT</td>
-                  <td>No department</td>
-                  <td>Annual</td>
-                  <td>01/01/2023</td>
-                  <td>01/01/2024</td>
-                </tr>
-                <tr>
-                  <td>00393</td>
-                  <td>Iddris abdul wahab</td>
-                  <td>IT</td>
-                  <td>No department</td>
-                  <td>Annual</td>
-                  <td>01/01/2023</td>
-                  <td>01/01/2024</td>
-                </tr>
-                <tr>
-                  <td>00393</td>
-                  <td>Iddris abdul wahab</td>
-                  <td>IT</td>
-                  <td>No department</td>
-                  <td>Annual</td>
-                  <td>01/01/2023</td>
-                  <td>01/01/2024</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-</div>
-
-          <div className='col sm-12 md-6 lg-6 padding'>
-          <div className="row-flex">
+    <div className='content'>
+         {
+            message ?
+           <div className="message">
+             <Alert type="danger"  message={message}/>
+           </div>
+            :""
+         }
+         {
+            success ?
+           <div className="message">
+             <Alert type="success" message={success}/>
+           </div>
+            :""
+         }
+        <Nav/>
+        <div className="row-flex fit white round-edge padding section">
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
@@ -102,74 +118,144 @@ export default function Planing() {
                 </div>
             </div>
         </div>
-                <div className="m-section">
-                <div className="row">
-                    <div className="col sm-6 lg-6 md-6 padding">
-                    <div className="card fit">
-                    <div className="text-bold minSection">Proposed Start Date</div>
-                    <input type="date" className='input' />
-                </div>
-                    </div>
-                    <div className="col sm-6 lg-6 md-6 padding">
-                    <div className="card fit">
-                    <div className="text-bold minSection">Proposed End Date</div>
-                    <input type="date" className='input' />
-                </div>
-                    </div>
-                    <div className=" col sm-12 md-12 lg-12 padding">
-                  <div className="card">
-                    <div className="h4 padding">Personal details</div>
-                    <div className="row">
-                      <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="minSection text-bold">Staff ID</div>
-                        <input type="text" name='staffId' disabled className='input' defaultValue={user.staffId} placeholder='Staff ID'/>
-                      </div>
-                      <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="minSection text-bold">Full Name</div>
-                        <input type="text" name='fullname' disabled className='input' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
-                      </div>
-                    </div>
-                  </div>
-                    </div>
-                    <div className=" col sm-12 md-12 lg-12 padding">
-                  <div className="card">
-                    <div className="h4 padding">Department Details</div>
-                    <div className="row">
-                      <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="minSection text-bold">Department</div>
-                        <input type="text" name='department' disabled className='input' defaultValue={user.department}/>
-                      </div>
-                      <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="minSection text-bold">Section</div>
-                        <input type="text" name='section' disabled className='input' defaultValue={user.section} />
-                      </div>
-                    </div>
-                  </div>
-                    </div>
-                    <div className=" col sm-12 md-12 lg-12 padding">
-                  <div className="card">
-                    <div className="h4 padding">Type of Leave</div>
-                   <div className="padding">
-                    <select name="leavetype" id="" className="input">
-                    <option value="annual">Annual</option>
-                    <option value="maternity">Maternity</option>
-                    <option value="casual">Casual</option>
-                    <option value="study">Study</option>
-                    </select>
-                   </div>
-                  </div>
-                    </div>
+        <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
+          <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
+          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
+        </div>
+        <div className="section" >
+          {
+            render === "requests" ?
+            <div className=' padding'>
+            <div className="card" style={{
+              overflowX:"auto"
+            }}>
+              <table className="table">
+                <thead>
+                <th>Staff ID</th>
+                  <th>Full Name</th>
+                  <th>Department</th>
+                  <th>Section</th>
+                  <th>Leave</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                </thead>
+                <tbody>
+                  {
+                    docs ?
+                    docs.filter(filt=>{
+                      if(user.position === "Government Statistician (CEO)"
+                        || user.position === "Deputy Gov Statistician (DGS)"
+                        || user.department === "Human resource"
+                        ){
+                         return docs
+                     }else if(user.position === "Director" || user.position === "Deputy Director" ){
+                         if(filt.staffDetails.department === user.department){
+                             return filt
+                         }
+                     }else if(user.position === "Sectional Head"){
+                             if(filt.staffDetails.section === user.section){
+                               return filt
+                             }
+                     }else if(user.position === "Unit Head"){
+                         if(filt.staffDetails.section === user.unit){
+                           return filt
+                         }
+                     }else if(user.position === "Officer"){
+                      if(filt.staffDetails._id === user._id){
+                        return filt
+                      }
+                     }
+                   }).map(doc=>(
+                    
+                    <tr key={doc._id}>
+                      <td>{doc.staffDetails.staffId}</td>
+                      <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
+                      <td>{doc.staffDetails.department}</td>
+                      <td>{doc.staffDetails.section}</td>
+                      <td>{doc.type_leave}</td>
+                      <td>{doc.start_date}</td>
+                      <td>{doc.end_date}</td>
+                    </tr>
+                   ))
+                   :""
+                  }
+                </tbody>
+              </table>
             </div>
-                </div>
- 
-          </div>
-
-
+  </div>
+  :       <div className=''>
+   
+  <form ref={form} className="">
+  <div className="row">
+      <div className="col sm-6 lg-6 md-6 padding">
+      <div className="card fit">
+      <div className="text-bold minSection">Proposed Start Date</div>
+      <input type="date" id='startDate' className='input' name='startdate' />
+  </div>
+      </div>
+      <div className="col sm-6 lg-6 md-6 padding">
+      <div className="card fit">
+      <div className="text-bold minSection">Proposed End Date</div>
+      <input type="date" id='endDate' className='input' name='enddate' />
+  </div>
+      </div>
+      <div className=" col sm-12 md-12 lg-12 padding">
+    <div className="card">
+      <div className="h4 padding">Personal details</div>
+      <div className="row">
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Staff ID</div>
+          <input type="text" name='staffId' disabled className='input' defaultValue={user.staffId} placeholder='Staff ID'/>
+        </div>
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Full Name</div>
+          <input type="text" name='fullname' disabled className='input' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
+        </div>
+      </div>
+    </div>
+      </div>
+      <div className=" col sm-12 md-12 lg-12 padding">
+    <div className="card">
+      <div className="h4 padding">Department Details</div>
+      <div className="row">
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Department</div>
+          <input type="text" name='department' disabled className='input' defaultValue={user.department}/>
+        </div>
+        <div className="col sm-12 md-6 lg-6 padding">
+          <div className="minSection text-bold">Section</div>
+          <input type="text" name='section' disabled className='input' defaultValue={user.section} />
+        </div>
+      </div>
+    </div>
+      </div>
+      <div className=" col sm-12 md-12 lg-12 padding">
+    <div className="card">
+      <div className="h4 padding">Type of Leave</div>
+     <div className="padding">
+      <select name="leavetype" id="leaveType" className="input">
+      <option value="annual">Annual</option>
+      <option value="maternity">Maternity</option>
+      <option value="casual">Casual</option>
+      <option value="study">Study</option>
+      </select>
+     </div>
+    </div>
+      </div>
+</div>
+  </form>
 
  {/* Submit btn */}
-        <button className="btn submitNewstaff">
+ <button className="btn submitNewstaff" onClick={handlePlaning}>
         Submit  <i className="icon-paper-plane"></i>
         </button>
+</div>
+
+          }
+   
+
+
+
         </div>
     </div>
   )

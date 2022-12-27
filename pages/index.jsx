@@ -51,8 +51,11 @@ export default function Home() {
         <div className="central loginLeft gradient">
         <div>
 
-        <div className="h1 text-white">
-            Ghana Statistical Service HR Management System 
+        <div className="h1 text-white text-center">
+            Ghana Statistical Service 
+            <div className="section h2">
+            Human Resource Management System 
+            </div>
           </div>
         </div>
         </div>

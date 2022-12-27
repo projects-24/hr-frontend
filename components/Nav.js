@@ -28,7 +28,7 @@ const Nav = ({noSideBar}) => {
     var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var scrolled = (winScroll / height) * 100;
     setscrolledState(scrolled)
-    if(scrolled > 15){
+    if(scrolled > 5){
        setnavDrop(true)
     }else{
        setnavDrop(false)

@@ -28,7 +28,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+// import dynamic from "next/dynamic"
+// const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+import 'table2excel';
+const Table2Excel = window.Table2Excel;
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -47,6 +50,8 @@ export default function Profiling() {
     const [currentId, setcurrentId] = useState("")
     const [userStatus, setuserStatus] = useState("")
     const [docs, setdocs] = useState(null)
+const [dropdown, setdropdown] = useState(0)
+const [exportTrigger, setexportTrigger] = useState(false)
     
     const handleClose = () => {
       setOpen(false);
@@ -70,9 +75,13 @@ export default function Profiling() {
         new Promise((resolve, reject) => {
             setprint(true)
             resolve()
+            setexportTrigger(true)
         }).then(()=>{
+            setdropdown(0)
             window.print()
             setprint(false)
+            setexportTrigger(false)
+
         })
    
     }
@@ -141,9 +150,30 @@ const Edit = ()=>{
    })
 }
 
+const exportExcel = ()=>{
+new Promise((resolve, reject) => {
+    setexportTrigger(true)
+    resolve()
+}).then(()=>{
+    const table2excel = new Table2Excel();
+    table2excel.export(document.querySelector("#records"));
+    setdropdown(0)
+    setexportTrigger(false)
+})
+
+
+}
+
+const TriggerDrop = ()=>{
+    if(dropdown === 0){
+      setdropdown(300)
+    }else{
+      setdropdown(0)
+    }
+  }
   return (
     <div className={print ? "" : "content"}>
-   
+    
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
         <DialogContent>
@@ -191,7 +221,7 @@ const Edit = ()=>{
         //  </div>
         //  <div className="section">
         //     <Link href="/dashboard">
-        //        <div class="padding-top-10 text-bold p-text">
+        //        <div className="padding-top-10 text-bold p-text">
         //         <i className="icon-grid"></i> BACK TO DASHBOARD
         //        </div>
         //     </Link>
@@ -209,15 +239,14 @@ const Edit = ()=>{
             !print ?
             <div>
                 <div className= 'section padding-bottom-30'>
-            <div className="h1">Staff Profiling</div>
-          <div className='text-bold section'>
-          Check all staffs, add and edit staff details and profile
-         </div>
-         <div className="section row-flex">
+           <div className="white padding round-edge">
+           <div className="h1">Staff Profiling</div>
+         <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
                     <Link href="#">Staff profiling</Link>
                 </div>
+           </div>
         </div>
 
                 <div className="row  card section fit">
@@ -267,7 +296,7 @@ const Edit = ()=>{
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Enter staff Id"
+        placeholder="Enter staff ID"
         // inputProps={{ 'aria-label': 'search google maps' }}
         onChange={(e)=>{
             setinputData(e.target.value)
@@ -284,22 +313,25 @@ const Edit = ()=>{
    
        
             </div>
-            <div className="padding-5 ">
-            <button className="button info text-white width-100-min" onClick={handlePrint}>
-            <i className="icon-printer"></i>    Print
-            </button>
-           {/* <Link href="/register">
-           <button className="button success text-white width-100-min">
-            <i className="icon-user"></i> New Account
-            </button>
-            </Link> */}
-           <Link href="/form/personal">
+          <div className="exportBtnContainer">
+            
+          <div className="dropDown">
+      <div className="dropContent up" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+        <div className='card'>
+            <button className='btn p-text minSection full-width' onClick={exportExcel}>Excel</button>
+            <button className='btn p-text minSection full-width' onClick={handlePrint}>PDF</button>
+        </div>
+      </div>
+      <div className=' trigger' onClick={TriggerDrop}>
+    <button className='exportBtn'><i className="lni lni-add-files"></i> Export Data</button>
+      </div>
+    </div>
+          </div>
+                <Link href="/form/personal">
            <button className="button indigo text-white width-100-min">
            <i className="lni lni-user"></i> New Staff
             </button>
             </Link>
-                </div>
-
         </div>
         :""
                 }
@@ -323,37 +355,27 @@ const Edit = ()=>{
                 <div className='text-bold'>Section:{section ? section : "All section"}</div>
             </div>
      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell style={{fontWeight:"bold"}}>Staff ID</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left">Full Name</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left">Department</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left">Grade</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left">Section</TableCell>
-            <TableCell style={{fontWeight:"bold"}} align="left">Employment Status</TableCell>
+      <table className='table stripped' id="records">
+        <thead>
+          {
+            exportTrigger ?
+            <tr>
+             <td style={{fontWeight:"bold"}}>Department: {department ? department : "All departments"}</td>
+              <td style={{fontWeight:"bold"}}>Section: {section ? section : "All Sections"}</td> 
+            </tr>
+            :""
+          }
+          <tr>
+            <td style={{fontWeight:"bold"}}>Staff ID</td>
+            <td style={{fontWeight:"bold"}} align="left">Full Name</td>
+            <td style={{fontWeight:"bold"}} align="left">Department</td>
+            <td style={{fontWeight:"bold"}} align="left">Grade</td>
+            <td style={{fontWeight:"bold"}} align="left">Section</td>
+            <td style={{fontWeight:"bold"}} align="left">Employment Status</td>
             {/* <TableCell style={{fontWeight:"bold"}} align="left"> Status</TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            {
-                // .filter(doc=>{
-                //     if(search === "" && 
-                //     department  === "" && 
-                //     section  === "" && 
-                //     employment  === ""
-                //     ){
-                //         return docs
-                //     }else if(
-                //         search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
-                //         department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
-                //         section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
-                //         employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
-                //     ){
-                //         return doc
-                //     }
-                //   }).filter
-            }
+          </tr>
+        </thead>
+        <tbody>
           {docs ? docs.filter(filt=>{
              if(user.position === "Government Statistician (CEO)"
               || user.position === "Deputy Gov Statistician (DGS)"
@@ -373,7 +395,7 @@ const Edit = ()=>{
                   return filt
                 }
             }else{
-                getDocs.filter(filt =>{
+                docs.filter(filt =>{
                     if(filt.staffId === user.staffId){
                         setdocs(filt)
                     }
@@ -397,29 +419,29 @@ const Edit = ()=>{
                     }
                   })
           .map((row) => (
-            <TableRow
+            <tr
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <td component="th" scope="row">
                 {row.staffId}
-              </TableCell>
-              <TableCell align="left">{row.surname} {row.middleName} {row.lastName}</TableCell>
-              <TableCell align="left">{row.department}</TableCell>
-              <TableCell align="left">{row.grade}</TableCell>
-              <TableCell align="left">{row.section}</TableCell>
-              <TableCell align="left">{row.employmentStatus}</TableCell>
+              </td>
+              <td align="left">{row.surname} {row.middleName} {row.lastName}</td>
+              <td align="left">{row.department}</td>
+              <td align="left">{row.grade}</td>
+              <td align="left">{row.section}</td>
+              <td align="left">{row.employmentStatus}</td>
               {/* <TableCell align="left">
              <div className="avatar" onClick={()=>handleStatus(row)}>
               {row.status  === "post" ? <i className="lni lni-checkmark text-success"></i> : row.status  === "leave" ? <i className="lni lni-close text-danger"></i> : row.status  === "field" ? <i className="lni lni-checkmark text-info"></i> : ""}
              </div>
               </TableCell> */}
-            </TableRow>
+            </tr>
           ))
         :""
         }
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </TableContainer>
            </div>
             </div>

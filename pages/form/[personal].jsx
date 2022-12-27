@@ -250,7 +250,10 @@ export default function Personal() {
             lastName &&
             address &&
             nationality &&
-            tel ){
+            tel &&
+            department &&
+            jobTitle
+            ){
                 setpreview(data)
                 setOpen(true)
             }else{
@@ -621,14 +624,21 @@ export default function Personal() {
                 {
                     childNumber > 0 ?
                
-                    <div className="col sm-12  md-12 lg-12 padding">
+                    <div className="col sm-12  md-6 lg-6 padding">
+                   <table className="table text-left">
+                    <thead>
+                        <td>Child</td>
+                        <td>Date of birth</td>
+                        <td>Remove</td>
+                    </thead>
+                    <tbody>
                     {
                         childrenDocs ?
                         childrenDocs.map(docs=>(
-                            <div className="row-flex" key={docs.id}>
-                                <div className="padding">{docs.child}</div>
-                                <div className="padding">{docs.dob}</div>
-                                <div className="padding pointer hover-text-red" onClick={()=>{
+                            <tr className="row-flex" key={docs.id}>
+                                <td className="padding">{docs.child}</td>
+                                <td className="padding">{docs.dob}</td>
+                                <td className="padding pointer hover-text-red" onClick={()=>{
                                 new Promise((resolve , reject)=>{
                                     setchildrens(
                                         childrens.filter(filt=>{
@@ -640,11 +650,13 @@ export default function Personal() {
                                     resolve()
                                         
                                     }).then(()=>setgetChildrens(true))
-                                }}><i className="lni lni-trash-can"></i> Delete</div>
-                            </div>
+                                }}><i className="lni lni-trash-can"></i> Delete</td>
+                            </tr>
                         ))
                         :""
                     }
+                    </tbody>
+                   </table>
                 </div>
                     :""
                 }
@@ -807,7 +819,7 @@ export default function Personal() {
                         <div className="formSection card row">
                         <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>School</div>
+                    <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>Education</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
@@ -1158,21 +1170,21 @@ Dependancy
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Relation with next of kin:</div> <div className='text-small'>{preview.nextKinRelation}</div>
+    <div className='text-bold text-small'>Relation with next of kin:</div> <div className='text-small'>{preview.nextKin_Relation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin contact:</div> <div className='text-small'>{preview.nextKinTel}</div>
+    <div className='text-bold text-small'>Next of kin contact:</div> <div className='text-small'>{preview.nextKin_Tel}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin address:</div> <div className='text-small'>{preview.nextKinAddress}</div>
+    <div className='text-bold text-small'>Next of kin address:</div> <div className='text-small'>{preview.nextKin_Address}</div>
 </div>
     </div>
 </div>
@@ -1285,7 +1297,7 @@ Criminal Details
 </div>
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding section">
-School
+Education
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding">
 <table className='table'>

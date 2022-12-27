@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
 :root{
-    --primaryColor: #6C63FF;
+    --primaryColor: rgb(108, 99, 255);
     --secondaryColor: #680865;
     --light:#eaf1fb !important;
     --color:#202020;
@@ -241,7 +241,7 @@ z-index: 5;
     align-items: center;
     justify-content: flex-end;
     width: 200px;
-    gap: 4px;
+    grid-gap: 2rem;
     cursor: pointer;
     padding: 12px 20px;
     border-radius: 10px;
@@ -353,7 +353,7 @@ z-index: 5;
     left: 0;
     width: 49%;
     padding: 2rem;
-    background:url("/gss.jpg");
+    background:url("/gss_black.jpg");
     background-size: cover;
 }
 .loginRight{
@@ -363,7 +363,18 @@ z-index: 5;
     width: 50%;
     height: 100vh;
     padding: 2rem;
+
 }
+
+/* .loginRight::after{
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+} */
 @media(max-width:800px){
     .loginLeft{display: none;}
     .loginRight{position: static;width: 100%;}
@@ -504,4 +515,25 @@ z-index: 5;
     border-radius: 3rem;
     background-color: var(--primaryColor);
     color: white;
+  }
+
+  .exportBtnContainer{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 3;
+    width: fit-content;
+  }
+  .exportBtn{
+    border: 1px solid var(--primaryColor);
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 5rem;
+    color: var(--primaryColor);
+    transition: 0.3s ease;
+    cursor: pointer;
+
+  }
+  .exportBtn:hover{
+    opacity: 0.8;
   }

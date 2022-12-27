@@ -16,7 +16,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
 
-export default function fieldReuest() {
+export default function Reuest() {
   const [user, setuser] = useState(null)
   const [token, settoken] = useState("")
   const [message, setmessage] = useState("")

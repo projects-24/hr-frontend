@@ -1,5 +1,4 @@
 import 'table2excel';
-
 export default function Excel(table) {
     if(table){
         const Table2Excel = window.Table2Excel;

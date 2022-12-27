@@ -208,6 +208,12 @@ user.position === "Director"
       </div>
     </div>
     <div className="section hr"></div>
+    <Link href="/field/request">
+      <div className='sideLink'>
+      <i className="lni lni-infinite"></i> Field Request
+      </div>
+    </Link>
+    <div className="section hr"></div>
     <Link href="/appraisal">
       <div className='sideLink'>
       <i className="icon-direction"></i> Pfm | Appraisal

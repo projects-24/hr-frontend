@@ -9,6 +9,12 @@ import { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
 import endPoint from '../../components/endPoint';
 import Alert from './../../Funcss/Components/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Button } from '@mui/material';
 
 export default function Planing() {
   const [user, setuser] = useState(null)
@@ -17,6 +23,9 @@ export default function Planing() {
   const [success, setsuccess] = useState("")
   const [docs, setdocs] = useState("")
   const [render, setrender] = useState("plan")
+  const [open, setOpen] = useState(false)
+  const [userDoc, setuserDoc] = useState("")
+  const [filter, setfilter] = useState("")
   useEffect(()=>{
     setTimeout(()=>{
         setmessage(null)
@@ -68,9 +77,11 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
   document.querySelector("#endDate").value = ""
   document.querySelector("#leaveType").value = ""
   setdocs(null)
+  setrender("requests")
 }).catch(err=>setmessage(err.message))
 }else{
   setmessage("Make sure to enter all compulsory fields")
+  clearTimeout()
 }
 }
 useEffect(() => {
@@ -83,12 +94,69 @@ useEffect(() => {
      const getDocs = dataDocs.data.LeavePlanner
      console.log(getDocs)
      setdocs(getDocs)
-  }).catch(err=>setmessage(err.message))
+  }).catch(err=>{
+    clearTimeout()
+    setmessage(err.message) 
+  })
   }
   })
+
+  const handleClose = ()=>{
+    setOpen(false)
+  }
+
+  const Approved = ()=>{
+    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true} , {
+      headers:{
+        authorization:`Bearer ${token}`
+      }
+    }).then(()=>{
+      setsuccess("Approved successfully")
+      setOpen(false)
+      setdocs(null)
+    }).catch(err=>{
+      setmessage(err.message)
+      setOpen(false)
+    })
+  }
+  const disApproved = ()=>{
+    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true} , {
+      headers:{
+        authorization:`Bearer ${token}`
+      }
+    }).then(()=>{
+      setsuccess("disapproved")
+      setOpen(false)
+      setdocs(null)
+    }).catch(err=>{
+      setmessage(err.message)
+      setOpen(false)
+    })
+  }
+
  if(user){
   return (
     <div className='content'>
+
+{
+  userDoc ?
+  <Dialog open={open} onClose={handleClose}>
+  <DialogContent>
+    <div className="text-center section">
+      <img src="/question.svg" className='width-200' alt="" />
+    </div>
+    <div className='section text-bold'>
+      Do your want to approve leave plan for <span className="p-text"> {userDoc.staffDetails.firstname + " " + userDoc.staffDetails.middleName + " " +  userDoc.staffDetails.lastName}</span>
+    </div>
+  </DialogContent>
+  <DialogActions>
+    <Button color='error' onClick={disApproved}>Declined</Button>
+    <button className='primaryBtn btn ' onClick={Approved}> Approve <i className="icon-paper-plane"></i></button>
+
+  </DialogActions>
+</Dialog>
+:""
+}
          {
             message ?
            <div className="message">
@@ -122,14 +190,23 @@ useEffect(() => {
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
         </div>
+        <div className="section padding row-flex">
+       <div>
+       <div className="minSection text-bold">Select status</div>
+          <select name="" id="" className='input card white' onChange={(e)=>setfilter(e.target.value)}>
+            <option value="">All</option>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="disapproved">Disapproved</option>
+          </select>
+       </div>
+        </div>
         <div className="section" >
           {
             render === "requests" ?
             <div className=' padding'>
-            <div className="card" style={{
-              overflowX:"auto"
-            }}>
-              <table className="table">
+            <div className="card tableContainer">
+              <table className="table" >
                 <thead>
                 <th>Staff ID</th>
                   <th>Full Name</th>
@@ -138,6 +215,8 @@ useEffect(() => {
                   <th>Leave</th>
                   <th>Start Date</th>
                   <th>End Date</th>
+                  <th>status</th>
+                  <th>Approve/Declined</th>
                 </thead>
                 <tbody>
                   {
@@ -165,7 +244,21 @@ useEffect(() => {
                         return filt
                       }
                      }
-                   }).map(doc=>(
+                   }).filter(filt=>{
+                    if(filter === ""){
+                      return docs
+                    }
+                    else if(filter === "pending" && filt.isPending){
+                      return filt
+                    }
+                    else if(filter === "approved" && filt.approval){
+                      return filt
+                    }
+                    else if(filter === "disapproved" && !filt.approval){
+                      return filt
+                    }
+                   })
+                   .map(doc=>(
                     
                     <tr key={doc._id}>
                       <td>{doc.staffDetails.staffId}</td>
@@ -175,6 +268,27 @@ useEffect(() => {
                       <td>{doc.type_leave}</td>
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
+                      <td>{
+                      doc.approval ? 
+                      <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                        approved</span> 
+                        : doc.isPending ? 
+                        <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                        Pending
+                        </span>  : 
+                          <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                          Disapproved
+                          </span> 
+                        }
+                        </td>
+                      <td>
+                        <button className='btn p-text text-small' onClick={()=>{
+                          setuserDoc(doc)
+                          setOpen(true)
+                        }}>
+                          options
+                        </button>
+                      </td>
                     </tr>
                    ))
                    :""

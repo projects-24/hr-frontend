@@ -31,7 +31,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 // import dynamic from "next/dynamic"
 // const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import 'table2excel';
-const Table2Excel = window.Table2Excel;
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -151,6 +150,7 @@ const Edit = ()=>{
 }
 
 const exportExcel = ()=>{
+const Table2Excel = window.Table2Excel;
 new Promise((resolve, reject) => {
     setexportTrigger(true)
     resolve()

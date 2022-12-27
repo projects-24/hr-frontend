@@ -111,7 +111,7 @@ justify-content: center;}
     top: calc(var(--navHeight) + 50px);
     right: 0;
     width: calc(97.5% - 220px) ;
-    padding: 20px 10%;
+    padding: 20px 5%;
  
     /* max-width: 800px; */
 
@@ -224,6 +224,11 @@ z-index: 5;
     height: calc(100% - 120px);
     border-radius: .5rem;
     overflow: auto;
+}
+td{min-width: 100px !important;}
+.tableContainer{
+  max-width: 100%;
+  overflow-x: scroll !important;
 }
 @media (max-width:800px){
   .leaveSidebar{display: none;}

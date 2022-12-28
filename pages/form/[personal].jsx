@@ -249,7 +249,6 @@ export default function Personal() {
         if( email &&
             id &&
             firstName &&
-            middleName &&
             lastName &&
             address &&
             nationality &&

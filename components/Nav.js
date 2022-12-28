@@ -273,12 +273,12 @@ user.position === "Director"
       </div>
     </Link>
     <div className="section hr"></div>
-    <Link href="/appraisal">
+    {/* <Link href="/appraisal">
       <div className='sideLink'>
       <i className="icon-direction"></i> Pfm | Appraisal
       </div>
     </Link>
-    <div className="section hr"></div>
+    <div className="section hr"></div> */}
 
     <Link href="/retirement/management">
       <div className='sideLink'>

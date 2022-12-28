@@ -341,11 +341,15 @@ const TriggerDrop = ()=>{
       </div>
     </div>
           </div>
-                <Link href="/form/personal">
-           <button className="button indigo text-white width-100-min">
-           <i className="lni lni-user"></i> New Staff
-            </button>
-            </Link>
+           {
+            user.department === "Human resource" ?
+            <Link href="/form/personal">
+            <button className="button indigo text-white width-100-min">
+            <i className="lni lni-user"></i> New Staff
+             </button>
+             </Link>
+             :""
+           }
         </div>
         :""
                 }

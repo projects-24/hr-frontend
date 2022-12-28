@@ -38,6 +38,8 @@ export default function Reuest() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+    }else{
+      setcanUserApprove(false)
     }
   }
   })

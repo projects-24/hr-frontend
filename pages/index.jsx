@@ -5,10 +5,17 @@ import  Axios  from 'axios';
 import endPoint from "../components/endPoint"
 import Loader from '../components/loader';
 import TextField from '@mui/material/TextField';
+import Alert from '../Funcss/Components/Alert';
 export default function Home() {
   const [email , setemail] = useState("")
     const [password , setpassword] = useState("")
     const [loader, setloader] = useState(false)
+    const [message, setmessage] = useState("")
+    useEffect(()=>{
+      setTimeout(()=>{
+          setmessage(null)
+      }, 4000)
+  },[message])
   const handleLogin = ()=>{
     if(email && password){
       setloader(true)
@@ -21,16 +28,16 @@ export default function Home() {
         }).then(()=>window.location.assign("/dashboard"))
       }).catch(err=>{
         if(err.message === "Request failed with status code 422"){
-          alert("Wrong credentials")
+          setmessage("Wrong credentials")
           setloader(false)
         }else{
-        alert(err.message)
+        setmessage(err.message)
         setloader(false)
         }
       
       })
     }else{
-      alert("Make sure to enter your email and password")
+      setmessage("Make sure to enter your email and password")
       setloader(false)
      }
   }
@@ -46,6 +53,13 @@ export default function Home() {
         <Loader />
         :""
       }
+            {
+            message ?
+           <div className="message">
+             <Alert type="danger"  message={message}/>
+           </div>
+            :""
+         }
 
       <div className="">
         <div className="central loginLeft gradient">

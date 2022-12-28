@@ -145,9 +145,9 @@ useEffect(() => {
     }).then(()=>{
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave request have been approved by ${user.position}`,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your field request have been approved successfully by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
-        receiver:user._id,
+        receiver:userDoc.staffDetails._id,
         date:fullDate
       }, {
         headers:{
@@ -173,9 +173,9 @@ useEffect(() => {
     }).then(()=>{
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave request have been disapproved by ${user.position}`,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your field request have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
-        receiver:user._id,
+        receiver:userDoc.staffDetails._id,
         date:fullDate
       }, {
         headers:{

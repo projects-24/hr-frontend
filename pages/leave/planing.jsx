@@ -152,9 +152,9 @@ useEffect(() => {
       const location = window.location.href
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been approved by ${user.position}`,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
-        receiver:user._id,
+        receiver:userDoc.staffDetails._id,
         date:fullDate
       }, {
         headers:{
@@ -173,14 +173,37 @@ useEffect(() => {
     })
   }
   const disApproved = ()=>{
+    var locale = "en-us";
+    var today = new Date();
+    var day = today.getDate();
+    var fullDay = ("0" + day).slice(-2);
+    var longMonth = today.toLocaleString(locale, { month: "long" });
+    var year = today.getFullYear();
+    const fullDate = longMonth + " " + fullDay + ", " + year
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false , isPending:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
-      setsuccess("disapproved")
-      setOpen(false)
-      setdocs(null)
+      const location = window.location.href
+      Axios.post(endPoint + "/notification",{
+        sender_id:user._id,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+        link:location,
+        receiver:userDoc.staffDetails._id,
+        date:fullDate
+      }, {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      } 
+      ).then(()=>{
+        setsuccess("disapproved")
+        setOpen(false)
+        setdocs(null)
+      })
+
     }).catch(err=>{
       setmessage(err.message)
       setOpen(false)

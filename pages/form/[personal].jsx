@@ -186,6 +186,8 @@ export default function Personal() {
         setmarital(maritalStatus)
         setchildrens(availableChildren)
 
+        const getYearOfBirth = dob.slice(0,4)
+
         const data  = {
         staffId:id,
         title:title,
@@ -219,7 +221,7 @@ export default function Personal() {
         position:position,
         appointDate:appointDate,
         salaryLevel: salary,
-        status:"",
+        status:"post",
         passportNumber:"",
         passportIssueDate:"",
         placeIssue:"",
@@ -240,6 +242,7 @@ export default function Personal() {
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
        school: schoolDocs,
+       retirementAge:parseInt(getYearOfBirth) + 60,
        editfield:true
     
         }

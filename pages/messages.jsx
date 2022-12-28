@@ -191,8 +191,8 @@ export default function Messages() {
             }
             {
                 notNumber < 1 ?
-                <div className="card central">
-                        You will find your notifications here
+                <div className="card central text-bold">
+                      No notification
                     </div>
                     :""
             }

@@ -10,7 +10,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-const Nav = ({noSideBar, notNumber}) => {
+import endPoint from "./endPoint";
+import  Axios  from 'axios';
+const Nav = ({noSideBar}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
   const [user, setuser] = useState("")  
@@ -18,8 +20,34 @@ const Nav = ({noSideBar, notNumber}) => {
   const [open, setOpen] = useState(false)
   const [scrolledState, setscrolledState] = useState(0)
   const [navDrop, setnavDrop] = useState(false)
-  const [getNotification, setgetNotification] = useState(false)
+  const [getNotification, setgetNotification] = useState(true)
   const [dropDown, setdropDown] = useState(false)
+  const [docs, setdocs] = useState(null)
+  const [token, settoken] = useState("")
+  const [notNumber, setnotNumber] = useState(0)
+  const [myNots, setmyNots] = useState("")
+  
+  useEffect(() => {
+    if(!docs && token && getNotification){
+    Axios.get(endPoint  + "/notification/showall" , {
+        headers:{
+            authorization:`Bearer ${token}`
+        }
+    }).then(dataDocs=>{
+       const getDocs = dataDocs.data.notification
+       setmyNots(getDocs.filter((filt)=>{
+        if(filt.receiver === "leaveplaning" || filt.receiver === user._id){
+        return filt
+        }
+    }))
+    }).catch(err=>{
+      clearTimeout()
+      console.log(err.message) 
+    })
+
+    }
+    })
+
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
     try {
@@ -52,6 +80,11 @@ const Nav = ({noSideBar, notNumber}) => {
             localStorage.getItem("user")
         )
     )
+    settoken(
+      JSON.parse(
+          localStorage.getItem("token")
+      )
+  )
         }
 
   })
@@ -120,21 +153,20 @@ const handleDrop = (e)=>{
 setdropDown(!dropDown)  
 }
 
-useEffect(() => {
-if(getNotification){
-  const callNotification = ()=>{
-    window.Notification.requestPermission().then(perm =>{
-        if(perm === "granted"){
-           new Notification("This is my title",{body:"Come on notification visit:https://google.com" , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
-        }else{
-            alert("Gss wants to send you a notification, make sure to grant permission")
-        }
-    })
-   }
 
-   callNotification()
+
+  const callNotification = ()=>{
+  //   window.Notification.requestPermission().then(perm =>{
+  //       if(perm === "granted"){
+  //          new Notification("This is my title",{body:"Come on notification visit:https://google.com" , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+  //       }else{
+  //           alert("Gss wants to send you a notification, make sure to grant permission")
+  //       }
+  //   })
+  //  }
+
+  //  callNotification()
 }
-},[getNotification])
 
 if(user){
   return ( 
@@ -158,7 +190,7 @@ if(user){
     <div className="context " id="dropContext">
     <a className="dropdown text-bold" onClick={handleDrop}>
    <div className="row-flex">
-   <div className="avatar card white"><img src="/avatar.svg" className="width-40 height-40 circle border" /></div>
+  <img src="/avatar.svg" className="width-40 height-40 circle" />
    <div>{user.firstname} {user.middleName} {user.lastName}</div>
    </div>
       </a>

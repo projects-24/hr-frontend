@@ -30,7 +30,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
-// import 'table2excel';
+
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -51,6 +51,7 @@ export default function Profiling() {
     const [docs, setdocs] = useState(null)
 const [dropdown, setdropdown] = useState(0)
 const [exportTrigger, setexportTrigger] = useState(false)
+const [report, setreport] = useState("all")
     
     const handleClose = () => {
       setOpen(false);
@@ -149,12 +150,12 @@ const Edit = ()=>{
 
 const exportExcel = ()=>{
 new Promise((resolve, reject) => {
-setexportTrigger(true)
+  setexportTrigger(true)
+  resolve()
 }).then(()=>{
-    setdropdown(0)
-    setexportTrigger(false)
+  setexportTrigger(false)
+  setdropdown(0)
 })
-
 }
 
 const TriggerDrop = ()=>{
@@ -166,7 +167,9 @@ const TriggerDrop = ()=>{
   }
   return (
     <div className={print ? "" : "content"}>
-        <Excel trigger={exportTrigger}/>
+
+        <Excel Trigger = {exportTrigger} />
+   
 
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
@@ -270,6 +273,23 @@ const TriggerDrop = ()=>{
                             }
                     </TextField>
                 </div>
+                <div className="padding-5 col sm-12 md-4 lg-4">
+                    <TextField fullWidth label="Report" select name="" id=""  onChange={(e)=>setreport(e.target.value)}>
+                        <MenuItem value="all">All Data</MenuItem>
+                        <MenuItem value="Department">Directorate</MenuItem>
+                        <MenuItem value="Section">Section</MenuItem>
+                        <MenuItem value="Position">Position</MenuItem>
+                        <MenuItem value="Grade">Grade</MenuItem>
+                        <MenuItem value="Employment Status">Employment Status</MenuItem>
+                        <MenuItem value="Appointment Date">Appointment Date</MenuItem>
+                        <MenuItem value="Salary Level">Salary Level</MenuItem>
+                        <MenuItem value="Education">Education</MenuItem>
+                        <MenuItem value="Retirement">Retirement</MenuItem>
+                        <MenuItem value="Contact">Contact</MenuItem>
+                        <MenuItem value="Marital Status">Marital Status</MenuItem>
+                        <MenuItem value="Status">Status</MenuItem>
+                    </TextField>
+                </div>
                 {/* <div className="padding-5 col sm-12 md-4 lg-4">
                     <TextField fullWidth defaultValue={""} label="Employment Status" select name="" id=""  onChange={(e)=>setemployment(e.target.value)}>
                         <MenuItem value="">All</MenuItem>
@@ -354,19 +374,51 @@ const TriggerDrop = ()=>{
           {
             exportTrigger ?
             <tr>
-             <td style={{fontWeight:"bold"}}>Department: {department ? department : "All departments"}</td>
-              <td style={{fontWeight:"bold"}}>Section: {section ? section : "All Sections"}</td> 
+             <td style={{fontWeight:"bold", width:"200px"}}>Department: {department ? department : "All departments"}</td>
+              <td style={{fontWeight:"bold", width:"200px"}}>Section: {section ? section : "All Sections"}</td> 
             </tr>
             :""
           }
           <tr>
-            <td style={{fontWeight:"bold"}}>Staff ID</td>
-            <td style={{fontWeight:"bold"}} align="left">Full Name</td>
-            <td style={{fontWeight:"bold"}} align="left">Department</td>
-            <td style={{fontWeight:"bold"}} align="left">Grade</td>
-            <td style={{fontWeight:"bold"}} align="left">Section</td>
-            <td style={{fontWeight:"bold"}} align="left">Employment Status</td>
-            {/* <TableCell style={{fontWeight:"bold"}} align="left"> Status</TableCell> */}
+            <td style={{fontWeight:"bold", width:"200px"}}>Staff ID</td>
+            <td style={{fontWeight:"bold", width:"200px"}}>Email</td>
+            <td style={{fontWeight:"bold", width:"200px"}} align="left">Full Name</td>
+             {
+              report === "all" || report === "Department" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Department</td>
+              :  ""}{  report === "all" || report === "Grade" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Grade</td> 
+              :""}
+              {
+              report === "all" || report === "Position" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Position</td>
+              :  ""}{
+              report === "all" || report === "Employment Status" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Employment Status</td>
+              :  ""}{
+              report === "all" || report === "Appointment Date" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Appointment Date</td>
+              :  ""}{
+              report === "all" || report === "Salary Level" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Salary Level</td>
+              :  ""}{
+              report === "all" || report === "Education" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Education</td>
+              :  ""}{
+              report === "all" || report === "Retirement" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Retirement</td>
+              :  ""}{
+              report === "all" || report === "Contact" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Contact</td>
+              :  ""}{
+              report === "all" || report === "Marital Status" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Marital Status</td>
+              :  ""}{
+              report === "all" || report === "Status" ?  
+              <td style={{fontWeight:"bold", width:"200px"}} align="left">Status</td>
+              :  ""}
+             
+
           </tr>
         </thead>
         <tbody>
@@ -404,7 +456,7 @@ const TriggerDrop = ()=>{
                     ){
                         return docs
                     }else if(
-                        search.toString().trim().toLowerCase().includes(doc.staffId.toString().trim().toLowerCase()) ||
+
                         department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
                         section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
                         employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
@@ -420,16 +472,65 @@ const TriggerDrop = ()=>{
               <td component="th" scope="row">
                 {row.staffId}
               </td>
+              <td align="left">{row.email}</td>
               <td align="left">{row.surname} {row.middleName} {row.lastName}</td>
-              <td align="left">{row.department}</td>
-              <td align="left">{row.grade}</td>
-              <td align="left">{row.section}</td>
-              <td align="left">{row.employmentStatus}</td>
-              {/* <TableCell align="left">
-             <div className="avatar" onClick={()=>handleStatus(row)}>
-              {row.status  === "post" ? <i className="lni lni-checkmark text-success"></i> : row.status  === "leave" ? <i className="lni lni-close text-danger"></i> : row.status  === "field" ? <i className="lni lni-checkmark text-info"></i> : ""}
-             </div>
-              </TableCell> */}
+      
+              {
+              report === "all" || report === "Department" ?  
+              <td style={{width:"200px"}} align="left">{row.department}</td>
+              :  ""}
+              {  report === "all" || report === "Grade" ?  
+              <td style={{ width:"200px"}} align="left">{row.grade}</td> : ""
+              }
+              {
+              report === "all" || report === "Position" ?  
+              <td style={{width:"200px"}} align="left">{row.position}</td>
+              :  ""}
+              {
+              report === "all" || report === "Employment Status" ?  
+              <td style={{ width:"200px"}} align="left">{row.employmentStatus}</td>
+              :  ""}
+              {
+              report === "all" || report === "Appointment Date" ?  
+              <td style={{ width:"200px"}} align="left">{row.appointDate}</td>
+              :  ""}{
+              report === "all" || report === "Salary Level" ?  
+              <td style={{width:"200px"}} align="left">{row.salaryLevel}</td>
+              :  ""}{
+              report === "all" || report === "Education" ?  
+              <td style={{ width:"300px"}} align="left">
+                {row.school.map(sDoc=>(
+                  <span key={sDoc.id}>
+                   <div className="row-flex">
+                   {sDoc.school} 
+                   </div>
+                    {/* {sDoc.start_date - sDoc.endDate} */}
+                  </span>
+                ))
+                }
+
+              </td>
+              :  ""}{
+              report === "all" || report === "Retirement" ?  
+              <td style={{width:"200px"}} align="left">
+                {row.retirementAge}
+              </td>
+              :  ""}{
+              report === "all" || report === "Contact" ?  
+              <td style={{ width:"200px"}} align="left">
+                {row.contact.toString()}
+              </td>
+              :  ""}{
+              report === "all" || report === "Marital Status" ?  
+              <td style={{width:"200px"}} align="left">
+                {row.maritalStatus}
+              </td>
+              :  ""}{
+              report === "all" || report === "Status" ?  
+              <td style={{width:"200px"}} align="left">
+                {row.status}
+              </td>
+              :  ""}
             </tr>
           ))
         :""

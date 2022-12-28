@@ -26,6 +26,22 @@ export default function Planing() {
   const [open, setOpen] = useState(false)
   const [userDoc, setuserDoc] = useState("")
   const [filter, setfilter] = useState("")
+  const [canUserApprove, setcanUserApprove] = useState(false)
+
+  useEffect(() => {
+  if(user && !canUserApprove){
+    if(user.position === "Deputy Director" ||
+      user.position === "Government Statistician (CEO)"
+      || user.position === "Deputy Gov Statistician (DGS)" ||
+      user.position === "Director" ||
+      user.position === "Deputy Director" ||
+      user.position === "Sectional Head"
+      ){
+      setcanUserApprove(true)
+    }
+  }
+  }, [canUserApprove])
+
   useEffect(()=>{
     setTimeout(()=>{
         setmessage(null)
@@ -216,7 +232,11 @@ useEffect(() => {
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>status</th>
-                  <th>Approve/Declined</th>
+              {
+                canUserApprove ?
+                <th>Approve/Declined</th>
+                :""
+              }
                 </thead>
                 <tbody>
                   {
@@ -284,14 +304,18 @@ useEffect(() => {
 
                           
                         </td>
+                    {
+                      canUserApprove ? 
                       <td>
-                        <button className='btn p-text text-small' onClick={()=>{
-                          setuserDoc(doc)
-                          setOpen(true)
-                        }}>
-                          options
-                        </button>
-                      </td>
+                      <button className='btn p-text text-small' onClick={()=>{
+                        setuserDoc(doc)
+                        setOpen(true)
+                      }}>
+                        options
+                      </button>
+                    </td>
+                    :""
+                    }
                     </tr>
                    ))
                    :""

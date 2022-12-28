@@ -74,12 +74,10 @@ const [exportTrigger, setexportTrigger] = useState(false)
         new Promise((resolve, reject) => {
             setprint(true)
             resolve()
-            setexportTrigger(true)
         }).then(()=>{
             setdropdown(0)
             window.print()
             setprint(false)
-            setexportTrigger(false)
 
         })
    
@@ -150,16 +148,6 @@ const Edit = ()=>{
 }
 
 const exportExcel = ()=>{
-// const Table2Excel = window.Table2Excel;
-// new Promise((resolve, reject) => {
-//     setexportTrigger(true)
-//     resolve()
-// }).then(()=>{
-//     const table2excel = new Table2Excel();
-//     table2excel.export(document.querySelector("#records"));
-//     setdropdown(0)
-//     setexportTrigger(false)
-// })
 new Promise((resolve, reject) => {
 setexportTrigger(true)
 }).then(()=>{
@@ -178,10 +166,8 @@ const TriggerDrop = ()=>{
   }
   return (
     <div className={print ? "" : "content"}>
-    {
-        exportTrigger ?
-        <Excel />:""
-    }
+        <Excel trigger={exportTrigger}/>
+
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
         <DialogContent>

@@ -26,6 +26,22 @@ export default function Reuest() {
   const [open, setOpen] = useState(false)
   const [userDoc, setuserDoc] = useState("")
   const [filter, setfilter] = useState("")
+  const [canUserApprove, setcanUserApprove] = useState(false)
+
+  useEffect(() => {
+  if(user && !canUserApprove){
+    if(user.position === "Deputy Director" ||
+      user.position === "Government Statistician (CEO)"
+      || user.position === "Deputy Gov Statistician (DGS)" ||
+      user.position === "Director" ||
+      user.position === "Deputy Director" ||
+      user.position === "Sectional Head"
+      ){
+      setcanUserApprove(true)
+    }
+  }
+  }, [canUserApprove])
+  
   useEffect(()=>{
     setTimeout(()=>{
         setmessage(null)
@@ -70,19 +86,20 @@ const data = {
 }
 
 if(start_date && end_date && project_name && coordinator){
-Axios.post(endPoint + "/fieldrequest" , data , {
+Axios.post(endPoint + "/fieldrequest/register" , data , {
   headers:{
     authorization:`Bearer ${token}`
   }
 }).then(()=>{
+  setdocs(null)
+  setrender("requests")
   setsuccess("Request made successfully")
   document.querySelector("#startDate").value = ""
   document.querySelector("#endDate").value = ""
   document.querySelector("#leaveType").value = ""
   document.querySelector("#project").value = ""
   document.querySelector("#coorodinator").value = ""
-  setdocs(null)
-  setrender("requests")
+
 }).catch(err=>setmessage(err.message))
 }else{
   setmessage("Make sure to enter all compulsory fields")
@@ -91,14 +108,16 @@ Axios.post(endPoint + "/fieldrequest" , data , {
 }
 useEffect(() => {
   if(!docs){
-  Axios.get(endPoint  + "/leaveplanner/showall" , {
+  Axios.get(endPoint  + "/fieldrequest/showall" , {
       headers:{
           authorization:`Bearer ${token}`
       }
   }).then(dataDocs=>{
-     const getDocs = dataDocs.data.LeavePlanner
-     console.log(getDocs)
-     setdocs(getDocs)
+     const getDocs = dataDocs.data.fieldrequest
+     if(getDocs.length > 0){
+      setdocs(getDocs)
+     }
+
   }).catch(err=>{
     clearTimeout()
     setmessage(err.message) 
@@ -111,7 +130,7 @@ useEffect(() => {
   }
 
   const Approved = ()=>{
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true} , {
+    Axios.patch(endPoint + "/fieldrequest/update/" +  userDoc._id , {approval:true , isPending:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
@@ -125,7 +144,7 @@ useEffect(() => {
     })
   }
   const disApproved = ()=>{
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false} , {
+    Axios.patch(endPoint + "/fieldrequest/update/" +  userDoc._id , {approval:false, isPending:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
@@ -151,7 +170,7 @@ useEffect(() => {
       <img src="/question.svg" className='width-200' alt="" />
     </div>
     <div className='section text-bold'>
-      Do your want to approve leave plan for <span className="p-text"> {userDoc.staffDetails.firstname + " " + userDoc.staffDetails.middleName + " " +  userDoc.staffDetails.lastName}</span>
+      Do your want to approve request for <span className="p-text"> {userDoc.staffDetails.firstname + " " + userDoc.staffDetails.middleName + " " +  userDoc.staffDetails.lastName}</span>
     </div>
   </DialogContent>
   <DialogActions>
@@ -222,13 +241,16 @@ useEffect(() => {
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>status</th>
-                  <th>Approve/Declined</th>
+                  {
+                    canUserApprove ? <th>Approve/Declined</th> : ""
+                  }
                 </thead>
                 <tbody>
                   {
                     docs ?
                     docs.filter(filt=>{
-                      if(user.position === "Government Statistician (CEO)"
+                      if(
+                        user.position === "Government Statistician (CEO)"
                         || user.position === "Deputy Gov Statistician (DGS)"
                         || user.department === "Human resource"
                         ){
@@ -271,7 +293,8 @@ useEffect(() => {
                       <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
                       <td>{doc.staffDetails.department}</td>
                       <td>{doc.staffDetails.section}</td>
-                      <td>{doc.type_leave}</td>
+                      <td>{doc.projectName}</td>
+                      <td>{doc.projectCoordinator}</td>
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
                       <td>{
@@ -290,14 +313,18 @@ useEffect(() => {
 
                           
                         </td>
+                     {
+                      canUserApprove ?
                       <td>
-                        <button className='btn p-text text-small' onClick={()=>{
-                          setuserDoc(doc)
-                          setOpen(true)
-                        }}>
-                          options
-                        </button>
-                      </td>
+                      <button className='btn p-text text-small' onClick={()=>{
+                        setuserDoc(doc)
+                        setOpen(true)
+                      }}>
+                        options
+                      </button>
+                    </td>
+                    :""
+                     }
                     </tr>
                    ))
                    :""

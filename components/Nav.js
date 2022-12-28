@@ -221,7 +221,7 @@ user.position === "Director"
     </Link>
     <div className="section hr"></div>
 
-    <Link href="/register">
+    <Link href="/retirement/management">
       <div className='sideLink'>
       <i className="icon-clock"></i> Retirement Mgt
       </div>

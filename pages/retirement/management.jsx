@@ -3,19 +3,7 @@ import Nav from './../../components/Nav';
 import Link from 'next/link';
 import { useEffect } from 'react';
 export default function Management() {
-useEffect(() => {
-    const callNotification = ()=>{
-        window.Notification.requestPermission().then(perm =>{
-            if(perm === "granted"){
-               new Notification("This is my title",{body:"Come on notification visit:https://google.com" , icon:"../../public/favicon.png"})
-            }else{
-                alert("Make sure to grant notification permission")
-            }
-        })
-       }
-    
-       callNotification()
-})
+
 
   return (
     <div>

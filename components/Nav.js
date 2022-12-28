@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-const Nav = ({noSideBar}) => {
+const Nav = ({noSideBar, notNumber}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
   const [user, setuser] = useState("")  
@@ -18,6 +18,8 @@ const Nav = ({noSideBar}) => {
   const [open, setOpen] = useState(false)
   const [scrolledState, setscrolledState] = useState(0)
   const [navDrop, setnavDrop] = useState(false)
+  const [getNotification, setgetNotification] = useState(false)
+  const [dropDown, setdropDown] = useState(false)
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
     try {
@@ -115,10 +117,24 @@ const LogOut = ()=>{
 }
 
 const handleDrop = (e)=>{
-      e.target.parentNode.children[1].classList.toggle("hidden");
-      // e.target.children[0].classList.toggle("rotate");
-  
+setdropDown(!dropDown)  
 }
+
+useEffect(() => {
+if(getNotification){
+  const callNotification = ()=>{
+    window.Notification.requestPermission().then(perm =>{
+        if(perm === "granted"){
+           new Notification("This is my title",{body:"Come on notification visit:https://google.com" , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+        }else{
+            alert("Gss wants to send you a notification, make sure to grant permission")
+        }
+    })
+   }
+
+   callNotification()
+}
+},[getNotification])
 
 if(user){
   return ( 
@@ -133,27 +149,38 @@ if(user){
     <div>
 
     </div>
-    <div>
+    <div className="row-flex">
+      <div>
+        <Link href="/messages">
+        <i className="icon-bell" Not={""} id="notification" />
+        </Link>
+      </div>
     <div className="context " id="dropContext">
     <a className="dropdown text-bold" onClick={handleDrop}>
-    <i className="">  <img src="/avatar.svg" className="width-40 height-40 circle border" /></i>
+   <div className="row-flex">
+   <div className="avatar card white"><img src="/avatar.svg" className="width-40 height-40 circle border" /></div>
+   <div>{user.firstname} {user.middleName} {user.lastName}</div>
+   </div>
       </a>
-    <ul className="hidden card">
-    <Link href="/account">
-        <div className='sideLink'>
-        <i className="icon-user"></i> My Account
-        </div>
-    </Link>
-    <Link href="/user/password">
-        <div className='sideLink'>
-        <i className="icon-shield"></i> Change password
-        </div>
-    </Link>
-    <li className="divisor"></li>
-        <div className='sideLink' onClick={LogOut}>
-        <i className="icon-logout"></i> Logout
-        </div>
-    </ul>
+      {
+        dropDown ?
+        <ul className=" card">
+        <Link href="/account">
+            <div className='sideLink'>
+            <i className="icon-user"></i> My Account
+            </div>
+        </Link>
+        <Link href="/user/password">
+            <div className='sideLink'>
+            <i className="icon-shield"></i> Change password
+            </div>
+        </Link>
+        <li className="divisor"></li>
+            <div className='sideLink' onClick={LogOut}>
+            <i className="icon-logout"></i> Logout
+            </div>
+        </ul>:""
+      }
 </div>
 
     </div>

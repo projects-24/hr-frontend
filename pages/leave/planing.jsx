@@ -40,7 +40,7 @@ export default function Planing() {
       setcanUserApprove(true)
     }
   }
-  }, [canUserApprove])
+  })
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -88,12 +88,26 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
     authorization:`Bearer ${token}`
   }
 }).then(()=>{
-  setsuccess("Request made successfully")
-  document.querySelector("#startDate").value = ""
-  document.querySelector("#endDate").value = ""
-  document.querySelector("#leaveType").value = ""
-  setdocs(null)
-  setrender("requests")
+  const location = window.location.href
+  Axios.post(endPoint + "/notification",{
+    sender_id:user._id,
+    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} to plan leave, click on the link below to verify or disapprove request`,
+    link:location,
+    receiver:"leaveplaning",
+    date:new Date()
+  }, {
+    headers:{
+      authorization:`Bearer ${token}`
+    }
+  } 
+  ).then(()=>{
+    setsuccess("Request made successfully")
+    document.querySelector("#startDate").value = ""
+    document.querySelector("#endDate").value = ""
+    document.querySelector("#leaveType").value = ""
+    setdocs(null)
+    setrender("requests")
+  })
 }).catch(err=>setmessage(err.message))
 }else{
   setmessage("Make sure to enter all compulsory fields")
@@ -112,7 +126,7 @@ useEffect(() => {
      setdocs(getDocs)
   }).catch(err=>{
     clearTimeout()
-    setmessage(err.message) 
+    console.log(err.message) 
   })
   }
   })
@@ -122,14 +136,37 @@ useEffect(() => {
   }
 
   const Approved = ()=>{
+    var locale = "en-us";
+    var today = new Date();
+    var day = today.getDate();
+    var fullDay = ("0" + day).slice(-2);
+    var longMonth = today.toLocaleString(locale, { month: "long" });
+    var year = today.getFullYear();
+    const fullDate = longMonth + " " + fullDay + ", " + year
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true, isPending:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
-      setsuccess("Approved successfully")
-      setOpen(false)
-      setdocs(null)
+      const location = window.location.href
+      Axios.post(endPoint + "/notification",{
+        sender_id:user._id,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been approved by ${user.position}`,
+        link:location,
+        receiver:user._id,
+        date:fullDate
+      }, {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      } 
+      ).then(()=>{
+        setsuccess("Approved successfully")
+        setOpen(false)
+        setdocs(null)
+      })
+
     }).catch(err=>{
       setmessage(err.message)
       setOpen(false)

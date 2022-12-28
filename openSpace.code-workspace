@@ -12,5 +12,10 @@
 		{
 			"path": "styles"
 		}
-	]
+	],
+	"settings": {
+		"emmet.includeLanguages": {
+			"javascript": "javascriptreact"
+		}
+	}
 }

@@ -145,7 +145,7 @@ useEffect(() => {
     }).then(()=>{
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your field request have been approved successfully by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your field request have been approved successfully by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
         receiver:userDoc.staffDetails._id,
         date:fullDate
@@ -173,7 +173,7 @@ useEffect(() => {
     }).then(()=>{
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your field request have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your field request have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
         receiver:userDoc.staffDetails._id,
         date:fullDate
@@ -338,7 +338,7 @@ useEffect(() => {
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
-                        !doc.approval ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
                         doc.isPending ? 
@@ -350,7 +350,7 @@ useEffect(() => {
                           
                         </td>
                      {
-                      canUserApprove ?
+                      canUserApprove && doc.isPending ?
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
                         setuserDoc(doc)
@@ -359,7 +359,7 @@ useEffect(() => {
                         options
                       </button>
                     </td>
-                    :""
+                    :<td  className='text-center'>-</td>
                      }
                     </tr>
                    ))

@@ -1,5 +1,9 @@
 export default [
     {
+        "title":"Statistician"
+    }
+    ,
+    {
         "title":"Accountant"
     }
     ,

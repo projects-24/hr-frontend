@@ -152,7 +152,7 @@ useEffect(() => {
       const location = window.location.href
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave plan have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
         receiver:userDoc.staffDetails._id,
         date:fullDate
@@ -189,7 +189,7 @@ useEffect(() => {
       const location = window.location.href
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
-        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave plan have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave plan have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
         link:location,
         receiver:userDoc.staffDetails._id,
         date:fullDate
@@ -365,7 +365,7 @@ useEffect(() => {
                           
                         </td>
                     {
-                      canUserApprove ? 
+                      canUserApprove  && doc.isPending  ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
                         setuserDoc(doc)
@@ -374,7 +374,7 @@ useEffect(() => {
                         options
                       </button>
                     </td>
-                    :""
+                    : <td  className='text-center'>-</td>
                     }
                     </tr>
                    ))

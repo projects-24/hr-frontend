@@ -42,6 +42,7 @@ export default function Messages() {
     })
     useEffect(() => {
         if(!docs){
+       setTimeout(() => {
         Axios.get(endPoint  + "/notification/showall" , {
             headers:{
                 authorization:`Bearer ${token}`
@@ -50,16 +51,31 @@ export default function Messages() {
            const getDocs = dataDocs.data.notification
           if(getDocs.length > 0){
             setdocs(getDocs)
-            getDocs.filter((filt)=>{
-                if(filt.receiver === user._id ){
-                 setnotNumber(notNumber + filt.length)
-                }
-            })
+            clearTimeout()
+            setnotNumber(
+                notNumber +
+                getDocs.filter((filt)=>{
+                    if(filt.receiver === user._id ){
+                    return filt
+                    }
+                }).length
+            )
+            if(showLeaveplaningMessages){
+                setnotNumber(
+                    notNumber +
+                    getDocs.filter((filt)=>{
+                        if(filt.receiver === "leaveplaning" ){
+                        return filt
+                        }
+                    }).length
+                )
+            }
           }
         }).catch(err=>{
           clearTimeout()
           setmessage(err.message) 
         })
+       }, 4000);
         }
         })
 
@@ -167,13 +183,18 @@ export default function Messages() {
                         </div>
                      </div>
                     ))
-                    :
-                    <div className="card central">
-                        You will find your notifications here
-                    </div>
+                    :""
+                    
                  }
                 </div>
                  :""
+            }
+            {
+                notNumber < 1 ?
+                <div className="card central">
+                        You will find your notifications here
+                    </div>
+                    :""
             }
         </div>
 

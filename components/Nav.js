@@ -152,7 +152,7 @@ if(user){
     <div className="row-flex">
       <div>
         <Link href="/messages">
-        <i className="icon-bell" Not={""} id="notification" />
+        <i className="icon-bell" Not={notNumber} id="notification" />
         </Link>
       </div>
     <div className="context " id="dropContext">

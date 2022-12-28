@@ -40,7 +40,7 @@ export default function Reuest() {
       setcanUserApprove(true)
     }
   }
-  }, [canUserApprove])
+  })
   
   useEffect(()=>{
     setTimeout(()=>{
@@ -120,7 +120,7 @@ useEffect(() => {
 
   }).catch(err=>{
     clearTimeout()
-    setmessage(err.message) 
+    console.log(err.message) 
   })
   }
   })
@@ -130,14 +130,36 @@ useEffect(() => {
   }
 
   const Approved = ()=>{
+    var locale = "en-us";
+    var today = new Date();
+    var day = today.getDate();
+    var fullDay = ("0" + day).slice(-2);
+    var longMonth = today.toLocaleString(locale, { month: "long" });
+    var year = today.getFullYear();
+    const fullDate = longMonth + " " + fullDay + ", " + year
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     Axios.patch(endPoint + "/fieldrequest/update/" +  userDoc._id , {approval:true , isPending:false} , {
       headers:{
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
-      setsuccess("Approved successfully")
-      setOpen(false)
-      setdocs(null)
+      Axios.post(endPoint + "/notification",{
+        sender_id:user._id,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave request have been approved by ${user.position}`,
+        link:location,
+        receiver:user._id,
+        date:fullDate
+      }, {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      } 
+      ).then(()=>{
+        setsuccess("Approved successfully")
+        setOpen(false)
+        setdocs(null)
+      })
+
     }).catch(err=>{
       setmessage(err.message)
       setOpen(false)
@@ -149,9 +171,23 @@ useEffect(() => {
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
-      setsuccess("disapproved")
-      setOpen(false)
-      setdocs(null)
+      Axios.post(endPoint + "/notification",{
+        sender_id:user._id,
+        message:`${user.firstname} ${user.middleName} ${user.lastName}, your leave request have been disapproved by ${user.position}`,
+        link:location,
+        receiver:user._id,
+        date:fullDate
+      }, {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      } 
+      ).then(()=>{
+        setsuccess("disapproved")
+        setOpen(false)
+        setdocs(null)
+      })
+
     }).catch(err=>{
       setmessage(err.message)
       setOpen(false)
@@ -385,11 +421,11 @@ useEffect(() => {
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Project Name</div>
-          <input id='project' type="text" name='project' placeholder='Enter project name' className='input' defaultValue={user.department}/>
+          <input id='project' type="text" name='project' placeholder='Enter project name' className='input' />
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Project Coordinator</div>
-          <input id='coordinator' type="text" name='coordinator' placeholder='Enter project coordinator' className='input' defaultValue={user.section} />
+          <input id='coordinator' type="text" name='coordinator' placeholder='Enter project coordinator' className='input' />
         </div>
       </div>
     </div>

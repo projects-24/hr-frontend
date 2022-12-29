@@ -41,7 +41,33 @@ export default function Dashboard() {
               authorization:`Bearer ${token}`
           }
       }).then(dataDocs=>{
-          setdocs(dataDocs.data.staff)
+        const getDocs = dataDocs.data.staff
+          setdocs(getDocs.filter(filt=>{
+            if(user.position === "Government Statistician (CEO)"
+             || user.position === "Deputy Gov Statistician (DGS)"
+              || user.department === "Human resource"
+              ){
+               return getDocs
+           }else if(user.position === "Director" || user.position === "Deputy Director" ){
+               if(filt.department === user.department){
+                   return filt
+               }
+           }else if(user.position === "Sectional Head"){
+                   if(filt.section === user.section){
+                     return filt
+                   }
+           }else if(user.position === "Unit Head"){
+               if(filt.section === user.unit){
+                 return filt
+               }
+           }else{
+            getDocs.filter(filt =>{
+                   if(filt.staffId === user.staffId){
+                       setdocs(filt)
+                   }
+               }) 
+           }
+         }))
       }).catch(err=>console.log(err.message))
       }
       })
@@ -90,12 +116,6 @@ const [data, setdata] = useState(null)
     }
   })
  if(user && docs){
-  if(user.position === "Director" 
-  || user.position === "Government Statistician (CEO)" 
-  || user.position === "Deputy Gov Statistician (DGS)"
-  || user.position === "Deputy Director"
-  || user.position === "Sectional Head"
-  || user.position === "Unit Head"){
     return (
       <div className="">
         <div className='content'>
@@ -103,9 +123,16 @@ const [data, setdata] = useState(null)
     
           <div className="">
               <div className="card">
-              <div className="h1 p-text">Dashboard And Analytics</div>
-              <div className="">
+              <div className="row-flex">
+                <div>
+                  <img src="/avatar.svg" className='width-100' alt="" />
+                </div>
+                <div>
+                <div className="h1 p-text">Dashboard And Analytics</div>
+              <div className="section">
                   Welcome  <span className="text-bold">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
+              </div>
+                </div>
               </div>
               </div>
 
@@ -174,7 +201,7 @@ const [data, setdata] = useState(null)
               <div className="m-section">
                   <div className="card" style={{overflowX:"auto"}}>
                       <BarChart
-            width={600}
+            width={800}
             height={300}
             data={data}
             margin={{
@@ -200,9 +227,6 @@ const [data, setdata] = useState(null)
       </div>
       </div>
     )
-  }else{
-    return <Account />
-  }
  }else{
     return <Loader />
  }

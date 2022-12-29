@@ -238,17 +238,16 @@ if(user){
   <div className="leaveSidebar card">
 
   <div className="">
-{
-isAdmin ?
-<>
-    <Link href="/dashboard">
+  <Link href="/dashboard">
       <div className='sideLink'>
       <i className="icon-graph"></i> Dashboard
       </div>
     </Link>
 
     <div className="section hr"></div>
-
+{
+isAdmin ?
+<>
   <Link href="/staff/profiling">
       <div className='sideLink'>
       <i className="lni lni-users"></i> Staff Profiling

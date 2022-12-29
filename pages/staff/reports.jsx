@@ -103,14 +103,39 @@ const [report, setreport] = useState("all")
     }
 
 useEffect(() => {
-if(!docs){
+if(!docs && user){
 Axios.get(endPoint  + "/staff/showall" , {
     headers:{
         authorization:`Bearer ${token}`
     }
 }).then(dataDocs=>{
    const getDocs = dataDocs.data.staff
-   setdocs(getDocs)
+   setdocs(getDocs.filter(filt=>{
+    if(user.position === "Government Statistician (CEO)"
+     || user.position === "Deputy Gov Statistician (DGS)"
+      || user.department === "Human resource"
+      ){
+       return getDocs
+   }else if(user.position === "Director" || user.position === "Deputy Director" ){
+       if(filt.department === user.department){
+           return filt
+       }
+   }else if(user.position === "Sectional Head"){
+           if(filt.section === user.section){
+             return filt
+           }
+   }else if(user.position === "Unit Head"){
+       if(filt.section === user.unit){
+         return filt
+       }
+   }else{
+    getDocs.filter(filt =>{
+           if(filt.staffId === user.staffId){
+               setdocs(filt)
+           }
+       }) 
+   }
+ }))
    console.log(getDocs)
 }).catch(err=>console.log(err.message))
 }
@@ -416,32 +441,7 @@ const TriggerDrop = ()=>{
           </tr>
         </thead>
         <tbody>
-          {docs ? docs.filter(filt=>{
-             if(user.position === "Government Statistician (CEO)"
-              || user.position === "Deputy Gov Statistician (DGS)"
-               || user.department === "Human resource"
-               ){
-                return docs
-            }else if(user.position === "Director" || user.position === "Deputy Director" ){
-                if(filt.department === user.department){
-                    return filt
-                }
-            }else if(user.position === "Sectional Head"){
-                    if(filt.section === user.section){
-                      return filt
-                    }
-            }else if(user.position === "Unit Head"){
-                if(filt.section === user.unit){
-                  return filt
-                }
-            }else{
-                docs.filter(filt =>{
-                    if(filt.staffId === user.staffId){
-                        setdocs(filt)
-                    }
-                }) 
-            }
-          })
+          {docs ? docs
                 .filter(filtdoc=>{
                     if(search === "" && 
                     department  === "" && 

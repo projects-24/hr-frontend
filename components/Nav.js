@@ -297,6 +297,12 @@ isAdmin ?
       <i className="icon-clock"></i> Retirement Mgt
       </div>
     </Link>
+    <div className="section hr"></div>
+    <Link href="/annoucements">
+      <div className='sideLink'>
+      <i className="lni lni-bullhorn"></i> Annoucements
+      </div>
+    </Link>
    {
     isAdmin ?
     <div>
@@ -304,6 +310,12 @@ isAdmin ?
     <Link href="/staff/reports">
       <div className='sideLink'>
       <i className="lni lni-notepad"></i> Reports
+      </div>
+    </Link>
+       <div className="section hr"></div>
+    <Link href="/staff/reports">
+      <div className='sideLink'>
+      <i className="lni lni-notepad"></i> New Annoucement
       </div>
     </Link>
     </div>

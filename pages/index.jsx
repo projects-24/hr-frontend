@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import  Axios  from 'axios';
 import endPoint from "../components/endPoint"
 import Loader from '../components/loader';

@@ -26,7 +26,7 @@ const Nav = ({noSideBar}) => {
   const [token, settoken] = useState("")
   const [notNumber, setnotNumber] = useState(0)
   const [myNots, setmyNots] = useState("")
-  
+  const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
     if(!docs && token && getNotification){
     Axios.get(endPoint  + "/notification/showall" , {
@@ -47,6 +47,22 @@ const Nav = ({noSideBar}) => {
 
     }
     })
+
+useEffect(() => {
+  if(user && !isAdmin){
+    if(
+    user.position === "Director" 
+    || user.position === "Government Statistician (CEO)" 
+    || user.position === "Deputy Gov Statistician (DGS)"
+    || user.position === "Deputy Director"
+    || user.position === "Sectional Head"
+    || user.position === "Unit Head"
+    ){
+    setisAdmin(true)
+    }
+    }
+})
+
 
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
@@ -223,12 +239,7 @@ if(user){
 
   <div className="">
 {
-user.position === "Director" 
-|| user.position === "Government Statistician (CEO)" 
-|| user.position === "Deputy Gov Statistician (DGS)"
-|| user.position === "Deputy Director"
-|| user.position === "Sectional Head"
-|| user.position === "Unit Head"?
+isAdmin ?
 <>
     <Link href="/dashboard">
       <div className='sideLink'>
@@ -244,6 +255,7 @@ user.position === "Director"
       </div>
     </Link>
     <div className="section hr"></div>
+
 </>
 
 :""
@@ -285,6 +297,18 @@ user.position === "Director"
       <i className="icon-clock"></i> Retirement Mgt
       </div>
     </Link>
+   {
+    isAdmin ?
+    <div>
+       <div className="section hr"></div>
+    <Link href="/staff/reports">
+      <div className='sideLink'>
+      <i className="lni lni-notepad"></i> Reports
+      </div>
+    </Link>
+    </div>
+    :""
+   }
 
   </div>
 </div>

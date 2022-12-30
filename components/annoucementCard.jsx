@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function AnnoucementCard({doc}) {
+export default function AnnoucementCard({doc, key}) {
 return (
-<div className="card section" key={doc._id}>
+<div className="card section" key={key}>
 <div className="row-flex">
 <div>
 <img src="/favicon.png" className='width-100' alt="" />

@@ -91,7 +91,7 @@ return dfilt
 }
 
 }).map((doc)=>(
-<AnnoucementCard doc={doc}/>
+<AnnoucementCard key={doc._id} doc={doc}/>
 ))
 
 }
@@ -104,7 +104,7 @@ return dfilt
 }
 
 }).map((doc)=>(
-<AnnoucementCard doc={doc}/>
+<AnnoucementCard key={doc._id} doc={doc}/>
 ))
 
 }

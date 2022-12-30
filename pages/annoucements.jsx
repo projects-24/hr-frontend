@@ -5,12 +5,19 @@ import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import endPoint from '../components/endPoint';
 import AnnoucementCard from './../components/annoucementCard';
+import Alert from '../Funcss/Components/Alert';
 
 export default function Annoucement() {
   const [token, settoken] = useState("")
   const [user, setuser] = useState("")
   const [docs, setdocs] = useState("")
   const [message, setmessage] = useState("")
+  
+  useEffect(()=>{
+    setTimeout(()=>{
+        setmessage(null)
+    }, 4000)
+  })
   useEffect(() => {
     if(localStorage.getItem("token")  && !token ){
         settoken(
@@ -46,14 +53,23 @@ useEffect(() => {
     // })
     }
   }).catch(err=>{
-    setmessage(err.message) 
+    console.log(err.message) 
   })
   }
   })
+// 
   return (
     <div>
+            {
+            message ?
+           <div className="message">
+             <Alert type="danger"  message={message}/>
+           </div>
+            :""
+         }
         <Nav />
         <div className="content">
+
         <div className="row-flex fit white round-edge padding section">
             <img src="/annoucement.svg" className='width-200-max fit' alt="" />
             <div>
@@ -78,7 +94,7 @@ return dfilt
 }
 
 }).map((doc)=>(
-<AnnoucementCard doc={doc}/>
+<AnnoucementCard key={doc._id} doc={doc}/>
 ))
 
 }

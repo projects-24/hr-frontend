@@ -572,3 +572,7 @@ td{min-width: 100px !important;}
     justify-content: center;
     align-items: center;
   }
+  .annouceHeader{
+    letter-spacing: 0.2rem;
+    font-weight: bold !important;
+  }

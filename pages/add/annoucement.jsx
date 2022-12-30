@@ -57,26 +57,28 @@ export default function Annoucement() {
             )
         }
     })
-    const Submit  = (e)=>{
+    const addAnnoucement  = (e)=>{
+        
         e.preventDefault()
         const current = form.current
         const startDate = current["startdate"].value
         const endDate = current["enddate"].value
-        const targetType = current["targettype"].value
+        const target_type = current["targettype"].value
         const target = current["target"].value
-
-
         const Doc = {
-    }
-
-
-    if(number_of_days && leave_address && home_address && date_of_leave && days_reffered_on_leave && days_remaining && days_requested && officer_taking_over && resumption_date){
+            start_date:startDate,
+            end_date:endDate,
+            target_type:target_type,
+            target:target,
+            message:annoucement
+        }
+    if(startDate && endDate && target && target_type && annoucement){
         setloading(true)
-        Axios.post(endPoint + "/annualleave/register" , Doc , {
+        Axios.post(endPoint + "/annoucement/register" , Doc , {
             headers:{ authorization:`Bearer ${token}`}
         }).then(()=>{
             setloading(false)
-            setmessage("Leave requested successfully")
+            setmessage("Annoucement made successfully")
            setTimeout(() => {
             window.location.reload()
            }, 3000);
@@ -87,6 +89,7 @@ export default function Annoucement() {
     }else{
         setloading(false)
         setmessage("Make sure to enter all details")
+        
     }
     }
   return (
@@ -137,7 +140,7 @@ export default function Annoucement() {
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                        <div className="minSection text-bold">Target</div>
-                        <select name='targettype' className='input light' >
+                        <select name='target' className='input light' >
                            {
                             target === "all" ?
                             <option value="all">All users</option>
@@ -160,6 +163,9 @@ export default function Annoucement() {
             
                 </div>
            </form>
+            <button className="btn submitNewstaff" onClick={addAnnoucement}>
+            Submit  <i className="icon-paper-plane"></i>
+            </button>
             </div>
            
         </div>

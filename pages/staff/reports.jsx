@@ -445,16 +445,24 @@ const TriggerDrop = ()=>{
                 .filter(filtdoc=>{
                     if(search === "" && 
                     department  === "" && 
-                    section  === "" && 
-                    employment  === ""
+                    section  === ""
                     ){
                         return filtdoc
-                    }else if(
-                        department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase() ||
-                        section.toString().trim().toLowerCase() === filtdoc.section.toString().trim().toLowerCase() ||
-                        employment.toString().trim().toLowerCase() === filtdoc.employmentStatus.toString().trim().toLowerCase() 
-                    ){
+                    }else if (section && department)
+                  {
+                   if( department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase() &&
+                   section.toString().trim().toLowerCase() === filtdoc.section.toString().trim().toLowerCase() )
+                      {
                         return filtdoc
+                      }else if(department && !section){
+                        if(department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()){
+                          return filtdoc
+                        }
+                      }else if(!department && section){
+                        if(department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()){
+                          return filtdoc
+                        }
+                      }
                     }
                   })
           .map((row) => (

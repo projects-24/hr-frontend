@@ -31,9 +31,14 @@ if(user){
               <div className="col sm-12 md-8 lg-8 padding">
                <div className="card">
                <div className="padding">
-            <div className="h4">
-            {user.firstName} {user.middleName} {user.surname}
+                  <div className="row-flex space-between">
+                  <div className="h4">
+            {user.firstname} {user.middleName} {user.lastName}
             </div>
+            <div>
+               active service until <span className="text-bold p-text"> {user.retirementAge}</span>
+            </div>
+                  </div>
                <div className="section positionText">{user.grade}</div>
             </div>
                <div className="row">
@@ -53,17 +58,12 @@ if(user){
                   <div className="col sm-12 md-6 lg-6 padding">
                      <span className="text-bold"> Position:</span> {user.position}
                   </div>
-                  {
-                     !user.editfield ?
-                     <div className="col sm-12 md-12 lg-12 padding">
-                     <Link href={`/form/${user._id}`}>
-                     <button className="btn primaryBtn section ">
-                     Complete registration <i className="icon-pencil"></i>
-                     </button>
-                     </Link>
-                   </div>
-                   :""
-                  }
+         
+           
+                  <div className="col sm-12 md-6 lg-6 padding">
+                     <span className="text-bold"> Address:</span> {user.address}
+                  </div>
+         
            
                </div>
                </div>

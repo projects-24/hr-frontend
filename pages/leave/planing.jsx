@@ -15,6 +15,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
+import dynamic from "next/dynamic"
+const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+import Departments from "../../data/departments"
 
 export default function Planing() {
   const [user, setuser] = useState(null)
@@ -27,6 +30,8 @@ export default function Planing() {
   const [userDoc, setuserDoc] = useState("")
   const [filter, setfilter] = useState("")
   const [canUserApprove, setcanUserApprove] = useState(false)
+  const [exportTrigger, setexportTrigger] = useState(false)
+  const [department, setdepartment] = useState("")
 
   useEffect(() => {
   if(user && !canUserApprove){
@@ -115,15 +120,37 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
 }
 }
 useEffect(() => {
-  if(!docs){
+  if(!docs && user){
   Axios.get(endPoint  + "/leaveplanner/showall" , {
       headers:{
           authorization:`Bearer ${token}`
       }
   }).then(dataDocs=>{
      const getDocs = dataDocs.data.LeavePlanner
-     console.log(getDocs)
-     setdocs(getDocs)
+     setdocs(getDocs.filter(filt=>{
+      if(user.position === "Government Statistician (CEO)"
+        || user.position === "Deputy Gov Statistician (DGS)"
+        || user.department === "Human resource"
+        ){
+         return getDocs
+     }else if(user.position === "Director" || user.position === "Deputy Director" ){
+         if(filt.staffDetails.department === user.department){
+             return filt
+         }
+     }else if(user.position === "Sectional Head"){
+             if(filt.staffDetails.section === user.section){
+               return filt
+             }
+     }else if(user.position === "Unit Head"){
+         if(filt.staffDetails.section === user.unit){
+           return filt
+         }
+     }else if(user.position === "Officer"){
+      if(filt.staffDetails._id === user._id){
+        return filt
+      }
+     }
+   }))
   }).catch(err=>{
     clearTimeout()
     console.log(err.message) 
@@ -210,9 +237,26 @@ useEffect(() => {
     })
   }
 
+  const exportExcel = ()=>{
+    new Promise((resolve, reject) => {
+      setexportTrigger(true)
+      resolve()
+    }).then(()=>{
+      setexportTrigger(false)
+    })
+    }
+
  if(user){
   return (
     <div className='content'>
+      <Excel Trigger = {exportTrigger} />
+      {
+        render === "requests" ?
+        <div className="exportBtnContainer">
+      <button className='exportBtn' onClick={exportExcel}><i className="lni lni-add-files"></i> Export Excel</button>
+      </div>
+      :""
+      }
 
 {
   userDoc ?
@@ -269,12 +313,24 @@ useEffect(() => {
         <div className="section padding row-flex">
        <div>
        <div className="minSection text-bold">Select status</div>
-          <select name="" id="" className='input card white' onChange={(e)=>setfilter(e.target.value)}>
+          <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
             <option value="">All</option>
             <option value="approved">Approved</option>
             <option value="pending">Pending</option>
             <option value="disapproved">Disapproved</option>
           </select>
+       </div>
+       <div>
+       <div className="minSection text-bold">Department</div>
+        <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
+        <option value="">All Departments</option>
+        {
+        Departments &&
+        Departments.map(docs=>(
+        <option value={docs.department} key={docs.department}> {docs.department} </option>
+        ))
+        }
+        </select>
        </div>
         </div>
         <div className="section" >
@@ -282,7 +338,7 @@ useEffect(() => {
             render === "requests" ?
             <div className=' padding'>
             <div className="card tableContainer">
-              <table className="table" >
+              <table className="table" id='records'>
                 <thead>
                 <th>Staff ID</th>
                   <th>Full Name</th>
@@ -302,33 +358,10 @@ useEffect(() => {
                   {
                     docs ?
                     docs.filter(filt=>{
-                      if(user.position === "Government Statistician (CEO)"
-                        || user.position === "Deputy Gov Statistician (DGS)"
-                        || user.department === "Human resource"
-                        ){
-                         return docs
-                     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-                         if(filt.staffDetails.department === user.department){
-                             return filt
-                         }
-                     }else if(user.position === "Sectional Head"){
-                             if(filt.staffDetails.section === user.section){
-                               return filt
-                             }
-                     }else if(user.position === "Unit Head"){
-                         if(filt.staffDetails.section === user.unit){
-                           return filt
-                         }
-                     }else if(user.position === "Officer"){
-                      if(filt.staffDetails._id === user._id){
-                        return filt
-                      }
-                     }
-                   }).filter(filt=>{
-                    if(filter === ""){
+                    if(filter === "" ){
                       return docs
                     }
-                    else if(filter === "pending" && filt.isPending){
+                    else if(filter === "pending" && filt.isPending ){
                       return filt
                     }
                     else if(filter === "approved" && filt.approval){
@@ -337,6 +370,14 @@ useEffect(() => {
                     else if(filter === "disapproved" && !filt.approval){
                       return filt
                     }
+                   }).filter(dFilt=>{
+                   if(department === ""){
+                    return docs
+                   }else{
+                    if(department === dFilt.staffDetails.department){
+                      return dFilt
+                    }
+                   }
                    })
                    .map(doc=>(
                     
@@ -447,9 +488,9 @@ useEffect(() => {
   </form>
 
  {/* Submit btn */}
- <button className="btn submitNewstaff" onClick={handlePlaning}>
-        Submit  <i className="icon-paper-plane"></i>
-        </button>
+<button className="btn submitNewstaff" onClick={handlePlaning}>
+Submit  <i className="icon-paper-plane"></i>
+</button>
 </div>
 
           }

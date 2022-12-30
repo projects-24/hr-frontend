@@ -312,9 +312,9 @@ isAdmin ?
       </div>
     </Link>
        <div className="section hr"></div>
-    <Link href="/staff/reports">
+    <Link href="/add/annoucement">
       <div className='sideLink'>
-      <i className="lni lni-notepad"></i> New Annoucement
+      <i className="lni lni-plus"></i> Annoucement
       </div>
     </Link>
     </div>

@@ -2,7 +2,6 @@ import React from 'react'
 
 export default function AnnoucementCard({doc}) {
 return (
-<div>
 <div className="card section" key={doc._id}>
 <div className="row-flex">
 <div>
@@ -24,7 +23,6 @@ Annoucment for {doc.target}
 </div>
 </div>
 
-</div>
 </div>
 </div>
 </div>

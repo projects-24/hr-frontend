@@ -24,9 +24,11 @@ var toolbarOptions = [
 
 var textOnly = [
   ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  ['blockquote', 'code-block'],
-  ["link"],
-  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+
+  ["image" , "video", "link"],
+
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        // custom button values
   [{ 'list': 'ordered'}, { 'list': 'bullet' }]
 ]
 export default function QuillEdit({content, Change ,placeholder , plainText, theme, className}) {

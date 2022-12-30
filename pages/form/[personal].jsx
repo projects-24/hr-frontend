@@ -254,7 +254,34 @@ export default function Personal() {
             nationality &&
             tel &&
             department &&
-            jobTitle
+            jobTitle &&
+            maritalStatus &&
+            department &&
+            ghanaCard &&
+            ssnitNumber &&
+            gender &&
+            dob &&
+            department &&
+            region &&
+            jobTitle &&
+            grade &&
+            position &&
+            availableChildren &&
+            nextKin &&
+            nextKin_Relation &&
+            nextKin_Address &&
+            nextKin_Tel &&
+            fatherLife &&
+            father &&
+            fatheroccupation &&
+            fathernationality &&
+            mother &&
+            mother &&
+            motherLife &&
+            motheroccupation &&
+            mothernationality
+
+
             ){
                 setpreview(data)
                 setOpen(true)
@@ -396,13 +423,13 @@ export default function Personal() {
                 <TextField variant="outlined"  type="text" required name='firstName' fullWidth label='First Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined"  type="text" required name='middlename' fullWidth label='Middle Name' />
+                <TextField variant="outlined"  type="text"  name='middlename' fullWidth label='Middle Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" required name='lastName' fullWidth label='Last Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" name='title' label="Title">
+                <TextField select required fullWidth type="text" name='title' label="Title">
                     <MenuItem value="Prof">Prof</MenuItem>
                     <MenuItem value="Dr.">Dr.</MenuItem>
                     <MenuItem value="Mr">Mr</MenuItem>
@@ -414,7 +441,7 @@ export default function Personal() {
                 </TextField>
                 </div>       
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField multiline rows={4} name='address' fullWidth label='Address' />
+                <TextField multiline required rows={4} name='address' fullWidth label='Address' />
                 </div>
                     </div>
                     </div>
@@ -426,7 +453,7 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/underline.svg" className="width-50"/> Marital Details</div>
                 </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="maritalStatus" id="" label="Marital Status" onChange={(e)=>setmarital(e.target.value)}>
+                <TextField select fullWidth name="maritalStatus" id="" required label="Marital Status" onChange={(e)=>setmarital(e.target.value)}>
                     <MenuItem value="married">Married</MenuItem>
                     <MenuItem value="single">Single</MenuItem>
                     <MenuItem value="divorced">Divorced</MenuItem>
@@ -449,22 +476,22 @@ export default function Personal() {
                     </div>
                     <div className="row card formSection">
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' select>
+                <TextField variant="outlined" required type="text" name='nationality' fullWidth label='Nationality' select>
                     <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
                     <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='ghanaCard' fullWidth label='Ghana Card Number' />
+                <TextField variant="outlined" required type="text" name='ghanaCard' fullWidth label='Ghana Card Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='ssnitNumber' fullWidth label='SSNIT Number' />
+                <TextField variant="outlined" required type="text" name='ssnitNumber' fullWidth label='SSNIT Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='tel' fullWidth label='Tel Number' />
+                <TextField variant="outlined" required type="text" name='tel' fullWidth label='Telephone Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="gender" label="Gender" id="" >
+                <TextField select fullWidth required name="gender" label="Gender" id="" >
                     <MenuItem value="">Gender</MenuItem>
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
@@ -472,7 +499,7 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of birth</div>
-                <TextField variant="outlined" fullWidth type="date" name='dob'  />
+                <TextField variant="outlined" required fullWidth type="date" name='dob'  />
                 </div>
                     </div>
                     </div>
@@ -484,7 +511,7 @@ export default function Personal() {
                             <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/> Directorate Details</div>
                         </div>
                         <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" select name='department' label="Department" variant="outlined" onChange={(e)=>setDepartment(e.target.value)}>
+                        <TextField required fullWidth type="text" select name='department' label="Department" variant="outlined" onChange={(e)=>setDepartment(e.target.value)}>
                             {
                                 departments.map(docs=>( 
                                     <MenuItem value={docs.department} key={docs.department}>{docs.department}</MenuItem>
@@ -506,7 +533,7 @@ export default function Personal() {
                             </TextField>
                         </div>
                         <div className="col sm-12 md-12 lg-12 padding">
-                        <TextField select fullWidth name="region" id="region" label="Region">
+                        <TextField required select fullWidth name="region" id="region" label="Region">
                                     {
                                         regions.map(docs=>(
                                             <MenuItem value={docs.name} key={docs._id}> {docs.name} </MenuItem>
@@ -527,7 +554,7 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/undraw_note.svg" className="height-50"/> Job Infomation</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth type="text" select label="Job Title" name='jobTitle' variant="outlined">
+                <TextField fullWidth required type="text" select label="Job Title" name='jobTitle' variant="outlined">
                     {
                         jobTitles.map(docs=>(
                             <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>
@@ -536,7 +563,7 @@ export default function Personal() {
                     </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth type="text" select label="Grade" name='grade' variant="outlined" onChange={(e)=>setselectedGrade(e.target.value)}>
+                <TextField fullWidth required type="text" select label="Grade" name='grade' variant="outlined" onChange={(e)=>setselectedGrade(e.target.value)}>
                     {
                         grades.map(docs=>(
                             <MenuItem value={`${docs.grade}`} key={docs.grade}>{docs.grade}</MenuItem>
@@ -545,7 +572,7 @@ export default function Personal() {
                     </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-            <TextField fullWidth type="text" select label="Position" name='position' variant="outlined">
+            <TextField fullWidth required type="text" select label="Position" name='position' variant="outlined">
                     {
                         positions.map(docs=>(
                             <MenuItem value={`${docs.position}`} key={docs.position}> {docs.position}</MenuItem>
@@ -568,7 +595,7 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of appointment</div>
-                <TextField variant="outlined" type="date" name='appointDate' fullWidth />
+                <TextField variant="outlined" required type="date" name='appointDate' fullWidth />
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
                 <TextField select variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status'>
@@ -587,7 +614,7 @@ export default function Personal() {
                 </div>
                         
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="number" name='availableChildren' label="Available Children"  onChange={(e)=>setavailableChildren(e.target.value)}>
+                <TextField select fullWidth required type="number" name='availableChildren' label="Available Children"  onChange={(e)=>setavailableChildren(e.target.value)}>
                 <MenuItem value={true}> Yes </MenuItem>
                 <MenuItem value={false}> No </MenuItem>
                 </TextField>
@@ -663,17 +690,17 @@ export default function Personal() {
                     :""
                 }
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKin' fullWidth label='Next of kin' />
+                <TextField variant="outlined" required type="text" name='nextKin' fullWidth label='Next of kin' />
                 </div>
             
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinRelation' fullWidth label='Relation with next of kin' />
+                <TextField variant="outlined" required type="text" name='nextKinRelation' fullWidth label='Relation with next of kin' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinTel' fullWidth label='Next of kin contact' />
+                <TextField variant="outlined" required type="text" name='nextKinTel' fullWidth label='Next of kin contact' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinAddress' fullWidth label='Next of kin address' />
+                <TextField variant="outlined" required type="text" name='nextKinAddress' fullWidth label='Next of kin address' />
                 </div>
         
                         </div>
@@ -685,7 +712,7 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/person.svg" className="height-50"/> Father</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='fatherLife' label="Decease or alive" onChange={(e)=>{
+                <TextField select required fullWidth name='fatherLife' label="Deceased or alive" onChange={(e)=>{
                     if(e.target.value === "Alive"){
                         setfather(true)
                     }else{
@@ -694,29 +721,29 @@ export default function Personal() {
                     }
                 }}> 
                     <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Deceased">Decease</MenuItem>
+                    <MenuItem value="Deceased">Deceased</MenuItem>
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='father' fullWidth label='Full Name' />
+                <TextField required variant="outlined" type="text" name='father' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
+                <TextField required variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' select>
+                <TextField required variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' select>
                 <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
                 <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of birth</div>
-                <TextField variant="standard" type="date" name='fatherdob' fullWidth />
+                <TextField required variant="standard" type="date" name='fatherdob' fullWidth />
                 </div>
                 {
                     father ?
                     <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
+                <TextField  variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
                 </div>
                 :""
                 }
@@ -730,7 +757,7 @@ export default function Personal() {
                     <div className="h4 padding"><img src="/hand/person.svg" className="height-50"/> Mother</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='motherLife' label="Decease or alive"  onChange={(e)=>{
+                <TextField select required fullWidth name='motherLife' label="Deceased or alive"  onChange={(e)=>{
                     if(e.target.value === "Alive"){
                         setmother(true)
                     }else{
@@ -743,20 +770,20 @@ export default function Personal() {
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mother' fullWidth label='Full Name' />
+                <TextField required variant="outlined" type="text" name='mother' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />
+                <TextField required variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' select>
+                <TextField required variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' select>
                 <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
                     <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Date of birth</div>
-                <TextField variant="standard" type="date" name='motherdob' fullWidth />
+                <TextField required variant="standard" type="date" name='motherdob' fullWidth />
                 </div>
                 {
                     mother ?

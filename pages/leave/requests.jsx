@@ -167,208 +167,97 @@ const handleLeave = (e)=>{
 }
   if(user){
     return (
-      <div className={print ? "" : "content"}>
-
-        {
-          leaveType === "annual" ?
-          <Annual modalOpen/>
-          :""
-        }
-                <Dialog open={open2} onClose={handleClose}>
-        <DialogTitle>Leave Planing</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Select the the type of leave you seek to plan
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            select
-            id="name"
-            label="Select leave type"
-            fullWidth
-            onChange={handleLeave}
-            variant="outlined"
-          >
-         <MenuItem value="annual">Annual</MenuItem>
-                    <MenuItem value="maternity">Maternity</MenuItem>
-                    <MenuItem value="casual">Casual</MenuItem>
-                    <MenuItem value="study">Study</MenuItem>
-            </TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
-          <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Edit Status for {current ?  current.surname + " " + current.middleName + " " + current.firstName  : ""}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Select the users status.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              select
-              id="name"
-              label="Select user status"
-              type="email"
-              defaultValue={current ? current.status : ""}
-              fullWidth
-              onChange={(e)=>setuserStatus(e.target.value)}
-              variant="outlined"
-            >
-           <MenuItem value="leave">On Leave</MenuItem>
-                      <MenuItem value="field">On Field</MenuItem>
-                      <MenuItem value="post">On Post</MenuItem>
-              </TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={Edit}>Make Changes</Button>
-          </DialogActions>
-        </Dialog>
-          {
-          loading ? 
-          <Loader />
-          : ""
-          }
-          {
-              !print ?
-              <Nav />
-              : ""
-          }        {
-              !print ?
-          <div className="row-flex white padding round-edge">
+      <div className={"content"}>
+        <Nav />
+          <div className="row-flex fit white round-edge padding section">
+            <img src="/leave.svg" className='width-200-max fit' alt="" />
             <div>
-              <img src="/request.svg" className='width-100' alt="" />
+            <div className="h1">
+                Leave Request
+        </div>
+
+        <div className="section row-flex text-bold">
+                    <Link href="/dashboard">Dashboard</Link>
+                    /
+                    <Link href="#">Leave Request</Link>
+                </div>
             </div>
-              <div className="">
-              <div className="h1">Leave Requests</div>
-            <div className='text-bold section'>
-            Check all leave request and approvals
-           </div>
-     
-              </div>
-  
-          </div>
-          :""
-          }
-  
-          <div className="padding-top-20">
-          {
-              !print ?
+        </div>
+        <div className="m-section">
+        <div className="h4 text-bold padding">
+               Select your leave Request type
+        </div>
+          <div className="row">
+            <div className="col sm-6 md-3 lg-3 padding">
+           <Link href="/leave/annual">
+           <div className="card hover-up">
+             <div className="row-flex space-between">
               <div>
-  
-                  {
-              !print ?
-          <div className="section row-flex fit space-between">
-              <div className="">
-         
+              <div className="h4">Annual</div>
+                <div className="minSection text-bold p-text">
+                Leave
+                </div>
               </div>
-              <div className="padding-5 ">
-                  <button className="button success text-white width-100-min" onClick={handlePrint}>
-              <i className="icon-printer"></i>    Print
-              </button>
-                  <button className="button indigo text-white width-100-min"  onClick={()=>setOpen2(true)}>
-                  <i className="lni lni-exit"></i>   Request Leave
-              </button>
-                  </div>
-  
-          </div>
-          :""
-                  }
-                  
+              <div>
+              <i className="lni lni-chevron-right p-text"></i>
               </div>
-              :""}
-              <div className="padding-top-20">
-             {
-              print ?
-              <div className="h4 section text-center text-bold">Ghana Statistical Service Leave Requests</div> 
-              :""
-             }
-           
-             <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
-  
-        <table className="table stripped" >
-          <thead>
-            <tr>
-              <td style={{fontWeight:"bold"}} align="left">staffId</td>
-              <td style={{fontWeight:"bold"}} align="left">Full Name</td>
-              <td style={{fontWeight:"bold"}} align="left">Date</td>
-              <td style={{fontWeight:"bold"}} align="left">Deffered days</td>
-              <td style={{fontWeight:"bold"}} align="left">Number of days</td>
-              <td style={{fontWeight:"bold"}} align="left">Number of days remaining</td>
-              <td style={{fontWeight:"bold"}} align="left">officer taking over</td>
-              <td style={{fontWeight:"bold"}} align="left">Ressumption date</td>
-              <td style={{fontWeight:"bold"}} align="left"> Div head approval</td>
-              {
-                user.position === "Sectional Head" ?
-              <td style={{fontWeight:"bold"}} align="left"> Sec head approval</td>
-              :""
-              }
-              {
-                user.department === "Human resource" ?
-                <td style={{fontWeight:"bold"}} align="left"> HR Approval</td>
-                :""
-              }
-            </tr>
-          </thead>
-          <tbody>
-            {docs ? docs
-          //   .filter(filt=>{
-          //      if(user.position === "Government Statistician (CEO)" || user.position === "Deputy Gov Statistician (DGS)"){
-          //         setdocs(getDocs)
-          //     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-          //         if(filt.department === user.department){
-          //             return filt
-          //         }
-          //     }else if(user.position === "Sectional Head"){
-          //             if(filt.section === user.section){
-          //               return filt
-          //             }
-          //     }else if(user.position === "Unit Head"){
-          //         if(filt.section === user.unit){
-          //           return filt
-          //         }
-          //     }else{
-          //         getDocs.filter(filt =>{
-          //             if(filt.staffId === user.staffId){
-          //                 setdocs(filt)
-          //             }
-          //         }) 
-          //     }
-          //   })
-            .map((row) => (
-              <tr
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <td component="th" scope="row">
-{row.staffDetails.staffId}
-                </td>
-                <td component="th" scope="row">
-{row.staffDetails.surname} {row.staffDetails.middleName} {row.staffDetails.lastName}
-                </td>
-                <td align="left">{row.date_of_leave}</td>
-                <td align="left">{row.deferredDays}</td>
-                <td align="left">{row.number_of_days}</td>
-                <td align="left">{row.number_of_days_on_leave}</td>
-                <td align="left">{row.officerTakingover}</td>
-                <td align="left">{row.resumptionDate}</td>
-                <td align="left" className="button" onClick={()=>divHead(row)}>{row.divisionalheadApproval ? <i className="lni lni-checkmark text-success" /> : "pending"}</td>
-                { user.position === "Sectional Head" ? <td align="left"> {row.sectionheadApproval ? <i className="lni lni-checkmark text-success" /> : "pending"} </td> : ""}
-               {user.department === "Human resource" ? <td align="left">{row.hrdApproval ? <i className="lni lni-checkmark text-success" /> : "pending"}</td> :""}
-      
-              </tr>
-            ))
-          :""
-          }
-          </tbody>
-        </table>
              </div>
               </div>
+           </Link>
+            </div>
+            <div className="col sm-6 md-3 lg-3 padding">
+           <Link href="/leave/casual">
+           <div className="card hover-up">
+             <div className="row-flex space-between">
+              <div>
+              <div className="h4">Casual</div>
+                <div className="minSection text-bold p-text">
+                Leave
+                </div>
+              </div>
+              <div>
+              <i className="lni lni-chevron-right p-text"></i>
+              </div>
+             </div>
+              </div>
+           </Link>
+            </div>
+            <div className="col sm-6 md-3 lg-3 padding">
+           <Link href="/leave/maternity">
+           <div className="card hover-up">
+             <div className="row-flex space-between">
+              <div>
+              <div className="h4">Maternity</div>
+                <div className="minSection text-bold p-text">
+                Leave
+                </div>
+              </div>
+              <div>
+              <i className="lni lni-chevron-right p-text"></i>
+              </div>
+             </div>
+              </div>
+           </Link>
+            </div>
+            <div className="col sm-6 md-3 lg-3 padding">
+           <Link href="/leave/study">
+           <div className="card hover-up">
+             <div className="row-flex space-between">
+              <div>
+              <div className="h4">Study</div>
+                <div className="minSection text-bold p-text">
+                Leave
+                </div>
+              </div>
+              <div>
+              <i className="lni lni-chevron-right p-text"></i>
+              </div>
+             </div>
+              </div>
+           </Link>
+            </div>
           </div>
+        </div>
       </div>
     )
   }else{

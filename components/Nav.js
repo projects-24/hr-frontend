@@ -267,7 +267,7 @@ isAdmin ?
       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
    <Link href="/leave/planing">
    <div className='sideLink'>
-      <i className="icon-check"></i> Leave Planing
+      <i className="icon-check"></i> Leave Planning
       </div>
    </Link>
     <Link href="/leave/requests">

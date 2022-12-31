@@ -287,7 +287,7 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    if(user.department === "Human resource" && userDoc.isPendingHR){
+    if(user.department === "Human resource"){
         Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {hrdApproval:false, isPendingHR:false} , {
             headers:{
               authorization:`Bearer ${token}`
@@ -316,7 +316,7 @@ useEffect(() => {
             setOpen(false)
           })
       
-    }else if(user.position === "Sectional Head" && userDoc.isPendingSH){
+    }else if(user.position === "Sectional Head"){
         Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {sectionheadApproval:false, isPendingSH:false} , {
             headers:{
               authorization:`Bearer ${token}`
@@ -344,7 +344,7 @@ useEffect(() => {
             setmessage(err.message)
             setOpen(false)
           })
-    }else if(user.position === "Director" && userDoc.isPendingDH){
+    }else if(user.position === "Director"){
         Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {divisionalheadApproval:false, isPendingDH:false} , {
             headers:{
               authorization:`Bearer ${token}`

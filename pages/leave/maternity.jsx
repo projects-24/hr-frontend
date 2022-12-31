@@ -95,7 +95,10 @@ const data = {
   staffDetails_id:user._id,
   section_approval:false,
   divisional_approval:false,
-  hrd_approval:false
+  hrd_approval:false,
+  isPendingHR:true,
+  isPendingDH:true,
+  isPendingSH:true
 }
 var locale = "en-us";
 var today = new Date();
@@ -111,32 +114,23 @@ Axios.post(endPoint + "/maternityleave/register" , data , {
     authorization:`Bearer ${token}`
   }
 }).then(()=>{
+  const location = window.location.href
+  Axios.post(endPoint + "/notification",{
+    sender_id:user._id,
+    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a maternity leave, click on the link below to verify or disapprove request`,
+    link:location,
+    receiver:"leaverequest",
+    date:fullDate
+  }, {
+    headers:{
+      authorization:`Bearer ${token}`
+    }
+  } 
+  ).then(()=>{
     setsuccess("Request made successfully")
-    // document.querySelector("#startDate").value = ""
-    // document.querySelector("#endDate").value = ""
-    // document.querySelector("#leaveType").value = ""
     setdocs(null)
     setrender("requests")
-//   const location = window.location.href
-//   Axios.post(endPoint + "/notification",{
-//     sender_id:user._id,
-//     message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a maternity leave, click on the link below to verify or disapprove request`,
-//     link:location,
-//     receiver:"leaverequest",
-//     date:fullDate
-//   }, {
-//     headers:{
-//       authorization:`Bearer ${token}`
-//     }
-//   } 
-//   ).then(()=>{
-//     setsuccess("Request made successfully")
-//     // document.querySelector("#startDate").value = ""
-//     // document.querySelector("#endDate").value = ""
-//     // document.querySelector("#leaveType").value = ""
-//     setdocs(null)
-//     setrender("requests")
-//   })
+  })
 }).catch(err=>setmessage(err.message))
 }else{
   setmessage("Make sure to enter all compulsory fields")
@@ -150,7 +144,7 @@ useEffect(() => {
           authorization:`Bearer ${token}`
       }
   }).then(dataDocs=>{
-     const getDocs = dataDocs.data
+     const getDocs = dataDocs.data.results
      console.log(getDocs)
      setdocs(getDocs.filter(filt=>{
       if(user.position === "Government Statistician (CEO)"
@@ -196,8 +190,8 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    if(user.department === "Human resource"){
-        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {hrd_approval:true, isPending:false} , {
+    if(user.department === "Human resource" && userDoc.isPendingHR){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {hrd_approval:true, isPendingHR:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -225,8 +219,8 @@ useEffect(() => {
             setOpen(false)
           })
       
-    }else if(user.position === "Sectional Head"){
-        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {section_approval:true, isPending:false} , {
+    }else if(user.position === "Sectional Head" && userDoc.isPendingSH){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {section_approval:true, isPendingSH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -253,8 +247,8 @@ useEffect(() => {
             setmessage(err.message)
             setOpen(false)
           })
-    }else if(user.position === "Director"){
-        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {divisional_approval:true, isPending:false} , {
+    }else if(user.position === "Director" && userDoc.isPendingDH){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {divisional_approval:true, isPendingDH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -294,34 +288,97 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false , isPending:false} , {
-      headers:{
-        authorization:`Bearer ${token}`
-      }
-    }).then(()=>{
-      const location = window.location.href
-      Axios.post(endPoint + "/notification",{
-        sender_id:user._id,
-        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave plan have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-        link:location,
-        receiver:userDoc.staffDetails._id,
-        date:fullDate
-      }, {
-        headers:{
-          authorization:`Bearer ${token}`
-        }
-      } 
-      ).then(()=>{
-        setsuccess("disapproved")
-        setOpen(false)
-        setdocs(null)
-      })
+    if(user.department === "Human resource" && userDoc.isPendingHR){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {hrd_approval:false, isPendingHR:false} , {
+            headers:{
+              authorization:`Bearer ${token}`
+            }
+          }).then(()=>{
+            const location = window.location.href
+            Axios.post(endPoint + "/notification",{
+              sender_id:user._id,
+              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave request have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+              link:location,
+              receiver:userDoc.staffDetails._id,
+              date:fullDate
+            }, {
+              headers:{
+                authorization:`Bearer ${token}`
+              }
+            } 
+            ).then(()=>{
+              setsuccess("Disapproved successfully")
+              setOpen(false)
+              setdocs(null)
+            })
+      
+          }).catch(err=>{
+            setmessage(err.message)
+            setOpen(false)
+          })
+      
+    }else if(user.position === "Sectional Head" && userDoc.isPendingSH){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {section_approval:false, isPendingSH:false} , {
+            headers:{
+              authorization:`Bearer ${token}`
+            }
+          }).then(()=>{
+            const location = window.location.href
+            Axios.post(endPoint + "/notification",{
+              sender_id:user._id,
+              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave request have been Disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+              link:location,
+              receiver:userDoc.staffDetails._id,
+              date:fullDate
+            }, {
+              headers:{
+                authorization:`Bearer ${token}`
+              }
+            } 
+            ).then(()=>{
+              setsuccess("Disapproved successfully")
+              setOpen(false)
+              setdocs(null)
+            })
+      
+          }).catch(err=>{
+            setmessage(err.message)
+            setOpen(false)
+          })
+    }else if(user.position === "Director" && userDoc.isPendingDH){
+        Axios.patch(endPoint + "/maternityleave/update/" +  userDoc._id , {divisional_approval:false, isPendingDH:false} , {
+            headers:{
+              authorization:`Bearer ${token}`
+            }
+          }).then(()=>{
+            const location = window.location.href
+            Axios.post(endPoint + "/notification",{
+              sender_id:user._id,
+              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave request have been Disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+              link:location,
+              receiver:userDoc.staffDetails._id,
+              date:fullDate
+            }, {
+              headers:{
+                authorization:`Bearer ${token}`
+              }
+            } 
+            ).then(()=>{
+              setsuccess("Disapproved successfully")
+              setOpen(false)
+              setdocs(null)
+            })
+      
+          }).catch(err=>{
+            setmessage(err.message)
+            setOpen(false)
+          })
+    }
 
-    }).catch(err=>{
-      setmessage(err.message)
-      setOpen(false)
-    })
+
   }
+
+  
 
   const exportExcel = ()=>{
     new Promise((resolve, reject) => {
@@ -394,14 +451,14 @@ useEffect(() => {
         </div>
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
+          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
         <div className="section padding row-flex">
        <div>
        <div className="minSection text-bold">Select status</div>
           <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
             <option value="">All</option>
-            <option value="approved">Approved</option>
+            <option value="approved">All Approved</option>
             <option value="pending">Pending</option>
             <option value="disapproved">Disapproved</option>
           </select>
@@ -432,17 +489,10 @@ useEffect(() => {
                   <th>Section</th>
                   <th>Start Date</th>
                   <th>End Date</th>
-                <th> 
-                Approval
-
-                    <tr style={{padding:0,borderBottom:"none"}}>
-                  <div className="row-flex">
-                  <th>Section</th>
-                    <th>Division</th>
-                    <th>Hr</th>
-                  </div>
-                    </tr>
-                </th>
+                  <th>Memo</th>
+                  <th>Sectional Approval</th>
+                  <th>Divisional Approval</th>
+                  <th>Hr Approval</th>
               {
                 canUserApprove ?
                 <th>Approve/Declined</th>
@@ -484,15 +534,17 @@ useEffect(() => {
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
                       <td>{doc.memo}</td>
-                      <td>{
-                      doc.section_approval ? 
+                      <td>
+                        {
+                      doc.sectional_approval ? 
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
-                        approved</span> 
+                        approved
+                      </span> 
                         : 
-                        !doc.section_approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.sectional_approval && !doc.isPendingSH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
-                        doc.isPending ? 
+                        doc.isPendingSH ? 
                         <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
                         Pending
                         </span>  : ""
@@ -502,29 +554,30 @@ useEffect(() => {
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
-                        !doc.divisional_approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.divisional_approval && ! doc.isPendingDH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
-                        doc.isPending ? 
+                        doc.isPendingDH ? 
                         <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
                         Pending
                         </span>  : ""
                       }</td>
                       <td>{
-                      doc.divisional_approval ? 
+                      doc.hrd_approval ? 
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
-                        !doc.divisional_approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.hrd_approval && !doc.isPendingHR ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
-                        doc.isPending ? 
+                        doc.isPendingHR ? 
                         <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
                         Pending
                         </span>  : ""
-                      }</td>
+                      }
+                      </td>
                     {
-                      canUserApprove  && doc.isPending  ? 
+                      canUserApprove  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
                         setuserDoc(doc)

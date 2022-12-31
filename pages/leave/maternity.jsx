@@ -449,12 +449,16 @@ useEffect(() => {
                 </div>
             </div>
         </div>
-        <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
+        {
+          user.gender === "female" ?
+          <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
+        :""
+        }
         <div className="section padding row-flex">
-       <div>
+       {/* <div>
        <div className="minSection text-bold">Select status</div>
           <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
             <option value="">All</option>
@@ -462,7 +466,7 @@ useEffect(() => {
             <option value="pending">Pending</option>
             <option value="disapproved">Disapproved</option>
           </select>
-       </div>
+       </div> */}
        <div>
        <div className="minSection text-bold">Department</div>
         <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
@@ -506,13 +510,13 @@ useEffect(() => {
                     if(filter === "" ){
                       return docs
                     }
-                    else if(filter === "pending" && filt.isPending ){
+                    else if(filter === "pending" && filt.isPendingHR && filt.isPendingDH && filt.isPendingSH){
                       return filt
                     }
-                    else if(filter === "approved" && filt.approval){
+                    else if(filter === "approved" && filt.hrd_approval && filt.sectional_approval && filt.divisional_approval){
                       return filt
                     }
-                    else if(filter === "disapproved" && !filt.approval){
+                    else if(filter === "disapproved"  && !filt.hrd_approval && !filt.sectional_approval && !filt.divisional_approval){
                       return filt
                     }
                    }).filter(dFilt=>{

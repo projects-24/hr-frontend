@@ -1,15 +1,6 @@
 import Link from "next/link";
 import { useEffect ,useState} from "react";
 import Loader from './loader';
-import Super from "../data/super"
-import TextField  from '@mui/material/TextField';
-import  MenuItem  from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import endPoint from "./endPoint";
 import  Axios  from 'axios';
 const Nav = ({noSideBar}) => {
@@ -27,26 +18,45 @@ const Nav = ({noSideBar}) => {
   const [notNumber, setnotNumber] = useState(0)
   const [myNots, setmyNots] = useState("")
   const [isAdmin, setisAdmin] = useState(false)
-  useEffect(() => {
-    if(!docs && token && getNotification){
-    Axios.get(endPoint  + "/notification/showall" , {
-        headers:{
-            authorization:`Bearer ${token}`
-        }
-    }).then(dataDocs=>{
-       const getDocs = dataDocs.data.notification
-       setmyNots(getDocs.filter((filt)=>{
-        if(filt.receiver === "leaveplaning" || filt.receiver === user._id){
-        return filt
-        }
-    }))
-    }).catch(err=>{
-      clearTimeout()
-      console.log(err.message) 
-    })
 
+  useEffect(() => {
+    if(localStorage.getItem("token") && !user ){
+      setuser(
+        JSON.parse(
+            localStorage.getItem("user")
+        )
+    )
+    settoken(
+      JSON.parse(
+          localStorage.getItem("token")
+      )
+  )
+        }
+
+  })
+
+  // update annual leave
+  useEffect(() => {
+    if(user && token){
+        const currentYear  = parseInt(user.current_year) + 1
+        if(parseInt(currentYear) === parseInt(user.next_year)){
+          Axios.patch(endPoint + "/staff/updatestaff/" + user._id ,{
+            annual_year_accum: parseInt(user.annual_year_accum) <= 2 ? parseInt(user.annual_year_accum) + 1 : 1,
+            current_year:parseInt(currentYear),
+            next_year:parseInt(currentYear) + 1,
+            annual_leave_days: parseInt(user.annual_year_accum) <= 2 ? parseInt(user.annual_leave_days) + 36 : 36
+          }, {
+            headers:{
+              authorization:`Bearer ${token}`
+            }
+          }
+           ).then(()=>{
+            console.log("success")
+           }).catch(err=>console.log(err.message))
+        }
     }
-    })
+  })
+  
 
 useEffect(() => {
   if(user && !isAdmin){
@@ -89,21 +99,7 @@ useEffect(() => {
   const handleClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    if(localStorage.getItem("token") && !user ){
-      setuser(
-        JSON.parse(
-            localStorage.getItem("user")
-        )
-    )
-    settoken(
-      JSON.parse(
-          localStorage.getItem("token")
-      )
-  )
-        }
 
-  })
   const TriggerDrop = ()=>{
     if(dropdown === 0){
       setdropdown(300)
@@ -267,7 +263,7 @@ isAdmin ?
       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
    <Link href="/leave/planing">
    <div className='sideLink'>
-      <i className="icon-check"></i> Leave Planning
+      <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
     <Link href="/leave/requests">

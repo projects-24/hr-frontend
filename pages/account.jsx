@@ -65,6 +65,15 @@ if(user){
                   </div>
          
            
+                  <div className="col sm-12 md-6 lg-6 padding">
+                     <span className="text-bold"> Email:</span> {user.email}
+                  </div>
+           
+                  <div className="col sm-12 md-6 lg-6 padding">
+                     <span className="text-bold"> Staff Id:</span> {user.staffId}
+                  </div>
+         
+           
                </div>
                </div>
               </div>

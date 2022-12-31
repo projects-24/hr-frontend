@@ -478,7 +478,7 @@ useEffect(() => {
       <select name="leavetype" id="leaveType" className="input">
       <option value="annual">Annual</option>
       <option value="maternity">Maternity</option>
-      <option value="casual">Casual</option>
+      {/* <option value="casual">Casual</option> */}
       <option value="study">Study</option>
       </select>
      </div>

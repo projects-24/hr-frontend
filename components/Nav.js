@@ -18,6 +18,7 @@ const Nav = ({noSideBar}) => {
   const [notNumber, setnotNumber] = useState(0)
   const [myNots, setmyNots] = useState("")
   const [isAdmin, setisAdmin] = useState(false)
+  const [checkAnnual, setcheckAnnual] = useState(true)
 
   useEffect(() => {
     if(localStorage.getItem("token") && !user ){
@@ -37,24 +38,28 @@ const Nav = ({noSideBar}) => {
 
   // update annual leave
   useEffect(() => {
+  if(checkAnnual){
     if(user && token){
-        const currentYear  = parseInt(user.current_year) + 1
-        if(parseInt(currentYear) === parseInt(user.next_year)){
-          Axios.patch(endPoint + "/staff/updatestaff/" + user._id ,{
-            annual_year_accum: parseInt(user.annual_year_accum) <= 2 ? parseInt(user.annual_year_accum) + 1 : 1,
-            current_year:parseInt(currentYear),
-            next_year:parseInt(currentYear) + 1,
-            annual_leave_days: parseInt(user.annual_year_accum) <= 2 ? parseInt(user.annual_leave_days) + 36 : 36
-          }, {
-            headers:{
-              authorization:`Bearer ${token}`
-            }
+      const currentYear  = parseInt(user.current_year) 
+      if(parseInt(currentYear) === parseInt(user.next_year)){
+        Axios.patch(endPoint + "/staff/updatestaff/" + user._id ,{
+          annual_year_accum: parseInt(user.annual_year_accum) < 2 ? parseInt(user.annual_year_accum) + 1 : 1,
+          current_year:parseInt(currentYear),
+          next_year:parseInt(currentYear) + 1,
+          annual_leave_days: parseInt(user.annual_year_accum) < 2 ? parseInt(user.annual_leave_days) + 36 : 36
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
           }
-           ).then(()=>{
-            console.log("success")
-           }).catch(err=>console.log(err.message))
         }
-    }
+         ).then(()=>{
+          setcheckAnnual(false)
+         }).catch(err=>console.log(err.message))
+      }else{
+        setcheckAnnual(false)
+      }
+  }
+  }
   })
   
 

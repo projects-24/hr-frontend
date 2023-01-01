@@ -97,7 +97,6 @@ const handleRequest = (e)=>{
 e.preventDefault()
 const current = form.current
 const id = user._id
-
 const number_of_days = current["days"].value
 const leave_address = current["leaveaddress"].value
 const home_address = current["homeaddress"].value
@@ -133,7 +132,9 @@ Axios.post(endPoint + "/annualleave/register" , Doc , {
     headers:{ authorization:`Bearer ${token}`}
 }).then(()=>{
     setloading(false)
-    setmessage("Leave requested successfully")
+    setsuccess("Request made successfully")
+      setdocs(null)
+      setrender("requests")
     const location = window.location.href
     Axios.post(endPoint + "/notification",{
       sender_id:user._id,
@@ -147,9 +148,7 @@ Axios.post(endPoint + "/annualleave/register" , Doc , {
       }
     } 
     ).then(()=>{
-      setsuccess("Request made successfully")
-      setdocs(null)
-      setrender("requests")
+     
     })
 }).catch(err=>{
     setmessage(err.message)
@@ -164,14 +163,16 @@ setrender("requests")
 }
 useEffect(() => {
   if(!docs && user){
-  Axios.get(endPoint  + "/casualleave/showall" , {
+  Axios.get(endPoint  + "/annualleave/showall" , {
       headers:{
           authorization:`Bearer ${token}`
       }
   }).then(dataDocs=>{
-     const getDocs = dataDocs.data.casualleave
+     const getDocs = dataDocs.data.annualleave
      console.log(getDocs)
-     setdocs(getDocs.filter(filt=>{
+     setdocs(
+           
+     getDocs.filter(filt=>{
       if(user.position === "Government Statistician (CEO)"
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
@@ -194,7 +195,10 @@ useEffect(() => {
         return filt
       }
      }
-   }))
+   })
+
+     )
+
   }).catch(err=>{
     clearTimeout()
     console.log(err.message) 
@@ -216,7 +220,7 @@ useEffect(() => {
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     if(user.department === "Human resource" && userDoc.isPendingHR){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {hrdApproval:true, isPendingHR:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {hrdApproval:true, isPendingHR:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -245,7 +249,7 @@ useEffect(() => {
           })
       
     }else if(user.position === "Sectional Head" && userDoc.isPendingSH){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {sectionheadApproval:true, isPendingSH:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {sectionheadApproval:true, isPendingSH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -273,7 +277,7 @@ useEffect(() => {
             setOpen(false)
           })
     }else if(user.position === "Director" && userDoc.isPendingDH){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {divisionalheadApproval:true, isPendingDH:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {divisionalheadApproval:true, isPendingDH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -314,7 +318,7 @@ useEffect(() => {
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     if(user.department === "Human resource" && userDoc.isPendingHR){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {hrdApproval:false, isPendingHR:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {hrdApproval:false, isPendingHR:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -343,7 +347,7 @@ useEffect(() => {
           })
       
     }else if(user.position === "Sectional Head" && userDoc.isPendingSH){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {sectionheadApproval:false, isPendingSH:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {sectionheadApproval:false, isPendingSH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -371,7 +375,7 @@ useEffect(() => {
             setOpen(false)
           })
     }else if(user.position === "Director" && userDoc.isPendingDH){
-        Axios.patch(endPoint + "/casualleave/update/" +  userDoc._id , {divisionalheadApproval:false, isPendingDH:false} , {
+        Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {divisionalheadApproval:false, isPendingDH:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
@@ -479,8 +483,7 @@ useEffect(() => {
                 </div>
             </div>
         </div>
-        {
-          user.gender === "female" ?
+
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>{
@@ -488,8 +491,7 @@ useEffect(() => {
             setOpen(true)
           }}>Request Leave</button>
         </div>
-        :""
-        }
+   
         <div className="section padding row-flex">
        {/* <div>
        <div className="minSection text-bold">Select status</div>
@@ -524,14 +526,16 @@ useEffect(() => {
                   <th>Full Name</th>
                   <th>Department</th>
                   <th>Section</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Number Of days</th>
-                  <th>Memo</th>
+                  {/* <th>Start Date</th>
+                  <th>End Date</th> */}
+                  <th>Home Address</th>
+                  <th>Leave Address</th>
+                  <th>Days Requested</th>
+                  <th>Officer Taking Officer</th>
                   <th>Resumption Date</th>
                   <th>Sectional Approval</th>
                   <th>Divisional Approval</th>
-                  <th>Hr Approval</th>
+                  <th>HR Approval</th>
               {
                 canUserApprove ?
                 <th>Approve/Declined</th>
@@ -570,11 +574,13 @@ useEffect(() => {
                       <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
                       <td>{doc.staffDetails.department}</td>
                       <td>{doc.staffDetails.section}</td>
-                      <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td>
-                      <td>{doc.number_days}</td>
-                      <td>{doc.memo}</td>
-                      <td>{doc.resumption_date}</td>
+                      {/* <td>{doc.start_date}</td>
+                      <td>{doc.end_date}</td> */}
+                      <td>{doc.homeAddress}</td>
+                      <td>{doc.leaveAddress}</td>
+                      <td>{doc.numberRequested}</td>
+                      <td>{doc.officerTakingover}</td>
+                      <td>{doc.resumptionDate}</td>
             
                       <td>
                         {

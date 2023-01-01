@@ -208,6 +208,15 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status: userDoc.sectionheadApproval && userDoc.divisionalheadApproval ? "leave" : "post"
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              )
               setsuccess("Approved successfully")
               setOpen(false)
               setdocs(null)
@@ -237,6 +246,15 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status: userDoc.hrdApproval && userDoc.divisionalheadApproval ? "leave" : "post"
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              )
               setsuccess("Approved successfully")
               setOpen(false)
               setdocs(null)
@@ -265,6 +283,15 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status: userDoc.hrdApproval && userDoc.sectionheadApproval ? "leave" : "post"
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              )
               setsuccess("Approved successfully")
               setOpen(false)
               setdocs(null)
@@ -306,6 +333,13 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)
@@ -335,6 +369,13 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)
@@ -363,6 +404,13 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)

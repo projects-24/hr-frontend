@@ -116,6 +116,7 @@ useEffect(() => {
       }
   }).then(dataDocs=>{
      const getDocs = dataDocs.data.fieldrequest
+     console.log(getDocs)
      if(getDocs.length > 0){
       setdocs(getDocs)
      }
@@ -145,6 +146,7 @@ useEffect(() => {
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
+      const location = window.location.href
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
         message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your field request have been approved successfully by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
@@ -157,6 +159,13 @@ useEffect(() => {
         }
       } 
       ).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status:"field"
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } )
         setsuccess("Approved successfully")
         setOpen(false)
         setdocs(null)
@@ -173,6 +182,7 @@ useEffect(() => {
         authorization:`Bearer ${token}`
       }
     }).then(()=>{
+      const location = window.location.href
       Axios.post(endPoint + "/notification",{
         sender_id:user._id,
         message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your field request have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
@@ -185,6 +195,13 @@ useEffect(() => {
         }
       } 
       ).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status:"post"
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } )
         setsuccess("disapproved")
         setOpen(false)
         setdocs(null)

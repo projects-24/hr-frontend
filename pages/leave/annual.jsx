@@ -225,22 +225,32 @@ useEffect(() => {
               authorization:`Bearer ${token}`
             }
           }).then(()=>{
-            const location = window.location.href
-            Axios.post(endPoint + "/notification",{
-              sender_id:user._id,
-              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-              link:location,
-              receiver:userDoc.staffDetails._id,
-              date:fullDate
+            Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+              status: userDoc.divisionalheadApproval && userDoc.sectionheadApproval ? "leave" : "post"
+
             }, {
               headers:{
                 authorization:`Bearer ${token}`
               }
             } 
             ).then(()=>{
-              setsuccess("Approved successfully")
-              setOpen(false)
-              setdocs(null)
+              const location = window.location.href
+              Axios.post(endPoint + "/notification",{
+                sender_id:user._id,
+                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+                link:location,
+                receiver:userDoc.staffDetails._id,
+                date:fullDate
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              ).then(()=>{
+                setsuccess("Approved successfully")
+                setOpen(false)
+                setdocs(null)
+              })
             })
       
           }).catch(err=>{
@@ -254,22 +264,32 @@ useEffect(() => {
               authorization:`Bearer ${token}`
             }
           }).then(()=>{
-            const location = window.location.href
-            Axios.post(endPoint + "/notification",{
-              sender_id:user._id,
-              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-              link:location,
-              receiver:userDoc.staffDetails._id,
-              date:fullDate
+            Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+              status: userDoc.hrdApproval && userDoc.divisionalheadApproval ? "leave" : "post"
+
             }, {
               headers:{
                 authorization:`Bearer ${token}`
               }
             } 
             ).then(()=>{
-              setsuccess("Approved successfully")
-              setOpen(false)
-              setdocs(null)
+              const location = window.location.href
+              Axios.post(endPoint + "/notification",{
+                sender_id:user._id,
+                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+                link:location,
+                receiver:userDoc.staffDetails._id,
+                date:fullDate
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              ).then(()=>{
+                setsuccess("Approved successfully")
+                setOpen(false)
+                setdocs(null)
+              })
             })
       
           }).catch(err=>{
@@ -282,27 +302,37 @@ useEffect(() => {
               authorization:`Bearer ${token}`
             }
           }).then(()=>{
-            const location = window.location.href
-            Axios.post(endPoint + "/notification",{
-              sender_id:user._id,
-              message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-              link:location,
-              receiver:userDoc.staffDetails._id,
-              date:fullDate
+            Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+              status: userDoc.hrdApproval && userDoc.sectionheadApproval ? "leave" : "post"
+
             }, {
               headers:{
                 authorization:`Bearer ${token}`
               }
             } 
             ).then(()=>{
-              setsuccess("Approved successfully")
-              setOpen(false)
-              setdocs(null)
-            })
+              const location = window.location.href
+              Axios.post(endPoint + "/notification",{
+                sender_id:user._id,
+                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
+                link:location,
+                receiver:userDoc.staffDetails._id,
+                date:fullDate
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } 
+              ).then(()=>{
       
-          }).catch(err=>{
-            setmessage(err.message)
-            setOpen(false)
+                setsuccess("Approved successfully")
+                setOpen(false)
+                setdocs(null)
+              })
+            })
+
+
+      
           })
     }
 
@@ -336,6 +366,14 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)
@@ -365,6 +403,14 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)
@@ -393,6 +439,14 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
+              Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+                status:"post",
+  
+              }, {
+                headers:{
+                  authorization:`Bearer ${token}`
+                }
+              } )
               setsuccess("Disapproved successfully")
               setOpen(false)
               setdocs(null)

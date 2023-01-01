@@ -297,12 +297,12 @@ isAdmin ?
       <i className="icon-clock"></i> Retirement Mgt
       </div>
     </Link>
-    <div className="section hr"></div>
+    {/* <div className="section hr"></div>
     <Link href="/annoucements">
       <div className='sideLink'>
       <i className="lni lni-bullhorn"></i> Annoucements
       </div>
-    </Link>
+    </Link> */}
    {
     isAdmin ?
     <div>
@@ -312,12 +312,12 @@ isAdmin ?
       <i className="lni lni-notepad"></i> Reports
       </div>
     </Link>
-       <div className="section hr"></div>
+       {/* <div className="section hr"></div>
     <Link href="/add/annoucement">
       <div className='sideLink'>
       <i className="lni lni-plus"></i> Annoucement
       </div>
-    </Link>
+    </Link> */}
     </div>
     :""
    }

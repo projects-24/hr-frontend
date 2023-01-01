@@ -122,7 +122,7 @@ const [data, setdata] = useState(null)
           <Nav />
     
           <div className="">
-              <div className="card">
+              <div className="card scaleIn">
               <div className="row-flex">
                 <div>
                   <img src="/avatar.svg" className='width-100' alt="" />

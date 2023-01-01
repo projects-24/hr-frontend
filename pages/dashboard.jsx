@@ -129,9 +129,18 @@ const [data, setdata] = useState(null)
                 </div>
                 <div>
                 <div className="h1 p-text">Dashboard And Analytics</div>
-              <div className="section">
-                  Welcome  <span className="text-bold">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
+                <div className="section">
+                  Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
               </div>
+              <div className="row-flex section space-between">
+                <div>
+                <span className="text-bold"> Position:</span> {user.position}
+                </div>
+                <div>
+                <span className="text-bold"> Department:</span> {user.department}
+                </div>
+              </div>
+         
                 </div>
               </div>
               </div>
@@ -140,17 +149,21 @@ const [data, setdata] = useState(null)
   
                 <div>
                     <div className="row m-section central">
-                  <div className="col sm-12 md-2 lg-2 padding">
-                      <div className="card padding text-center">
-                          <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                          <div className="section text-bold">
-                              All staffs
-                          </div>
-                          <div className="h4 text-success">
-                            {docs.length}
-                          </div>
-                      </div>
+            {
+              user.position != "Officer" ?
+              <div className="col sm-12 md-2 lg-2 padding">
+              <div className="card padding text-center">
+                  <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
+                  <div className="section text-bold">
+                      All staffs
                   </div>
+                  <div className="h4 text-success">
+                    {docs.length}
+                  </div>
+              </div>
+          </div>
+          :""
+            }
                   <div className="col sm-12 md-2 lg-2 padding">
                       <div className="card padding text-center">
                           <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />

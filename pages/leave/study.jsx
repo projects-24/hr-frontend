@@ -383,10 +383,14 @@ useEffect(() => {
         }
         </select>
        </div>
+       {
+          !user.auth_level ?
        <div>
        <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
        </div>
+       :""
+       }
         </div>
         <div className="section" >
           {

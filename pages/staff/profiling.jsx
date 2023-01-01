@@ -110,8 +110,35 @@ Axios.get(endPoint  + "/staff/showall" , {
     }
 }).then(dataDocs=>{
    const getDocs = dataDocs.data.staff
-   setdocs(getDocs)
-   console.log(getDocs)
+   setdocs(
+    getDocs.filter(filt=>{
+      if(user.position === "Government Statistician (CEO)"
+       || user.position === "Deputy Gov Statistician (DGS)"
+        || user.department === "Human resource"
+        ){
+         return getDocs
+     }else if(user.position === "Director" || user.position === "Deputy Director" ){
+         if(filt.department === user.department){
+             return filt
+         }
+     }else if(user.position === "Sectional Head"){
+             if(filt.section === user.section){
+               return filt
+             }
+     }else if(user.position === "Unit Head"){
+         if(filt.section === user.unit){
+           return filt
+         }
+     }else{
+      getDocs.filter(filt =>{
+             if(filt.staffId === user.staffId){
+                 setdocs(filt)
+             }
+         }) 
+     }
+   })
+    
+    )
 }).catch(err=>console.log(err.message))
 }
 })
@@ -361,48 +388,23 @@ const TriggerDrop = ()=>{
           }
           <tr>
             <th>Staff ID</th>
-            <th>Emaill</th>
+            <th>Email</th>
             <th>Full Name</th>
+            <th>Department</th>
+            <th>position</th>
             <th>Contact</th>
-            <th>Marital  Status</th>
+            <th>Marital Status</th>
           </tr>
         </thead>
         <tbody>
-          {docs ? docs.filter(filt=>{
-             if(user.position === "Government Statistician (CEO)"
-              || user.position === "Deputy Gov Statistician (DGS)"
-               || user.department === "Human resource"
-               ){
-                return docs
-            }else if(user.position === "Director" || user.position === "Deputy Director" ){
-                if(filt.department === user.department){
-                    return filt
-                }
-            }else if(user.position === "Sectional Head"){
-                    if(filt.section === user.section){
-                      return filt
-                    }
-            }else if(user.position === "Unit Head"){
-                if(filt.section === user.unit){
-                  return filt
-                }
-            }else{
-                docs.filter(filt =>{
-                    if(filt.staffId === user.staffId){
-                        setdocs(filt)
-                    }
-                }) 
-            }
-          })
+          {docs ? docs
                 .filter(doc=>{
                     if(search === "" && 
                     department  === "" && 
-                    section  === "" && 
-                    employment  === ""
+                    section  === ""
                     ){
                         return docs
                     }else if(
-
                         department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
                         section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
                         employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
@@ -417,6 +419,8 @@ const TriggerDrop = ()=>{
               <td>{row.staffId}</td>
               <td>{row.email}</td>
               <td>{row.surname} {row.middleName} {row.lastName}</td>
+              <td>{row.department}</td>
+              <td>{row.position}</td>
               <td>{row.contact}</td>
               <td>{row.maritalStatus}</td>
             </tr>

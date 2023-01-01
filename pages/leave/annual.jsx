@@ -537,7 +537,8 @@ useEffect(() => {
                 </div>
             </div>
         </div>
-
+        {
+          !user.auth_level ?
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>{
@@ -545,6 +546,7 @@ useEffect(() => {
             setOpen(true)
           }}>Request Leave</button>
         </div>
+        :""}
    
         <div className="section padding row-flex">
        {/* <div>

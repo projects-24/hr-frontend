@@ -140,9 +140,20 @@ const [data, setdata] = useState(null)
                 <span className="text-bold"> Department:</span> {user.department}
                 </div>
               </div>
+              <div>
+              <span className="text-bold"> Active service until:</span> {user.retirementAge}
+              </div>
          
                 </div>
               </div>
+              </div>
+
+              <div className="m-section">
+                <div className="card white  central">
+                <div className='h4'>
+                You are currently on <span className="p-text text-bold h4">{user.status}</span>
+                </div>
+                </div>
               </div>
 
               {

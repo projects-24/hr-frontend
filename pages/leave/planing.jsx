@@ -292,7 +292,8 @@ useEffect(() => {
             :""
          }
         <Nav/>
-        <div className="row-flex fit white round-edge padding section">
+       <div className="padding">
+       <div className="row-flex fit white round-edge padding section">
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
@@ -306,10 +307,15 @@ useEffect(() => {
                 </div>
             </div>
         </div>
+       </div>
+        {
+          !user.auth_level ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
         </div>
+                  :""
+                }
         <div className="section padding row-flex">
        <div>
        <div className="minSection text-bold">Select status</div>

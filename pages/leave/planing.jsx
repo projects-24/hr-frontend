@@ -318,13 +318,13 @@ useEffect(() => {
                 }
         <div className="section padding row-flex">
        <div>
-       <div className="minSection text-bold">Select status</div>
+       {/* <div className="minSection text-bold">Select status</div>
           <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
             <option value="">All</option>
             <option value="approved">Approved</option>
             <option value="pending">Pending</option>
             <option value="disapproved">Disapproved</option>
-          </select>
+          </select> */}
        </div>
        <div>
        <div className="minSection text-bold">Department</div>
@@ -353,11 +353,11 @@ useEffect(() => {
                   <th>Leave</th>
                   <th>Start Date</th>
                   <th>End Date</th>
-                  <th>status</th>
+                  {/* <th>status</th> */}
               {
-                canUserApprove ?
-                <th>Approve/Declined</th>
-                :""
+                // canUserApprove ?
+                // <th>Approve/Declined</th>
+                // :""
               }
                 </thead>
                 <tbody>
@@ -395,7 +395,7 @@ useEffect(() => {
                       <td>{doc.type_leave}</td>
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
-                      <td>{
+                      {/* <td>{
                       doc.approval ? 
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
@@ -410,8 +410,8 @@ useEffect(() => {
                       }
 
                           
-                        </td>
-                    {
+                        </td> */}
+                    {/* {
                       canUserApprove  && doc.isPending  ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
@@ -422,7 +422,7 @@ useEffect(() => {
                       </button>
                     </td>
                     : <td  className='text-center'>-</td>
-                    }
+                    } */}
                     </tr>
                    ))
                    :""

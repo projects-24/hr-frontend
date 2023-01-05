@@ -658,7 +658,7 @@ useEffect(() => {
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
-                        !doc.divisionalheadApproval && ! doc.isPendingDH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                        !doc.divisionalheadApproval && !doc.isPendingDH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
                         Disapproved
                         </span> :
                         doc.isPendingDH ? 
@@ -681,7 +681,8 @@ useEffect(() => {
                       }
                       </td>
                     {
-                      canUserApprove  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
+                      canUserApprove ?
+                      //  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
                         setuserDoc(doc)

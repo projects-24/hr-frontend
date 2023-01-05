@@ -29,6 +29,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dynamic from "next/dynamic"
+import DataGridDemo from '../../components/table';
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 
 export default function Profiling() {
@@ -192,6 +193,54 @@ const TriggerDrop = ()=>{
       setdropdown(0)
     }
   }
+
+  const columns = [
+    // { field: '_id', headerName: 'ID', width: 90 },
+  
+    {
+      field: 'staffId',
+      headerName: 'Staff Id',
+      width: 150,
+      
+    },
+       {
+      field: 'fullName',
+      headerName: 'Full name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstname || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 150,
+      
+    },
+    {
+      field: 'department',
+      headerName: 'Department',
+      width: 150,
+      
+    },
+    {
+      field: 'position',
+      headerName: 'Position',
+      width: 150,
+      
+    },
+    {
+      field: 'contact',
+      headerName: 'Contact',
+      type: 'number',
+      width: 110,
+      
+    }
+ 
+  ];
+
+  
   return (
     <div className={print ? "" : "content"}>
 
@@ -273,64 +322,10 @@ const TriggerDrop = ()=>{
            </div>
         </div>
 
-                <div className="row  card section fit">
-                    <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER DATA</div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
-                    <select className='input light' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
-                        <option value="">All Departments</option>
-                        {
-                            Departments &&
-                            Departments.map(docs=>(
-                                <option value={docs.department} key={docs.department}> {docs.department} </option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
-                    <select className='input light' placeholder="Section" select name="" id=""  onChange={(e)=>setsection(e.target.value)}>
-                        <option value="">All Sections</option>
-                        {
-                                Sections.filter(docs=>{
-                                    if(department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
-                                        return docs
-                                    }
-                                }).map(docs=>(
-                                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
-                                ))
-                            }
-                    </select>
-                </div>
-              
-                </div>
-
                 {
             !print ?
         <div className="row-flex fit space-between m-section">
-            <div className="">
-            <Paper
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}
-    >
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Enter staff ID"
-        // inputProps={{ 'aria-label': 'search google maps' }}
-        onChange={(e)=>{
-            setinputData(e.target.value)
-            if(e.target.value === ""){
-                setsearch("")
-               }
-        }
-        }
-      />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
-        <i className="icon-magnifier"></i>
-      </IconButton>
-      </Paper>
-   
-       
-            </div>
-          <div className="exportBtnContainer">
+          {/* <div className="exportBtnContainer">
             
           <div className="dropDown">
       <div className="dropContent up" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
@@ -343,7 +338,7 @@ const TriggerDrop = ()=>{
     <button className='exportBtn'><i className="lni lni-add-files"></i> Export Data</button>
       </div>
     </div>
-          </div>
+          </div> */}
            {
             user.department === "Human resource" ?
             <Link href="/form/personal">
@@ -358,80 +353,17 @@ const TriggerDrop = ()=>{
                 }
                 
             </div>
-            :""}
-            <div className="padding-top-20">
-           {
-            print ?
-            <div className="h4 section text-center text-bold">Ghana Statistical Service</div> 
-            :""
-           }
-           <p> 
-            {
 
-            }
-           </p>
+            :""}
+ 
            <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
-            <div className="section row-flex space-between padding">
-                <div className='text-bold'>department:{department ? department : "All departments"}</div>
-                <div className='text-bold'>Section:{section ? section : "All section"}</div>
-            </div>
-     <TableContainer component={Paper}>
-      <table className='table stripped' id="records">
-        <thead>
-          {
-            exportTrigger ?
-            <tr>
-             <td style={{fontWeight:"bold", width:"200px"}}>Department: {department ? department : "All departments"}</td>
-              <td style={{fontWeight:"bold", width:"200px"}}>Section: {section ? section : "All Sections"}</td> 
-            </tr>
-            :""
-          }
-          <tr>
-            <th>Staff ID</th>
-            <th>Email</th>
-            <th>Full Name</th>
-            <th>Department</th>
-            <th>position</th>
-            <th>Contact</th>
-            <th>Marital Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {docs ? docs
-                .filter(doc=>{
-                    if(search === "" && 
-                    department  === "" && 
-                    section  === ""
-                    ){
-                        return docs
-                    }else if(
-                        department.toString().trim().toLowerCase() === doc.department.toString().trim().toLowerCase() ||
-                        section.toString().trim().toLowerCase() === doc.section.toString().trim().toLowerCase() ||
-                        employment.toString().trim().toLowerCase() === doc.employmentStatus.toString().trim().toLowerCase() 
-                    ){
-                        return doc
-                    }
-                  })
-          .map((row) => (
-            <tr
-              key={row.name}
-            >
-              <td>{row.staffId}</td>
-              <td>{row.email}</td>
-              <td>{row.surname} {row.middleName} {row.lastName}</td>
-              <td>{row.department}</td>
-              <td>{row.position}</td>
-              <td>{row.contact}</td>
-              <td>{row.maritalStatus}</td>
-            </tr>
-          ))
-        :""
-        }
-        </tbody>
-      </table>
-    </TableContainer>
+  
+            {
+              docs ?
+              <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" /> 
+              :""
+            }
            </div>
-            </div>
         </div>
     </div>
   )

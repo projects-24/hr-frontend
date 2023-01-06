@@ -51,6 +51,7 @@ export default function Personal() {
     const [mother, setmother] = useState(false)
     const [open, setOpen] = useState(false);
     const [preview, setpreview] = useState([])
+    const [selectedSalary, setselectedSalary] = useState("")
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -310,7 +311,7 @@ export default function Personal() {
            }).catch(err=>{
      
            if(err.message === "Request failed with status code 422"){
-            setmessage("email exist")
+            setmessage("Email or staffId Exist")
             setloader(false)
            }else{
             setmessage(err.message)
@@ -554,7 +555,15 @@ export default function Personal() {
                     <div className="h4 "><img src="/hand/undraw_note.svg" className="height-50"/> Job Infomation</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth required type="text" select label="Job Title" name='jobTitle' variant="outlined">
+                <TextField fullWidth required type="text" onChange={(e)=>{
+                  jobTitles.filter(filt=>{
+                        if(e.target.value === filt.title){
+                            return filt
+                        }
+                    }).map(doc=>{
+                        setselectedSalary(doc.salary)
+                    })
+                    }} select label="Job Title" name='jobTitle' variant="outlined">
                     {
                         jobTitles.map(docs=>(
                             <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>
@@ -563,7 +572,7 @@ export default function Personal() {
                     </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth required type="text" select label="Grade" name='grade' variant="outlined" onChange={(e)=>setselectedGrade(e.target.value)}>
+                <TextField fullWidth required type="text" select label="Grade" name='grade' variant="outlined" >
                     {
                         grades.map(docs=>(
                             <MenuItem value={`${docs.grade}`} key={docs.grade}>{docs.grade}</MenuItem>
@@ -583,15 +592,7 @@ export default function Personal() {
      
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Salary Level</div>
-                <TextField variant="outlined" type="text" value={
-                    selectedGrade === "Assistant" ? "16H" :
-                    selectedGrade === "Officer" ? "18L" :
-                    selectedGrade === "Senior" ? "19" :
-                    selectedGrade === "Principal" ? "20" :
-                    selectedGrade === "Assistant Chief" ? "21" :
-                    selectedGrade === "Chief" ? "22" : "22"
-
-                } name='salary' fullWidth disabled />
+                <TextField variant="outlined" type="text" value={selectedSalary} name='salary' fullWidth disabled />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of appointment</div>

@@ -273,7 +273,7 @@ useEffect(() => {
         </div>
         :""
         }
-        <div className="section padding row-flex">
+        {/* <div className="section padding row-flex">
        <div>
        <div className="minSection text-bold">Select status</div>
           <select name="" id="" className='input card white' onChange={(e)=>setfilter(e.target.value)}>
@@ -283,7 +283,7 @@ useEffect(() => {
             <option value="disapproved">Disapproved</option>
           </select>
        </div>
-        </div>
+        </div> */}
         <div className="section" >
           {
             render === "requests" ?
@@ -299,10 +299,10 @@ useEffect(() => {
                   <th>project coordinator</th>
                   <th>Start Date</th>
                   <th>End Date</th>
-                  <th>status</th>
-                  {
+                  {/* <th>status</th> */}
+                  {/* {
                     canUserApprove ? <th>Approve/Declined</th> : ""
-                  }
+                  } */}
                 </thead>
                 <tbody>
                   {
@@ -356,7 +356,7 @@ useEffect(() => {
                       <td>{doc.projectCoordinator}</td>
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
-                      <td>{
+                      {/* <td>{
                       doc.approval ? 
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
@@ -369,9 +369,7 @@ useEffect(() => {
                         Pending
                         </span>  : ""
                       }
-
-                          
-                        </td>
+                        </td> */}
                      {
                       canUserApprove && doc.isPending ?
                       <td>

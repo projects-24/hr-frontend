@@ -52,6 +52,7 @@ export default function Personal() {
     const [open, setOpen] = useState(false);
     const [preview, setpreview] = useState([])
     const [selectedSalary, setselectedSalary] = useState("")
+    const [no_of_leave_days, setno_of_leave_days] = useState(0)
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -105,6 +106,13 @@ export default function Personal() {
     
 
     const submitData = (e)=>{
+        if(parseInt(selectedSalary) >= 23){
+            setno_of_leave_days(36)
+        }else if(parseInt(selectedSalary) >= 15 && parseInt(selectedSalary) <= 22){
+            setno_of_leave_days(28)
+        }else if(parseInt(selectedSalary) < 15){
+            setno_of_leave_days(21)
+        }
         setloader(true)
         e.preventDefault()
         const current = form.current
@@ -244,6 +252,7 @@ export default function Personal() {
        mother_alive_or_dead: motherLife,
        school: schoolDocs,
        retirementAge:parseInt(getYearOfBirth) + 60,
+       no_of_leave_days:no_of_leave_days,
        editfield:true
     
         }
@@ -564,6 +573,7 @@ export default function Personal() {
                         setselectedSalary(doc.salary)
                     })
                     }} select label="Job Title" name='jobTitle' variant="outlined">
+                        
                     {
                         jobTitles.map(docs=>(
                             <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>

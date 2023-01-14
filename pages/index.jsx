@@ -6,11 +6,14 @@ import endPoint from "../components/endPoint"
 import Loader from '../components/loader';
 import TextField from '@mui/material/TextField';
 import Alert from '../Funcss/Components/Alert';
+import Success from '../components/default/success';
+
 export default function Home() {
   const [email , setemail] = useState("")
     const [password , setpassword] = useState("")
     const [loader, setloader] = useState(false)
     const [message, setmessage] = useState("")
+    const [success, setsuccess] = useState(false)
     useEffect(()=>{
       setTimeout(()=>{
           setmessage(null)
@@ -25,7 +28,12 @@ export default function Home() {
           resolve()
           localStorage.setItem("user" , JSON.stringify(doc.data.staff))
           localStorage.setItem("token" , JSON.stringify(doc.data.token))
-        }).then(()=>window.location.assign("/dashboard"))
+        }).then(()=>{
+          setsuccess(true)
+          setTimeout(() => {
+          window.location.assign("/dashboard")
+          }, 2000);
+        })
       }).catch(err=>{
         if(err.message === "Request failed with status code 422"){
           setmessage("Wrong credentials")
@@ -59,6 +67,11 @@ export default function Home() {
              <Alert type="danger"  message={message}/>
            </div>
             :""
+         }
+         {
+          success ?
+          <Success message="Login successfully" />
+          :""
          }
 
       <div className="">

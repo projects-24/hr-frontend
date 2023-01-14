@@ -1,5 +1,6 @@
 import '../styles/style.css'
 import '../styles/fun.css'
+import '../styles/default.css'
 import '../styles/lineIcons/css/simple-line-icons.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'

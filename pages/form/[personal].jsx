@@ -53,6 +53,7 @@ export default function Personal() {
     const [preview, setpreview] = useState([])
     const [selectedSalary, setselectedSalary] = useState("")
     const [no_of_leave_days, setno_of_leave_days] = useState(0)
+    const [success, setsuccess] = useState(false)
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -314,9 +315,12 @@ export default function Personal() {
                 
             }
             ).then(()=>{
-               setmessage("new staff added successfully")
            setloader(false)
-   
+           setsuccess(true)
+           setsuccess(true)
+           setTimeout(() => {
+           window.location.reload()
+           }, 2000);
            }).catch(err=>{
      
            if(err.message === "Request failed with status code 422"){
@@ -451,7 +455,7 @@ export default function Personal() {
                 </TextField>
                 </div>       
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField multiline required rows={4} name='address' fullWidth label='Address' />
+                <TextField multiline required rows={3} name='address' fullWidth label='Residence GPS' />
                 </div>
                     </div>
                     </div>
@@ -468,7 +472,7 @@ export default function Personal() {
                     <MenuItem value="single">Single</MenuItem>
                     <MenuItem value="divorced">Divorced</MenuItem>
                     <MenuItem value="widow">Widow</MenuItem>
-                    <MenuItem value="Co-Habition">Co-Habition</MenuItem>
+                    <MenuItem value="widower">Widower</MenuItem>
                 </TextField>
                 </div>
             
@@ -488,7 +492,7 @@ export default function Personal() {
                     <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" required type="text" name='nationality' fullWidth label='Nationality' select>
                     <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
-                    <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
+                    {/* <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem>  */}
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
@@ -757,7 +761,9 @@ export default function Personal() {
                 <TextField  variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
                 </div>
                 :""
-                }
+                }     <div className="col sm-12 md-12 lg-12 padding">
+                <TextField required variant="outlined" type="text" name='fatherhometown' fullWidth label='Home Town' />
+                </div>
                     </div>
                     </div>
        
@@ -803,6 +809,9 @@ export default function Personal() {
                 </div>
                 :""
                 }
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField required variant="outlined" type="text" name='motherhometown' fullWidth label='Home Town' />
+                </div>
                         </div>
                     </div>
                     <div className="col sm-12 md-12 lg-12 div">
@@ -887,7 +896,7 @@ export default function Personal() {
                 <TextField variant="outlined" type="text" name='program' id='program' fullWidth label='program of study' />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                    <button onClick={handleSchool} className="button indigo text-white"><i className="lni lni-plus"></i> Add school</button>
+                    {/* <button onClick={handleSchool} className="button indigo text-white"><i className="lni lni-plus"></i> Add school</button> */}
                   <table className='table section'>
                     <thead>
                         <th>School</th>

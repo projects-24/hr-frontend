@@ -54,6 +54,10 @@ export default function Personal() {
     const [selectedSalary, setselectedSalary] = useState("")
     const [no_of_leave_days, setno_of_leave_days] = useState(0)
     const [success, setsuccess] = useState(false)
+    const [haveProfCert, sethaveProfCert] = useState(false)
+    const [certificates, setcertificates] = useState([])
+    const [certDocs, setcertDocs] = useState(null)
+    const [getCert, setgetCert] = useState(false)
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -63,6 +67,7 @@ export default function Personal() {
             setmessage(null)
         }, 4000)
     },[message])
+
     useEffect(() => {
         if(getChildrens){
             setchildrenDocs(
@@ -71,6 +76,15 @@ export default function Personal() {
             setgetChildrens(false)
         }
     })
+    useEffect(() => {
+        if(getCert){
+            setcertDocs(
+              certificates
+            )
+            setgetCert(false)
+        }
+    })
+
     useEffect(() => {
         if(getSchools){
             setschoolDocs(
@@ -360,6 +374,31 @@ export default function Personal() {
         }
  
     }
+    const handleProfCert = (e)=>{
+        e.preventDefault()
+        const current = form.current
+        const certificate = current["prof_certificate"].value
+        const certId = current["cert_id"].value
+        if( certificates.length < 3){
+            if(certificate && certId){
+                new Promise((resolve , reject)=>{
+                    certificates.push({id:certificates.length + 1,cert:certificate, id:certId})
+                    resolve()
+                }).then(()=>{
+                    document.querySelector("#profCert").value = ""
+                    document.querySelector("#certId").value = ""
+                    setgetCert(true)
+                })
+        
+               }else{
+                setmessage("Make sure to enter certifcate and ID")
+               }
+        }else{
+            setmessage("You can not add more than 3 certificates")
+        }
+ 
+    }
+
     const handleSchool = (e)=>{
         e.preventDefault()
         const current = form.current
@@ -417,7 +456,7 @@ export default function Personal() {
                 <Loader />
                 :""
             }
-            <form ref={form}>
+            <form ref={form} className="">
                 <div>
                  
             <div className="">
@@ -869,7 +908,7 @@ export default function Personal() {
                         </div>
                     </div>
        
-                    <div className="col sm-12 md-12 lg-12 div">
+                    <div className="col sm-12 md-6 lg-6 div">
                         <div className="formSection card row">
                         <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">
@@ -940,26 +979,89 @@ export default function Personal() {
                   </table>
                     </div>
    */}
-        <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+
+          
+                    </div>
+                        </div>
+                    </div>
+       
+                    <div className="col sm-12 md-6 lg-6 div">
+                        <div className="formSection card row">
+                        <div className="row">
+                    <div className="col sm-12 md-12 lg-12 padding">
+                    <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>Professional Certificates</div>
                 </div>
-        <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField select fullWidth type="text" onChange={(e)=>sethaveProfCert(e.target.value)} id='certificate' label="Do you have a professional certificate" >
+                    <MenuItem value={true}> Yes </MenuItem>
+                    <MenuItem value={false}> No </MenuItem>
+                    </TextField> 
                 </div>
-        <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+                {
+                    haveProfCert ?
+                    <div className="col sm-12 md-12 lg-12">
+                        <div className="row">
+                        <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" id='profCert' name='prof_certificate' fullWidth label='Certificate' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                  <button className="btn submitNewstaff" onClick={submitData}>
-                    Submit  <i className="icon-paper-plane"></i>
-                    </button>
+                <TextField variant="outlined" type="text" id='certId' name='cert_id'  fullWidth label='Certificate ID' />
                 </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+               <button className="button info text-white" onClick={handleProfCert}>Add certificate</button>
+                </div>
+                {
+                    certDocs ?
+                    <div className="col sm-12 md-12 lg-12 padding">
+                    <table className='table section'>
+                      <thead>
+                          <th>Certificate</th>
+                          <th>Certificate ID</th>
+                          <th className='text-red'>Delete</th>
+                      </thead>
+                      <tbody>
+                      {
+                          certDocs ?
+                          certDocs.map(docs=>(
+                              <tr className="" key={docs.id}>
+                                  <td className="padding">{docs.cert}</td>
+                                  <td className="padding">{docs.id}</td>
+                                  <td className="padding pointer hover-text-red" onClick={()=>{
+                                  new Promise((resolve , reject)=>{
+                                     setcertificates( certDocs.filter(filt=>{
+                                      if(filt.id != docs.id){
+                                          return filt
+                                      }
+                                  }))
+                                      resolve()
+                                          
+                                      }).then(()=>setgetCert(true))
+                                  }}><i className="lni lni-trash-can"></i> Delete</td>
+                              </tr>
+                          ))
+                          :""
+                      }
+                      </tbody>
+                    </table>
+                      </div>
+                      :""  
+                }
+                        </div>
+                    </div>
+                    :""
+                }
+
+                
+             
+          
                     </div>
                         </div>
                     </div>
        
                    
-                
+                  <button className="btn submitNewstaff" onClick={submitData}>
+                    Submit  <i className="icon-paper-plane"></i>
+                    </button>
             
                 
            

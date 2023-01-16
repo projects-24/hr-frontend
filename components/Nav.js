@@ -19,6 +19,23 @@ const Nav = ({noSideBar}) => {
   const [myNots, setmyNots] = useState("")
   const [isAdmin, setisAdmin] = useState(false)
   const [checkAnnual, setcheckAnnual] = useState(true)
+  const [canUserApproveRequest, setcanUserApproveRequest] = useState(null)
+
+  useEffect(() => {
+  if(user && canUserApproveRequest === null){
+    if(user.position === "Deputy Director" ||
+      user.position === "Government Statistician (CEO)"
+      || user.position === "Deputy Gov Statistician (DGS)" ||
+      user.position === "Director" ||
+      user.position === "Deputy Director" ||
+      user.position === "Sectional Head"
+      ){
+      setcanUserApproveRequest(true)
+    }else{
+      setcanUserApproveRequest(false)
+    }
+  }
+  })
 
   useEffect(() => {
     if(localStorage.getItem("token") && !user ){
@@ -279,11 +296,20 @@ isAdmin ?
       </div>
     </div>
     <div className="section hr"></div>
+  {
+    canUserApproveRequest ? 
     <Link href="/field/request">
-      <div className='sideLink'>
-      <i className="lni lni-infinite"></i> Field Request
-      </div>
-    </Link>
+    <div className='sideLink'>
+    <i className="lni lni-infinite"></i> Field Status
+    </div>
+  </Link>
+  :
+  <Link href="/field/request">
+  <div className='sideLink'>
+  <i className="lni lni-infinite"></i> Field Activity
+  </div>
+</Link>
+  }
     <div className="section hr"></div>
     {/* <Link href="/appraisal">
       <div className='sideLink'>

@@ -455,7 +455,10 @@ export default function Personal() {
                 </TextField>
                 </div>       
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField multiline required rows={3} name='address' fullWidth label='Residence GPS' />
+                <TextField multiline required rows={2} name='address' fullWidth label='Residence GPS' />
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField required  name='placeofbirth' fullWidth label='Place Of Birth' />
                 </div>
                     </div>
                     </div>
@@ -726,19 +729,7 @@ export default function Personal() {
                     <div className="col sm-12 md-12 lg-12 padding">
                     <div className="h4 "><img src="/hand/person.svg" className="height-50"/> Father</div>
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select required fullWidth name='fatherLife' label="Deceased or alive" onChange={(e)=>{
-                    if(e.target.value === "Alive"){
-                        setfather(true)
-                    }else{
-                        setfather(false)
-
-                    }
-                }}> 
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Deceased">Deceased</MenuItem>
-                </TextField>
-                </div>
+        
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField required variant="outlined" type="text" name='father' fullWidth label='Full Name' />
                 </div>
@@ -754,6 +745,19 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Date of birth</div>
                 <TextField required variant="standard" type="date" name='fatherdob' fullWidth />
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField select required fullWidth name='fatherLife' label="Deceased or alive" onChange={(e)=>{
+                    if(e.target.value === "Alive"){
+                        setfather(true)
+                    }else{
+                        setfather(false)
+
+                    }
+                }}> 
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Deceased">Deceased</MenuItem>
+                </TextField>
                 </div>
                 {
                     father ?
@@ -773,19 +777,7 @@ export default function Personal() {
                     <div className="col sm-12 md-12 lg-12 ">
                     <div className="h4 padding"><img src="/hand/person.svg" className="height-50"/> Mother</div>
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select required fullWidth name='motherLife' label="Deceased or alive"  onChange={(e)=>{
-                    if(e.target.value === "Alive"){
-                        setmother(true)
-                    }else{
-                        setmother(false)
-
-                    }
-                }}>
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Deceased">Deceased</MenuItem>
-                </TextField>
-                </div>
+              
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField required variant="outlined" type="text" name='mother' fullWidth label='Full Name' />
                 </div>
@@ -801,6 +793,19 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                 <div className="text-bold">Date of birth</div>
                 <TextField required variant="standard" type="date" name='motherdob' fullWidth />
+                </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <TextField select required fullWidth name='motherLife' label="Deceased or alive"  onChange={(e)=>{
+                    if(e.target.value === "Alive"){
+                        setmother(true)
+                    }else{
+                        setmother(false)
+
+                    }
+                }}>
+                    <MenuItem value="Alive">Alive</MenuItem>
+                    <MenuItem value="Deceased">Deceased</MenuItem>
+                </TextField>
                 </div>
                 {
                     mother ?
@@ -895,8 +900,8 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='program' id='program' fullWidth label='program of study' />
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
-                    {/* <button onClick={handleSchool} className="button indigo text-white"><i className="lni lni-plus"></i> Add school</button> */}
+                
+                {/* <div className="col sm-12 md-12 lg-12 padding">
                   <table className='table section'>
                     <thead>
                         <th>School</th>
@@ -934,8 +939,16 @@ export default function Personal() {
                     </tbody>
                   </table>
                     </div>
-  
-      
+   */}
+        <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+                </div>
+        <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+                </div>
+        <div className="col sm-12 md-6 lg-6 padding">
+                <TextField variant="outlined" type="text" fullWidth label='Other professional certificate' />
+                </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                   <button className="btn submitNewstaff" onClick={submitData}>
                     Submit  <i className="icon-paper-plane"></i>

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
 :root{
-    --primaryColor: rgb(108, 99, 255);
-    --secondaryColor: #680865;
+    --primaryColor: #472183;
+    --secondaryColor: #FF8E9E;
     --light:#eaf1fb !important;
     --color:#202020;
     --backgroundColor:#eaf1fb;
@@ -25,6 +25,9 @@ div{text-transform: capitalize !important;}
 }
 .lightBg{
   background-color:var(--light) !important;
+}
+.secondary-text{
+  color: var(--secondaryColor);
 }
 /* loader */
 .loadContainer{

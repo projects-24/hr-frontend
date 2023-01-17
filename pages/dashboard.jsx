@@ -127,26 +127,41 @@ const [data, setdata] = useState(null)
                 <div>
                   <img src="/avatar.svg" className='width-100' alt="" />
                 </div>
-                <div>
-                <div className="h1 p-text">Dashboard And Analytics</div>
-                <div className="section">
+                <div style={{flex:"80%"}}>
+                <div className="h1 p-text" style={{padding:"5px"}}>Dashboard And Analytics</div>
+                <div className="section" style={{padding:"5px"}}>
                   Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
               </div>
-              <div className="row-flex section space-between">
-                <div>
-                <span className="text-bold"> Position:</span> {user.position}
+              <div className="row">
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text" > Position:</span> {user.position}
                 </div>
-                <div>
-                <span className="text-bold"> Department:</span> {user.department}
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text" > Directorate:</span> {user.department}
                 </div>
               </div>
-             {
-              !user.auth_level ?
-              <div>
-              <span className="text-bold"> Active service until:</span> {user.retirementAge}
+              <div className="row">
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text"> status:</span> {user.status}
+                </div>
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text"> Accum Leave days:</span> {user.no_of_leave_days}
+                </div>
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text"> Address:</span> {user.address}
+                </div>
+                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                <span className="text-bold secondary-text"> Section:</span> {user.section}
+                </div>
+  
               </div>
-              :""
-             }
+             {/* {
+              !user.auth_level ? */}
+              <div style={{padding:"5px"}}>
+              <span className="text-bold secondary-text"> Active service until:</span> {user.retirementAge}
+              </div>
+              {/* :""
+             } */}
          
                 </div>
               </div>
@@ -159,12 +174,12 @@ const [data, setdata] = useState(null)
             {
               user.position != "Officer" ?
               <div className="col sm-12 md-2 lg-2 padding">
-              <div className="card padding text-center">
-                  <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                  <div className="section text-bold">
+              <div className="card padding">
+                  {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
+                  <div className="section text-bold p-text">
                       All staffs
                   </div>
-                  <div className="h4 text-success">
+                  <div className="h2 secondary-text">
                     {docs.length}
                   </div>
               </div>
@@ -172,12 +187,12 @@ const [data, setdata] = useState(null)
           :""
             }
                   <div className="col sm-12 md-2 lg-2 padding">
-                      <div className="card padding text-center">
-                          <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                          <div className="section text-bold">
+                      <div className="card padding">
+                          {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
+                          <div className="section text-bold p-text">
                               On post
                           </div>
-                          <div className="h4 text-success">
+                          <div className="h2 secondary-text">
                           {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "post"){
                               return doc
@@ -187,12 +202,12 @@ const [data, setdata] = useState(null)
                       </div>
                   </div>
                   <div className="col sm-12 md-2 lg-2 padding">
-                      <div className="card padding text-center">
-                          <img src="/leaveImg.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                          <div className="section text-bold">
+                      <div className="card padding">
+                          {/* <img src="/leaveImg.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
+                          <div className="section text-bold p-text">
                               On leave
                           </div>
-                          <div className="h4 text-success">
+                          <div className="h2 secondary-text">
                           {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "leave"){
                               return doc
@@ -203,12 +218,12 @@ const [data, setdata] = useState(null)
                   </div>
          
                   <div className="col sm-12 md-2 lg-2 padding">
-                      <div className="card padding text-center">
-                          <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" />
-                          <div className="section text-bold">
+                      <div className="card padding">
+                          {/* <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
+                          <div className="section text-bold p-text">
                                On Field
                           </div>
-                          <div className="h4 text-success"> 
+                          <div className="h2 secondary-text"> 
                             {docs.filter(doc=>{
                             if(doc.status.toString().trim() === "field"){
                               return doc

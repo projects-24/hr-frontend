@@ -165,7 +165,9 @@ const [data, setdata] = useState(null)
                 <span className="text-bold secondary-text" > Directorate:</span> {user.department}
                 </div>
               </div>
-              <div className="row">
+              {
+                !isAdmin ?
+                <div className="row">
                 <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text"> status:</span> {user.status}
                 </div>
@@ -178,16 +180,13 @@ const [data, setdata] = useState(null)
                 <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text"> Section:</span> {user.section}
                 </div>
-  
-              </div>
-             {/* {
-              !user.auth_level ? */}
-              <div style={{padding:"5px"}}>
+                <div  className="col sm-12 md-12 lg-12" style={{padding:"5px"}}>
               <span className="text-bold secondary-text"> Active service until:</span> {user.retirementAge}
               </div>
-              {/* :""
-             } */}
-         
+  
+              </div>
+              :<></>
+              }
                 </div>
               </div>
               </div>

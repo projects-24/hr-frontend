@@ -42,6 +42,7 @@ const [showNots, setshowNots] = useState(true)
             setisAdmin(false)
           }
         }
+        
     }else{
     // user do not have previlage
     }
@@ -135,44 +136,46 @@ const [showNots, setshowNots] = useState(true)
             )
         }
     })
-    useEffect(() => {
-        if(notDocs === null){
-        Axios.get(endPoint  + "/notification/showall" , {
-            headers:{
-                authorization:`Bearer ${token}`
-            }
-        }).then(dataDocs=>{
-           const nots = dataDocs.data.notification
-           setnotDocs(nots)
-          if(nots.length > 0){
-            setuserNot(
-                nots.filter((filt)=>{
-                    if(filt.receiver === user._id ){
-                    return filt
-                    }
-                })
-            )
-            if(showLeaveplaningMessages){
-            setleavePlaningNot(
-              nots.filter(filt=>{
-                if(filt.receiver === "leaveplaning" ){
-                  window.Notification.requestPermission().then(perm =>{
-                    if(perm === "granted"){
-                    new Notification("Notification",{body:filt.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
-                    }else{
-                    alert("Gss wants to send you a notification, make sure to grant permission")
-                    }
-                    })
-                  }
-              })
-              )
-            }
-          }
-        }).catch(err=>{
-          clearTimeout()
-        })
-        }
-        })
+    // useEffect(() => {
+    //     if(notDocs === null){
+    //     Axios.get(endPoint  + "/notification/showall" , {
+    //         headers:{
+    //             authorization:`Bearer ${token}`
+    //         }
+    //     }).then(dataDocs=>{
+    //        const nots = dataDocs.data.notification
+    //        setnotDocs(nots)
+    //       if(nots.length > 0){
+    //         setuserNot(
+    //             nots.filter((filt)=>{
+    //                 if(filt.receiver === user._id ){
+    //                 return filt
+    //                 }
+    //             })
+    //         )
+    //         if(showLeaveplaningMessages){
+    //         setleavePlaningNot(
+    //           nots.filter(filt=>{
+    //             if(filt.receiver === "leaveplaning" ){
+    //               window.Notification.requestPermission().then(perm =>{
+    //                 if(perm === "granted"){
+    //                 new Notification("Notification",{
+    //                   body:filt.message ,
+    //                    icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+    //               }else{
+    //                 alert("Gss wants to send you a notification, make sure to grant permission")
+    //                 }
+    //                 })
+    //               }
+    //           })
+    //           )
+    //         }
+    //       }
+    //     }).catch(err=>{
+
+    //     })
+    //     }
+    //     })
 
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
@@ -284,7 +287,16 @@ setdropDown(!dropDown)
       userNot.slice(0,1).map(doc=>{
         window.Notification.requestPermission().then(perm =>{
           if(perm === "granted"){
-             new Notification("Notification",{body:doc.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+             new Notification("Notification",{
+              body:doc.message ,
+               icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png",
+              })
+              // Axios.delete(endPoint + "/notification/delete/" + doc._id, {
+              //   headers:{
+              //   authorization:`Bearer ${token}`
+              //   }
+              //   } 
+              //   )
           }else{
               alert("Gss wants to send you a notification, make sure to grant permission")
           }

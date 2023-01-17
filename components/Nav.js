@@ -20,7 +20,10 @@ const Nav = ({noSideBar}) => {
   const [isAdmin, setisAdmin] = useState(false)
   const [checkAnnual, setcheckAnnual] = useState(true)
   const [canUserApproveRequest, setcanUserApproveRequest] = useState(null)
-
+  const [notDocs, setnotDocs] = useState(null)
+const [userNot, setuserNot] = useState("")
+const [leavePlaningNot, setleavePlaningNot] = useState("")
+const [showNots, setshowNots] = useState(true)
   useEffect(() => {
   if(user && canUserApproveRequest === null){
     if(user.position === "Deputy Director" ||
@@ -103,6 +106,73 @@ const Nav = ({noSideBar}) => {
   }
   })
   
+  const [showLeaveplaningMessages, setshowLeaveplaningMessages] = useState(false)
+        
+    useEffect(() => {
+    if(user && !showLeaveplaningMessages){
+      if(user.position === "Deputy Director" ||
+        user.position === "Government Statistician (CEO)"
+        || user.position === "Deputy Gov Statistician (DGS)" ||
+        user.position === "Director" ||
+        user.position === "Deputy Director" ||
+        user.position === "Sectional Head"
+        ){
+        setshowLeaveplaningMessages(true)
+      }
+    }
+    })
+    useEffect(() => {
+        if(localStorage.getItem("token")  && !token ){
+            settoken(
+                JSON.parse(
+                    localStorage.getItem("token")
+                )
+            )
+            setuser(
+                JSON.parse(
+                    localStorage.getItem("user")
+                )
+            )
+        }
+    })
+    useEffect(() => {
+        if(notDocs === null){
+        Axios.get(endPoint  + "/notification/showall" , {
+            headers:{
+                authorization:`Bearer ${token}`
+            }
+        }).then(dataDocs=>{
+           const nots = dataDocs.data.notification
+           setnotDocs(nots)
+          if(nots.length > 0){
+            setuserNot(
+                nots.filter((filt)=>{
+                    if(filt.receiver === user._id ){
+                    return filt
+                    }
+                })
+            )
+            if(showLeaveplaningMessages){
+            setleavePlaningNot(
+              nots.filter(filt=>{
+                if(filt.receiver === "leaveplaning" ){
+                  window.Notification.requestPermission().then(perm =>{
+                    if(perm === "granted"){
+                    new Notification("Notification",{body:filt.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+                    }else{
+                    alert("Gss wants to send you a notification, make sure to grant permission")
+                    }
+                    })
+                  }
+              })
+              )
+            }
+          }
+        }).catch(err=>{
+          clearTimeout()
+        })
+        }
+        })
 
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
@@ -198,17 +268,34 @@ setdropDown(!dropDown)
 
 
   const callNotification = ()=>{
-  //   window.Notification.requestPermission().then(perm =>{
-  //       if(perm === "granted"){
-  //          new Notification("This is my title",{body:"Come on notification visit:https://google.com" , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
-  //       }else{
-  //           alert("Gss wants to send you a notification, make sure to grant permission")
-  //       }
-  //   })
-  //  }
+  if(showNots){
+      // if(leavePlaningNot){
+    //   leavePlaningNot.map(doc=>{
+    //     window.Notification.requestPermission().then(perm =>{
+    //       if(perm === "granted"){
+    //          new Notification("Notification",{body:doc.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+    //       }else{
+    //           alert("Gss wants to send you a notification, make sure to grant permission")
+    //       }
+    //   })
+    //   })
+    // }
+    if(userNot){
+      userNot.slice(0,1).map(doc=>{
+        window.Notification.requestPermission().then(perm =>{
+          if(perm === "granted"){
+             new Notification("Notification",{body:doc.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+          }else{
+              alert("Gss wants to send you a notification, make sure to grant permission")
+          }
+          setshowNots(false)
+      })
+      })
+    }
+  }
+   }
 
-  //  callNotification()
-}
+   callNotification()
 
 const Switch = ()=>{
   if(sessionStorage.getItem("userMode")){

@@ -11,7 +11,6 @@ export default function Messages() {
     const [notNumber, setnotNumber] = useState(0)
     const [message, setmessage] = useState("")
     const [showLeaveplaningMessages, setshowLeaveplaningMessages] = useState(false)
-    const [userNotifications, setuserNotifications] = useState("")
         
     useEffect(() => {
     if(user && !showLeaveplaningMessages){

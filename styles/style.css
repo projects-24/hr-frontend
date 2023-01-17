@@ -125,6 +125,7 @@ justify-content: center;}
     padding: 2rem;
     border-radius: .5rem;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
+    border-top: 0.2rem solid var(--secondaryColor);
 
 }
 .shadow{
@@ -185,7 +186,13 @@ button{font-weight: bold !important;}
     height: var(--navHeight);
     display: flex;
     justify-content: var(--navAlign);
-    align-items: center;}
+    align-items: center;
+}
+.navCard{
+  border-radius: .5rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
+  background: white;
+}
 .sideBar{
 position: fixed;
 top: 0;

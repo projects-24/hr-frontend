@@ -28,6 +28,9 @@ export default function Home() {
           resolve()
           localStorage.setItem("user" , JSON.stringify(doc.data.staff))
           localStorage.setItem("token" , JSON.stringify(doc.data.token))
+          sessionStorage.setItem("userMode" , JSON.stringify(
+            "normal"
+          ))
         }).then(()=>{
           setsuccess(true)
           setTimeout(() => {

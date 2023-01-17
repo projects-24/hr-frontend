@@ -16,7 +16,32 @@ export default function Dashboard() {
     const [post, setpost] = useState(0)
     const [field, setfield] = useState(0)
     const [leave, setleave] = useState(0)
-
+    const [isAdmin, setisAdmin] = useState(false)
+    const [canUserApproveRequest, setcanUserApproveRequest] = useState(null)
+  
+    useEffect(() => {
+    if(user && canUserApproveRequest === null){
+      if(user.position === "Deputy Director" ||
+        user.position === "Government Statistician (CEO)"
+        || user.position === "Deputy Gov Statistician (DGS)" ||
+        user.position === "Director" ||
+        user.position === "Deputy Director" ||
+        user.position === "Sectional Head"
+        ){
+          if(sessionStorage.getItem("userMode")){
+            if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+        setcanUserApproveRequest(true)
+        setisAdmin(true)
+            }else{
+              setcanUserApproveRequest(false)
+              setisAdmin(false)
+            }
+          }
+      }else{
+      // user do not have previlage
+      }
+    }
+    })
     useEffect(() => {
       if(localStorage.getItem("token") && !user ){
         setuser(
@@ -168,7 +193,7 @@ const [data, setdata] = useState(null)
               </div>
 
               {
-  
+                 isAdmin ?
                 <div>
                     <div className="row m-section central">
             {
@@ -256,7 +281,7 @@ const [data, setdata] = useState(null)
                   </div>
               </div>
                 </div>
-              
+              :<></>
               }
           </div>
       </div>

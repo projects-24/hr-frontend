@@ -30,13 +30,37 @@ const Nav = ({noSideBar}) => {
       user.position === "Deputy Director" ||
       user.position === "Sectional Head"
       ){
+        if(sessionStorage.getItem("userMode")){
+          if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
       setcanUserApproveRequest(true)
+      setisAdmin(true)
+          }else{
+            setcanUserApproveRequest(false)
+            setisAdmin(false)
+          }
+        }
     }else{
-      setcanUserApproveRequest(false)
+    // user do not have previlage
     }
   }
   })
 
+  // useEffect(() => {
+  //   if(user && !isAdmin){
+  //     if(
+  //     user.position === "Director" 
+  //     || user.position === "Government Statistician (CEO)" 
+  //     || user.position === "Deputy Gov Statistician (DGS)"
+  //     || user.position === "Deputy Director"
+  //     || user.position === "Sectional Head"
+  //     || user.position === "Unit Head"
+  //     ){
+  //     setisAdmin(true)
+  //     }
+  //     }
+  // })
+  
+  
   useEffect(() => {
     if(localStorage.getItem("token") && !user ){
       setuser(
@@ -79,22 +103,6 @@ const Nav = ({noSideBar}) => {
   }
   })
   
-
-useEffect(() => {
-  if(user && !isAdmin){
-    if(
-    user.position === "Director" 
-    || user.position === "Government Statistician (CEO)" 
-    || user.position === "Deputy Gov Statistician (DGS)"
-    || user.position === "Deputy Director"
-    || user.position === "Sectional Head"
-    || user.position === "Unit Head"
-    ){
-    setisAdmin(true)
-    }
-    }
-})
-
 
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
@@ -202,11 +210,34 @@ setdropDown(!dropDown)
   //  callNotification()
 }
 
+const Switch = ()=>{
+  if(sessionStorage.getItem("userMode")){
+    if(JSON.parse(sessionStorage.getItem("userMode")) === "normal"){
+      new Promise((resolve, reject) => {
+        resolve()
+        sessionStorage.setItem("userMode" , JSON.stringify(
+          "admin"
+        ))
+      }).then(()=>{
+        window.location.reload()
+      })
+    }else{
+      new Promise((resolve, reject) => {
+        sessionStorage.setItem("userMode" , JSON.stringify(
+          "normal"
+        ))
+        resolve()
+      }).then(()=>{
+        window.location.reload()
+      })
+    }
+  }
+}
 if(user){
   return ( 
     <div>
    
-            <div className={`navigationBar ${navDrop ? "card" : ""} `}>
+            <div className={`navigationBar ${navDrop ? "navCard" : ""} `}>
     <div>
      <span className="logo">
       <img src="/logo.png" className="height-40-max" />
@@ -231,6 +262,9 @@ if(user){
       {
         dropDown ?
         <ul className=" card">
+            <div className='sideLink' onClick={Switch}>
+            <i className="lni lni-users"></i> Switch Account
+            </div>
         <Link href="/account">
             <div className='sideLink'>
             <i className="icon-user"></i> My Account

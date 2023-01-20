@@ -27,7 +27,7 @@ export default function Reuest() {
   const [userDoc, setuserDoc] = useState("")
   const [filter, setfilter] = useState("")
   const [canUserApprove, setcanUserApprove] = useState(false)
-
+  const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
   if(user && !canUserApprove){
     if(user.position === "Deputy Director" ||
@@ -40,6 +40,13 @@ export default function Reuest() {
       setcanUserApprove(true)
     }else{
       setcanUserApprove(false)
+    }
+    if(sessionStorage.getItem("userMode")){
+      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+  setisAdmin(true)
+      }else{
+        setisAdmin(false)
+      }
     }
   }
   })

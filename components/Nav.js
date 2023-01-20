@@ -471,6 +471,12 @@ isAdmin ?
       <i className="lni lni-notepad"></i> Reports
       </div>
     </Link>
+       <div className="section hr"></div>
+    <Link href="/staff/promotion">
+      <div className='sideLink'>
+      <i className="lni lni-plus"></i> Promotion
+      </div>
+    </Link>
        {/* <div className="section hr"></div>
     <Link href="/add/annoucement">
       <div className='sideLink'>

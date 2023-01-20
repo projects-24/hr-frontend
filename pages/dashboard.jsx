@@ -154,9 +154,15 @@ const [data, setdata] = useState(null)
                 </div>
                 <div style={{flex:"80%"}}>
                 <div className="h1 p-text" style={{padding:"5px"}}>Dashboard And Analytics</div>
-                <div className="section" style={{padding:"5px"}}>
+                <div className="section row-flex space-between" style={{padding:"5px"}}>
+                  <div>
                   Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
+                  </div>
+                  <div >
+                <span className="text-bold secondary-text" > Account:</span> <span className='success text-white text-small round-edge text-bold' style={{padding:"5px"}}> {!isAdmin ? "Personal" : "Admin"} Account</span> 
+                </div>
               </div>
+                
               <div className="row">
                 <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text" > Position:</span> {user.position}

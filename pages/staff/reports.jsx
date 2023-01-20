@@ -315,7 +315,7 @@ const TriggerDrop = ()=>{
             !print ?
         <div className="row-flex fit space-between m-section">
             <div className="">
-            <Paper
+            {/* <Paper
       component="form"
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}
     >
@@ -334,7 +334,7 @@ const TriggerDrop = ()=>{
       <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
         <i className="icon-magnifier"></i>
       </IconButton>
-      </Paper>
+      </Paper> */}
    
        
             </div>
@@ -344,7 +344,7 @@ const TriggerDrop = ()=>{
       <div className="dropContent up" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
         <div className='card'>
             <button className='btn p-text minSection full-width' onClick={exportExcel}>Excel</button>
-            <button className='btn p-text minSection full-width' onClick={handlePrint}>PDF</button>
+            {/* <button className='btn p-text minSection full-width' onClick={handlePrint}>PDF</button> */}
         </div>
       </div>
       <div className=' trigger' onClick={TriggerDrop}>
@@ -352,15 +352,7 @@ const TriggerDrop = ()=>{
       </div>
     </div>
           </div>
-           {
-            user.department === "Human resource" ?
-            <Link href="/form/personal">
-            <button className="button indigo text-white width-100-min">
-            <i className="lni lni-user"></i> New Staff
-             </button>
-             </Link>
-             :""
-           }
+ 
         </div>
         :""
                 }
@@ -383,8 +375,7 @@ const TriggerDrop = ()=>{
                 <div className='text-bold'>department:{department ? department : "All departments"}</div>
                 <div className='text-bold'>Section:{section ? section : "All section"}</div>
             </div>
-     <TableContainer component={Paper}>
-      <table className='table stripped' id="records">
+      <table className='table stripped card' id="records">
         <thead>
           {
             exportTrigger ?
@@ -458,8 +449,11 @@ const TriggerDrop = ()=>{
                         if(department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()){
                           return filtdoc
                         }
-                      }else if(!department && section){
-                        if(department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()){
+                      }else if(department && section){
+                        if(
+                          department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase() &&
+                          section.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()
+                          ){
                           return filtdoc
                         }
                       }
@@ -474,11 +468,11 @@ const TriggerDrop = ()=>{
                 {row.staffId}
               </td>
               <td align="left">{row.email}</td>
-              <td align="left">{row.surname} {row.middleName} {row.lastName}</td>
+              <td className='trOccupy' align="left">{row.surname} {row.middleName} {row.lastName}</td>
       
               {
               report === "all" || report === "Department" ?  
-              <td style={{width:"200px"}} align="left">{row.department}</td>
+              <td  style={{width:"200px"}} align="left">{row.department}</td>
               :  ""}
               {  report === "all" || report === "Section" ?  
               <td style={{ width:"200px"}} align="left">{row.section}</td> : ""
@@ -488,7 +482,7 @@ const TriggerDrop = ()=>{
               }
               {
               report === "all" || report === "Position" ?  
-              <td style={{width:"200px"}} align="left">{row.position}</td>
+              <td  style={{width:"200px"}} align="left">{row.position}</td>
               :  ""}
               {
               report === "all" || report === "Employment Status" ?  
@@ -499,10 +493,10 @@ const TriggerDrop = ()=>{
               <td style={{ width:"200px"}} align="left">{row.appointDate}</td>
               :  ""}{
               report === "all" || report === "Salary Level" ?  
-              <td style={{width:"200px"}} align="left">{row.salaryLevel}</td>
+              <td  style={{width:"200px"}} align="left">{row.salaryLevel}</td>
               :  ""}{
               report === "all" || report === "Education" ?  
-              <td style={{ width:"300px"}} align="left">
+              <td className='trOccupy' style={{ width:"300px"}} align="left">
                 {row.school.map(sDoc=>(
                   <span key={sDoc.id}>
                    <div className="">
@@ -516,7 +510,7 @@ const TriggerDrop = ()=>{
               </td>
               :  ""}{
               report === "all" || report === "Retirement" ?  
-              <td style={{width:"200px"}} align="left">
+              <td  style={{width:"200px"}} align="left">
                 {row.retirementAge}
               </td>
               :  ""}{
@@ -526,12 +520,12 @@ const TriggerDrop = ()=>{
               </td>
               :  ""}{
               report === "all" || report === "Marital Status" ?  
-              <td style={{width:"200px"}} align="left">
+              <td  style={{width:"200px"}} align="left">
                 {row.maritalStatus}
               </td>
               :  ""}{
               report === "all" || report === "Status" ?  
-              <td style={{width:"200px"}} align="left">
+              <td  style={{width:"200px"}} align="left">
                 {row.status}
               </td>
               :  ""}
@@ -541,7 +535,6 @@ const TriggerDrop = ()=>{
         }
         </tbody>
       </table>
-    </TableContainer>
            </div>
             </div>
         </div>

@@ -95,7 +95,7 @@ div{text-transform: capitalize !important;}
     padding: 5px;
 }
 .row.gap{grid-gap:1rem;}
-
+.trOccupy{min-width: 200px !important;}
 body{background-color: #EAF1FB !important;overflow: auto;height: 100%;position: relative;min-height: 100vh;}
 *{font-family: var(--font);font-size: var(--fontSize);}
 .p-bg{background-color: var(--primaryColor) !important;}

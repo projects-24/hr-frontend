@@ -32,7 +32,7 @@ export default function Planing() {
   const [canUserApprove, setcanUserApprove] = useState(false)
   const [exportTrigger, setexportTrigger] = useState(false)
   const [department, setdepartment] = useState("")
-
+const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
   if(user && !canUserApprove){
     if(user.position === "Deputy Director" ||
@@ -43,6 +43,13 @@ export default function Planing() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+    }
+    if(sessionStorage.getItem("userMode")){
+      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+  setisAdmin(true)
+      }else{
+        setisAdmin(false)
+      }
     }
   }
   })
@@ -131,6 +138,7 @@ useEffect(() => {
       if(user.position === "Government Statistician (CEO)"
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
+        && isAdmin
         ){
          return getDocs
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
@@ -309,7 +317,7 @@ useEffect(() => {
         </div>
        </div>
         {
-          !user.auth_level ?
+          !user.auth_level && !isAdmin ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>

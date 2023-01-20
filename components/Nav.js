@@ -353,9 +353,12 @@ if(user){
       </div>
     <div className="context " id="dropContext">
     <a className="dropdown text-bold" onClick={handleDrop}>
-   <div className="row-flex">
+   <div className="row-flex gap">
   <img src="/avatar.svg" className="width-40 height-40 circle" />
-   <div>{user.firstname} {user.middleName} {user.lastName}</div>
+  <div>
+  <div className="text-small">{user.firstname} {user.middleName} {user.lastName}</div>
+   <div style={{marginTop:"2px"}}><span className='text-bold text-success text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div>
+  </div>
    </div>
       </a>
       {

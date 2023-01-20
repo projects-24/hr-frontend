@@ -587,7 +587,33 @@ td{min-width: 100px !important;}
     font-weight: bold !important;
   }
 
-
+  .formModal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    animation: BounceModal 0.2s linear;
+  }
+  @keyframes BounceModal {
+    from{scale: 0;}
+    to{scale: 1;}
+  }
+.closeForm{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--secondaryColor);
+  color: white;
+  transform: translate(40%, -50%);
+  cursor: pointer;
+}
 
 
   /* aniimation */
@@ -599,3 +625,4 @@ td{min-width: 100px !important;}
  * w: http://animista.net, t: @cssanimista
  * ---------------------------------------------- */
 @-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
+

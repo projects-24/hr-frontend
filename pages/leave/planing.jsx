@@ -138,9 +138,12 @@ useEffect(() => {
       if(user.position === "Government Statistician (CEO)"
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
-        && isAdmin
         ){
-         return getDocs
+          if(isAdmin){
+            return getDocs
+          }else if(filt.staffDetails._id === user._id){
+              return filt
+            }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -153,7 +156,7 @@ useEffect(() => {
          if(filt.staffDetails.section === user.unit){
            return filt
          }
-     }else if(user.position === "Officer"){
+     }else{
       if(filt.staffDetails._id === user._id){
         return filt
       }
@@ -347,6 +350,7 @@ useEffect(() => {
         </select>
        </div>
         </div>
+        
         <div className="section" >
           {
             render === "requests" ?

@@ -34,7 +34,7 @@ export default function Planing() {
   const [canUserApprove, setcanUserApprove] = useState(false)
   const [exportTrigger, setexportTrigger] = useState(false)
   const [department, setdepartment] = useState("")
-
+  const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
   if(user && !canUserApprove){
     if(user.position === "Deputy Director" ||
@@ -45,6 +45,13 @@ export default function Planing() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+    }
+    if(sessionStorage.getItem("userMode")){
+      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+  setisAdmin(true)
+      }else{
+        setisAdmin(false)
+      }
     }
   }
   })
@@ -151,7 +158,11 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-         return getDocs
+          if(isAdmin){
+            return getDocs
+          }else if(filt.staffDetails._id === user._id){
+              return filt
+            }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -501,12 +512,12 @@ useEffect(() => {
             </div>
         </div>
         {
-          user.gender === "female" && !user.auth_level ?
+          user.gender === "female" && !isAdmin ?
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
-        :""
+        : <Alert type="info" funcss="text-bold" message="maternity Leave is for females only" />
         }
         <div className="section padding row-flex">
        {/* <div>
@@ -549,7 +560,7 @@ useEffect(() => {
                   <th>Divisional Approval</th>
                   <th>Hr Approval</th>
               {
-                canUserApprove ?
+                canUserApprove && isAdmin ?
                 <th>Approve/Declined</th>
                 :""
               }
@@ -631,7 +642,10 @@ useEffect(() => {
                         </span>  : ""
                       }
                       </td>
-                    {
+                     {
+                      isAdmin ?
+                      <>
+                       {
                       canUserApprove  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
@@ -643,6 +657,9 @@ useEffect(() => {
                     </td>
                     : <td  className='text-center'>-</td>
                     }
+                      </>
+                      :""
+                     }
                     </tr>
                    ))
                    :""
@@ -653,7 +670,10 @@ useEffect(() => {
   </div>
   :       <div className=''>
    
-  <form ref={form} className="">
+  <form ref={form} className="formModal">
+  <span className="closeForm"onClick={()=>setrender("requests")}>
+      <i className="lni lni-close" ></i>
+    </span>
   <div className="row card white">
   <div className="col sm-12 md-12 lg-12 padding">
 <div className='text-bold'>Date of delivery</div>
@@ -679,13 +699,17 @@ useEffect(() => {
 <div className="col sm-12 md-12 lg-12 padding">
 <TextField variant='outlined' name="memo" type="text" label="Memo" multiline rows={3} fullWidth/>
 </div>
-</div>
-  </form>
-
- {/* Submit btn */}
-<button className="btn submitNewstaff" onClick={handleRequest}>
+<div className="col sm-12 md-6 lg-6 padding">
+                         {/* Submit btn */}
+<button className="btn success full-width text-white" onClick={handleRequest}>
 Submit  <i className="icon-paper-plane"></i>
 </button>
+</div>
+</div>
+
+  </form>
+
+
 </div>
 
           }

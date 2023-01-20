@@ -38,7 +38,7 @@ export default function Planing() {
   const [referred, setreferred] = useState(0)
   const [days, setdays] = useState(0)
   const [loading, setloading] = useState(false)
-
+  const [isAdmin, setisAdmin] = useState(false)
 
   useEffect(() => {
     // const remaining = document.querySelector("#remaining")
@@ -56,6 +56,13 @@ export default function Planing() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+    }
+    if(sessionStorage.getItem("userMode")){
+      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+  setisAdmin(true)
+      }else{
+        setisAdmin(false)
+      }
     }
   }
   })
@@ -177,7 +184,11 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-         return getDocs
+          if(isAdmin){
+            return getDocs
+          }else if(filt.staffDetails._id === user._id){
+              return filt
+            }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -538,7 +549,7 @@ useEffect(() => {
             </div>
         </div>
         {
-          !user.auth_level ?
+          !isAdmin ?
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>{
@@ -593,7 +604,7 @@ useEffect(() => {
                   <th>Divisional Approval</th>
                   <th>HR Approval</th>
               {
-                canUserApprove ?
+                canUserApprove && isAdmin ?
                 <th>Approve/Declined</th>
                 :""
               }
@@ -681,7 +692,7 @@ useEffect(() => {
                       }
                       </td>
                     {
-                      canUserApprove ?
+                      canUserApprove && isAdmin ?
                       //  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{

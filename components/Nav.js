@@ -6,6 +6,7 @@ import  Axios  from 'axios';
 const Nav = ({noSideBar}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
+  const [dropdown2, setdropdown2] = useState(0)
   const [user, setuser] = useState("")  
   const [dropTrigger, setdropTrigger] = useState(false)
   const [open, setOpen] = useState(false)
@@ -210,6 +211,13 @@ const [showNots, setshowNots] = useState(true)
       setdropdown(0)
     }
   }
+  const TriggerDrop2 = ()=>{
+    if(dropdown2 === 0){
+      setdropdown2(500)
+    }else{
+      setdropdown2(0)
+    }
+  }
  const getMode = ()=>{
   const lMode  = JSON.parse(localStorage.getItem("mode"))
     if(lMode === "black"){
@@ -266,6 +274,9 @@ const LogOut = ()=>{
 
 const handleDrop = (e)=>{
 setdropDown(!dropDown)  
+}
+const handleDrop2 = ()=>{
+setdropDown2(!dropDown2)  
 }
 
 
@@ -357,7 +368,7 @@ if(user){
   <img src="/avatar.svg" className="width-40 height-40 circle" />
   <div>
   <div className="text-small">{user.firstname} {user.middleName} {user.lastName}</div>
-   <div style={{marginTop:"2px"}}><span className='text-bold text-success text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div>
+   <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div>
   </div>
    </div>
       </a>
@@ -414,7 +425,49 @@ isAdmin ?
 :""
 }
 
-    <div className="dropDown">
+{
+  isAdmin ?
+  <div className="dropDown">
+    <div className='sideLink trigger' onClick={TriggerDrop2}>
+      <i className="icon-action-undo"></i> Reports {dropdown2 === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
+      </div>
+      <div className="dropContent" style={{maxHeight:`${dropdown2}px`,overflow:"auto"}}>
+   <div className="section hr"></div>
+   <Link href="/staff/reports">
+      <div className='sideLink'>
+      <i className="lni lni-notepad"></i> Reports
+      </div>
+    </Link>
+      <Link href="/leave/planing">
+   <div className='sideLink'>
+      <i className="icon-check"></i> Leave Planner
+      </div>
+   </Link>
+    <Link href="/leave/requests">
+      <div className='sideLink'>
+      <i className="lni lni-bolt"></i>  Leave Requests
+      </div>
+    </Link>
+    <Link href="/field/request">
+    <div className='sideLink'>
+    <i className="lni lni-infinite"></i> Field Status
+    </div>
+  </Link>
+  <Link href="/retirement/management">
+      <div className='sideLink'>
+      <i className="icon-clock"></i> Retirement Mgt
+      </div>
+    </Link>
+    <Link href="/staff/promotion">
+      <div className='sideLink'>
+      <i className="lni lni-plus"></i> Promotion
+      </div>
+    </Link>
+      </div>
+    </div>
+    :
+    <>
+          <div className="dropDown">
     <div className='sideLink trigger' onClick={TriggerDrop}>
       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
@@ -432,20 +485,16 @@ isAdmin ?
       </div>
     </div>
     <div className="section hr"></div>
-  {
-    canUserApproveRequest ? 
-    <Link href="/field/request">
-    <div className='sideLink'>
-    <i className="lni lni-infinite"></i> Field Status
-    </div>
-  </Link>
-  :
   <Link href="/field/request">
   <div className='sideLink'>
   <i className="lni lni-infinite"></i> Field Activity
   </div>
 </Link>
-  }
+    </>
+}
+
+
+ 
     <div className="section hr"></div>
     {/* <Link href="/appraisal">
       <div className='sideLink'>
@@ -454,32 +503,16 @@ isAdmin ?
     </Link>
     <div className="section hr"></div> */}
 
-    <Link href="/retirement/management">
-      <div className='sideLink'>
-      <i className="icon-clock"></i> Retirement Mgt
-      </div>
-    </Link>
+
     {/* <div className="section hr"></div>
     <Link href="/annoucements">
       <div className='sideLink'>
       <i className="lni lni-bullhorn"></i> Annoucements
       </div>
     </Link> */}
-   {
-    isAdmin ?
+
     <div>
-       <div className="section hr"></div>
-    <Link href="/staff/reports">
-      <div className='sideLink'>
-      <i className="lni lni-notepad"></i> Reports
-      </div>
-    </Link>
-       <div className="section hr"></div>
-    <Link href="/staff/promotion">
-      <div className='sideLink'>
-      <i className="lni lni-plus"></i> Promotion
-      </div>
-    </Link>
+   
        {/* <div className="section hr"></div>
     <Link href="/add/annoucement">
       <div className='sideLink'>
@@ -487,8 +520,7 @@ isAdmin ?
       </div>
     </Link> */}
     </div>
-    :""
-   }
+ 
 
   </div>
 </div>

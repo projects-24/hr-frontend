@@ -35,11 +35,19 @@ export default function Planing() {
   const [exportTrigger, setexportTrigger] = useState(false)
   const [department, setdepartment] = useState("")
   const [loader, setloader] = useState(false)
+  const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
   if(user && !canUserApprove){
     if(user.department === "Human resource"
       ){
       setcanUserApprove(true)
+    }
+    if(sessionStorage.getItem("userMode")){
+      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+  setisAdmin(true)
+      }else{
+        setisAdmin(false)
+      }
     }
   }
   })
@@ -155,7 +163,11 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-         return getDocs
+          if(isAdmin){
+            return getDocs
+          }else if(filt.staffDetails._id === user._id){
+              return filt
+            }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -384,7 +396,7 @@ useEffect(() => {
         </select>
        </div>
        {
-          !user.auth_level ?
+          !user.auth_level && !isAdmin ?
        <div>
        <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
@@ -493,7 +505,10 @@ useEffect(() => {
   </div>
   :       <div className=''>
    
-  <form ref={form} className="">
+  <form ref={form} className="formModal">
+    <span className="closeForm"onClick={()=>setrender("requests")}>
+      <i className="lni lni-close" ></i>
+    </span>
   <div className="row card white">
   <div className="col sm-12 md-6 lg-6 padding">
                         <TextField 
@@ -541,13 +556,16 @@ useEffect(() => {
                     <div className="col sm-12 md-12 lg-12 padding">
                         <TextField name='memo' variant='outlined' type="text" label="memo" multiline rows={3} fullWidth/>
                     </div>
+                    <div className="col sm-12 md-6 lg-6 padding">
+                         {/* Submit btn */}
+<button className="btn success full-width text-white" onClick={handleRequest}>
+Submit  <i className="icon-paper-plane"></i>
+</button>
+                    </div>
 </div>
   </form>
 
- {/* Submit btn */}
-<button className="btn submitNewstaff" onClick={handleRequest}>
-Submit  <i className="icon-paper-plane"></i>
-</button>
+
 </div>
 
           }

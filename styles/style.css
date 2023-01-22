@@ -540,11 +540,11 @@ td{min-width: 100px !important;}
     width: 150px;
   }
   .exportBtn{
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--secondaryColor);
     background-color: white;
     padding: 0.5rem 1rem;
     border-radius: 5rem;
-    color: var(--primaryColor);
+    color: var(--secondaryColor);
     transition: 0.3s ease;
     cursor: pointer;
 

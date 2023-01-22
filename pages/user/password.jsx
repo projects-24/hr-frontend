@@ -63,12 +63,12 @@ export default function Password() {
       </div>
            </div>
          </div>
-           <div className="padding-top-40">
+           <div className="padding-top-40 width-400-max center">
            <div className="text-bold">For {user.firstname} {user.middleName} {user.lastName}</div>
             <div className="section">
             <input type="password" className="input card white" placeholder='Enter your new password' onChange={(e)=>setpassword(e.target.value)}/>
               </div>
-              {
+              { 
                 message ?
                 <Alert type="info" message={message}/>
                 :""

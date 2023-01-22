@@ -194,7 +194,7 @@ const handleLeave = (e)=>{
              <div className="row-flex space-between">
               <div>
               <div className="h4">Annual</div>
-                <div className="minSection text-bold p-text">
+                <div className="minSection text-bold secondary-text">
                 Leave
                 </div>
               </div>
@@ -211,7 +211,7 @@ const handleLeave = (e)=>{
              <div className="row-flex space-between">
               <div>
               <div className="h4">Casual</div>
-                <div className="minSection text-bold p-text">
+                <div className="minSection text-bold secondary-text">
                 Leave
                 </div>
               </div>
@@ -228,7 +228,7 @@ const handleLeave = (e)=>{
              <div className="row-flex space-between">
               <div>
               <div className="h4">Maternity</div>
-                <div className="minSection text-bold p-text">
+                <div className="minSection text-bold secondary-text">
                 Leave
                 </div>
               </div>
@@ -245,7 +245,7 @@ const handleLeave = (e)=>{
              <div className="row-flex space-between">
               <div>
               <div className="h4">Study</div>
-                <div className="minSection text-bold p-text">
+                <div className="minSection text-bold secondary-text">
                 Leave
                 </div>
               </div>

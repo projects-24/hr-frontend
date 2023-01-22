@@ -365,11 +365,11 @@ useEffect(() => {
                   <th>Leave</th>
                   <th>Start Date</th>
                   <th>End Date</th>
-                  {/* <th>status</th> */}
+                  <th>status</th>
               {
-                // canUserApprove ?
-                // <th>Approve/Declined</th>
-                // :""
+                canUserApprove && isAdmin ?
+                <th>Approve/Declined</th>
+                :""
               }
                 </thead>
                 <tbody>
@@ -407,8 +407,8 @@ useEffect(() => {
                       <td>{doc.type_leave}</td>
                       <td>{doc.start_date}</td>
                       <td>{doc.end_date}</td>
-                      {/* <td>{
-                      doc.approval ? 
+                      <td>{
+                      doc.approval  ? 
                       <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
                         approved</span> 
                         : 
@@ -422,8 +422,8 @@ useEffect(() => {
                       }
 
                           
-                        </td> */}
-                    {/* {
+                        </td>
+                    {
                       canUserApprove  && doc.isPending  ? 
                       <td>
                       <button className='btn p-text text-small' onClick={()=>{
@@ -434,7 +434,7 @@ useEffect(() => {
                       </button>
                     </td>
                     : <td  className='text-center'>-</td>
-                    } */}
+                    }
                     </tr>
                    ))
                    :""

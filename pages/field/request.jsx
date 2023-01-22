@@ -123,10 +123,34 @@ useEffect(() => {
       }
   }).then(dataDocs=>{
      const getDocs = dataDocs.data.fieldrequest
-     console.log(getDocs)
-     if(getDocs.length > 0){
-      setdocs(getDocs)
+     setdocs(getDocs.filter(filt=>{
+      if(user.position === "Government Statistician (CEO)"
+        || user.position === "Deputy Gov Statistician (DGS)"
+        || user.department === "Human resource"
+        ){
+          if(isAdmin){
+            return getDocs
+          }else if(filt.staffDetails._id === user._id){
+              return filt
+            }
+     }else if(user.position === "Director" || user.position === "Deputy Director" ){
+         if(filt.staffDetails.department === user.department){
+             return filt
+         }
+     }else if(user.position === "Sectional Head"){
+             if(filt.staffDetails.section === user.section){
+               return filt
+             }
+     }else if(user.position === "Unit Head"){
+         if(filt.staffDetails.section === user.unit){
+           return filt
+         }
+     }else{
+      if(filt.staffDetails._id === user._id){
+        return filt
+      }
      }
+   }))
 
   }).catch(err=>{
     clearTimeout()
@@ -258,7 +282,8 @@ useEffect(() => {
             :""
          }
         <Nav/>
-        <div className="row-flex fit white round-edge padding section">
+     <div className="padding">
+     <div className="row-flex fit white round-edge padding section">
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
@@ -272,8 +297,9 @@ useEffect(() => {
                 </div>
             </div>
         </div>
+     </div>
         {
-          !user.auth_level ?
+          !isAdmin ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Make Request</button>
@@ -315,30 +341,6 @@ useEffect(() => {
                   {
                     docs ?
                     docs.filter(filt=>{
-                      if(
-                        user.position === "Government Statistician (CEO)"
-                        || user.position === "Deputy Gov Statistician (DGS)"
-                        || user.department === "Human resource"
-                        ){
-                         return docs
-                     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-                         if(filt.staffDetails.department === user.department){
-                             return filt
-                         }
-                     }else if(user.position === "Sectional Head"){
-                             if(filt.staffDetails.section === user.section){
-                               return filt
-                             }
-                     }else if(user.position === "Unit Head"){
-                         if(filt.staffDetails.section === user.unit){
-                           return filt
-                         }
-                     }else if(user.position === "Officer"){
-                      if(filt.staffDetails._id === user._id){
-                        return filt
-                      }
-                     }
-                   }).filter(filt=>{
                     if(filter === ""){
                       return docs
                     }

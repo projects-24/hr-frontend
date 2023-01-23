@@ -124,7 +124,7 @@ Axios.post(endPoint + "/maternityleave/register" , data , {
   const location = window.location.href
   Axios.post(endPoint + "/notification",{
     sender_id:user._id,
-    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Fixed Leave, click on the link below to verify or disapprove request`,
+    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Sick Leave, click on the link below to verify or disapprove request`,
     link:location,
     receiver:"leaverequest",
     date:fullDate
@@ -501,12 +501,12 @@ useEffect(() => {
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
-                Fixed Leave
+                Sick Leave
         </div>
         <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
-                    <Link href="#">Fixed Leave</Link>
+                    <Link href="#">Sick Leave</Link>
 
                 </div>
             </div>
@@ -517,7 +517,7 @@ useEffect(() => {
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
-        : <Alert type="info" funcss="text-bold section" message="Fixed Leave is for females only" />
+        : <Alert type="info" funcss="text-bold section" message="Sick Leave is for females only" />
         }
         <div className="section padding row-flex">
        {/* <div>

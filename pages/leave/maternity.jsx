@@ -124,7 +124,7 @@ Axios.post(endPoint + "/maternityleave/register" , data , {
   const location = window.location.href
   Axios.post(endPoint + "/notification",{
     sender_id:user._id,
-    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a maternity leave, click on the link below to verify or disapprove request`,
+    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Fixed Leave, click on the link below to verify or disapprove request`,
     link:location,
     receiver:"leaverequest",
     date:fullDate
@@ -501,12 +501,12 @@ useEffect(() => {
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
-                Maternity Leave
+                Fixed Leave
         </div>
         <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
-                    <Link href="#">Maternity Leave</Link>
+                    <Link href="#">Fixed Leave</Link>
 
                 </div>
             </div>
@@ -517,7 +517,7 @@ useEffect(() => {
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
-        : <Alert type="info" funcss="text-bold" message="maternity Leave is for females only" />
+        : <Alert type="info" funcss="text-bold section" message="Fixed Leave is for females only" />
         }
         <div className="section padding row-flex">
        {/* <div>
@@ -676,7 +676,7 @@ useEffect(() => {
     </span>
   <div className="row card white">
   <div className="col sm-12 md-12 lg-12 padding">
-<div className='text-bold'>Date of delivery</div>
+<div className='text-bold'>Date of Admission</div>
 <TextField variant='outlined' type="date" name="dateofdelivery" fullWidth/>
 </div>
 <div className="col sm-12 md-6 lg-6 padding">

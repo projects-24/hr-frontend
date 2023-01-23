@@ -329,7 +329,7 @@ const Switch = ()=>{
           "admin"
         ))
       }).then(()=>{
-        window.location.reload()
+        window.location.assign("/dashboard")
       })
     }else{
       new Promise((resolve, reject) => {
@@ -338,7 +338,7 @@ const Switch = ()=>{
         ))
         resolve()
       }).then(()=>{
-        window.location.reload()
+        window.location.assign("/dashboard")
       })
     }
   }

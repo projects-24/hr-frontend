@@ -87,12 +87,12 @@ const columns = [
     valueGetter: (params) =>
       `${params.row.firstname || ''} ${params.row.lastName || ''}`,
   },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 150,
+  // {
+  //   field: 'email',
+  //   headerName: 'Email',
+  //   width: 150,
     
-  },
+  // },
   {
     field: 'department',
     headerName: 'Department',
@@ -106,7 +106,7 @@ const columns = [
     
   },
   {
-    field: 'promotion',
+    field: 'promotion_date',
     headerName: 'Promotion Year',
     type: 'number',
     width: 110,
@@ -151,7 +151,9 @@ const exportExcel = ()=>{
 
    {
     docs ?
-    <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" />
+    <div className="m-section">
+      <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" />
+    </div>
     :""
    }
         </div>

@@ -124,9 +124,9 @@ export default function Personal() {
         if(parseInt(selectedSalary) >= 23){
             setno_of_leave_days(36)
         }else if(parseInt(selectedSalary) >= 15 && parseInt(selectedSalary) <= 22){
-            setno_of_leave_days(28)
+            setno_of_leave_days(36)
         }else if(parseInt(selectedSalary) < 15){
-            setno_of_leave_days(21)
+            setno_of_leave_days(36)
         }
         setloader(true)
         e.preventDefault()
@@ -145,6 +145,7 @@ export default function Personal() {
         const nationality = current["nationality"].value
         const tel = current["tel"].value
         const dob = current["dob"].value
+        const placeOfBirth = current["placeofbirth"].value
 
         const title = current["title"].value
         const ssnitNumber = current["ssnitNumber"].value
@@ -205,7 +206,8 @@ export default function Personal() {
         // const from = current["from"].value
         // const to = current["to"].value
         const type_of_certificate = current["certificate"].value
-        // const particulars = current["particulars"].value
+        const profCert = current["prof_certificate"] ? current["prof_certificate"].value : ""
+        const profCertNum = current["certificate_number"] ? current["certificate_number"].value : ""
 
         setmarital(maritalStatus)
         setchildrens(availableChildren)
@@ -268,8 +270,12 @@ export default function Personal() {
        school: schoolDocs,
        retirementAge:parseInt(getYearOfBirth) + 60,
        no_of_leave_days:no_of_leave_days,
-       editfield:true
-    
+       editfield:true,
+       professional_certificate: profCert,
+       professional_cert_number:profCertNum,
+       promotion_date:parseInt(appointDate.slice(0,4)) + 3,
+       tokens:[token]
+
         }
         if( email &&
             id &&
@@ -378,7 +384,7 @@ export default function Personal() {
         e.preventDefault()
         const current = form.current
         const certificate = current["prof_certificate"].value
-        const certId = current["cert_id"].value
+        const certId = current["cert_number"].value
         if( certificates.length < 3){
             if(certificate && certId){
                 new Promise((resolve , reject)=>{
@@ -1005,7 +1011,7 @@ export default function Personal() {
                 <TextField variant="outlined" type="text" id='profCert' name='prof_certificate' fullWidth label='Certificate' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" id='certId' name='cert_id'  fullWidth label='Certificate ID' />
+                <TextField variant="outlined" type="text" id='certId' name='cert_number'  fullWidth label='Certificate Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                <button className="button info text-white" onClick={handleProfCert}>Add certificate</button>
@@ -1016,7 +1022,7 @@ export default function Personal() {
                     <table className='table section'>
                       <thead>
                           <th>Certificate</th>
-                          <th>Certificate ID</th>
+                          <th>Certificate Number</th>
                           <th className='text-red'>Delete</th>
                       </thead>
                       <tbody>

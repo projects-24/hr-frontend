@@ -274,7 +274,6 @@ export default function Personal() {
        professional_certificate: profCert,
        professional_cert_number:profCertNum,
        promotion_date:parseInt(appointDate.slice(0,4)) + 3,
-       tokens:[token]
 
         }
         if( email &&

@@ -41,6 +41,7 @@ export default function Planing() {
     if(user.department === "Human resource"
       ){
       setcanUserApprove(true)
+      setisAdmin(true)
     }
     if(sessionStorage.getItem("userMode")){
       if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
@@ -163,11 +164,12 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-          if(isAdmin){
-            return getDocs
-          }else if(filt.staffDetails._id === user._id){
-              return filt
-            }
+          return getDocs
+          // if(isAdmin){
+          //   return getDocs
+          // }else if(filt.staffDetails._id === user._id){
+          //     return filt
+          //   }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -396,7 +398,7 @@ useEffect(() => {
         </select>
        </div>
        {
-          !user.auth_level && !isAdmin ?
+          !user.auth_level ?
        <div>
        <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>

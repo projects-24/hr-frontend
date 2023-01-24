@@ -159,7 +159,7 @@ const [data, setdata] = useState(null)
                   Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
                   </div>
                   <div >
-                <span className="text-bold secondary-text" > Account:</span> <span className='success text-white text-small round-edge text-bold' style={{padding:"5px"}}> {!isAdmin ? "Personal" : "Admin"} Account</span> 
+                {/* <span className="text-bold secondary-text" > Account:</span> <span className='success text-white text-small round-edge text-bold' style={{padding:"5px"}}> {!isAdmin ? "Personal" : "Admin"} Account</span>  */}
                 </div>
               </div>
                 
@@ -171,8 +171,7 @@ const [data, setdata] = useState(null)
                 <span className="text-bold secondary-text" > Directorate:</span> {user.department}
                 </div>
               </div>
-              {
-                !isAdmin ?
+              
                 <div className="row">
                 <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text"> status:</span> {user.status}
@@ -191,14 +190,11 @@ const [data, setdata] = useState(null)
               </div>
   
               </div>
-              :<></>
-              }
+             
                 </div>
               </div>
               </div>
 
-              {
-                 isAdmin ?
                 <div>
                     <div className="row m-section central">
             {
@@ -286,8 +282,7 @@ const [data, setdata] = useState(null)
                   </div>
               </div>
                 </div>
-              :<></>
-              }
+           
           </div>
       </div>
       </div>

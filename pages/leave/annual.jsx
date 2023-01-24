@@ -56,6 +56,7 @@ export default function Planing() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+      setisAdmin(true)
     }
     if(sessionStorage.getItem("userMode")){
       if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
@@ -184,11 +185,12 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-          if(isAdmin){
-            return getDocs
-          }else if(filt.staffDetails._id === user._id){
-              return filt
-            }
+          return getDocs
+          // if(isAdmin){
+          //   return getDocs
+          // }else if(filt.staffDetails._id === user._id){
+          //     return filt
+          //   }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -548,8 +550,8 @@ useEffect(() => {
                 </div>
             </div>
         </div>
-        {
-          !isAdmin ?
+        {/* {
+          !isAdmin ? */}
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>{
@@ -557,7 +559,7 @@ useEffect(() => {
             setOpen(true)
           }}>Request Leave</button>
         </div>
-        :""}
+        {/* :""} */}
    
         <div className="section padding row-flex">
        {/* <div>
@@ -604,7 +606,7 @@ useEffect(() => {
                   <th>Divisional Approval</th>
                   <th>HR Approval</th>
               {
-                canUserApprove && isAdmin ?
+                canUserApprove ?
                 <th>Approve/Declined</th>
                 :""
               }

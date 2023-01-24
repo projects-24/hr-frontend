@@ -25,10 +25,16 @@ if(user){
           <Nav />
      <div className="content">
      <div className="row">
-              <div className="col sm-12 md-4 lg-4 padding">
-                  <img src="/avatar.svg" className='fit' alt="" />
+              <div className="col sm-12 md-3 lg-3 padding">
+                  <img src="/avatar.svg" className='width-200-max' alt="" />
+                  <div className="section">
+                  <div class="upload-btn-wrapper">
+                  <button class="btn"><i class="lni lni-upload"></i> Upload Profile</button>
+                  <input type="file" name="myfile" />
+                  </div>
+                  </div>
               </div>
-              <div className="col sm-12 md-8 lg-8 padding">
+              <div className="col sm-12 md-9 lg-9 padding">
                <div className="card">
                <div className="padding">
                   <div className="row-flex space-between">

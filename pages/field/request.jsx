@@ -38,6 +38,7 @@ export default function Reuest() {
       user.position === "Sectional Head"
       ){
       setcanUserApprove(true)
+      setisAdmin(true)
     }else{
       setcanUserApprove(false)
     }
@@ -128,11 +129,12 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-          if(isAdmin){
-            return getDocs
-          }else if(filt.staffDetails._id === user._id){
-              return filt
-            }
+             return getDocs
+          // if(isAdmin){
+          //   return getDocs
+          // }else if(filt.staffDetails._id === user._id){
+          //     return filt
+          //   }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -299,12 +301,12 @@ useEffect(() => {
         </div>
      </div>
         {
-          !isAdmin ?
+          // !isAdmin ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Make Request</button>
         </div>
-        :""
+        // :""
         }
         {/* <div className="section padding row-flex">
        <div>

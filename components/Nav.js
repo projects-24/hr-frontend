@@ -34,15 +34,17 @@ const [showNots, setshowNots] = useState(true)
       user.position === "Deputy Director" ||
       user.position === "Sectional Head"
       ){
-        if(sessionStorage.getItem("userMode")){
-          if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
-      setcanUserApproveRequest(true)
+              setcanUserApproveRequest(true)
       setisAdmin(true)
-          }else{
-            setcanUserApproveRequest(false)
-            setisAdmin(false)
-          }
-        }
+      //   if(sessionStorage.getItem("userMode")){
+      //     if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
+      // setcanUserApproveRequest(true)
+      // setisAdmin(true)
+      //     }else{
+      //       setcanUserApproveRequest(false)
+      //       setisAdmin(false)
+      //     }
+      //   }
         
     }else{
     // user do not have previlage
@@ -367,17 +369,17 @@ if(user){
    <div className="row-flex gap">
   <img src="/avatar.svg" className="width-40 height-40 circle" />
   <div>
-  <div className="text-small">{user.firstname} {user.middleName} {user.lastName}</div>
-   <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div>
+  <div className="text-small">{user.firstname} {user.lastName}</div>
+   {/* <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div> */}
   </div>
    </div>
       </a>
       {
         dropDown ?
         <ul className=" card">
-            <div className='sideLink' onClick={Switch}>
+            {/* <div className='sideLink' onClick={Switch}>
             <i className="lni lni-users"></i> Switch Account
-            </div>
+            </div> */}
         <Link href="/account">
             <div className='sideLink'>
             <i className="icon-user"></i> My Account

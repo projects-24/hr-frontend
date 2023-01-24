@@ -158,11 +158,12 @@ useEffect(() => {
         || user.position === "Deputy Gov Statistician (DGS)"
         || user.department === "Human resource"
         ){
-          if(isAdmin){
-            return getDocs
-          }else if(filt.staffDetails._id === user._id){
-              return filt
-            }
+          return getDocs
+          // if(isAdmin){
+          //   return getDocs
+          // }else if(filt.staffDetails._id === user._id){
+          //     return filt
+          //   }
      }else if(user.position === "Director" || user.position === "Deputy Director" ){
          if(filt.staffDetails.department === user.department){
              return filt
@@ -193,6 +194,7 @@ useEffect(() => {
   }
 
   const Approved = ()=>{
+    setOpen(false)
     var locale = "en-us";
     var today = new Date();
     var day = today.getDate();
@@ -318,6 +320,7 @@ useEffect(() => {
 
   }
   const disApproved = ()=>{
+    setOpen(false)
     var locale = "en-us";
     var today = new Date();
     var day = today.getDate();
@@ -512,12 +515,13 @@ useEffect(() => {
             </div>
         </div>
         {
-          user.gender === "female" && !isAdmin ?
+          // user.gender === "female" 
+          // && !isAdmin ?
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
         </div>
-        : <Alert type="info" funcss="text-bold section" message="Sick Leave is for females only" />
+        // : <Alert type="info" funcss="text-bold section" message="Sick Leave is for females only" />
         }
         <div className="section padding row-flex">
        {/* <div>
@@ -560,7 +564,7 @@ useEffect(() => {
                   <th>Divisional Approval</th>
                   <th>Hr Approval</th>
               {
-                canUserApprove && isAdmin ?
+                canUserApprove ?
                 <th>Approve/Declined</th>
                 :""
               }
@@ -642,9 +646,7 @@ useEffect(() => {
                         </span>  : ""
                       }
                       </td>
-                     {
-                      isAdmin ?
-                      <>
+                  
                        {
                       canUserApprove  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
                       <td>
@@ -657,9 +659,7 @@ useEffect(() => {
                     </td>
                     : <td  className='text-center'>-</td>
                     }
-                      </>
-                      :""
-                     }
+                 
                     </tr>
                    ))
                    :""

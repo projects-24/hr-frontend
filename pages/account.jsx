@@ -29,7 +29,7 @@ if(user){
                   <img src="/avatar.svg" className='width-200-max' alt="" />
                   <div className="section">
                   <div class="upload-btn-wrapper">
-                  <button class="btn"><i class="lni lni-upload"></i> Upload Profile</button>
+                  <button class="btnUpload"><i class="lni lni-upload"></i> Upload Profile</button>
                   <input type="file" name="myfile" />
                   </div>
                   </div>

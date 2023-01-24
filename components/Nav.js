@@ -411,119 +411,143 @@ if(user){
       </div>
     </Link>
 
-    <div className="section hr"></div>
 {
 isAdmin ?
 <>
+<div className="section hr"></div>
   <Link href="/staff/profiling">
       <div className='sideLink'>
       <i className="lni lni-users"></i> Staff Profiling
       </div>
     </Link>
     <div className="section hr"></div>
-
-</>
-
-:""
-}
-
-{
-  isAdmin ?
-  <div className="dropDown">
-    <div className='sideLink trigger' onClick={TriggerDrop2}>
-      <i className="icon-action-undo"></i> Reports {dropdown2 === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
-      </div>
-      <div className="dropContent" style={{maxHeight:`${dropdown2}px`,overflow:"auto"}}>
-   <div className="section hr"></div>
-   <Link href="/staff/reports">
+    <Link href="/staff/reports">
       <div className='sideLink'>
       <i className="lni lni-notepad"></i> Reports
       </div>
     </Link>
+    <div className="section hr"></div>
       <Link href="/leave/planing">
    <div className='sideLink'>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
+   <div className="section hr"></div>
     <Link href="/leave/requests">
       <div className='sideLink'>
-      <i className="lni lni-bolt"></i>  Leave Requests
+      <i className="lni lni-bolt"></i>  Leave Mgt
       </div>
     </Link>
+    <div className="section hr"></div>
     <Link href="/field/request">
     <div className='sideLink'>
-    <i className="lni lni-infinite"></i> Field Status
+    <i className="lni lni-infinite"></i> Field Activity
     </div>
   </Link>
+  <div className="section hr"></div>
   <Link href="/retirement/management">
       <div className='sideLink'>
       <i className="icon-clock"></i> Retirement Mgt
       </div>
     </Link>
+    <div className="section hr"></div>
     <Link href="/staff/promotion">
       <div className='sideLink'>
       <i className="lni lni-plus"></i> Promotion
       </div>
     </Link>
-      </div>
-    </div>
-    :
-    <>
-          <div className="dropDown">
-    <div className='sideLink trigger' onClick={TriggerDrop}>
-      <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
-      </div>
-      <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-   <Link href="/leave/planing">
+</>
+
+:
+<>
+    <div className="section hr"></div>
+      <Link href="/leave/planing">
    <div className='sideLink'>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
+      <div className="section hr"></div>
     <Link href="/leave/requests">
       <div className='sideLink'>
-      <i className="lni lni-bolt"></i>  Leave Requests
+      <i className="lni lni-bolt"></i>  Leave Mgt
       </div>
     </Link>
-      </div>
-    </div>
     <div className="section hr"></div>
-  <Link href="/field/request">
-  <div className='sideLink'>
-  <i className="lni lni-infinite"></i> Field Activity
-  </div>
-</Link>
-    </>
+    <Link href="/field/request">
+    <div className='sideLink'>
+    <i className="lni lni-infinite"></i> Field Activity
+    </div>
+  </Link>
+</>
 }
 
-
- 
-    <div className="section hr"></div>
-    {/* <Link href="/appraisal">
-      <div className='sideLink'>
-      <i className="icon-direction"></i> Pfm | Appraisal
-      </div>
-    </Link>
-    <div className="section hr"></div> */}
-
-
-    {/* <div className="section hr"></div>
-    <Link href="/annoucements">
-      <div className='sideLink'>
-      <i className="lni lni-bullhorn"></i> Annoucements
-      </div>
-    </Link> */}
-
-    <div>
-   
-       {/* <div className="section hr"></div>
-    <Link href="/add/annoucement">
-      <div className='sideLink'>
-      <i className="lni lni-plus"></i> Annoucement
-      </div>
-    </Link> */}
-    </div>
- 
-
+{
+//   isAdmin ?
+//   <div className="dropDown">
+//     <div className='sideLink trigger' onClick={TriggerDrop2}>
+//       <i className="icon-action-undo"></i> Reports {dropdown2 === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
+//       </div>
+//       <div className="dropContent" style={{maxHeight:`${dropdown2}px`,overflow:"auto"}}>
+//    <div className="section hr"></div>
+//    <Link href="/staff/reports">
+//       <div className='sideLink'>
+//       <i className="lni lni-notepad"></i> Reports
+//       </div>
+//     </Link>
+//       <Link href="/leave/planing">
+//    <div className='sideLink'>
+//       <i className="icon-check"></i> Leave Planner
+//       </div>
+//    </Link>
+//     <Link href="/leave/requests">
+//       <div className='sideLink'>
+//       <i className="lni lni-bolt"></i>  Leave Requests
+//       </div>
+//     </Link>
+//     <Link href="/field/request">
+//     <div className='sideLink'>
+//     <i className="lni lni-infinite"></i> Field Status
+//     </div>
+//   </Link>
+//   <Link href="/retirement/management">
+//       <div className='sideLink'>
+//       <i className="icon-clock"></i> Retirement Mgt
+//       </div>
+//     </Link>
+//     <Link href="/staff/promotion">
+//       <div className='sideLink'>
+//       <i className="lni lni-plus"></i> Promotion
+//       </div>
+//     </Link>
+//       </div>
+//     </div>
+//     :
+//     <>
+//           <div className="dropDown">
+//     <div className='sideLink trigger' onClick={TriggerDrop}>
+//       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
+//       </div>
+//       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+//    <Link href="/leave/planing">
+//    <div className='sideLink'>
+//       <i className="icon-check"></i> Leave Planner
+//       </div>
+//    </Link>
+//     <Link href="/leave/requests">
+//       <div className='sideLink'>
+//       <i className="lni lni-bolt"></i>  Leave Requests
+//       </div>
+//     </Link>
+//       </div>
+//     </div>
+//     <div className="section hr"></div>
+//   <Link href="/field/request">
+//   <div className='sideLink'>
+//   <i className="lni lni-infinite"></i> Field Activity
+//   </div>
+// </Link>
+//     </>
+}
   </div>
 </div>
 :""

@@ -29,6 +29,10 @@ div{text-transform: capitalize !important;}
 .secondary-text{
   color: var(--secondaryColor);
 }
+.secondary{
+  background-color: var(--secondaryColor) !important ;
+  color: white;
+}
 /* loader */
 .loadContainer{
     min-height: 100vh;

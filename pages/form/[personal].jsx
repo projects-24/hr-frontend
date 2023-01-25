@@ -58,6 +58,8 @@ export default function Personal() {
     const [certificates, setcertificates] = useState([])
     const [certDocs, setcertDocs] = useState(null)
     const [getCert, setgetCert] = useState(false)
+    const [ghaValid, setghaValid] = useState(null)
+    const [ssnitValid, setssnitValid] = useState(null)
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -145,7 +147,7 @@ export default function Personal() {
         const nationality = current["nationality"].value
         const tel = current["tel"].value
         const dob = current["dob"].value
-        const placeOfBirth = current["placeofbirth"].value
+        // const placeOfBirth = current["placeofbirth"].value
 
         const title = current["title"].value
         const ssnitNumber = current["ssnitNumber"].value
@@ -324,33 +326,37 @@ export default function Personal() {
 
     const postData = ()=>{
         setOpen(false)
-            Axios.post(endPoint + "/staff/register/",
-            preview,
-            {
-             headers: {
-                  authorization: `Bearer ${token}`,
-                
-               }
-                
-            }
-            ).then(()=>{
-           setloader(false)
-           setsuccess(true)
-           setsuccess(true)
-           setTimeout(() => {
-           window.location.reload()
-           }, 2000);
-           }).catch(err=>{
-     
-           if(err.message === "Request failed with status code 422"){
-            setmessage("Email or staffId Exist")
-            setloader(false)
-           }else{
-            setmessage(err.message)
-            setloader(false)
+     if(ghaValid && ssnitValid){
+        Axios.post(endPoint + "/staff/register/",
+        preview,
+        {
+         headers: {
+              authorization: `Bearer ${token}`,
+            
            }
-   
-           })
+            
+        }
+        ).then(()=>{
+       setloader(false)
+       setsuccess(true)
+       setsuccess(true)
+       setTimeout(() => {
+       window.location.reload()
+       }, 2000);
+       }).catch(err=>{
+ 
+       if(err.message === "Request failed with status code 422"){
+        setmessage("Email or staffId Exist")
+        setloader(false)
+       }else{
+        setmessage(err.message)
+        setloader(false)
+       }
+
+       })
+     }else{
+        setmessage("Enter a valid Ghana card and snnit number")
+     }
         
     }
 
@@ -502,7 +508,7 @@ export default function Personal() {
                 <TextField multiline required rows={2} name='address' fullWidth label='Residence GPS' />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField required  name='placeofbirth' fullWidth label='Place Of Birth' />
+                <TextField required  name='hometown' fullWidth label='Home Town' />
                 </div>
                     </div>
                     </div>
@@ -543,10 +549,50 @@ export default function Personal() {
                 </TextField>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" required type="text" name='ghanaCard' fullWidth label='Ghana Card Number' />
+                <TextField variant="outlined" required type="text" onChange={(e)=>{
+                    const getVal = e.target.value
+                    if(
+                        getVal.slice(0, 4) ===  "GHA-" &&
+                        getVal.length === 15 &&
+                        getVal.slice(getVal.length - 2, getVal.length - 1) === "-"
+                        ){
+                        setghaValid(true)
+                    }else{
+                        setghaValid(false)
+                    }
+                }} name='ghanaCard' fullWidth label='Ghana Card Number' />
+                <div>
+                    {
+                        ghaValid === null ?
+                        ""
+                        :
+                        ghaValid ?
+                        <div className="text-success text-small text-bold">Your ghana card is valid <i className="lni li-check"></i> </div>
+                        :<div className="text-danger text-small text-bold">Invalid Gha Card Number</div> 
+                    }
+                </div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" required type="text" name='ssnitNumber' fullWidth label='SSNIT Number' />
+                <TextField variant="outlined" required type="text" name='ssnitNumber' fullWidth label='SSNIT Number'
+                onChange={(e)=>{
+                    const getVal = e.target.value
+                    if(
+                        getVal.length === 13
+                        ){
+                        setssnitValid(true)
+                    }else{
+                        setssnitValid(false)
+                    }
+                }} />
+                         <div>
+                    {
+                         ssnitValid === null ?
+                         ""
+                         :ssnitValid ?
+                        <div className="text-success text-small text-bold">Your SSNIT number is valid</div>
+                        :<div className="text-danger text-small text-bold">Invalid SSNIT Number</div>
+                    }
+                </div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" required type="text" name='tel' fullWidth label='Telephone Number' />
@@ -913,13 +959,14 @@ export default function Personal() {
                         </div>
                     </div>
        
-                    <div className="col sm-12 md-6 lg-6 div">
+                    <div className="col sm-12 md-12 lg-12 div">
                         <div className="formSection card row">
-                        <div className="row">
-                    <div className="col sm-12 md-12 lg-12 padding">
+                            <div className="col sm-12 md-6 lg-6 padding">
+                            <div className="row">
+                    <div className="col sm-12 md-6 lg-6 padding">
                     <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>Education</div>
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="col sm-12 md-12 lg-12 padding">
                 <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
                 </div>
 
@@ -944,53 +991,68 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField variant="outlined" type="text" name='program' id='program' fullWidth label='program of study' />
                 </div>
-                
-                {/* <div className="col sm-12 md-12 lg-12 padding">
-                  <table className='table section'>
-                    <thead>
-                        <th>School</th>
-                        <th>program</th>
-                        <th>certificate Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Delete</th>
-                    </thead>
-                    <tbody>
-                    {
-                        schoolDocs ?
-                        schoolDocs.map(docs=>(
-                            <tr className="" key={docs.id}>
-                                <td className="padding">{docs.school}</td>
-                                <td className="padding">{docs.program}</td>
-                                <td className="padding">{docs.certificate}</td>
-                                <td className="padding">{docs.from}</td>
-                                <td className="padding">{docs.to}</td>
-                                <td className="padding pointer hover-text-red" onClick={()=>{
-                                new Promise((resolve , reject)=>{
-                                   setschools( schools.filter(filt=>{
-                                    if(filt.id != docs.id){
-                                        return filt
-                                    }
-                                }))
-                                    resolve()
-                                        
-                                    }).then(()=>setgetSchools(true))
-                                }}><i className="lni lni-trash-can"></i> Delete</td>
-                            </tr>
-                        ))
-                        :""
-                    }
-                    </tbody>
-                  </table>
-                    </div>
-   */}
+                <div className="col sm-12 md-6 lg-6 padding">
+                    <button className="button full-width secondary" onClick={handleSchool}>Add School</button>
+                </div>
+               
 
           
                     </div>
+                            </div>
+                
+                    {
+                    schoolDocs ?
+                    <div className="col sm-12 md-6 lg-6">
+                    <div className="card formSection">
+                         
+            <div className="">
+              <table className='table section'>
+                <thead>
+                    <th>School</th>
+                    <th>program</th>
+                    <th>certificate Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th className='text-danger'>Delete</th>
+                </thead>
+                <tbody>
+                {
+                    schoolDocs ?
+                    schoolDocs.map(docs=>(
+                        <tr className="" key={docs.id}>
+                            <td className="padding">{docs.school}</td>
+                            <td className="padding">{docs.program}</td>
+                            <td className="padding">{docs.certificate}</td>
+                            <td className="padding">{docs.from}</td>
+                            <td className="padding">{docs.to}</td>
+                            <td className="padding pointer hover-text-red" onClick={()=>{
+                            new Promise((resolve , reject)=>{
+                               setschools( schools.filter(filt=>{
+                                if(filt.id != docs.id){
+                                    return filt
+                                }
+                            }))
+                                resolve()
+                                    
+                                }).then(()=>setgetSchools(true))
+                            }}><i className="lni lni-trash-can"></i> Delete</td>
+                        </tr>
+                    ))
+                    :""
+                }
+                </tbody>
+              </table>
+                </div>
+
+                    </div>
+                </div>
+                :""
+                   }
                         </div>
                     </div>
-       
-                    <div className="col sm-12 md-6 lg-6 div">
+
+                   
+                    <div className="col sm-12 md-12 lg-12 div">
                         <div className="formSection card row">
                         <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">

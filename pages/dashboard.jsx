@@ -159,14 +159,14 @@ const [data, setdata] = useState(null)
                   Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
                   </div>
                   <div >
-                {/* <span className="text-bold secondary-text" > Account:</span> <span className='success text-white text-small round-edge text-bold' style={{padding:"5px"}}> {!isAdmin ? "Personal" : "Admin"} Account</span>  */}
+                <span className="text-bold secondary-text" > Position:</span> <span className='success text-white text-small round-edge text-bold' style={{padding:"5px"}}> {user.position}</span> 
                 </div>
               </div>
                 
               <div className="row">
-                <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
+                {/* <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text" > Position:</span> {user.position}
-                </div>
+                </div> */}
                 <div className="col sm-12 md-6 lg-6 " style={{padding:"5px"}}>
                 <span className="text-bold secondary-text" > Directorate:</span> {user.department}
                 </div>
@@ -196,9 +196,10 @@ const [data, setdata] = useState(null)
               </div>
 
                 <div>
-                    <div className="row m-section central">
-            {
+                {
               user.position != "Officer" ?
+                    <div className="row m-section central">
+         
               <div className="col sm-12 md-2 lg-2 padding">
               <div className="card padding">
                   {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
@@ -210,8 +211,7 @@ const [data, setdata] = useState(null)
                   </div>
               </div>
           </div>
-          :""
-            }
+        
                   <div className="col sm-12 md-2 lg-2 padding">
                       <div className="card padding">
                           {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
@@ -258,8 +258,7 @@ const [data, setdata] = useState(null)
                           </div>
                       </div>
                   </div>
-              </div>
-              <div className="m-section">
+                  <div className="m-section">
                   <div className="card" style={{overflowX:"auto"}}>
                       <BarChart
             width={800}
@@ -281,6 +280,10 @@ const [data, setdata] = useState(null)
           </BarChart>
                   </div>
               </div>
+              </div>
+              :""
+            }
+     
                 </div>
            
           </div>

@@ -246,7 +246,7 @@ const TriggerDrop = ()=>{
                 <img src="/reports.svg" className='width-100' alt="" />
             </div>
             <div>
-            <div className="h1">Staff Reports</div>
+            <div className="h1">General Staff Reports</div>
          <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
@@ -375,7 +375,7 @@ const TriggerDrop = ()=>{
                 <div className='text-bold'>department:{department ? department : "All departments"}</div>
                 <div className='text-bold'>Section:{section ? section : "All section"}</div>
             </div>
-      <table className='table stripped card' id="records">
+      <table className='table card ' id="records">
         <thead>
           {
             exportTrigger ?

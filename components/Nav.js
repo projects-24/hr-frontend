@@ -420,24 +420,25 @@ isAdmin ?
       <i className="lni lni-users"></i> Staff Profiling
       </div>
     </Link>
+  
     <div className="section hr"></div>
-    <Link href="/staff/reports">
-      <div className='sideLink'>
-      <i className="lni lni-notepad"></i> Reports
+          <div className="dropDown">
+    <div className='sideLink trigger' onClick={TriggerDrop}>
+      <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
-    </Link>
-    <div className="section hr"></div>
-      <Link href="/leave/planing">
+      <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+   <Link href="/leave/planing">
    <div className='sideLink'>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
-   <div className="section hr"></div>
     <Link href="/leave/requests">
       <div className='sideLink'>
-      <i className="lni lni-bolt"></i>  Leave Mgt
+      <i className="lni lni-bolt"></i>  Leave Requests
       </div>
     </Link>
+      </div>
+    </div>
     <div className="section hr"></div>
     <Link href="/field/request">
     <div className='sideLink'>
@@ -456,22 +457,34 @@ isAdmin ?
       <i className="lni lni-plus"></i> Promotion
       </div>
     </Link>
+    <div className="section hr"></div>
+    <Link href="/staff/reports">
+      <div className='sideLink'>
+      <i className="lni lni-notepad"></i> Reports
+      </div>
+    </Link>
 </>
 
 :
 <>
     <div className="section hr"></div>
-      <Link href="/leave/planing">
+    <div className="dropDown">
+    <div className='sideLink trigger' onClick={TriggerDrop}>
+      <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
+      </div>
+      <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
+   <Link href="/leave/planing">
    <div className='sideLink'>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
-      <div className="section hr"></div>
     <Link href="/leave/requests">
       <div className='sideLink'>
-      <i className="lni lni-bolt"></i>  Leave Mgt
+      <i className="lni lni-bolt"></i>  Leave Requests
       </div>
     </Link>
+      </div>
+    </div>
     <div className="section hr"></div>
     <Link href="/field/request">
     <div className='sideLink'>

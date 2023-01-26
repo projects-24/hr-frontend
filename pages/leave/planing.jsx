@@ -32,6 +32,8 @@ export default function Planing() {
   const [canUserApprove, setcanUserApprove] = useState(false)
   const [exportTrigger, setexportTrigger] = useState(false)
   const [department, setdepartment] = useState("")
+  const [startDate, setstartDate] = useState("")
+  const [endDate, setendDate] = useState("")
 const [isAdmin, setisAdmin] = useState(false)
   useEffect(() => {
   if(user && !canUserApprove){
@@ -62,6 +64,7 @@ const [isAdmin, setisAdmin] = useState(false)
   useEffect(()=>{
     setTimeout(()=>{
         setsuccess(null)
+        clearTimeout()
     }, 4000)
 },[success])
   const form = useRef(null)
@@ -113,6 +116,7 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
     }
   } 
   ).then(()=>{
+    clearTimeout()
     setsuccess("Request made successfully")
     document.querySelector("#startDate").value = ""
     document.querySelector("#endDate").value = ""
@@ -340,7 +344,7 @@ useEffect(() => {
           </select> */}
        </div>
        <div>
-       <div className="minSection text-bold">Department</div>
+       <div className="minSection">Department</div>
         <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
         <option value="">All Departments</option>
         {
@@ -350,6 +354,14 @@ useEffect(() => {
         ))
         }
         </select>
+       </div>
+       <div>
+       <div className="minSection">Start Date</div>
+        <input type="date" className='input white' onChange={(e)=>setstartDate(e.target.value)}/>
+       </div>
+       <div>
+       <div className="minSection">End Date</div>
+        <input type="date" className='input white' onChange={(e)=>setendDate(e.target.value)}/>
        </div>
         </div>
         
@@ -398,6 +410,33 @@ useEffect(() => {
                       return dFilt
                     }
                    }
+                   }).filter(filtD=>{
+                    if(startDate && endDate){
+                      if(
+                        parseInt(filtD.start_date.slice(filtD.start_date.length - 3, filtD.start_date.length)) 
+                        // parseInt(filtD.start_date.slice(0,4)) +
+                        // parseInt(filtD.start_date.slice(5, 7)) 
+                       >=
+                       parseInt(startDate.slice(startDate.length - 3, startDate.length)) 
+                      //  parseInt(startDate.slice(0,4)) +
+                      //  parseInt(startDate.slice(5, 7))
+                       
+                      //  && 
+
+                      //  parseInt(filtD.end_date.slice(filtD.end_date.length - 2, filtD.end_date.length)) +
+                      //  parseInt(filtD.end_date.slice(0,4)) +
+                      //  parseInt(filtD.end_date.slice(5, 7)) 
+                      // <=
+                      // parseInt(endDate.slice(endDate.length - 2, endDate.length)) +
+                      // parseInt(endDate.slice(0,4)) +
+                      // parseInt(endDate.slice(5, 7))
+
+                       ){
+                        return filtD
+                       }
+                    }else{
+                      return filtD
+                    }
                    })
                    .map(doc=>(
                     
@@ -497,7 +536,7 @@ useEffect(() => {
      <div className="padding">
       <select name="leavetype" id="leaveType" className="input">
       <option value="annual">Annual</option>
-      <option value="maternity">Maternity</option>
+      <option value="sick">Sick</option>
       {/* <option value="casual">Casual</option> */}
       <option value="study">Study</option>
       </select>

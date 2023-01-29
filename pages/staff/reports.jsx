@@ -30,6 +30,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+import DataTable from './../../components/DataTable';
 
 export default function Reports() {
     const [search, setsearch] = useState("")
@@ -190,6 +191,66 @@ const TriggerDrop = ()=>{
       setdropdown(0)
     }
   }
+
+  const Columns = [
+    {
+        id:"d1",
+        name:"Directorate"
+    },
+    {
+        id:"d2",
+        name:"Section"
+    },
+    {
+        id:"d3",
+        name:"Position"
+    }
+    ,
+    {
+        id:"d4",
+        name:"Grade"
+    }
+    ,
+    {
+        id:"d5",
+        name:"Employment Status"
+    }
+    ,
+    {
+        id:"d6",
+        name:"Appointment Date"
+    }
+    ,
+    {
+        id:"d7",
+        name:"Salary Level"
+    }
+    ,
+    {
+        id:"d8",
+        name:"Education"
+    }
+    ,
+    {
+        id:"d9",
+        name:"Retirement"
+    }
+    ,
+    {
+        id:"d10",
+        name:"Contact"
+    }
+    ,
+    {
+        id:"d11",
+        name:"Marital Status"
+    }
+    ,
+    {
+        id:"d12",
+        name:"Status"
+    }
+]
   return (
     <div className={print ? "" : "content"}>
 
@@ -257,286 +318,14 @@ const TriggerDrop = ()=>{
            </div>
         </div>
 
-                <div className="row  card section fit">
-                    <div className="padding-5 col sm-12 md-12 lg-12 text-bold"> FILTER DATA</div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
-                    <select className='input light' placeholder="Department"  onChange={(e)=>setdepartment(e.target.value)}>
-                        <option value="">All Departments</option>
-                        {
-                            Departments &&
-                            Departments.map(docs=>(
-                                <option value={docs.department} key={docs.department}> {docs.department} </option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
-                    <select className='input light' placeholder="Section"  onChange={(e)=>setsection(e.target.value)}>
-                        <option value="">All Sections</option>
-                        {
-                                Sections.filter(docs=>{
-                                    if(department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
-                                        return docs
-                                    }
-                                }).map(docs=>(
-                                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
-                                ))
-                            }
-                    </select>
-                </div>
-                <div className="padding-5 col sm-12 md-4 lg-4">
-                    <select className='input light' placeholder="Report"  onChange={(e)=>setreport(e.target.value)}>
-                        <option value="all">All Data</option>
-                        <option value="Department">Directorate</option>
-                        <option value="Section">Section</option>
-                        <option value="Position">Position</option>
-                        <option value="Grade">Grade</option>
-                        <option value="Employment Status">Employment Status</option>
-                        <option value="Appointment Date">Appointment Date</option>
-                        <option value="Salary Level">Salary Level</option>
-                        <option value="Education">Education</option>
-                        <option value="Retirement">Retirement</option>
-                        <option value="Contact">Contact</option>
-                        <option value="Marital Status">Marital Status</option>
-                        <option value="Status">Status</option>
-                    </select>
-                </div>
-                {/* <div className="padding-5 col sm-12 md-4 lg-4">
-                    <TextField fullWidth defaultValue={""} label="Employment Status"  onChange={(e)=>setemployment(e.target.value)}>
-                        <option value="">All</option>
-                        <option value="permanent">Permanent</option>
-                        <option value="contract">Contract</option>
-                    </TextField>
-                </div> */}
-              
-                </div>
-
-                {
-            !print ?
-        <div className="row-flex fit space-between m-section">
-            <div className="">
-            {/* <Paper
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}
-    >
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Enter staff ID"
-        // inputProps={{ 'aria-label': 'search google maps' }}
-        onChange={(e)=>{
-            setinputData(e.target.value)
-            if(e.target.value === ""){
-                setsearch("")
-               }
-        }
-        }
-      />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
-        <i className="icon-magnifier"></i>
-      </IconButton>
-      </Paper> */}
-   
-       
-            </div>
-          <div className="exportBtnContainer">
-            
-          <div className="dropDown">
-      <div className="dropContent up" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <div className='card'>
-            <button className='btn p-text minSection full-width' onClick={exportExcel}>Excel</button>
-            {/* <button className='btn p-text minSection full-width' onClick={handlePrint}>PDF</button> */}
-        </div>
-      </div>
-      <div className=' trigger' onClick={TriggerDrop}>
-    <button className='exportBtn'><i className="lni lni-add-files"></i> Export Data</button>
-      </div>
-    </div>
-          </div>
- 
-        </div>
-        :""
-                }
                 
             </div>
             :""}
-            <div className="padding-top-20">
-           {
-            print ?
-            <div className="h4 section text-center text-bold">Ghana Statistical Service</div> 
-            :""
-           }
-           <p> 
-            {
 
-            }
-           </p>
-           <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
-            <div className="section row-flex space-between padding">
-                <div className='text-bold'>department:{department ? department : "All departments"}</div>
-                <div className='text-bold'>Section:{section ? section : "All section"}</div>
-            </div>
-      <table className='table card ' id="records">
-        <thead>
-          {
-            exportTrigger ?
-            <tr>
-             <td style={{fontWeight:"bold", width:"200px"}}>Department: {department ? department : "All departments"}</td>
-              <td style={{fontWeight:"bold", width:"200px"}}>Section: {section ? section : "All Sections"}</td> 
-            </tr>
-            :""
-          }
-          <tr>
-            <td style={{fontWeight:"bold", width:"200px"}}>Staff ID</td>
-            <td style={{fontWeight:"bold", width:"200px"}}>Email</td>
-            <td style={{fontWeight:"bold", width:"200px"}} align="left">Full Name</td>
-             {
-              report === "all" || report === "Department" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Department</td>
-              :  ""}
-              {  report === "all" || report === "Section" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Section</td> 
-              :""}
-              {  report === "all" || report === "Grade" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Grade</td> 
-              :""}
-              {
-              report === "all" || report === "Position" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Position</td>
-              :  ""}{
-              report === "all" || report === "Employment Status" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Employment Status</td>
-              :  ""}{
-              report === "all" || report === "Appointment Date" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Appointment Date</td>
-              :  ""}{
-              report === "all" || report === "Salary Level" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Salary Level</td>
-              :  ""}{
-              report === "all" || report === "Education" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Education</td>
-              :  ""}{
-              report === "all" || report === "Retirement" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Retirement</td>
-              :  ""}{
-              report === "all" || report === "Contact" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Contact</td>
-              :  ""}{
-              report === "all" || report === "Marital Status" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Marital Status</td>
-              :  ""}{
-              report === "all" || report === "Status" ?  
-              <td style={{fontWeight:"bold", width:"200px"}} align="left">Status</td>
-              :  ""}
-             
-
-          </tr>
-        </thead>
-        <tbody>
-          {docs ? docs
-                .filter(filtdoc=>{
-                    if(search === "" && 
-                    department  === "" && 
-                    section  === ""
-                    ){
-                        return filtdoc
-                    }else if (section && department)
-                  {
-                   if( department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase() &&
-                   section.toString().trim().toLowerCase() === filtdoc.section.toString().trim().toLowerCase() )
-                      {
-                        return filtdoc
-                      }else if(department && !section){
-                        if(department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()){
-                          return filtdoc
-                        }
-                      }else if(department && section){
-                        if(
-                          department.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase() &&
-                          section.toString().trim().toLowerCase() === filtdoc.department.toString().trim().toLowerCase()
-                          ){
-                          return filtdoc
-                        }
-                      }
-                    }
-                  })
-          .map((row) => (
-            <tr
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <td component="th" scope="row">
-                {row.staffId}
-              </td>
-              <td align="left">{row.email}</td>
-              <td className='trOccupy' align="left">{row.surname} {row.middleName} {row.lastName}</td>
-      
-              {
-              report === "all" || report === "Department" ?  
-              <td  style={{width:"200px"}} align="left">{row.department}</td>
-              :  ""}
-              {  report === "all" || report === "Section" ?  
-              <td style={{ width:"200px"}} align="left">{row.section}</td> : ""
-              }
-              {  report === "all" || report === "Grade" ?  
-              <td style={{ width:"200px"}} align="left">{row.grade}</td> : ""
-              }
-              {
-              report === "all" || report === "Position" ?  
-              <td  style={{width:"200px"}} align="left">{row.position}</td>
-              :  ""}
-              {
-              report === "all" || report === "Employment Status" ?  
-              <td style={{ width:"200px"}} align="left">{row.employmentStatus}</td>
-              :  ""}
-              {
-              report === "all" || report === "Appointment Date" ?  
-              <td style={{ width:"200px"}} align="left">{row.appointDate}</td>
-              :  ""}{
-              report === "all" || report === "Salary Level" ?  
-              <td  style={{width:"200px"}} align="left">{row.salaryLevel}</td>
-              :  ""}{
-              report === "all" || report === "Education" ?  
-              <td className='trOccupy' style={{ width:"300px"}} align="left">
-                {row.school.map(sDoc=>(
-                  <span key={sDoc.id}>
-                   <div className="">
-                   {sDoc.school} 
-                   </div>
-                    {/* {sDoc.start_date - sDoc.endDate} */}
-                  </span>
-                ))
-                }
-
-              </td>
-              :  ""}{
-              report === "all" || report === "Retirement" ?  
-              <td  style={{width:"200px"}} align="left">
-                {row.retirementAge}
-              </td>
-              :  ""}{
-              report === "all" || report === "Contact" ?  
-              <td style={{ width:"200px"}} align="left">
-                {row.contact.toString()}
-              </td>
-              :  ""}{
-              report === "all" || report === "Marital Status" ?  
-              <td  style={{width:"200px"}} align="left">
-                {row.maritalStatus}
-              </td>
-              :  ""}{
-              report === "all" || report === "Status" ?  
-              <td  style={{width:"200px"}} align="left">
-                {row.status}
-              </td>
-              :  ""}
-            </tr>
-          ))
-        :""
-        }
-        </tbody>
-      </table>
-           </div>
-            </div>
+          <div className="card">
+          <DataTable Docs={docs ? docs : []} Columns={Columns}/>
+          </div>
+     
         </div>
     </div>
   )

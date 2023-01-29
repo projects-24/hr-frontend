@@ -355,14 +355,14 @@ useEffect(() => {
         }
         </select>
        </div>
-       <div>
+       {/* <div>
        <div className="minSection">Start Date</div>
         <input type="date" className='input white' onChange={(e)=>setstartDate(e.target.value)}/>
        </div>
        <div>
        <div className="minSection">End Date</div>
         <input type="date" className='input white' onChange={(e)=>setendDate(e.target.value)}/>
-       </div>
+       </div> */}
         </div>
         
         <div className="section" >

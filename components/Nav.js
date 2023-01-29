@@ -80,6 +80,8 @@ const [showNots, setshowNots] = useState(true)
           localStorage.getItem("token")
       )
   )
+        }else{
+          window.location.assign("/")
         }
 
   })

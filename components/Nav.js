@@ -128,7 +128,7 @@ const [showNots, setshowNots] = useState(true)
     }
     })
     useEffect(() => {
-        if(localStorage.getItem("token")){
+        if(localStorage.getItem("token")  && !token ){
             settoken(
                 JSON.parse(
                     localStorage.getItem("token")
@@ -139,8 +139,6 @@ const [showNots, setshowNots] = useState(true)
                     localStorage.getItem("user")
                 )
             )
-        }else{
-          window.location.assign("/")
         }
     })
     // useEffect(() => {

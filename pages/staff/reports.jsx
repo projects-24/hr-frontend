@@ -323,7 +323,7 @@ const TriggerDrop = ()=>{
             </div>
             :""}
 
-          <div className="card">
+          <div className="card" style={{padding:"0"}}>
           <DataTable Docs={docs ? docs : []} Columns={Columns}/>
           </div>
      

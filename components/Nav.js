@@ -273,6 +273,15 @@ const LogOut = ()=>{
     resolve()
   }).then(()=>{
     window.location.assign("/")
+
+    // Axios.post(endPoint + "/logout",   {
+    //   headers: {
+    //        authorization: `Bearer ${token}`,
+         
+    //     }
+         
+    //  }).then(()=>{
+    //  }).catch(err=>alert(err.message))
   })
 }
 

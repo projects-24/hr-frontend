@@ -10,6 +10,8 @@ export default function DataTable({Docs, Columns}) {
     const [openHideModal, setopenHideModal] = useState(false)
     const [department, setdepartment] = useState('')   
     const [section, setsection] = useState('')
+    const [startDate, setstartDate] = useState("")
+const [endDate, setendDate] = useState("")
 const handleSelectedhide = (e)=>{
 const val = JSON.parse(e.target.value)
 // if(columsHide.find(doc=> doc.id === val.id)){
@@ -53,7 +55,7 @@ new Promise((resolve, reject) => {
             </div>
         <div className="tableFilter padding">
             <button className="filterBtn button" onClick={()=>setopenHideModal(true)}>
-                hide or show columns
+                Filter <i className="lni lni-list"></i>
             </button>
             <div className="">
                     <select className='input light' placeholder="Department"  onChange={(e)=>setdepartment(e.target.value)}>
@@ -87,11 +89,21 @@ new Promise((resolve, reject) => {
             <span className="closeForm" onClick={()=>setopenHideModal(false)}>
           <i className="lni lni-close" ></i>
         </span>
-                <div className="h3 padding hr">Hide and show columns</div>
+                <div className="h3 padding hr">Filter Data</div>
                 <div className="padding section">
                     <div>
                         {/* <div className='section h4'>Hide Column</div> */}
-                        <div className="section">
+                        <div className="row">
+                          <div className="col sm-12 md-6 lg-6 padding">
+                            <div className="minSection">Start Interval</div>
+                            <input type="date" className='input' onChange={(e)=>setstartDate(e.target.value)}/>
+                          </div>
+                          <div className="col sm-12 md-6 lg-6 padding">
+                            <div className="minSection">End Interval</div>
+                            <input type="date" className='input' onChange={(e)=>setendDate(e.target.value)}/>
+                          </div>
+                        </div>
+                        <div className="padding">
                             <select name="" className='input' id="" onChange={handleSelectedhide}>
                                 <option value="">Select columns to hide</option>
                                 {
@@ -196,6 +208,7 @@ new Promise((resolve, reject) => {
                     }
                   }
                 })
+
                 .map((row) => (
                     <tr
                       key={row.name}

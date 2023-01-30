@@ -53,7 +53,8 @@ export default function Reports() {
 const [dropdown, setdropdown] = useState(0)
 const [exportTrigger, setexportTrigger] = useState(false)
 const [report, setreport] = useState("all")
-    
+const [startDate, setstartDate] = useState("")
+const [endDate, setendDate] = useState("")
     const handleClose = () => {
       setOpen(false);
     };

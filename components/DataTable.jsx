@@ -195,7 +195,8 @@ new Promise((resolve, reject) => {
                       }
                     }
                   }
-                }).map((row) => (
+                })
+                .map((row) => (
                     <tr
                       key={row.name}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

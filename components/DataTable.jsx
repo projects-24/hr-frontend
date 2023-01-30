@@ -83,7 +83,7 @@ new Promise((resolve, reject) => {
              {
                                 columsHide && columsRender ?
                                 columsHide.map(doc=>(
-                                 <span className='text-bold light round-edge text-small' style={{padding:"0.2rem"}}>
+                                 <span className='text-bold light round-edge text-small' key={doc.id}  style={{padding:"0.2rem"}}>
                                      {doc.name}
                                  </span>
                                 )):""

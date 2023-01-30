@@ -152,6 +152,7 @@
 
 }
 .filterModalContent{
+ 
     overflow-y: auto;
     max-height: 300px;
     padding: 2rem;
@@ -182,4 +183,8 @@
 .filterBtn{
     background-color: var(--secondaryColor) !important;
     color: white;
+}
+
+.roundEdge{
+    border-radius: 5rem !important;
 }

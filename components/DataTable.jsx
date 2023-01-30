@@ -13,6 +13,7 @@ export default function DataTable({Docs, Columns}) {
     const [startDate, setstartDate] = useState("")
 const [endDate, setendDate] = useState("")
 const [type, settype] = useState("")
+const [search, setsearch] = useState("")
 const handleSelectedhide = (e)=>{
 const val = JSON.parse(e.target.value)
 // if(columsHide.find(doc=> doc.id === val.id)){
@@ -56,9 +57,12 @@ new Promise((resolve, reject) => {
             </div>
         <div className="">
          <div className="tableFilter padding space-between">
-         <button className="filterBtn button" onClick={()=>setopenHideModal(true)}>
+         <button className="filterBtn button roundEdge" onClick={()=>setopenHideModal(true)}>
                 Filter <i className="lni lni-list"></i>
             </button>
+            <div>
+          <input type="text" className="input roundEdge" onChange={(e)=>setsearch(e.target.value)} placeholder='staff Id'/>
+         </div>
         {
           type ?
           <div className="">
@@ -72,12 +76,13 @@ new Promise((resolve, reject) => {
         }
          
          </div>
+       
          <div className=''>
         {
           columsHide.length > 0 ?
           <>
-           <div className="section row">
-            <div className="col sm-12 md-12 lg-12 padding">
+           <div className="section row hr">
+            <div className="col sm-12 md-8 lg-8 padding">
             <div className="h4 section">Showing data for</div>
              <div className="row-flex">
              {
@@ -90,7 +95,20 @@ new Promise((resolve, reject) => {
                             }
              </div>
             </div>
-            
+            <div className="col sm-12 md-4 lg-4 padding">
+            <div className="row-flex">
+            {
+              department ?
+              <div><div><span className="text-bold text-small secondary-text">Department*:</span> <span className="text-small">{department}</span></div></div>
+              :""
+            }
+            {
+              section ?
+            <div><div><span className="text-bold text-small secondary-text">Section*:</span> <span className="text-small">{section}</span></div></div>
+            :""
+            }
+          </div>
+            </div>
             
                 </div>
           </>
@@ -120,16 +138,16 @@ new Promise((resolve, reject) => {
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
                             <div className="minSection">Start Interval</div>
-                            <input type={type === "dob" || type == "appointment" ? "date" : "month"} 
+                            <input defaultValue={startDate} type={type === "dob" || type == "appointment" ? "date" : "month"} 
                             className='input' onChange={(e)=>setstartDate(e.target.value)}/>
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
                             <div className="minSection">End Interval</div>
-                            <input type={type === "dob" || type == "appointment" ? "date" : "month"} 
+                            <input defaultValue={endDate} type={type === "dob" || type == "appointment" ? "date" : "month"} 
                             className='input' onChange={(e)=>setendDate(e.target.value)}/>
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
-                    <select className='input light' placeholder="Department"  onChange={(e)=>setdepartment(e.target.value)}>
+                    <select defaultValue={department} className='input light' placeholder="Department"  onChange={(e)=>setdepartment(e.target.value)}>
                         <option value="">All Departments</option>
                         {
                             Departments &&
@@ -140,7 +158,7 @@ new Promise((resolve, reject) => {
                     </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <select className='input light' placeholder="Section"  onChange={(e)=>setsection(e.target.value)}>
+                    <select defaultValue={section} className='input light' placeholder="Section"  onChange={(e)=>setsection(e.target.value)}>
                         <option value="">All Sections</option>
                         {
                                 Sections.filter(docs=>{
@@ -275,6 +293,14 @@ new Promise((resolve, reject) => {
                       return filtDoc
                      }
                     }else if (filtDoc){
+                      return filtDoc
+                    }
+                  }else{
+                    return filtDoc
+                  }
+                }).filter((filtDoc)=>{
+                  if(search){
+                    if(search.trim().toLowerCase().includes(filtDoc.staffId.trim().toLowerCase())){
                       return filtDoc
                     }
                   }else{

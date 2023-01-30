@@ -287,17 +287,17 @@ setdropDown2(!dropDown2)
 
   const callNotification = ()=>{
   if(showNots){
-      // if(leavePlaningNot){
-    //   leavePlaningNot.map(doc=>{
-    //     window.Notification.requestPermission().then(perm =>{
-    //       if(perm === "granted"){
-    //          new Notification("Notification",{body:doc.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
-    //       }else{
-    //           alert("Gss wants to send you a notification, make sure to grant permission")
-    //       }
-    //   })
-    //   })
-    // }
+      if(leavePlaningNot){
+      leavePlaningNot.map(doc=>{
+        window.Notification.requestPermission().then(perm =>{
+          if(perm === "granted"){
+             new Notification("Notification",{body:doc.message , icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
+          }else{
+              alert("Gss wants to send you a notification, make sure to grant permission")
+          }
+      })
+      })
+    }
     if(userNot){
       userNot.slice(0,1).map(doc=>{
         window.Notification.requestPermission().then(perm =>{

@@ -381,7 +381,7 @@ if(user){
   <img src="/avatar.svg" className="width-40 height-40 circle" />
   <div>
   <div className="text-small">{user.firstname} {user.lastName}</div>
-   {/* <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {!isAdmin ? "Personal" : "Admin"} Account</span> </div> */}
+   <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {user.position} </span> </div>
   </div>
    </div>
       </a>

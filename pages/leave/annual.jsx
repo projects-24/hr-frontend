@@ -742,7 +742,8 @@ useEffect(() => {
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <div className="text-bold">Number Of days Remaining</div>
-                        <TextField fullWidth type="number" value={parseInt(user.no_of_leave_days)} disabled autoFocus id='remaining' name='daysremaining' variant="standard"  />
+                        <TextField fullWidth type="number"
+                         value={parseInt(user.no_of_leave_days)} disabled autoFocus id='remaining' name='daysremaining' variant="standard"  />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <TextField fullWidth type="text" name='daysrequested' variant="outlined" label='Number Of days Requested' />

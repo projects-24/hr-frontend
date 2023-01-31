@@ -31,6 +31,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import dynamic from "next/dynamic"
 import DataGridDemo from '../../components/table';
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+import DataTable from './../../components/DataTable';
 
 export default function Profiling() {
     const [search, setsearch] = useState("")
@@ -194,52 +195,79 @@ const TriggerDrop = ()=>{
     }
   }
 
-  const columns = [
-    // { field: '_id', headerName: 'ID', width: 90 },
+  // const columns = [
+  //   // { field: '_id', headerName: 'ID', width: 90 },
   
-    {
-      field: 'staffId',
-      headerName: 'Staff Id',
-      width: 150,
+  //   {
+  //     field: 'staffId',
+  //     headerName: 'Staff Id',
+  //     width: 150,
       
-    },
-       {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstname || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 150,
+  //   },
+  //      {
+  //     field: 'fullName',
+  //     headerName: 'Full name',
+  //     description: 'This column has a value getter and is not sortable.',
+  //     sortable: false,
+  //     width: 160,
+  //     valueGetter: (params) =>
+  //       `${params.row.firstname || ''} ${params.row.middleName || ''} ${params.row.lastName || ''}`,
+  //   },
+  //   {
+  //     field: 'email',
+  //     headerName: 'Email',
+  //     width: 150,
       
-    },
-    {
-      field: 'department',
-      headerName: 'Department',
-      width: 150,
+  //   },
+  //   {
+  //     field: 'department',
+  //     headerName: 'Department',
+  //     width: 150,
       
-    },
-    {
-      field: 'position',
-      headerName: 'Position',
-      width: 150,
+  //   },
+  //   {
+  //     field: 'position',
+  //     headerName: 'Position',
+  //     width: 150,
       
-    },
-    {
-      field: 'contact',
-      headerName: 'Contact',
-      type: 'number',
-      width: 110,
+  //   },
+  //   {
+  //     field: 'contact',
+  //     headerName: 'Contact',
+  //     type: 'number',
+  //     width: 110,
       
-    }
+  //   }
  
-  ];
+  // ];
 
+  const columns = [
+    {
+        id:"d1",
+        name:"Directorate"
+    },
+    {
+        id:"d2",
+        name:"Section"
+    },
+    {
+        id:"d3",
+        name:"Position"
+    },
+    {
+        id:"d9",
+        name:"Retirement"
+    }
+    ,
+    {
+        id:"d10",
+        name:"Contact"
+    },
+    {
+        id:"d12",
+        name:"Status"
+    }
+]
   
   return (
     <div className={print ? "" : "content"}>
@@ -356,11 +384,12 @@ const TriggerDrop = ()=>{
 
             :""}
  
-           <div className={!print ? "horizontal-scroll" : ""} style={{padding:"0px"}}>
+           <div className={"card"} style={{padding:"0px"}}>
   
             {
               docs ?
-              <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" /> 
+              // <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" /> 
+              <DataTable Docs={docs} Columns={columns}  showColumns={columns} hideInterval/>
               :""
             }
            </div>

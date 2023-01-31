@@ -1,11 +1,11 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Departments from '../data/departments'
 import Sections from '../data/sections'
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
-export default function DataTable({Docs, Columns}) {
-    const [columsHide, setcolumsHide] = useState([])
+export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail}) {
+    const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
     const [columsRender, setcolumsRender] = useState(true)
     const [openHideModal, setopenHideModal] = useState(false)
     const [department, setdepartment] = useState('')   
@@ -14,6 +14,18 @@ export default function DataTable({Docs, Columns}) {
 const [endDate, setendDate] = useState("")
 const [type, settype] = useState("")
 const [search, setsearch] = useState("")
+const [getTotal, setgetTotal] = useState(0)
+const [getAll, setgetAll] = useState(true)
+useEffect(() => {
+ if(getAll || getTotal === 0){
+  setgetTotal(document.getElementById('records').rows.length - 1)
+  setgetAll(!getAll)
+
+ }
+})
+
+
+
 const handleSelectedhide = (e)=>{
 const val = JSON.parse(e.target.value)
 // if(columsHide.find(doc=> doc.id === val.id)){
@@ -25,7 +37,7 @@ new Promise((resolve, reject) => {
     resolve()
     }).then(()=>{
     setcolumsRender(true)
-    
+    setgetAll(!getAll)
     })
 }
 
@@ -38,6 +50,7 @@ new Promise((resolve, reject) => {
         )
        }).then(()=>{
         setcolumsRender(true)
+        setgetAll(!getAll)
        })
     }
     const [exportTrigger, setexportTrigger] = useState(false)
@@ -52,17 +65,30 @@ new Promise((resolve, reject) => {
   return (
     <div>
       <Excel Trigger = {exportTrigger} />
-      <div className="exportBtnContainer"> 
+      {/* <div className="exportBtnContainer"> 
       <button className='btn p-text minSection full-width' onClick={exportExcel}>Export Excel</button>
-            </div>
+            </div> */}
         <div className="">
          <div className="tableFilter padding space-between">
-         <button className="filterBtn button roundEdge" onClick={()=>setopenHideModal(true)}>
+         <div>
+        
+            <div className="minSection">
+              <div className="">Total Records Gotten</div>
+              <div className="h2">   {
+               getTotal
+              }</div>
+            </div>
+         </div>
+            <div style={{display:"flex"}}>
+            <button className="filterBtn button roundEdge full-width" onClick={()=>setopenHideModal(true)}>
                 Filter <i className="lni lni-list"></i>
             </button>
-            <div>
-          <input type="text" className="input roundEdge" onChange={(e)=>setsearch(e.target.value)} placeholder='staff Id'/>
+              <input type="text" className="input roundEdge" onChange={(e)=>{
+                setsearch(e.target.value)
+              setgetAll(!getAll)
+              }} placeholder='staff Id | Email'/>
          </div>
+         
         {
           type ?
           <div className="">
@@ -74,7 +100,9 @@ new Promise((resolve, reject) => {
         </div>
         :""
         }
-         
+            <div>
+            <button className='btn p-text success roundEdge text-white' onClick={exportExcel}>Export <i className="lni lni-share"></i></button>
+         </div>
          </div>
        
          <div className=''>
@@ -96,6 +124,7 @@ new Promise((resolve, reject) => {
              </div>
             </div>
             <div className="col sm-12 md-4 lg-4 padding">
+           
             <div className="row-flex">
             {
               department ?
@@ -127,7 +156,10 @@ new Promise((resolve, reject) => {
                     <div className='filterModalContent'>
                         {/* <div className='section h4'>Hide Column</div> */}
                         <div className="row">
-                          <div className="col sm-12 md-12 lg-12 padding">
+                          {
+                            !hideInterval ?
+                            <div className="row">
+                              <div className="col sm-12 md-12 lg-12 padding">
                             <div className="minSection">Set Interval Parameter</div>
                             <select type="date" defaultValue={type} className='input' onChange={(e)=>settype(e.target.value)}>
                               <option value="">Select Type</option>
@@ -146,8 +178,14 @@ new Promise((resolve, reject) => {
                             <input defaultValue={endDate} type={type === "dob" || type == "appointment" ? "month" : "month"} 
                             className='input' onChange={(e)=>setendDate(e.target.value)}/>
                           </div>
+                            </div>
+                            :<div />
+                          }
                           <div className="col sm-12 md-6 lg-6 padding">
-                    <select defaultValue={department} className='input light' placeholder="Department"  onChange={(e)=>setdepartment(e.target.value)}>
+                    <select defaultValue={department} className='input light' placeholder="Department"  onChange={(e)=>{
+                      setdepartment(e.target.value)
+                      setgetAll(!getAll)
+                    }}>
                         <option value="">All Departments</option>
                         {
                             Departments &&
@@ -158,7 +196,10 @@ new Promise((resolve, reject) => {
                     </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <select defaultValue={section} className='input light' placeholder="Section"  onChange={(e)=>setsection(e.target.value)}>
+                    <select defaultValue={section} className='input light' placeholder="Section"  onChange={(e)=>{
+                      setsection(e.target.value)
+                      setgetAll(!getAll)
+                      }}>
                         <option value="">All Sections</option>
                         {
                                 Sections.filter(docs=>{
@@ -177,12 +218,16 @@ new Promise((resolve, reject) => {
                             <select name="" className='input' id="" onChange={handleSelectedhide}>
                                 <option value={JSON.stringify({id:"034", name:"d49"})}>Select columns to show</option>
                                 {
-                                Columns ?
-                                Columns.map(doc=>(
+                                showColumns ?
+                                showColumns.map(doc=>(
                                     <option key={doc.id} value={JSON.stringify(doc)}>
                                         {doc.name}
                                     </option>
-                                )):""
+                                )):    Columns.map(doc=>(
+                                  <option key={doc.id} value={JSON.stringify(doc)}>
+                                      {doc.name}
+                                  </option>
+                              ))
                             }
                             </select>
                         </div>
@@ -208,7 +253,11 @@ new Promise((resolve, reject) => {
             <thead>
             <tr>
             <td  style={{fontWeight:"bold", width:"200px"}}>Staff ID</td>
+          {
+            !hideEmail ?
             <td  style={{fontWeight:"bold", width:"200px"}}>Email</td>
+            :""
+          }
             <td   style={{fontWeight:"bold", width:"200px"}} align="left">Full Name</td>
             {
                       columsHide.find(doc=>doc.id === "d1") ?  
@@ -246,6 +295,9 @@ new Promise((resolve, reject) => {
             :  ""}
             {  columsHide.find(doc=>doc.id === "d12") ?
             <td id="d12" style={{fontWeight:"bold", width:"200px"}} align="left">Status</td>
+            :""}
+            {  columsHide.find(doc=>doc.id === "d13") ?
+            <td id="d12" style={{fontWeight:"bold", width:"200px"}} align="left">Promotion</td>
             :""}
           </tr>
             </thead>
@@ -327,7 +379,10 @@ new Promise((resolve, reject) => {
                   }
                 }).filter((filtDoc)=>{
                   if(search){
-                    if(search.trim().toLowerCase().includes(filtDoc.staffId.trim().toLowerCase())){
+                    if(
+                      search.trim().toLowerCase().includes(filtDoc.staffId.trim().toLowerCase().slice(0, search.length)) ||
+                      search.trim().toLowerCase().includes(filtDoc.email.trim().toLowerCase().slice(0, search.length))
+                      ){
                       return filtDoc
                     }
                   }else{
@@ -342,7 +397,11 @@ new Promise((resolve, reject) => {
                       <td component="th" scope="row">
                         {row.staffId}
                       </td>
+                    {
+                      !hideEmail ?
                       <td align="left">{row.email}</td>
+                      :""
+                    }
                       <td className='trOccupy' align="left">{row.surname} {row.middleName} {row.lastName}</td>
               
                       {
@@ -398,10 +457,17 @@ new Promise((resolve, reject) => {
                       <td  style={{width:"200px"}} align="left">
                         {row.maritalStatus}
                       </td>
-                      :  ""}{
+                      :  ""}
+                      {
                         columsHide.find(doc=>doc.id === "d12") ?  
                       <td  style={{width:"200px"}} align="left">
                         {row.status}
+                      </td>
+                      :  ""}
+                      {
+                        columsHide.find(doc=>doc.id === "d13") ?  
+                      <td  style={{width:"200px"}} align="left">
+                        {row.promotion_date}
                       </td>
                       :  ""}
                     </tr>

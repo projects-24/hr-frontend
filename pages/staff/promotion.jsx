@@ -9,6 +9,8 @@ import Axios from 'axios';
 import endPoint from '../../components/endPoint';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
+import DataTable from './../../components/DataTable';
+
 export default function Promotion() {
 const [user, setuser] = useState("")
 const [docs, setdocs] = useState(null)
@@ -70,51 +72,74 @@ useEffect(() => {
   }
   })
 
+// const columns = [
+//   // { field: '_id', headerName: 'ID', width: 90 },
+//   {
+//     field: 'staffId',
+//     headerName: 'Staff Id',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'fullName',
+//     headerName: 'Full name',
+//     description: 'This column has a value getter and is not sortable.',
+//     sortable: false,
+//     width: 160,
+//     valueGetter: (params) =>
+//       `${params.row.firstname || ''} ${params.row.lastName || ''}`,
+//   },
+//   // {
+//   //   field: 'email',
+//   //   headerName: 'Email',
+//   //   width: 150,
+    
+//   // },
+//   {
+//     field: 'department',
+//     headerName: 'Department',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'position',
+//     headerName: 'Position',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'promotion_date',
+//     headerName: 'Promotion Year',
+//     type: 'number',
+//     width: 110,
+    
+//   }
+ 
+// ];
+
 const columns = [
-  // { field: '_id', headerName: 'ID', width: 90 },
   {
-    field: 'staffId',
-    headerName: 'Staff Id',
-    width: 150,
-    
+      id:"d1",
+      name:"Directorate"
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstname || ''} ${params.row.lastName || ''}`,
-  },
-  // {
-  //   field: 'email',
-  //   headerName: 'Email',
-  //   width: 150,
-    
-  // },
-  {
-    field: 'department',
-    headerName: 'Department',
-    width: 150,
-    
+      id:"d2",
+      name:"Section"
   },
   {
-    field: 'position',
-    headerName: 'Position',
-    width: 150,
-    
+      id:"d3",
+      name:"Position"
   },
   {
-    field: 'promotion_date',
-    headerName: 'Promotion Year',
-    type: 'number',
-    width: 110,
-    
+      id:"d10",
+      name:"Contact"
+  },
+  {
+      id:"d13",
+      name:"Promotion"
   }
  
-];
-
+]
 
 const exportExcel = ()=>{
   new Promise((resolve, reject) => {
@@ -152,7 +177,10 @@ const exportExcel = ()=>{
    {
     docs ?
     <div className="m-section">
-      <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" />
+      {/* <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" /> */}
+      <div className="card" style={{padding:0}}>
+    <DataTable Docs={docs} Columns={columns}  showColumns={columns} hideInterval hideEmail/>
+  </div>
     </div>
     :""
    }

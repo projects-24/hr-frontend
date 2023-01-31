@@ -8,6 +8,7 @@ import DataGridDemo from './../../components/table';
 import Axios from 'axios';
 import endPoint from '../../components/endPoint';
 import dynamic from "next/dynamic"
+import DataTable from '../../components/DataTable';
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 export default function Management() {
 const [user, setuser] = useState("")
@@ -70,51 +71,74 @@ useEffect(() => {
   }
   })
 
+// const columns = [
+//   // { field: '_id', headerName: 'ID', width: 90 },
+
+//   {
+//     field: 'staffId',
+//     headerName: 'Staff Id',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'email',
+//     headerName: 'Email',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'department',
+//     headerName: 'Department',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'position',
+//     headerName: 'Position',
+//     width: 150,
+    
+//   },
+//   {
+//     field: 'retirementAge',
+//     headerName: 'Retirement Age',
+//     type: 'number',
+//     width: 110,
+    
+//   }
+//   // {
+//   //   field: 'fullName',
+//   //   headerName: 'Full name',
+//   //   description: 'This column has a value getter and is not sortable.',
+//   //   sortable: false,
+//   //   width: 160,
+//   //   valueGetter: (params) =>
+//   //     `${params.row.firstname || ''} ${params.row.lastName || ''}`,
+//   // },
+// ];
+
 const columns = [
-  // { field: '_id', headerName: 'ID', width: 90 },
-
   {
-    field: 'staffId',
-    headerName: 'Staff Id',
-    width: 150,
-    
+      id:"d1",
+      name:"Directorate"
   },
   {
-    field: 'email',
-    headerName: 'Email',
-    width: 150,
-    
+      id:"d2",
+      name:"Section"
   },
   {
-    field: 'department',
-    headerName: 'Department',
-    width: 150,
-    
+      id:"d3",
+      name:"Position"
   },
   {
-    field: 'position',
-    headerName: 'Position',
-    width: 150,
-    
+      id:"d10",
+      name:"Contact"
   },
   {
-    field: 'retirementAge',
-    headerName: 'Retirement Age',
-    type: 'number',
-    width: 110,
-    
+      id:"d9",
+      name:"Retirement"
   }
-  // {
-  //   field: 'fullName',
-  //   headerName: 'Full name',
-  //   description: 'This column has a value getter and is not sortable.',
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.row.firstname || ''} ${params.row.lastName || ''}`,
-  // },
-];
-
+ 
+]
 
 const exportExcel = ()=>{
   new Promise((resolve, reject) => {
@@ -149,9 +173,13 @@ const exportExcel = ()=>{
             </div>
         </div>
 
+        <div className="m-section"></div>
    {
     docs ?
-    <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" />
+    // <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" />
+  <div className="card" style={{padding:0}}>
+    <DataTable Docs={docs} Columns={columns}  showColumns={columns} hideInterval hideEmail/>
+  </div>
     :""
    }
         </div>

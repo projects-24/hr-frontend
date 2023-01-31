@@ -251,6 +251,11 @@ const TriggerDrop = ()=>{
         id:"d12",
         name:"Status"
     }
+    ,
+    {
+        id:"d13",
+        name:"Promotion"
+    }
 ]
   return (
     <div className={print ? "" : "content"}>

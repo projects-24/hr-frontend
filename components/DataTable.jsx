@@ -66,7 +66,7 @@ new Promise((resolve, reject) => {
         {
           type ?
           <div className="">
-          <div className="secondary-text text-bold">Interval</div>
+          <div className="secondary-text text-bold">Interval ({type === "dob" ? "Date of birth" : type === "appointment" ? "Appointment" : type === "retirement" ? "Retirement" : type})</div>
           <div className="row-flex">
             <div><div><span className="text-bold">From:</span> {startDate}</div></div>
             <div><div><span className="text-bold">To:</span> {endDate}</div></div>
@@ -123,27 +123,27 @@ new Promise((resolve, reject) => {
           <i className="lni lni-close" ></i>
         </span>
                 <div className="h3 padding hr">Filter Data</div>
-                <div className="padding section">
+                <div className=" section">
                     <div className='filterModalContent'>
                         {/* <div className='section h4'>Hide Column</div> */}
                         <div className="row">
                           <div className="col sm-12 md-12 lg-12 padding">
-                            <div className="minSection">Select Filter Type</div>
-                            <select type="date" className='input' onChange={(e)=>settype(e.target.value)}>
+                            <div className="minSection">Set Interval Parameter</div>
+                            <select type="date" defaultValue={type} className='input' onChange={(e)=>settype(e.target.value)}>
                               <option value="">Select Type</option>
-                              {/* <option value="dob">Date Of Birth</option>
-                              <option value="appointment">Date Of Appointment</option> */}
+                              <option value="dob">Date Of Birth</option>
+                              <option value="appointment">Date Of Appointment</option>
                               <option value="retirement">Date Of Retirement</option>
                               </select>
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
                             <div className="minSection">Start Interval</div>
-                            <input defaultValue={startDate} type={type === "dob" || type == "appointment" ? "date" : "month"} 
+                            <input defaultValue={startDate} type={type === "dob" || type == "appointment" ? "month" : "month"} 
                             className='input' onChange={(e)=>setstartDate(e.target.value)}/>
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
                             <div className="minSection">End Interval</div>
-                            <input defaultValue={endDate} type={type === "dob" || type == "appointment" ? "date" : "month"} 
+                            <input defaultValue={endDate} type={type === "dob" || type == "appointment" ? "month" : "month"} 
                             className='input' onChange={(e)=>setendDate(e.target.value)}/>
                           </div>
                           <div className="col sm-12 md-6 lg-6 padding">
@@ -292,7 +292,34 @@ new Promise((resolve, reject) => {
                       ){
                       return filtDoc
                      }
-                    }else if (filtDoc){
+                    }
+                    else if (type === "dob"){
+                      if(
+                        filtDoc.dob.replace(/-/g, "").slice(0,6)
+                        >=
+                        parseInt(startDate.replace(/-/g, "").slice(0,6)) 
+                        &&
+                       filtDoc.dob.replace(/-/g, "").slice(0,6)
+                       <=
+                       parseInt( endDate.replace(/-/g, "").slice(0,6) )
+                        ){
+                        return filtDoc
+                       }
+                    }
+                    else if (type === "appointment"){
+                      if(
+                        filtDoc.appointDate.replace(/-/g, "").slice(0,6)
+                        >=
+                        parseInt(startDate.replace(/-/g, "").slice(0,6)) 
+                        &&
+                       filtDoc.appointDate.replace(/-/g, "").slice(0,6)
+                       <=
+                       parseInt( endDate.replace(/-/g, "").slice(0,6) )
+                        ){
+                        return filtDoc
+                       }
+                    }
+                    else if (filtDoc){
                       return filtDoc
                     }
                   }else{

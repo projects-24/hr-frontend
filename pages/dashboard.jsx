@@ -200,10 +200,10 @@ const [data, setdata] = useState(null)
               user.position != "Officer" ?
                     <div className="row m-section central">
          
-              <div className="col sm-12 md-2 lg-2 padding">
+              <div className="col sm-12 md-3 lg3 padding">
               <div className="card padding">
                   {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
-                  <div className="section text-bold p-text">
+                  <div className="section text-bold" style={{color:"#909090"}}>
                       All staffs
                   </div>
                   <div className="h2 secondary-text">
@@ -212,10 +212,10 @@ const [data, setdata] = useState(null)
               </div>
           </div>
         
-                  <div className="col sm-12 md-2 lg-2 padding">
+                  <div className="col sm-12 md-3 lg3 padding">
                       <div className="card padding">
                           {/* <img src="/select-users.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
-                          <div className="section text-bold p-text">
+                          <div className="section text-bold" style={{color:"#909090"}}>
                               On post
                           </div>
                           <div className="h2 secondary-text">
@@ -227,10 +227,10 @@ const [data, setdata] = useState(null)
                           </div>
                       </div>
                   </div>
-                  <div className="col sm-12 md-2 lg-2 padding">
+                  <div className="col sm-12 md-3 lg3 padding">
                       <div className="card padding">
                           {/* <img src="/leaveImg.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
-                          <div className="section text-bold p-text">
+                          <div className="section text-bold" style={{color:"#909090"}}>
                               On leave
                           </div>
                           <div className="h2 secondary-text">
@@ -243,10 +243,10 @@ const [data, setdata] = useState(null)
                       </div>
                   </div>
          
-                  <div className="col sm-12 md-2 lg-2 padding">
+                  <div className="col sm-12 md-3 lg3 padding">
                       <div className="card padding">
                           {/* <img src="/post.png" className='fit' style={{maxWidth:"30px"}} alt="" /> */}
-                          <div className="section text-bold p-text">
+                          <div className="section text-bold" style={{color:"#909090"}}>
                                On Field
                           </div>
                           <div className="h2 secondary-text"> 
@@ -261,22 +261,17 @@ const [data, setdata] = useState(null)
                   <div className="m-section">
                   <div className="card" style={{overflowX:"auto"}}>
                       <BarChart
-            width={800}
+            width={900}
             height={300}
             data={data}
-            margin={{
-              top: 5,
-              right: 50,
-              left: 50,
-              bottom: 5
-            }}
+            
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="number" fill="#8884d8" />
+            <Bar dataKey="number" fill="#FF8E9E" />
           </BarChart>
                   </div>
               </div>

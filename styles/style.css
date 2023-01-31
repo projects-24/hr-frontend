@@ -2,9 +2,9 @@
 :root{
     --primaryColor: #472183;
     --secondaryColor: #FF8E9E;
-    --light:#eaf1fb !important;
+    --light:#f8f9fa !important;
     --color:#202020;
-    --backgroundColor:#eaf1fb;
+    --backgroundColor:#f8f9fa;
     --font:'Maven Pro', sans-serif !important;
     --fontSize:0.92rem;
     --navWidth:95%;
@@ -14,6 +14,7 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
+
 div{text-transform: capitalize !important;}
 .text-small{font-size: 11px !important;}
 .row-flex{grid-gap: 0.5rem;}

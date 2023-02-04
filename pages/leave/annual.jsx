@@ -725,7 +725,7 @@ useEffect(() => {
            <form ref={form}>
            <div className="row">
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='days' onChange={(e)=>setdays(e.target.value)} variant="outlined" label='Number Of Days' />
+                        <TextField fullWidth type="text" name='days' defaultValue={36} disabled onChange={(e)=>setdays(e.target.value)} variant="outlined" label='Number Of Days' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <TextField fullWidth type="text" name='leaveaddress' variant="outlined" label='Leave Address' />
@@ -743,7 +743,7 @@ useEffect(() => {
                     <div className="col sm-12 md-6 lg-6 padding">
                         <div className="text-bold">Number Of days Remaining</div>
                         <TextField fullWidth type="number"
-                         value={parseInt(user.no_of_leave_days)} disabled autoFocus id='remaining' name='daysremaining' variant="standard"  />
+                         value={parseInt(user.no_of_leave_days)} disabled autoFocus id='remaining' name='daysremaining' variant="outlined"  />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
                         <TextField fullWidth type="text" name='daysrequested' variant="outlined" label='Number Of days Requested' />

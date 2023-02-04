@@ -14,6 +14,9 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
+.roundEdge{
+  border-radius: 10rem !important;
+}
 
 div{text-transform: capitalize !important;}
 .text-small{font-size: 11px !important;}

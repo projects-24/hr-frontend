@@ -453,7 +453,7 @@ isAdmin ?
     <div className="section hr"></div>
     <Link href="/field/request">
     <div className='sideLink'>
-    <i className="lni lni-infinite"></i> Field Activity
+    <i className="lni lni-infinite"></i> Field Request
     </div>
   </Link>
   <div className="section hr"></div>

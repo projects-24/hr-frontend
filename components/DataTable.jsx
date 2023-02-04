@@ -4,7 +4,7 @@ import Departments from '../data/departments'
 import Sections from '../data/sections'
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
-export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail}) {
+export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
     const [columsRender, setcolumsRender] = useState(true)
     const [openHideModal, setopenHideModal] = useState(false)
@@ -391,43 +391,43 @@ new Promise((resolve, reject) => {
                 })
                 .map((row) => (
                     <tr
-                      key={row.name}
+                      key={row._id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <td component="th" scope="row">
-                        {row.staffId}
+                        {!staffDetails ? row.staffId : row.staffDetails.staffId}
                       </td>
                     {
                       !hideEmail ?
-                      <td align="left">{row.email}</td>
+                      <td align="left">{!staffDetails ? row.email : row.staffDetails.email}</td>
                       :""
                     }
-                      <td className='trOccupy' align="left">{row.surname} {row.middleName} {row.lastName}</td>
+                      <td className='trOccupy' align="left">{!staffDetails ? row.surname : row.staffDetails.surname} {row.middleName} {row.lastName}</td>
               
                       {
                       columsHide.find(doc=>doc.id === "d1") ?  
-                      <td  style={{width:"200px"}} align="left">{row.department}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.department : row.staffDetails.department}</td>
                       :  ""}
                       {  columsHide.find(doc=>doc.id === "d2") ?  
-                      <td style={{ width:"200px"}} align="left">{row.section}</td> : ""
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.section : row.staffDetails.section }</td> : ""
                       }
                       {  columsHide.find(doc=>doc.id === "d4") ?  
-                      <td style={{ width:"200px"}} align="left">{row.grade}</td> : ""
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.grade : row.staffDetails.grade }</td> : ""
                       }
                       {
                       columsHide.find(doc=>doc.id === "d3") ?  
-                      <td  style={{width:"200px"}} align="left">{row.position}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.position : row.staffDetails.position}</td>
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d5") ?  
-                      <td style={{ width:"200px"}} align="left">{row.employmentStatus}</td>
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.employmentStatus : row.staffDetails.employmentStatus}</td>
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d6") ?  
-                      <td style={{ width:"200px"}} align="left">{row.appointDate}</td>
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.appointDate : row.staffDetails.appointDate}</td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d7") ?  
-                      <td  style={{width:"200px"}} align="left">{row.salaryLevel}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.salaryLevel : row.staffDetails.salaryLevel}</td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d8") ?  
                       <td className='trOccupy' style={{ width:"300px"}} align="left">

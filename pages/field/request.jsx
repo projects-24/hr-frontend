@@ -382,16 +382,16 @@ useEffect(() => {
                       }
                         </td> */}
                      {
-                      canUserApprove && doc.isPending ?
-                      <td>
-                      <button className='btn p-text text-small' onClick={()=>{
-                        setuserDoc(doc)
-                        setOpen(true)
-                      }}>
-                        options
-                      </button>
-                    </td>
-                    :<td  className='text-center'>-</td>
+                    //   canUserApprove && doc.isPending ?
+                    //   <td>
+                    //   <button className='btn p-text text-small' onClick={()=>{
+                    //     setuserDoc(doc)
+                    //     setOpen(true)
+                    //   }}>
+                    //     options
+                    //   </button>
+                    // </td>
+                    // :<td  className='text-center'>-</td>
                      }
                     </tr>
                    ))

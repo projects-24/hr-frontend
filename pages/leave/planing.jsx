@@ -18,7 +18,6 @@ import { Button } from '@mui/material';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import Departments from "../../data/departments"
-import DataTable from '../../components/DataTable';
 
 export default function Planing() {
   const [user, setuser] = useState(null)
@@ -370,9 +369,7 @@ useEffect(() => {
           {
             render === "requests" ?
             <div className=' padding'>
-                <div className="card" style={{padding:0}}>
-    <DataTable Docs={docs ? docs : []} Columns={columns}  showColumns={columns} hideInterval hideEmail/>
-  </div>
+     
             <div className="card tableContainer">
               <table className="table" id='records'>
                 <thead>

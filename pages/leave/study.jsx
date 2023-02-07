@@ -36,6 +36,12 @@ export default function Planing() {
   const [department, setdepartment] = useState("")
   const [loader, setloader] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
+
+  const [directorDocs, setdirectorDocs] = useState(null)
+  const [isCeo, setisCeo] = useState(false)
+  const [isDirector, setisDirector] = useState(false)
+  const [type, settype] = useState("officers")
+
   useEffect(() => {
   if(user && !canUserApprove){
     if(user.department === "Human resource"
@@ -49,6 +55,11 @@ export default function Planing() {
       }else{
         setisAdmin(false)
       }
+    }
+    if(user.position === "Government Statistician (CEO)" ){
+      setisCeo(true)
+    }else if(user.position === "Director" || user.position === 'Deputy Director'){
+      setisDirector(true)
     }
   }
   })
@@ -158,36 +169,47 @@ useEffect(() => {
       }
   }).then(dataDocs=>{
      const getDocs = dataDocs.data.studyleave
-     console.log(getDocs)
-     setdocs(getDocs.filter(filt=>{
-      if(user.position === "Government Statistician (CEO)"
-        || user.position === "Deputy Gov Statistician (DGS)"
-        || user.department === "Human resource"
-        ){
-          return getDocs
-          // if(isAdmin){
-          //   return getDocs
-          // }else if(filt.staffDetails._id === user._id){
-          //     return filt
-          //   }
-     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-         if(filt.staffDetails.department === user.department){
-             return filt
-         }
-     }else if(user.position === "Sectional Head"){
-             if(filt.staffDetails.section === user.section){
+     new Promise((resolve, reject) => {
+ 
+      resolve(    getDocs.filter(filt=>{
+        if(user.position === "Government Statistician (CEO)"
+          || user.position === "Deputy Gov Statistician (DGS)"
+          || user.department === "Human resource"
+          ){
+            return getDocs
+            // if(isAdmin){
+            //   return getDocs
+            // }else if(filt.staffDetails._id === user._id){
+            //     return filt
+            //   }
+       }else if(user.position === "Director" || user.position === "Deputy Director" ){
+           if(filt.staffDetails.department === user.department){
                return filt
-             }
-     }else if(user.position === "Unit Head"){
-         if(filt.staffDetails.section === user.unit){
-           return filt
-         }
-     }else if(user.position === "Officer"){
-      if(filt.staffDetails._id === user._id){
-        return filt
+           }
+       }else if(user.position === "Sectional Head"){
+               if(filt.staffDetails.section === user.section){
+                 return filt
+               }
+       }else if(user.position === "Unit Head"){
+           if(filt.staffDetails.section === user.unit){
+             return filt
+           }
+       }else if(user.position === "Officer"){
+        if(filt.staffDetails._id === user._id){
+          return filt
+        }
+       }
       }
-     }
-   }))
+      )
+      )
+         }).then((getdoc)=>{
+          setdocs(
+            getdoc.filter(doc=> doc.staffDetails.position != "Director" && doc.staffDetails.position != "Deputy Director")
+            )
+            setdirectorDocs(
+              getdoc.filter(doc=>doc.staffDetails.position === "Director" || doc.staffDetails.position === "Deputy Director")
+            )
+         })
   }).catch(err=>{
     clearTimeout()
     console.log(err.message) 
@@ -208,6 +230,31 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if(userDoc.staffDetails.position === "Director" || userDoc.staffDetails.position === "Deputy Director"){
+      Axios.patch(endPoint + "/studyleave/update/" +  userDoc._id , {ceoApproval:true, isPendingCEO:false} , {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      }).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status: "leave"
+
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } 
+        ).then(()=>{
+          setsuccess("Approved successfully")
+            setOpen(false)
+            setdocs(null)
+        })
+
+
+  
+      })
+     
+    }else{
     Axios.patch(endPoint + "/studyleave/update/" +  userDoc._id , {approval:true, isPending:false} , {
         headers:{
           authorization:`Bearer ${token}`
@@ -244,7 +291,7 @@ useEffect(() => {
         setmessage(err.message)
         setOpen(false)
       })
-
+    }
 
   }
   const disApproved = ()=>{
@@ -256,7 +303,31 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if(userDoc.staffDetails.position === "Director" || userDoc.staffDetails.position === "Deputy Director"){
+      Axios.patch(endPoint + "/studyleave/update/" +  userDoc._id , {ceoApproval:false, isPendingCEO:false} , {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      }).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status: "leave"
 
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } 
+        ).then(()=>{
+          setsuccess("Approved successfully")
+            setOpen(false)
+            setdocs(null)
+        })
+
+
+  
+      })
+     
+    }else{
     Axios.patch(endPoint + "/studyleave/update/" +  userDoc._id , {approval:false, isPending:false} , {
         headers:{
           authorization:`Bearer ${token}`
@@ -293,6 +364,7 @@ useEffect(() => {
         setmessage(err.message)
         setOpen(false)
       })
+    }
   
   }
 
@@ -385,6 +457,18 @@ useEffect(() => {
             <option value="disapproved">Disapproved</option>
           </select>
        </div>
+       {
+        isCeo || isDirector ?
+        <div>
+       <div className="minSection text-bold">Show Type</div>
+          <select name="" id="" className='input white' onChange={(e)=>settype(e.target.value)}>
+            <option value="officers">Officers</option>
+            <option value="directors">Directors</option>
+
+          </select>
+       </div>
+       :""
+       }
        <div>
        <div className="minSection text-bold">Department</div>
         <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
@@ -410,7 +494,9 @@ useEffect(() => {
           {
             render === "requests" ?
             <div className=' padding'>
-            <div className="card tableContainer">
+              {
+                type === "officers" ?
+<div className="card tableContainer">
             <table className="table" id='records'>
                 <thead>
                 <th>Staff ID</th>
@@ -504,6 +590,104 @@ useEffect(() => {
                 </tbody>
               </table>
             </div>
+            :
+            <div className="card tableContainer">
+            <table className="table" id='records'>
+                <thead>
+                <th>Staff ID</th>
+                  <th>Full Name</th>
+                  <th>Department</th>
+                  <th>Section</th>
+                  <th>program</th>
+                  <th>Institution</th>
+                  <th>Resumption Date</th>
+                  <th>Memo</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>status</th>
+              {
+                isCeo ?
+                <th>Approve/Declined</th>
+                :""
+              }
+                </thead>
+                <tbody>
+                  {
+                    directorDocs ?
+                    directorDocs.filter(filt=>{
+                    if(filter === "" ){
+                      return docs
+                    }
+               
+                    else if(filter === "approved" && filt.approval){
+                      return filt
+                    }
+                    else if(filter === "disapproved" && !filt.approval  && !filt.isPending){
+                      return filt
+                    }
+                    else if(filter === "pending" && filt.isPending ){
+                        return filt
+                      }
+                   }).filter(dFilt=>{
+                   if(department === ""){
+                    return docs
+                   }else{
+                    if(department === dFilt.staffDetails.department){
+                      return dFilt
+                    }
+                   }
+                   })
+                   .map(doc=>(
+                    
+                    <tr key={doc._id}>
+                      <td>{doc.staffDetails.staffId}</td>
+                      <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
+                      <td>{doc.staffDetails.department}</td>
+                      <td>{doc.staffDetails.section ? doc.staffDetails.section : "-"}</td>
+                      <td>{doc.program_study}</td>
+                      <td>{doc.institution}</td>
+                      <td>{doc.resumption_date}</td>
+                      <td>{doc.memo}</td>
+                      <td>{doc.start_date}</td>
+                      <td>{doc.end_date}</td>
+                      <td>{
+               doc.ceoApproval   ? 
+               <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                 approved
+               </span> 
+                 : 
+                 !doc.ceoApproval && !doc.isPendingCEO ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                 Disapproved
+                 </span> :
+                 doc.isPendingCEO ? 
+                 <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                 Pending
+                 </span>  : ""
+                      }
+
+                          
+                        </td>
+                    {
+                      isCeo ? 
+                      <td>
+                      <button className='btn p-text text-small' onClick={()=>{
+                        setuserDoc(doc)
+                        setOpen(true)
+                      }}>
+                        options
+                      </button>
+                    </td>
+                    : <td  className='text-center'>-</td>
+                    }
+                    </tr>
+                   ))
+                   :""
+                  }
+                </tbody>
+              </table>
+            </div>
+              }
+            
   </div>
   :       <div className=''>
    

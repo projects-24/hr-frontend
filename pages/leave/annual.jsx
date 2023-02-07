@@ -39,7 +39,10 @@ export default function Planing() {
   const [days, setdays] = useState(0)
   const [loading, setloading] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
-
+  const [directorDocs, setdirectorDocs] = useState(null)
+  const [isCeo, setisCeo] = useState(false)
+  const [isDirector, setisDirector] = useState(false)
+  const [type, settype] = useState("officers")
   useEffect(() => {
     // const remaining = document.querySelector("#remaining")
     // remaining.value = parseInt(days) + parseInt(referred)
@@ -64,6 +67,13 @@ export default function Planing() {
       }else{
         setisAdmin(false)
       }
+    }
+
+
+    if(user.position === "Government Statistician (CEO)" ){
+      setisCeo(true)
+    }else if(user.position === "Director" || user.position === 'Deputy Director'){
+      setisDirector(true)
     }
   }
   })
@@ -110,7 +120,7 @@ const leave_address = current["leaveaddress"].value
 const home_address = current["homeaddress"].value
 const date_of_leave = current["dateofleave"].value
 const days_referred_on_leave = current["daysreferredonleave"].value
-const days_remaining = current["daysremaining"].value
+const days_remaining = current["daysremaining"].value 
 const days_requested = current["daysrequested"].value
 const officer_taking_over = current["officertakingover"].value
 const resumption_date = current["resumedate"].value
@@ -134,7 +144,7 @@ isPendingSH:true,
 isPendingHR:true
 }
 setOpen(false)
-if(number_of_days && leave_address && home_address && date_of_leave && days_referred_on_leave && days_remaining && days_requested && officer_taking_over && resumption_date){
+if( leave_address && home_address && date_of_leave && days_referred_on_leave && days_requested && officer_taking_over && resumption_date){
 setloading(true)
 Axios.post(endPoint + "/annualleave/register" , Doc , {
     headers:{ authorization:`Bearer ${token}`}
@@ -143,24 +153,6 @@ Axios.post(endPoint + "/annualleave/register" , Doc , {
     setsuccess("Request made successfully")
       setdocs(null)
       setrender("requests")
-    const location = window.location.href
-    Axios.post(endPoint + "/notification",{
-      sender_id:user._id,
-      message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Annual Leave, click on the link below to verify or disapprove request`,
-      link:location,
-      receiver:"leaverequest",
-      date:fullDate
-    }, {
-      headers:{
-        authorization:`Bearer ${token}`
-      }
-    } 
-    ).then(()=>{
-     
-    })
-}).catch(err=>{
-    setmessage(err.message)
-    setloading(false)
 })
 }else{
 setloading(false)
@@ -177,41 +169,47 @@ useEffect(() => {
       }
   }).then(dataDocs=>{
      const getDocs = dataDocs.data.annualleave
-     console.log(getDocs)
-     setdocs(
-           
-     getDocs.filter(filt=>{
-      if(user.position === "Government Statistician (CEO)"
-        || user.position === "Deputy Gov Statistician (DGS)"
-        || user.department === "Human resource"
-        ){
-          return getDocs
-          // if(isAdmin){
-          //   return getDocs
-          // }else if(filt.staffDetails._id === user._id){
-          //     return filt
-          //   }
-     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-         if(filt.staffDetails.department === user.department){
-             return filt
-         }
-     }else if(user.position === "Sectional Head"){
-             if(filt.staffDetails.section === user.section){
-               return filt
-             }
-     }else if(user.position === "Unit Head"){
-         if(filt.staffDetails.section === user.unit){
+   new Promise((resolve, reject) => {
+ 
+resolve(    getDocs.filter(filt=>{
+  if(user.position === "Government Statistician (CEO)"
+    || user.position === "Deputy Gov Statistician (DGS)"
+    || user.department === "Human resource"
+    ){
+      return getDocs
+      // if(isAdmin){
+      //   return getDocs
+      // }else if(filt.staffDetails._id === user._id){
+      //     return filt
+      //   }
+ }else if(user.position === "Director" || user.position === "Deputy Director" ){
+     if(filt.staffDetails.department === user.department){
+         return filt
+     }
+ }else if(user.position === "Sectional Head"){
+         if(filt.staffDetails.section === user.section){
            return filt
          }
-     }else if(user.position === "Officer"){
-      if(filt.staffDetails._id === user._id){
-        return filt
-      }
+ }else if(user.position === "Unit Head"){
+     if(filt.staffDetails.section === user.unit){
+       return filt
      }
+ }else if(user.position === "Officer"){
+  if(filt.staffDetails._id === user._id){
+    return filt
+  }
+ }
+}
+)
+)
+   }).then((getdoc)=>{
+    setdocs(
+      getdoc.filter(doc=> doc.staffDetails.position != "Director" && doc.staffDetails.position != "Deputy Director")
+      )
+      setdirectorDocs(
+        getdoc.filter(doc=>doc.staffDetails.position === "Director" || doc.staffDetails.position === "Deputy Director")
+      )
    })
-
-     )
-
   }).catch(err=>{
     clearTimeout()
     console.log(err.message) 
@@ -232,12 +230,39 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    if(user.department === "Human resource" && userDoc.isPendingHR){
+
+    if(userDoc.staffDetails.position === "Director" || userDoc.staffDetails.position === "Deputy Director"){
+      Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {ceoApproval:true, isPendingCEO:false} , {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      }).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status: "leave"
+
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } 
+        ).then(()=>{
+          setsuccess("Approved successfully")
+            setOpen(false)
+            setdocs(null)
+        })
+
+
+  
+      })
+     
+    }else{
+      if(user.department === "Human resource" && userDoc.isPendingHR){
         Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {hrdApproval:true, isPendingHR:false} , {
             headers:{
               authorization:`Bearer ${token}`
             }
           }).then(()=>{
+
             Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
               status: userDoc.divisionalheadApproval && userDoc.sectionheadApproval ? "leave" : "post"
 
@@ -247,23 +272,9 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
-              const location = window.location.href
-              Axios.post(endPoint + "/notification",{
-                sender_id:user._id,
-                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-                link:location,
-                receiver:userDoc.staffDetails._id,
-                date:fullDate
-              }, {
-                headers:{
-                  authorization:`Bearer ${token}`
-                }
-              } 
-              ).then(()=>{
-                setsuccess("Approved successfully")
-                setOpen(false)
-                setdocs(null)
-              })
+              setsuccess("Approved successfully")
+              setOpen(false)
+              setdocs(null)
             })
       
           }).catch(err=>{
@@ -286,23 +297,9 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
-              const location = window.location.href
-              Axios.post(endPoint + "/notification",{
-                sender_id:user._id,
-                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-                link:location,
-                receiver:userDoc.staffDetails._id,
-                date:fullDate
-              }, {
-                headers:{
-                  authorization:`Bearer ${token}`
-                }
-              } 
-              ).then(()=>{
-                setsuccess("Approved successfully")
-                setOpen(false)
-                setdocs(null)
-              })
+              setsuccess("Approved successfully")
+              setOpen(false)
+              setdocs(null)
             })
       
           }).catch(err=>{
@@ -324,30 +321,19 @@ useEffect(() => {
               }
             } 
             ).then(()=>{
-              const location = window.location.href
-              Axios.post(endPoint + "/notification",{
-                sender_id:user._id,
-                message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your Annual Leave request have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-                link:location,
-                receiver:userDoc.staffDetails._id,
-                date:fullDate
-              }, {
-                headers:{
-                  authorization:`Bearer ${token}`
-                }
-              } 
-              ).then(()=>{
-      
-                setsuccess("Approved successfully")
+              setsuccess("Approved successfully")
                 setOpen(false)
                 setdocs(null)
-              })
             })
 
 
       
           })
     }
+
+
+    }
+    
 
 
   }
@@ -360,6 +346,31 @@ useEffect(() => {
     var year = today.getFullYear();
     const fullDate = longMonth + " " + fullDay + ", " + year
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if(userDoc.staffDetails.position === "Director" || userDoc.staffDetails.position === "Deputy Director"){
+      Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {ceoApproval:false, isPendingCEO:false} , {
+        headers:{
+          authorization:`Bearer ${token}`
+        }
+      }).then(()=>{
+        Axios.patch(endPoint + "/staff/updatestaff/" + userDoc.staffDetails._id,{
+          status: "leave"
+
+        }, {
+          headers:{
+            authorization:`Bearer ${token}`
+          }
+        } 
+        ).then(()=>{
+          setsuccess("Approved successfully")
+            setOpen(false)
+            setdocs(null)
+        })
+
+
+  
+      })
+     
+    }else{
     if(user.department === "Human resource" && userDoc.isPendingHR){
         Axios.patch(endPoint + "/annualleave/update/" +  userDoc._id , {hrdApproval:false, isPendingHR:false} , {
             headers:{
@@ -471,7 +482,7 @@ useEffect(() => {
           })
     }
 
-
+  }
   }
 
   
@@ -571,6 +582,18 @@ useEffect(() => {
             <option value="disapproved">Disapproved</option>
           </select>
        </div> */}
+       {
+        isCeo || isDirector ?
+        <div>
+       <div className="minSection text-bold">Show Type</div>
+          <select name="" id="" className='input white' onChange={(e)=>settype(e.target.value)}>
+            <option value="officers">Officers</option>
+            <option value="directors">Directors</option>
+
+          </select>
+       </div>
+       :""
+       }
        <div>
        <div className="minSection text-bold">Department</div>
         <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
@@ -588,131 +611,246 @@ useEffect(() => {
           {
             render === "requests" ?
             <div className=' padding'>
-            <div className="card tableContainer">
-              <table className="table" id='records'>
-                <thead>
-                <th>Staff ID</th>
-                  <th>Full Name</th>
-                  <th>Department</th>
-                  <th>Section</th>
-                  {/* <th>Start Date</th>
-                  <th>End Date</th> */}
-                  <th>Home Address</th>
-                  <th>Leave Address</th>
-                  <th>Days Requested</th>
-                  <th>Officer Taking Officer</th>
-                  <th>Resumption Date</th>
-                  <th>Sectional Approval</th>
-                  <th>Divisional Approval</th>
-                  <th>HR Approval</th>
               {
-                canUserApprove ?
-                <th>Approve/Declined</th>
-                :""
-              }
-                </thead>
-                <tbody>
-                  {
-                    docs ?
-                    docs.filter(filt=>{
-                    if(filter === "" ){
-                      return docs
-                    }
-                    else if(filter === "pending" && filt.isPendingHR && filt.isPendingDH && filt.isPendingSH){
-                      return filt
-                    }
-                    else if(filter === "approved" && filt.hrdApproval && filt.sectionheadApproval && filt.divisionalheadApproval){
-                      return filt
-                    }
-                    else if(filter === "disapproved"  && !filt.hrdApproval && !filt.sectionheadApproval && !filt.divisionalheadApproval){
-                      return filt
-                    }
-                   }).filter(dFilt=>{
-                   if(department === ""){
-                    return docs
-                   }else{
-                    if(department === dFilt.staffDetails.department){
-                      return dFilt
-                    }
-                   }
-                   })
-                   .map(doc=>(
-                    
-                    <tr key={doc._id}>
-                      <td>{doc.staffDetails.staffId}</td>
-                      <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
-                      <td>{doc.staffDetails.department}</td>
-                      <td>{doc.staffDetails.section}</td>
-                      {/* <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td> */}
-                      <td>{doc.homeAddress}</td>
-                      <td>{doc.leaveAddress}</td>
-                      <td>{doc.numberRequested}</td>
-                      <td>{doc.officerTakingover}</td>
-                      <td>{doc.resumptionDate}</td>
-            
-                      <td>
-                        {
-                      doc.sectionheadApproval ? 
-                      <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
-                        approved
-                      </span> 
-                        : 
-                        !doc.sectionheadApproval && !doc.isPendingSH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
-                        Disapproved
-                        </span> :
-                        doc.isPendingSH ? 
-                        <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
-                        Pending
-                        </span>  : ""
-                      }</td>
-                      <td>{
-                      doc.divisionalheadApproval ? 
-                      <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
-                        approved</span> 
-                        : 
-                        !doc.divisionalheadApproval && !doc.isPendingDH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
-                        Disapproved
-                        </span> :
-                        doc.isPendingDH ? 
-                        <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
-                        Pending
-                        </span>  : ""
-                      }</td>
-                      <td>{
-                      doc.hrdApproval ? 
-                      <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
-                        approved</span> 
-                        : 
-                        !doc.hrdApproval && !doc.isPendingHR ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
-                        Disapproved
-                        </span> :
-                        doc.isPendingHR ? 
-                        <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
-                        Pending
-                        </span>  : ""
-                      }
-                      </td>
+                type === "officers" ?
+                <div className="card tableContainer">
+                <table className="table" id='records'>
+                  <thead>
+                  <th>Staff ID</th>
+                    <th>Full Name</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    {/* <th>Start Date</th>
+                    <th>End Date</th> */}
+                    <th>Home Address</th>
+                    <th>Leave Address</th>
+                    <th>Days Requested</th>
+                    <th>Officer Taking Officer</th>
+                    <th>Resumption Date</th>
                     {
-                      canUserApprove && isAdmin ?
-                      //  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
-                      <td>
-                      <button className='btn p-text text-small' onClick={()=>{
-                        setuserDoc(doc)
-                        setOpen(true)
-                      }}>
-                        options
-                      </button>
-                    </td>
-                    : <td  className='text-center'>-</td>
+                      user.position != "Government Statistician (CEO)" ?
+                      <>
+                     <th>Sectional Approval</th>
+                    <th>Divisional Approval</th>
+                    <th>HR Approval</th>
+                      </>
+                      :
+                     <>
+                      {
+                        user.position === "Director" || user.position === "Government Statistician (CEO)" ?
+                        <th>CEO Approval</th>
+                        : ""
+                      }  
+                     </>
                     }
-                    </tr>
-                   ))
-                   :""
-                  }
-                </tbody>
-              </table>
-            </div>
+    
+            
+                {
+                  canUserApprove ?
+                  <th>Approve/Declined</th>
+                  :""
+                }
+                  </thead>
+                  <tbody>
+                    {
+                      docs ?
+                      docs.filter(filt=>{
+                      if(filter === "" ){
+                        return docs
+                      }
+                      else if(filter === "pending" && filt.isPendingHR && filt.isPendingDH && filt.isPendingSH){
+                        return filt
+                      }
+                      else if(filter === "approved" && filt.hrdApproval && filt.sectionheadApproval && filt.divisionalheadApproval){
+                        return filt
+                      }
+                      else if(filter === "disapproved"  && !filt.hrdApproval && !filt.sectionheadApproval && !filt.divisionalheadApproval){
+                        return filt
+                      }
+                     }).filter(dFilt=>{
+                     if(department === ""){
+                      return docs
+                     }else{
+                      if(department === dFilt.staffDetails.department){
+                        return dFilt
+                      }
+                     }
+                     })
+                     .map(doc=>(
+                      
+                      <tr key={doc._id}>
+                        <td>{doc.staffDetails.staffId}</td>
+                        <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
+                        <td>{doc.staffDetails.department}</td>
+                        <td>{doc.staffDetails.section}</td>
+                        {/* <td>{doc.start_date}</td>
+                        <td>{doc.end_date}</td> */}
+                        <td>{doc.homeAddress}</td>
+                        <td>{doc.leaveAddress}</td>
+                        <td>{doc.numberRequested}</td>
+                        <td>{doc.officerTakingover}</td>
+                        <td>{doc.resumptionDate}</td>
+                          {
+                            user.position != "Government Statistician (CEO)" ?
+                            <>
+                                  <td>
+                          {
+                        doc.sectionheadApproval   ? 
+                        <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                          approved
+                        </span> 
+                          : 
+                          !doc.sectionheadApproval && !doc.isPendingSH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                          Disapproved
+                          </span> :
+                          doc.isPendingSH ? 
+                          <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                          Pending
+                          </span>  : ""
+                        }</td>
+                        <td>{
+                        doc.divisionalheadApproval ? 
+                        <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                          approved</span> 
+                          : 
+                          !doc.divisionalheadApproval && !doc.isPendingDH ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                          Disapproved
+                          </span> :
+                          doc.isPendingDH ? 
+                          <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                          Pending
+                          </span>  : ""
+                        }</td>
+                        <td>{
+                        doc.hrdApproval ? 
+                        <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                          approved</span> 
+                          : 
+                          !doc.hrdApproval && !doc.isPendingHR ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                          Disapproved
+                          </span> :
+                          doc.isPendingHR  || doc.staffDetails.position != "Director" || doc.staffDetails.position != "Deputy Gov Statistician (DGS)" ?  
+                          <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                          Pending
+                          </span>  : "-"
+                        }
+                        </td>
+                            </>
+                            :
+                            <>
+                            
+                            </>
+                          }
+                      
+                      {
+                        canUserApprove && isAdmin ?
+                        //  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
+                        <td>
+                        <button className='btn p-text text-small' onClick={()=>{
+                          setuserDoc(doc)
+                          setOpen(true)
+                        }}>
+                          options
+                        </button>
+                      </td>
+                      : <td  className='text-center'>-</td>
+                      }
+                      </tr>
+                     ))
+                     :""
+                    }
+                  </tbody>
+                </table>
+              </div>
+              :
+              <>
+              {
+                directorDocs ?
+                <div className="card section tableContainer">
+       <table className="table" id='records'>
+                  <thead>
+                  <th>Staff ID</th>
+                    <th>Full Name</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    {/* <th>Start Date</th>
+                    <th>End Date</th> */}
+                    <th>Home Address</th>
+                    <th>Leave Address</th>
+                    <th>Days Requested</th>
+                    <th>Officer Taking Officer</th>
+                    <th>Resumption Date</th>
+                    <th>CEO Approval</th>
+                  <th>Approve/Declined</th>
+                  </thead>
+                  <tbody>
+                    {
+                      directorDocs ?
+                      directorDocs.filter(dFilt=>{
+                     if(department === ""){
+                      return docs
+                     }else{
+                      if(department === dFilt.staffDetails.department){
+                        return dFilt
+                      }
+                     }
+                     })
+                     .map(doc=>(
+                      
+                      <tr key={doc._id}>
+                        <td>{doc.staffDetails.staffId}</td>
+                        <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
+                        <td>{doc.staffDetails.department}</td>
+                        <td>{doc.staffDetails.section}</td>
+                        {/* <td>{doc.start_date}</td>
+                        <td>{doc.end_date}</td> */}
+                        <td>{doc.homeAddress}</td>
+                        <td>{doc.leaveAddress}</td>
+                        <td>{doc.numberRequested}</td>
+                        <td>{doc.officerTakingover}</td>
+                        <td>{doc.resumptionDate}</td>
+                       
+                                  <td>
+                          {
+                        doc.ceoApproval   ? 
+                        <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
+                          approved
+                        </span> 
+                          : 
+                          !doc.ceoApproval && !doc.isPendingCEO ? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
+                          Disapproved
+                          </span> :
+                          doc.isPendingCEO ? 
+                          <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
+                          Pending
+                          </span>  : ""
+                        }</td>
+                      
+                      {
+                        isCeo ?
+                        //  && doc.isPendingHR || doc.isPendingDH || doc.isPendingSH ? 
+                        <td>
+                        <button className='btn p-text text-small' onClick={()=>{
+                          setuserDoc(doc)
+                          setOpen(true)
+                        }}>
+                          options
+                        </button>
+                      </td>
+                      : <td  className='text-center'>-</td>
+                      }
+                      </tr>
+                     ))
+                     :""
+                    }
+                  </tbody>
+                </table>
+                </div>
+                :<></>
+              }
+              </>
+              }
+      
   </div>
   :  <div>
     <Dialog open={open} onClose={handleClose}>

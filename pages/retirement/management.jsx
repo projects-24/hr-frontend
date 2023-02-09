@@ -186,6 +186,6 @@ const exportExcel = ()=>{
     </div>
   )
  }else{
-  return <></>
+  return <Nav />
  }
 }

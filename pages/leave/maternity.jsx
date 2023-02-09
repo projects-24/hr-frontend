@@ -134,7 +134,7 @@ Axios.post(endPoint + "/maternityleave/register" , data , {
   const location = window.location.href
   Axios.post(endPoint + "/notification",{
     sender_id:user._id,
-    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Sick Leave, click on the link below to verify or disapprove request`,
+    message:`Request made by ${user.firstname} ${user.middleName} ${user.lastName} for a Maternity Leave, click on the link below to verify or disapprove request`,
     link:location,
     receiver:"leaverequest",
     date:fullDate
@@ -576,24 +576,25 @@ useEffect(() => {
             <img src="/leave.svg" className='width-100-max fit' alt="" />
             <div>
             <div className="h1">
-                Sick Leave
+                Maternity Leave
         </div>
         <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
-                    <Link href="#">Sick Leave</Link>
+                    <Link href="#">Maternity Leave</Link>
 
                 </div>
             </div>
         </div>
         {
-          // user.gender === "female" 
+       
           // && !isAdmin ?
-          <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
-          <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
-        </div>
-        // : <Alert type="info" funcss="text-bold section" message="Sick Leave is for females only" />
+           user.gender === "female" ?
+           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
+           <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
+           <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Request Leave</button>
+         </div>
+        : <Alert type="info" funcss="text-bold section" message="Maternity Leave is for females only" />
         }
         <div className="section padding row-flex">
        {/* <div>
@@ -622,8 +623,8 @@ useEffect(() => {
         <div>
        <div className="minSection text-bold">Show Type</div>
           <select name="" id="" className='input white' onChange={(e)=>settype(e.target.value)}>
-            <option value="officers">Officers</option>
-            <option value="directors">Directors</option>
+            <option value="officers">Subordinates</option>
+            <option value="directors"> {isCeo ? "Heads" : "personal"} </option>
 
           </select>
        </div>
@@ -899,6 +900,6 @@ Submit  <i className="icon-paper-plane"></i>
     </div>
   )
  }else{
-  return <></>
+  return <Nav />
  }
 }

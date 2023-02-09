@@ -87,5 +87,5 @@ if(user){
      </div>
       </div>
     )
-}else{return ""}
+}else{return <Nav />}
 }

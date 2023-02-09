@@ -227,7 +227,7 @@ const handleLeave = (e)=>{
            <div className="card hover-up">
              <div className="row-flex space-between">
               <div>
-              <div className="h4">Sick</div>
+              <div className="h4">Maternity</div>
                 <div className="minSection text-bold secondary-text">
                 Leave
                 </div>
@@ -262,6 +262,6 @@ const handleLeave = (e)=>{
     )
   }else{
 
-    return ""
+    return <Nav />
   }
 }

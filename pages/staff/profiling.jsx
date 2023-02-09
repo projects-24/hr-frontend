@@ -268,7 +268,8 @@ const TriggerDrop = ()=>{
         name:"Status"
     }
 ]
-  
+
+if(user){
   return (
     <div className={print ? "" : "content"}>
 
@@ -396,4 +397,9 @@ const TriggerDrop = ()=>{
         </div>
     </div>
   )
+
+}else{
+  return <Nav />
+}
+  
 }

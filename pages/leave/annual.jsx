@@ -587,9 +587,8 @@ resolve(    getDocs.filter(filt=>{
         <div>
        <div className="minSection text-bold">Show Type</div>
           <select name="" id="" className='input white' onChange={(e)=>settype(e.target.value)}>
-            <option value="officers">Officers</option>
-            <option value="directors">Directors</option>
-
+          <option value="officers">Subordinates</option>
+            <option value="directors"> {isCeo ? "Heads" : "personal"} </option>
           </select>
        </div>
        :""
@@ -914,6 +913,6 @@ resolve(    getDocs.filter(filt=>{
     </div>
   )
  }else{
-  return <></>
+  return <Nav />
  }
 }

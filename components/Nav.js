@@ -267,22 +267,30 @@ useEffect(() => {
 
 
 const LogOut = ()=>{
-  new Promise((resolve, reject) => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    resolve()
-  }).then(()=>{
-    window.location.assign("/")
-
-    // Axios.post(endPoint + "/logout",   {
-    //   headers: {
-    //        authorization: `Bearer ${token}`,
-         
-    //     }
-         
-    //  }).then(()=>{
-    //  }).catch(err=>alert(err.message))
-  })
+  Axios.patch(endPoint + "/logout" , {
+    headers:{
+      authorization:`Bearer ${token}`
+    }
+  }
+   ).then(()=>{
+    new Promise((resolve, reject) => {
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      resolve()
+    }).then(()=>{
+      window.location.assign("/")
+  
+      // Axios.post(endPoint + "/logout",   {
+      //   headers: {
+      //        authorization: `Bearer ${token}`,
+           
+      //     }
+           
+      //  }).then(()=>{
+      //  }).catch(err=>alert(err.message))
+    })
+   }).catch(err=>console.log(err.message))
+  
 }
 
 const handleDrop = (e)=>{

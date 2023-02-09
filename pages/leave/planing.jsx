@@ -563,6 +563,6 @@ Submit  <i className="icon-paper-plane"></i>
     </div>
   )
  }else{
-  return <></>
+  return <Nav />
  }
 }

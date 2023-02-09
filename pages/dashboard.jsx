@@ -286,6 +286,6 @@ const [data, setdata] = useState(null)
       </div>
     )
  }else{
-    return <Loader />
+    return <Nav />
  }
 }

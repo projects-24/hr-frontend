@@ -641,6 +641,7 @@ export default function Personal() {
                         </div>
                         <div className="col sm-12 md-12 lg-12 padding">
                         <TextField select fullWidth name="region" id="region" label="Region">
+                        <MenuItem value="HQ" > HQ </MenuItem>
                                     {
                                         regions.map(docs=>(
                                             <MenuItem value={docs.name} key={docs._id}> {docs.name} </MenuItem>

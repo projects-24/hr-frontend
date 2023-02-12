@@ -44,6 +44,7 @@ useEffect(() => {
         if(user.position === "Government Statistician (CEO)"
          || user.position === "Deputy Gov Statistician (DGS)"
           || user.department === "Human resource"
+          || user.department.trim() + user.position.trim() === "AdministrationDirector"
           ){
            return getDocs
        }else if(user.position === "Director" || user.position === "Deputy Director" ){

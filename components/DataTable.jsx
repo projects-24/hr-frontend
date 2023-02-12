@@ -402,7 +402,7 @@ new Promise((resolve, reject) => {
                       <td align="left">{!staffDetails ? row.email : row.staffDetails.email}</td>
                       :""
                     }
-                      <td className='trOccupy' align="left">{!staffDetails ? row.surname : row.staffDetails.surname} {row.middleName} {row.lastName}</td>
+                      <td className='trOccupy' align="left">{!staffDetails ? row.firstname : row.staffDetails.firstname} {row.middleName} {row.lastName}</td>
               
                       {
                       columsHide.find(doc=>doc.id === "d1") ?  

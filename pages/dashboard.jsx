@@ -70,7 +70,7 @@ export default function Dashboard() {
           setdocs(getDocs.filter(filt=>{
             if(user.position === "Government Statistician (CEO)"
              || user.position === "Deputy Gov Statistician (DGS)"
-              || user.department === "Human resource"
+              || user.department === "Human Resource"
               ){
                return getDocs
            }else if(user.position === "Director" || user.position === "Deputy Director" ){

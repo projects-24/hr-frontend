@@ -1364,7 +1364,7 @@ Job Information
 <div className="col sm-6 lg-6 md-6 padding">
     <div className="padding light round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of appointment:</div> <div className='text-small'>{preview.dateAppoint}</div>
+    <div className='text-bold text-small'>Date of appointment:</div> <div className='text-small'>{preview.appointDate}</div>
 </div>
     </div>
 </div>

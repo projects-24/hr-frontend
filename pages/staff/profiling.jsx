@@ -116,7 +116,7 @@ Axios.get(endPoint  + "/staff/showall" , {
     getDocs.filter(filt=>{
       if(user.position === "Government Statistician (CEO)"
        || user.position === "Deputy Gov Statistician (DGS)"
-        || user.department === "Human resource"
+        || user.department === "Human Resource"
         || user.department.trim() + user.position.trim() === "AdministrationDirector"
         ){
             return getDocs

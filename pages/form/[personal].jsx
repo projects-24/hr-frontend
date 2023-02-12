@@ -172,8 +172,8 @@ export default function Personal() {
         //job Info
         const jobTitle = current["jobTitle"].value
         const grade = current["grade"].value
-        const employmentStatus = current["grade"].value
-        const appointDate = current["grade"].value
+        const employmentStatus = current["employmentStatus"].value
+        const appointDate = current["appointDate"].value
         const salary = current["salary"].value
         const position = current["position"].value
 

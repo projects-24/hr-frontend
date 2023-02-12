@@ -297,21 +297,21 @@ export default function Personal() {
             region &&
             jobTitle &&
             grade &&
-            position &&
-            availableChildren &&
-            nextKin &&
-            nextKin_Relation &&
-            nextKin_Address &&
-            nextKin_Tel &&
-            fatherLife &&
-            father &&
-            fatheroccupation &&
-            fathernationality &&
-            mother &&
-            mother &&
-            motherLife &&
-            motheroccupation &&
-            mothernationality
+            position 
+            // availableChildren &&
+            // nextKin &&
+            // nextKin_Relation &&
+            // nextKin_Address &&
+            // nextKin_Tel &&
+            // fatherLife &&
+            // father &&
+            // fatheroccupation &&
+            // fathernationality &&
+            // mother &&
+            // mother &&
+            // motherLife &&
+            // motheroccupation &&
+            // mothernationality
 
 
             ){

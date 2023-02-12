@@ -389,7 +389,6 @@ if(user){
   
             {
               docs ?
-              // <DataGridDemo columns={columns} rows={docs ? docs : []} className="card" /> 
               <DataTable Docs={docs} Columns={columns}  showColumns={columns} hideInterval/>
               :""
             }

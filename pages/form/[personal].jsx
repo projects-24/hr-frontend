@@ -270,12 +270,12 @@ export default function Personal() {
        mother_placeofBirth: motherdob,
        mother_alive_or_dead: motherLife,
        school: schoolDocs,
-       retirementAge:parseInt(getYearOfBirth) + 60,
+       retirementAge: getYearOfBirth ? parseInt(getYearOfBirth) + 60 : 0,
        no_of_leave_days:no_of_leave_days,
        editfield:true,
        professional_certificate: profCert,
        professional_cert_number:profCertNum,
-       promotion_date:parseInt(appointDate.slice(0,4)) + 3,
+       promotion_date:appointDate ? parseInt(appointDate.slice(0,4)) + 3 : new Date().getFullYear(),
 
         }
         if( email &&

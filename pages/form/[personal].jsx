@@ -140,7 +140,7 @@ export default function Personal() {
         const ghanaCard = current["ghanaCard"].value
         const firstName = current["firstName"].value
         const lastName = current["lastName"].value
-        const middleName = current["middlename"].value
+        const middleName = current["middleName"].value
   
         const gender = current["gender"].value
         const address = current["address"].value
@@ -253,9 +253,9 @@ export default function Personal() {
         passportNumber:"",
         passportIssueDate:"",
         placeIssue:"",
-       crimeConvict: crime ? crime : false,
+       crimeConvict: crime == "yes" ? true : false,
        detailReason: crimereason,
-       dismissedPublicService:service ? service : false,
+       dismissedPublicService:service == "yes" ? true : false,
        publicServiceReason: servicereason ,
        father_fullName:father,
        father_occupation: fatheroccupation,
@@ -290,7 +290,7 @@ export default function Personal() {
             maritalStatus &&
             department &&
             // ghanaCard &&
-            ssnitNumber &&
+            // ssnitNumber &&
             gender &&
             dob &&
             department &&
@@ -487,7 +487,7 @@ export default function Personal() {
                 <TextField required variant="outlined"  type="text" name='firstName' fullWidth label='First Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required variant="outlined"  type="text"  name='middlename' fullWidth label='Middle Name' />
+                <TextField required variant="outlined"  type="text"  name='middleName' fullWidth label='Middle Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField required variant="outlined" type="text" name='lastName' fullWidth label='Last Name' />
@@ -919,14 +919,14 @@ export default function Personal() {
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="crime" id="" label="Convicted Of A Crime" onChange={(e)=>{
-                    if(e.target.value){
+                    if(e.target.value === "yes"){
                         setcrime(true)
                     }else if (!e.target.value){
                         setcrime(false)
                     }
                 }}>
-                    <MenuItem value={false}>No</MenuItem>
-                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value="no">No</MenuItem>
+                    <MenuItem value="yes">Yes</MenuItem>
                 </TextField>
                 {
                     crime ?
@@ -939,14 +939,14 @@ export default function Personal() {
           
                           <div className="col sm-12 md-6 lg-6 padding">
                 <TextField select fullWidth name="service" id="" label="Ever dismissed from a public service" onChange={(e)=>{
-                    if(e.target.value){
+                    if(e.target.value === "yes"){
                         setdismissed(true)
                     }else if (!e.target.value){
                         setdismissed(false)
                     }
                 }}>
-                    <MenuItem value={false}>No</MenuItem>
-                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value='no'>No</MenuItem>
+                    <MenuItem value={"yes"}>Yes</MenuItem>
                 </TextField>
                 {
                     dismissed ?

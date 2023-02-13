@@ -33,7 +33,7 @@ export default function Password() {
 
   const Change = ()=>{
     if(password){
-      Axios.patch(endPoint + "/staff/change-password/" + user._id , {password:password} ,   {
+      Axios.patch(endPoint + "/staff/change-password/", {password:password} ,   {
         headers: {
              authorization: `Bearer ${token}`,
            
@@ -41,6 +41,7 @@ export default function Password() {
            
        }).then(()=>{
         setmessage("password changed successfully")
+        window.location.assign('/')
        }).catch(err=>setmessage(err.message))
     }else{
       setmessage("Make sure to enter your new password")

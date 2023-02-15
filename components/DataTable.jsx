@@ -424,7 +424,7 @@ new Promise((resolve, reject) => {
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d6") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.appointDate : row.staffDetails.appointDate}</td>
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.appointDate.toString().split("-").reverse().join("-") : row.staffDetails.appointDate.toString().split("-").reverse().join("-")}</td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d7") ?  
                       <td  style={{width:"200px"}} align="left">{!staffDetails ? row.salaryLevel : row.staffDetails.salaryLevel}</td>

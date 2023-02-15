@@ -447,8 +447,8 @@ useEffect(() => {
                       <td>{doc.staffDetails.department}</td>
                       <td>{doc.staffDetails.section}</td>
                       <td>{doc.type_leave}</td>
-                      <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td>
+                      <td>{doc.start_date.toString().split("-").reverse().join("-")}</td>
+                      <td>{doc.end_date.toString().split("-").reverse().join("-")}</td>
                       {/* <td>
                         {
                       doc.approval  ? 

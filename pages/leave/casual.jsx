@@ -816,11 +816,11 @@ resolve(    getDocs.filter(filt=>{
                       <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
                       <td>{doc.staffDetails.department}</td>
                       <td>{doc.staffDetails.section}</td>
-                      <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td>
+                      <td>{doc.start_date.toString().split("-").reverse().join("-")}</td>
+                      <td>{doc.end_date.toString().split("-").reverse().join("-")}</td>
                       <td>{doc.number_days}</td>
                       <td>{doc.memo}</td>
-                      <td>{doc.resumption_date}</td>
+                      <td>{doc.resumption_date.toString().split("-").reverse().join("-")}</td>
                       <td>
                          {
                         doc.ceoApproval   ? 

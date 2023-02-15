@@ -646,10 +646,10 @@ useEffect(() => {
                       <td>{doc.staffDetails.section ? doc.staffDetails.section : "-"}</td>
                       <td>{doc.program_study}</td>
                       <td>{doc.institution}</td>
-                      <td>{doc.resumption_date}</td>
+                      <td>{doc.resumption_date.toString().split("-").reverse().join("-")}</td>
                       <td>{doc.memo}</td>
-                      <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td>
+                      <td>{doc.start_date.toString().split("-").reverse().join("-")}</td>
+                      <td>{doc.end_date.toString().split("-").reverse().join("-")}</td>
                       <td>{
                doc.ceoApproval   ? 
                <span className="success text-white text-small round-edge" style={{padding:"5px"}}>

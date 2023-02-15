@@ -804,8 +804,8 @@ useEffect(() => {
                       <td>{doc.staffDetails.firstname + doc.staffDetails.middleName + doc.staffDetails.lastName}</td>
                       <td>{doc.staffDetails.department}</td>
                       <td>{doc.staffDetails.section}</td>
-                      <td>{doc.start_date}</td>
-                      <td>{doc.end_date}</td>
+                      <td>{doc.start_date.toString().split("-").reverse().join("-")}</td>
+                      <td>{doc.end_date.toString().split("-").reverse().join("-")}</td>
                       <td>{doc.memo}</td>
                       <td>
                           {

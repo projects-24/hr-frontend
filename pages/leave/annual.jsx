@@ -688,7 +688,7 @@ resolve(    getDocs.filter(filt=>{
                         <td>{doc.leaveAddress}</td>
                         <td>{doc.numberRequested}</td>
                         <td>{doc.officerTakingover}</td>
-                        <td>{doc.resumptionDate}</td>
+                        <td>{doc.resumptionDate.toString().split("-").reverse().join("-")}</td>
                           {
                             user.position != "Government Statistician (CEO)" ?
                             <>
@@ -807,7 +807,7 @@ resolve(    getDocs.filter(filt=>{
                         <td>{doc.leaveAddress}</td>
                         <td>{doc.numberRequested}</td>
                         <td>{doc.officerTakingover}</td>
-                        <td>{doc.resumptionDate}</td>
+                        <td>{doc.resumptionDate.toString().split("-").reverse().join("-")}</td>
                        
                                   <td>
                           {

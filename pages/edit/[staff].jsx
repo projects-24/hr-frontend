@@ -81,6 +81,7 @@ const { staff } = router.query
           setchildrenDocs(doc.data.children)
           setchildNumber(doc.data.children.length)
           setschoolDocs(doc.data.school)
+          setmarital(doc.data.maritalStatus)
         
         }).catch((err)=>console.log(err.message))
       }

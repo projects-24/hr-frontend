@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 import Departments from '../data/departments'
 import Sections from '../data/sections'
 import dynamic from "next/dynamic"
+import Link from "next/link"
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
-export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails}) {
+export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
     const [columsRender, setcolumsRender] = useState(true)
     const [openHideModal, setopenHideModal] = useState(false)
@@ -299,6 +300,11 @@ new Promise((resolve, reject) => {
             {  columsHide.find(doc=>doc.id === "d13") ?
             <td id="d12" style={{fontWeight:"bold", width:"200px"}} align="left">Promotion</td>
             :""}
+            {
+              action.canEdit ?
+              <td  style={{fontWeight:"bold", width:"200px"}} align="left">{action.label}</td>
+              :""
+            }
           </tr>
             </thead>
             <tbody>
@@ -470,6 +476,15 @@ new Promise((resolve, reject) => {
                         {row.promotion_date}
                       </td>
                       :  ""}
+                      {
+                        action.canEdit ?
+                        <td  style={{width:"200px"}} align="left">
+                       <Link href={`/edit/${row.staffDetails ? row.staffDetails._id : row._id}`}>
+                       {action.action}
+                       </Link>
+                      </td>
+                      :""
+                      }
                     </tr>
                   ))
                   :""

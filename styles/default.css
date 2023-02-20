@@ -189,3 +189,10 @@
 .roundEdge{
     border-radius: 5rem !important;
 }
+
+.button.edit{
+    border: 1px solid rgb(95, 187, 226) !important;
+    border-radius: 5rem;
+    padding: 0.5rem !important;
+    color: rgb(95, 187, 226);
+}

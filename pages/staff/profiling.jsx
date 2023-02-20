@@ -254,11 +254,12 @@ const TriggerDrop = ()=>{
     {
         id:"d3",
         name:"Position"
-    },
-    {
-        id:"d9",
-        name:"Retirement"
     }
+    // ,
+    // {
+    //     id:"d9",
+    //     name:"Retirement"
+    // }
     ,
     {
         id:"d10",
@@ -372,7 +373,12 @@ if(user){
            {
             user.department === "Human Resource" ?
             <Link href="/form/personal">
-            <button className="button indigo text-white width-100-min">
+            <button className="button indigo text-white width-200-min roundEdge" 
+            style={{position:"fixed" , 
+            bottom:"5px",
+            right:"5px",
+            zIndex:5
+            }}>
             <i className="lni lni-user"></i> New Staff
              </button>
              </Link>
@@ -390,7 +396,7 @@ if(user){
   
             {
               docs ?
-              <DataTable Docs={docs} Columns={columns}  showColumns={columns} hideInterval/>
+              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={{label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>, canEdit:user.department === "Human Resource" ? true : false }}/>
               :""
             }
            </div>

@@ -301,7 +301,7 @@ new Promise((resolve, reject) => {
             <td id="d12" style={{fontWeight:"bold", width:"200px"}} align="left">Promotion</td>
             :""}
             {
-              action.canEdit ?
+              action ?
               <td  style={{fontWeight:"bold", width:"200px"}} align="left">{action.label}</td>
               :""
             }
@@ -477,7 +477,7 @@ new Promise((resolve, reject) => {
                       </td>
                       :  ""}
                       {
-                        action.canEdit ?
+                        action ?
                         <td  style={{width:"200px"}} align="left">
                        <Link href={`/edit/${row.staffDetails ? row.staffDetails._id : row._id}`}>
                        {action.action}

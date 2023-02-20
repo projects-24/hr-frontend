@@ -396,7 +396,7 @@ if(user){
   
             {
               docs ?
-              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={{label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>, canEdit:user.department === "Human Resource" ? true : false }}/>
+              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
               :""
             }
            </div>

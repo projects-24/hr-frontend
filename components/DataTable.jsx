@@ -4,6 +4,7 @@ import Departments from '../data/departments'
 import Sections from '../data/sections'
 import dynamic from "next/dynamic"
 import Link from "next/link"
+import DaysLeft from './daysLeft';
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
 export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
@@ -451,7 +452,7 @@ new Promise((resolve, reject) => {
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d9") ?  
                       <td  style={{width:"200px"}} align="left">
-                        {row.retirementAge}
+                        <DaysLeft Year = {row.retirementAge} /> Left
                       </td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d10") ?  

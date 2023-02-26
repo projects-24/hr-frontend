@@ -8,6 +8,7 @@ import Super from '../data/super';
 import Account from "./account"
 import  Axios from 'axios';
 import endPoint from '../components/endPoint';
+import DaysLeft from './../components/daysLeft';
 
 export default function Dashboard() {
     const [user, setuser] = useState("")  
@@ -187,7 +188,7 @@ const [data, setdata] = useState(null)
                 <span className="text-bold secondary-text"> Section:</span> {user.section}
                 </div>
                 <div  className="col sm-12 md-12 lg-12" style={{padding:"5px"}}>
-              <span className="text-bold secondary-text"> Active service until:</span> {user.retirementAge}
+              <span className="text-bold secondary-text"> Active Years Left:</span> <span> <DaysLeft Year={user.retirementAge} funcss="text-bold"/> </span>
               </div>
   
               </div>

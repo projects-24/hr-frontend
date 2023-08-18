@@ -3,11 +3,23 @@ import { useEffect ,useState} from "react";
 import Loader from './loader';
 import endPoint from "./endPoint";
 import  Axios  from 'axios';
+import Navbar from 'funuicss/component/Navbar'
+import Typography from 'funuicss/component/Typography'
+import SidebarTrigger from 'funuicss/component/SidebarTrigger'
+import LinkWrapper from 'funuicss/component/LinkWrapper'
+import NavLink from 'funuicss/component/NavLink'
+import Icon from 'funuicss/component/Icon'
+import Button from 'funuicss/component/Button'
+import NavLogo from 'funuicss/component/NavLogo'
+import Div from 'funuicss/component/Div'
+import DropDown from 'funuicss/component/DropDown'
+import DropMenu from 'funuicss/component/DropMenu'
+import DropItem from 'funuicss/component/DropItem'
 const Nav = ({noSideBar}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(0)
   const [dropdown2, setdropdown2] = useState(0)
-  const [user, setuser] = useState("")  
+  const [user, setuser] = useState([])  
   const [dropTrigger, setdropTrigger] = useState(false)
   const [open, setOpen] = useState(false)
   const [scrolledState, setscrolledState] = useState(0)
@@ -25,6 +37,19 @@ const Nav = ({noSideBar}) => {
 const [userNot, setuserNot] = useState("")
 const [leavePlaningNot, setleavePlaningNot] = useState("")
 const [showNots, setshowNots] = useState(true)
+
+const [drop1, setdrop1] = useState(false);
+
+            useEffect(() => {
+             const drop = document.querySelector(".myBtn")
+             window.addEventListener("click" ,(e)=>{
+                if(e.target != drop){
+                  setdrop1(false)
+                }else{
+                   setdrop1(!drop1)
+                }
+             })
+            },[])
   useEffect(() => {
   if(user && canUserApproveRequest === null){
     if(user.position === "Deputy Director" ||
@@ -127,60 +152,7 @@ const [showNots, setshowNots] = useState(true)
       }
     }
     })
-    useEffect(() => {
-        if(localStorage.getItem("token")  && !token ){
-            settoken(
-                JSON.parse(
-                    localStorage.getItem("token")
-                )
-            )
-            setuser(
-                JSON.parse(
-                    localStorage.getItem("user")
-                )
-            )
-        }
-    })
-    // useEffect(() => {
-    //     if(notDocs === null){
-    //     Axios.get(endPoint  + "/notification/showall" , {
-    //         headers:{
-    //             authorization:`Bearer ${token}`
-    //         }
-    //     }).then(dataDocs=>{
-    //        const nots = dataDocs.data.notification
-    //        setnotDocs(nots)
-    //       if(nots.length > 0){
-    //         setuserNot(
-    //             nots.filter((filt)=>{
-    //                 if(filt.receiver === user._id ){
-    //                 return filt
-    //                 }
-    //             })
-    //         )
-    //         if(showLeaveplaningMessages){
-    //         setleavePlaningNot(
-    //           nots.filter(filt=>{
-    //             if(filt.receiver === "leaveplaning" ){
-    //               window.Notification.requestPermission().then(perm =>{
-    //                 if(perm === "granted"){
-    //                 new Notification("Notification",{
-    //                   body:filt.message ,
-    //                    icon:"https://raw.githubusercontent.com/projects-24/hr-frontend/main/public/favicon.png"})
-    //               }else{
-    //                 alert("Gss wants to send you a notification, make sure to grant permission")
-    //                 }
-    //                 })
-    //               }
-    //           })
-    //           )
-    //         }
-    //       }
-    //     }).catch(err=>{
 
-    //     })
-    //     }
-    //     })
 
   useEffect(()=>{
     // When the user scrolls the page, execute myFunction 
@@ -259,11 +231,11 @@ if(lMode === "black"){
 }
 }
 
-useEffect(() => {
-  if(!localStorage.getItem("token")){
-     window.location.assign("/")
-  }
-})
+// useEffect(() => {
+//   if(!localStorage.getItem("token")){
+//      window.location.assign("/")
+//   }
+// })
 
 
 const LogOut = ()=>{
@@ -364,222 +336,133 @@ const Switch = ()=>{
     }
   }
 }
+
+
+
 if(user){
   return ( 
     <div>
-   
-            <div className={`navigationBar ${navDrop ? "navCard" : ""} `}>
-    <div>
-     <span className="logo">
-      <img src="/logo.png" className="height-40-max" />
-    </span>
-    </div>
-    <div>
+   <Navbar fixedTop>
+<NavLogo>
+<img src="/logo.png" className="height-40-max" />
+</NavLogo>
 
-    </div>
-    <div className="row-flex">
-      <div>
+<LinkWrapper visibleLinks>
+<div>
         <Link href="/messages">
         <i className="icon-bell" Not={notNumber} id="notification" />
         </Link>
       </div>
-    <div className="context " id="dropContext">
-    <a className="dropdown text-bold" onClick={handleDrop}>
-   <div className="row-flex gap">
-  <img src="/avatar.svg" className="width-40 height-40 circle" />
-  <div>
-  <div className="text-small">{user.firstname} {user.lastName}</div>
-   <div style={{marginTop:"2px"}}><span className='text-bold secondary-text text-small'> {user.position} </span> </div>
-  </div>
-   </div>
-      </a>
-      {
-        dropDown ?
-        <ul className=" card">
-            {/* <div className='sideLink' onClick={Switch}>
-            <i className="lni lni-users"></i> Switch Account
-            </div> */}
-        <Link href="/account">
-            <div className='sideLink'>
-            <i className="icon-user"></i> My Account
-            </div>
-        </Link>
-        <Link href="/user/password">
-            <div className='sideLink'>
-            <i className="icon-shield"></i> Change password
-            </div>
-        </Link>
-        <li className="divisor"></li>
-            <div className='sideLink' onClick={LogOut}>
+      <DropDown >
+            <Button funcss={"myBtn"}  text={"Ahmed Salim"} color="primary" endIcon={<Icon icon={"bx bx-user"} />} />
+          <DropMenu 
+          state={drop1}
+          animation="ScaleUp" 
+          hoverable="hoverable" 
+         funcss="navDropMenu"
+          duration={0.5}>
+              <DropItem>
+          <i className="icon-user"></i> My Account
+</DropItem>
+              <DropItem><i className="icon-shield"></i> Change password</DropItem>
+              <DropItem funcss="bt"> <div onClick={LogOut}>
             <i className="icon-logout"></i> Logout
-            </div>
-        </ul>:""
-      }
-</div>
+            </div></DropItem>
+          </DropMenu>
+         </DropDown>
 
-    </div>
-  </div>
+</LinkWrapper>
+<SidebarTrigger
+  onClick={()=>setopen(true)}
+content={<Icon icon="fas fa-bars" />}
+/>
+
+</Navbar>
+ 
  {
   !noSideBar ?
-  <div className="leaveSidebar card">
+  <div className="leaveSidebar">
 
   <div className="">
   <Link href="/dashboard">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="icon-graph"></i> Dashboard
       </div>
     </Link>
 
 {
-isAdmin ?
+// isAdmin ?
 <>
-<div className="section hr"></div>
   <Link href="/staff/profiling">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="lni lni-users"></i> Staff Profiling
       </div>
     </Link>
   
-    <div className="section hr"></div>
           <div className="dropDown">
-    <div className='sideLink trigger' onClick={TriggerDrop}>
+    <div className='lighter padding pointer hover-up  trigger' style={{margin:'1.5rem 0' , borderRadius:"5rem"}} onClick={TriggerDrop}>
       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
    <Link href="/leave/planing">
-   <div className='sideLink'>
+   <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
     <Link href="/leave/requests">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="lni lni-bolt"></i>  Leave Requests
       </div>
     </Link>
       </div>
     </div>
-    <div className="section hr"></div>
     <Link href="/field/request">
-    <div className='sideLink'>
+    <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
     <i className="lni lni-infinite"></i> Field Request
     </div>
   </Link>
-  <div className="section hr"></div>
   <Link href="/retirement/management">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="icon-clock"></i> Retirement Mgt
       </div>
     </Link>
-    <div className="section hr"></div>
     <Link href="/staff/promotion">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="lni lni-plus"></i> Promotion
       </div>
     </Link>
-    <div className="section hr"></div>
     <Link href="/staff/reports">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="lni lni-notepad"></i> Reports
       </div>
     </Link>
-</>
 
-:
-<>
-    <div className="section hr"></div>
     <div className="dropDown">
-    <div className='sideLink trigger' onClick={TriggerDrop}>
+    <div className='lighter padding pointer hover-up trigger' style={{margin:'1.5rem 0' , borderRadius:"5rem"}} onClick={TriggerDrop}>
       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
       </div>
       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
    <Link href="/leave/planing">
-   <div className='sideLink'>
+   <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="icon-check"></i> Leave Planner
       </div>
    </Link>
     <Link href="/leave/requests">
-      <div className='sideLink'>
+      <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
       <i className="lni lni-bolt"></i>  Leave Requests
       </div>
     </Link>
       </div>
     </div>
-    <div className="section hr"></div>
     <Link href="/field/request">
-    <div className='sideLink'>
+    <div className='lighter padding pointer hover-up' style={{margin:'1.5rem 0' , borderRadius:"5rem"}}>
     <i className="lni lni-infinite"></i> Field Activity
     </div>
   </Link>
 </>
 }
 
-{
-//   isAdmin ?
-//   <div className="dropDown">
-//     <div className='sideLink trigger' onClick={TriggerDrop2}>
-//       <i className="icon-action-undo"></i> Reports {dropdown2 === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
-//       </div>
-//       <div className="dropContent" style={{maxHeight:`${dropdown2}px`,overflow:"auto"}}>
-//    <div className="section hr"></div>
-//    <Link href="/staff/reports">
-//       <div className='sideLink'>
-//       <i className="lni lni-notepad"></i> Reports
-//       </div>
-//     </Link>
-//       <Link href="/leave/planing">
-//    <div className='sideLink'>
-//       <i className="icon-check"></i> Leave Planner
-//       </div>
-//    </Link>
-//     <Link href="/leave/requests">
-//       <div className='sideLink'>
-//       <i className="lni lni-bolt"></i>  Leave Requests
-//       </div>
-//     </Link>
-//     <Link href="/field/request">
-//     <div className='sideLink'>
-//     <i className="lni lni-infinite"></i> Field Status
-//     </div>
-//   </Link>
-//   <Link href="/retirement/management">
-//       <div className='sideLink'>
-//       <i className="icon-clock"></i> Retirement Mgt
-//       </div>
-//     </Link>
-//     <Link href="/staff/promotion">
-//       <div className='sideLink'>
-//       <i className="lni lni-plus"></i> Promotion
-//       </div>
-//     </Link>
-//       </div>
-//     </div>
-//     :
-//     <>
-//           <div className="dropDown">
-//     <div className='sideLink trigger' onClick={TriggerDrop}>
-//       <i className="icon-action-undo"></i> Leave Mgt {dropdown === 0 ? <i className="icon-arrow-down"></i> : <i className="icon-arrow-up"></i>}
-//       </div>
-//       <div className="dropContent" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-//    <Link href="/leave/planing">
-//    <div className='sideLink'>
-//       <i className="icon-check"></i> Leave Planner
-//       </div>
-//    </Link>
-//     <Link href="/leave/requests">
-//       <div className='sideLink'>
-//       <i className="lni lni-bolt"></i>  Leave Requests
-//       </div>
-//     </Link>
-//       </div>
-//     </div>
-//     <div className="section hr"></div>
-//   <Link href="/field/request">
-//   <div className='sideLink'>
-//   <i className="lni lni-infinite"></i> Field Activity
-//   </div>
-// </Link>
-//     </>
-}
+
   </div>
 </div>
 :""

@@ -67,9 +67,7 @@ new Promise((resolve, reject) => {
   return (
     <div>
       <Excel Trigger = {exportTrigger} />
-      {/* <div className="exportBtnContainer"> 
-      <button className='btn p-text minSection full-width' onClick={exportExcel}>Export Excel</button>
-            </div> */}
+ 
         <div className="">
          <div className="tableFilter padding space-between">
          <div>
@@ -81,11 +79,11 @@ new Promise((resolve, reject) => {
               }</div>
             </div>
          </div>
-            <div style={{display:"flex"}}>
-            <button className="filterBtn button roundEdge full-width" onClick={()=>setopenHideModal(true)}>
+            <div style={{display:"flex", gap:'2rem'}}>
+            <button className="secondary button  roundEdge full-width" onClick={()=>setopenHideModal(true)}>
                 Filter <i className="lni lni-list"></i>
             </button>
-              <input type="text" className="input roundEdge" onChange={(e)=>{
+              <input type="text" className="input" onChange={(e)=>{
                 setsearch(e.target.value)
               setgetAll(!getAll)
               }} placeholder='staff Id | Email'/>
@@ -103,7 +101,7 @@ new Promise((resolve, reject) => {
         :""
         }
             <div>
-            <button className='btn p-text success roundEdge text-white' onClick={exportExcel}>Export <i className="lni lni-share"></i></button>
+            <button className=' button p-text success roundEdge text-white' onClick={exportExcel}>Export <i className="lni lni-share"></i></button>
          </div>
          </div>
        
@@ -111,7 +109,7 @@ new Promise((resolve, reject) => {
         {
           columsHide.length > 0 ?
           <>
-           <div className="section row hr">
+           <div className="row hr">
             <div className="col sm-12 md-8 lg-8 padding">
             <div className="h4 section">Showing data for</div>
              <div className="row-flex">
@@ -170,12 +168,12 @@ new Promise((resolve, reject) => {
                               <option value="retirement">Date Of Retirement</option>
                               </select>
                           </div>
-                          <div className="col sm-12 md-6 lg-6 padding">
+                          <div className="col sm-12 md-6 lg-6 pading-5">
                             <div className="minSection">Start Interval</div>
                             <input defaultValue={startDate} type={type === "dob" || type == "appointment" ? "month" : "month"} 
                             className='input' onChange={(e)=>setstartDate(e.target.value)}/>
                           </div>
-                          <div className="col sm-12 md-6 lg-6 padding">
+                          <div className="col sm-12 md-6 lg-6 pading-5">
                             <div className="minSection">End Interval</div>
                             <input defaultValue={endDate} type={type === "dob" || type == "appointment" ? "month" : "month"} 
                             className='input' onChange={(e)=>setendDate(e.target.value)}/>
@@ -183,8 +181,8 @@ new Promise((resolve, reject) => {
                             </div>
                             :<div />
                           }
-                          <div className="col sm-12 md-6 lg-6 padding">
-                    <select defaultValue={department} className='input light' placeholder="Department"  onChange={(e)=>{
+                          <div className="col sm-12 md-6 lg-6 pading-5">
+                    <select defaultValue={department} className='input light full-width' placeholder="Department"  onChange={(e)=>{
                       setdepartment(e.target.value)
                       setgetAll(!getAll)
                     }}>
@@ -197,8 +195,8 @@ new Promise((resolve, reject) => {
                         }
                     </select>
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                    <select defaultValue={section} className='input light' placeholder="Section"  onChange={(e)=>{
+                <div className="col sm-12 md-6 lg-6 pading-5">
+                    <select defaultValue={section} className='input light full-width' placeholder="Section"  onChange={(e)=>{
                       setsection(e.target.value)
                       setgetAll(!getAll)
                       }}>

@@ -303,15 +303,15 @@ useEffect(() => {
         {
           // !isAdmin ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
-          <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Make Request</button>
+          <button className="button light" onClick={()=>setrender("requests")}>Show all</button>
+          <button className="button primary" onClick={()=>setrender("plan")}>Make Request</button>
         </div>
         // :""
         }
         {/* <div className="section padding row-flex">
        <div>
        <div className="minSection text-bold">Select status</div>
-          <select name="" id="" className='input card white' onChange={(e)=>setfilter(e.target.value)}>
+          <select name="" id="" className='input _card white' onChange={(e)=>setfilter(e.target.value)}>
             <option value="">All</option>
             <option value="approved">Approved</option>
             <option value="pending">Pending</option>
@@ -323,7 +323,7 @@ useEffect(() => {
           {
             render === "requests" ?
             <div className=' padding'>
-            <div className="card tableContainer">
+            <div className="_card tableContainer">
               <table className="table" >
                 <thead>
                 <th>Staff ID</th>
@@ -406,58 +406,58 @@ useEffect(() => {
   <form ref={form} className="">
   <div className="row">
       <div className="col sm-6 lg-6 md-6 padding">
-      <div className="card fit">
+      <div className="_card fit">
       <div className="text-bold minSection">Proposed Start Date</div>
-      <input type="date" id='startDate' className='input' name='startdate' />
+      <input type="date" id='startDate' className='input full-width borderedInput' name='startdate' />
   </div>
       </div>
       <div className="col sm-6 lg-6 md-6 padding">
-      <div className="card fit">
+      <div className="_card fit">
       <div className="text-bold minSection">Proposed End Date</div>
-      <input type="date" id='endDate' className='input' name='enddate' />
+      <input type="date" id='endDate' className='input full-width borderedInput' name='enddate' />
   </div>
       </div>
       <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Personal details</div>
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Staff ID</div>
-          <input type="text" name='staffId' disabled className='input' defaultValue={user.staffId} placeholder='Staff ID'/>
+          <input type="text" name='staffId' disabled className='input full-width borderedInput' defaultValue={user.staffId} placeholder='Staff ID'/>
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Full Name</div>
-          <input type="text" name='fullname' disabled className='input' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
+          <input type="text" name='fullname' disabled className='input full-width borderedInput' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
         </div>
       </div>
     </div>
       </div>
       <div className=" col sm-12 md-6 lg-6 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Department Details</div>
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Department</div>
-          <input type="text" name='department' disabled className='input' defaultValue={user.department}/>
+          <input type="text" name='department' disabled className='input full-width borderedInput' defaultValue={user.department}/>
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Section</div>
-          <input type="text" name='section' disabled className='input' defaultValue={user.section} />
+          <input type="text" name='section' disabled className='input full-width borderedInput' defaultValue={user.section} />
         </div>
       </div>
     </div>
       </div>
       <div className=" col sm-12 md-6 lg-6 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Project Details</div>
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Project Name</div>
-          <input id='project' type="text" name='project' placeholder='Enter project name' className='input' />
+          <input id='project' type="text" name='project' placeholder='Enter project name' className='input full-width borderedInput' />
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Project Coordinator</div>
-          <input id='coordinator' type="text" name='coordinator' placeholder='Enter project coordinator' className='input' />
+          <input id='coordinator' type="text" name='coordinator' placeholder='Enter project coordinator' className='input full-width borderedInput' />
         </div>
       </div>
     </div>
@@ -466,7 +466,7 @@ useEffect(() => {
   </form>
 
  {/* Submit btn */}
- <button className="btn submitNewstaff" onClick={handlePlaning}>
+ <button className="button gradient submitNewstaff" onClick={handlePlaning}>
         Submit  <i className="icon-paper-plane"></i>
         </button>
 </div>

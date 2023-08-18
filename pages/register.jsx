@@ -56,6 +56,48 @@ const position = current["position"].value
 const jobTitle = current["jobtitle"].value
 const employmentStatus = current["employmentStatus"].value
 
+const staff = {
+    staff_id: "12345",
+    email: "example@example.com",
+    user_password: "password123",
+    first_name: "John",
+    last_name: "Doe",
+    title: "Mr.",
+    ghana_post_gps: "ABC123",
+    hometown: "Accra",
+    gender: "Male",
+    date_of_birth: "1990-01-01",
+    marital_status: "Married",
+    spouse_name: "Jane Doe",
+    nationality: "Ghanaian",
+    ghana_card_number: "1234567890",
+    ssnit_number: "9876543210",
+    contact_number: "123456789",
+    contact_number2: "987654321",
+    num_children: 2,
+    next_of_kin: true,
+    next_of_kin_name: "Sarah Doe",
+    next_of_kin_relation: "Sibling",
+    next_of_kin_address: "123 Main Street, Accra",
+    father_name: "John Doe Sr.",
+    father_occupation: "Engineer",
+    father_nationality: "Ghanaian",
+    father_date_of_birth: "1960-01-01",
+    father_hometown: "Kumasi",
+    mother_name: "Jane Doe Sr.",
+    mother_occupation: "Teacher",
+    mother_nationality: "Ghanaian",
+    mother_date_of_birth: "1965-01-01",
+    criminal_record: false,
+    crime_dismiss: true,
+    date_of_appointment: "2020-01-01",
+    region_id: "ABC123",
+    job_id: "12345",
+    directorate_id: "67890",
+    position_id: "54321",
+    employment_status: "Full-Time"
+  };
+  
 if(email){
     setloading(true)
 Axios.post(endPoint + "/staff/register/" , 
@@ -136,15 +178,7 @@ editfield:true
     setloading(false)
 }
 };
-if(
-user.position === "Director" 
-|| user.position === "Government Statistician (CEO)" 
-|| user.position === "Deputy Gov Statistician (DGS)"
-|| user.position === "Deputy Director"
-|| user.position === "Sectional Head"
-|| user.position === "Unit Head"
 
-){
     return (
         <div>
         <div className="">
@@ -299,7 +333,5 @@ user.position === "Director"
         </div>
         </div>
         );
-}else{
-    return <Loader />
-}
+
 }

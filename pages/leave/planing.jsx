@@ -328,24 +328,18 @@ useEffect(() => {
         {
           !user.auth_level ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
-          <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>setrender("plan")}>Plan Leave</button>
+          <button className="button light" onClick={()=>setrender("requests")}>Show all</button>
+          <button className="button primary" onClick={()=>setrender("plan")}>Plan Leave</button>
         </div>
                   :""
                 }
         <div className="section padding row-flex">
        <div>
-       {/* <div className="minSection text-bold">Select status</div>
-          <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
-            <option value="">All</option>
-            <option value="approved">Approved</option>
-            <option value="pending">Pending</option>
-            <option value="disapproved">Disapproved</option>
-          </select> */}
+     
        </div>
-       <div>
+       {/* <div>
        <div className="minSection">Department</div>
-        <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
+        <select className='input full-width borderedInput white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
         <option value="">All Departments</option>
         {
         Departments &&
@@ -354,15 +348,8 @@ useEffect(() => {
         ))
         }
         </select>
-       </div>
-       {/* <div>
-       <div className="minSection">Start Date</div>
-        <input type="date" className='input white' onChange={(e)=>setstartDate(e.target.value)}/>
-       </div>
-       <div>
-       <div className="minSection">End Date</div>
-        <input type="date" className='input white' onChange={(e)=>setendDate(e.target.value)}/>
        </div> */}
+
         </div>
         
         <div className="section" >
@@ -370,7 +357,7 @@ useEffect(() => {
             render === "requests" ?
             <div className=' padding'>
      
-            <div className="card tableContainer">
+            <div className="_card tableContainer">
               <table className="table" id='records'>
                 <thead>
                 <th>Staff ID</th>
@@ -380,12 +367,6 @@ useEffect(() => {
                   <th>Leave</th>
                   <th>Start Date</th>
                   <th>End Date</th>
-                  {/* <th>status</th> */}
-              {
-                // canUserApprove && isAdmin ?
-                // <th>Approve/Declined</th>
-                // :""
-              }
                 </thead>
                 <tbody>
                   {
@@ -415,23 +396,8 @@ useEffect(() => {
                     if(startDate && endDate){
                       if(
                         parseInt(filtD.start_date.slice(filtD.start_date.length - 3, filtD.start_date.length)) 
-                        // parseInt(filtD.start_date.slice(0,4)) +
-                        // parseInt(filtD.start_date.slice(5, 7)) 
                        >=
                        parseInt(startDate.slice(startDate.length - 3, startDate.length)) 
-                      //  parseInt(startDate.slice(0,4)) +
-                      //  parseInt(startDate.slice(5, 7))
-                       
-                      //  && 
-
-                      //  parseInt(filtD.end_date.slice(filtD.end_date.length - 2, filtD.end_date.length)) +
-                      //  parseInt(filtD.end_date.slice(0,4)) +
-                      //  parseInt(filtD.end_date.slice(5, 7)) 
-                      // <=
-                      // parseInt(endDate.slice(endDate.length - 2, endDate.length)) +
-                      // parseInt(endDate.slice(0,4)) +
-                      // parseInt(endDate.slice(5, 7))
-
                        ){
                         return filtD
                        }
@@ -449,35 +415,7 @@ useEffect(() => {
                       <td>{doc.type_leave}</td>
                       <td>{doc.start_date.toString().split("-").reverse().join("-")}</td>
                       <td>{doc.end_date.toString().split("-").reverse().join("-")}</td>
-                      {/* <td>
-                        {
-                      doc.approval  ? 
-                      <span className="success text-white text-small round-edge" style={{padding:"5px"}}>
-                        approved</span> 
-                        : 
-                        !doc.approval && !doc.isPending? <span className="danger text-white text-small round-edge" style={{padding:"5px"}}>
-                        Disapproved
-                        </span> :
-                        doc.isPending ? 
-                        <span className="info text-white text-small round-edge" style={{padding:"5px"}}>
-                        Pending
-                        </span>  : ""
-                      }
-
-                          
-                        </td> */}
-                    {
-                    //   canUserApprove  && doc.isPending  ? 
-                    //   <td>
-                    //   <button className='btn p-text text-small' onClick={()=>{
-                    //     setuserDoc(doc)
-                    //     setOpen(true)
-                    //   }}>
-                    //     options
-                    //   </button>
-                    // </td>
-                    // : <td  className='text-center'>-</td>
-                    }
+                     
                     </tr>
                    ))
                    :""
@@ -491,52 +429,52 @@ useEffect(() => {
   <form ref={form} className="">
   <div className="row">
       <div className="col sm-6 lg-6 md-6 padding">
-      <div className="card fit">
+      <div className="_card fit">
       <div className="text-bold minSection">Proposed Start Date</div>
-      <input type="date" id='startDate' className='input' name='startdate' />
+      <input type="date" id='startDate' className='input full-width borderedInput' name='startdate' />
   </div>
       </div>
       <div className="col sm-6 lg-6 md-6 padding">
-      <div className="card fit">
+      <div className="_card fit">
       <div className="text-bold minSection">Proposed End Date</div>
-      <input type="date" id='endDate' className='input' name='enddate' />
+      <input type="date" id='endDate' className='input full-width borderedInput' name='enddate' />
   </div>
       </div>
       <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Personal details</div>
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Staff ID</div>
-          <input type="text" name='staffId' disabled className='input' defaultValue={user.staffId} placeholder='Staff ID'/>
+          <input type="text" name='staffId' disabled className='input full-width borderedInput' defaultValue={user.staffId} placeholder='Staff ID'/>
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Full Name</div>
-          <input type="text" name='fullname' disabled className='input' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
+          <input type="text" name='fullname' disabled className='input full-width borderedInput' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
         </div>
       </div>
     </div>
       </div>
       <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Department Details</div>
       <div className="row">
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Department</div>
-          <input type="text" name='department' disabled className='input' defaultValue={user.department}/>
+          <input type="text" name='department' disabled className='input full-width borderedInput' defaultValue={user.department}/>
         </div>
         <div className="col sm-12 md-6 lg-6 padding">
           <div className="minSection text-bold">Section</div>
-          <input type="text" name='section' disabled className='input' defaultValue={user.section} />
+          <input type="text" name='section' disabled className='input full-width borderedInput' defaultValue={user.section} />
         </div>
       </div>
     </div>
       </div>
       <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="card">
+    <div className="_card">
       <div className="h4 padding">Type of Leave</div>
      <div className="padding">
-      <select name="leavetype" id="leaveType" className="input">
+      <select name="leavetype" id="leaveType" className="input borderedInput full-width">
       <option value="annual">Annual</option>
       <option value="sick">Sick</option>
       {/* <option value="casual">Casual</option> */}
@@ -549,7 +487,7 @@ useEffect(() => {
   </form>
 
  {/* Submit btn */}
-<button className="btn submitNewstaff" onClick={handlePlaning}>
+<button className="button submitNewstaff" onClick={handlePlaning}>
 Submit  <i className="icon-paper-plane"></i>
 </button>
 </div>

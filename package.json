@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
@@ -21,6 +22,7 @@
     "axios": "^1.2.0",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
+    "funuicss": "^1.9.24",
     "next": "^13.0.3",
     "rc-table": "^7.28.2",
     "react": "^18.2.0",

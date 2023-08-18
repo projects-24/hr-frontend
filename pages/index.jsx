@@ -7,7 +7,7 @@ import Loader from '../components/loader';
 import TextField from '@mui/material/TextField';
 import Alert from '../Funcss/Components/Alert';
 import Success from '../components/default/success';
-
+import Input from 'funuicss/component/Input'
 export default function Home() {
   const [email , setemail] = useState("")
     const [password , setpassword] = useState("")
@@ -20,37 +20,56 @@ export default function Home() {
       }, 4000)
   },[message])
   const handleLogin = ()=>{
-    if(email && password){
-      setloader(true)
-      Axios.post(endPoint + "/login" , {email : email , password:password})
-      .then(doc=>{
-        new Promise((resolve, reject) => {
-          resolve()
-          localStorage.setItem("user" , JSON.stringify(doc.data.staff))
-          localStorage.setItem("token" , JSON.stringify(doc.data.token))
-          // sessionStorage.setItem("userMode" , JSON.stringify(
-          //   "normal"
-          // ))
-        }).then(()=>{
-          setsuccess(true)
-          setTimeout(() => {
-          window.location.assign("/dashboard")
-          }, 2000);
-        })
-      }).catch(err=>{
-        if(err.message === "Request failed with status code 422"){
-          setmessage("Wrong credentials")
-          setloader(false)
-        }else{
-        setmessage(err.message)
-        setloader(false)
-        }
+  new Promise((resolve, reject) => {
+    localStorage.setItem("token" , JSON.stringify("shhssjshssfsag"))
+    localStorage.setItem("user" , JSON.stringify({
+      title: "Mr.",
+      firstname: "Salim",
+      middleName: " ",
+      lastName: "Ahmed",
+      position: "IT",
+      department: "Information Technology",
+      status: "Active",
+      no_of_leave_days: 10,
+      address: "123 Main St, City",
+      section: "Admin",
+      retirementAge: 2050
+    }))
+    resolve()
+  })
+  .then( () => (window.location.assign("/dashboard")) )
+ 
+    // if(email && password){
+    //   setloader(true)
+    //   Axios.post(endPoint + "/login" , {email : email , password:password})
+    //   .then(doc=>{
+    //     new Promise((resolve, reject) => {
+    //       resolve()
+    //       localStorage.setItem("user" , JSON.stringify(doc.data.staff))
+    //       localStorage.setItem("token" , JSON.stringify(doc.data.token))
+    //       // sessionStorage.setItem("userMode" , JSON.stringify(
+    //       //   "normal"
+    //       // ))
+    //     }).then(()=>{
+    //       setsuccess(true)
+    //       setTimeout(() => {
+    //       window.location.assign("/dashboard")
+    //       }, 2000);
+    //     })
+    //   }).catch(err=>{
+    //     if(err.message === "Request failed with status code 422"){
+    //       setmessage("Wrong credentials")
+    //       setloader(false)
+    //     }else{
+    //     setmessage(err.message)
+    //     setloader(false)
+    //     }
       
-      })
-    }else{
-      setmessage("Make sure to enter your email and password")
-      setloader(false)
-     }
+    //   })
+    // }else{
+    //   setmessage("Make sure to enter your email and password")
+    //   setloader(false)
+    //  }
   }
   return (
     <div>
@@ -78,7 +97,7 @@ export default function Home() {
          }
 
       <div className="">
-        <div className="central loginLeft gradient">
+        <div className="central loginLeft blackOverlay">
         <div>
 
         <div className="h1 text-white text-center">
@@ -91,23 +110,20 @@ export default function Home() {
         </div>
         <div className="loginRight central">
         <div className="form">
-      
-
-        <div className='m-section'>
-          <div className="h1">Login Account</div>
-          <div className='text-bold'>
+    
+         <div className="section _card">
+         <div className="h2">Login Account</div>
+          <div className=''>
           Enter a valid email and password to login your account
          </div>
-         </div>
-         <div className="section card">
          <p>
-          <TextField fullWidth label="Enter your email" variant="outlined" type="email" name=""  id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
+          <Input fullWidth bordered label="Enter your email" variant="outlined" type="email" name=""  id="" placeholder='EMAIL' onChange={(e)=>setemail(e.target.value)}/>
          </p>
          <p>
-          <TextField fullWidth label="Enter your password" variant="outlined" type="password" name=""  id="" placeholder='PASSWORD' onChange={(e)=>setpassword(e.target.value)}/>
+          <Input fullWidth bordered label="Enter your password" variant="outlined" type="password" name=""  id="" placeholder='PASSWORD' onChange={(e)=>setpassword(e.target.value)}/>
          </p>
          <p>
-         <button className="primaryBtn btn full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>
+         <button className="primary button full-width" onClick={handleLogin}>LOGIN ACCOUNT</button>
          </p>
          </div>
         </div>

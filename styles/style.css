@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
 :root{
-    --primaryColor: #472183;
-    --secondaryColor: #FF8E9E;
+    --primaryColor: #472183 ;
+    --secondaryColor: #FF8E9E !important;
     --light:#f8f9fa !important;
     --color:#202020;
     --backgroundColor:#f8f9fa;
-    --font:'Maven Pro', sans-serif !important;
+    --font:'Maven Pro', sans-serif;
     --fontSize:0.92rem;
     --navWidth:95%;
     --navHeight:50px;
@@ -14,6 +14,8 @@
     --linearGradient:linear-gradient(180deg, #937DC2 0%, rgba(130, 214, 233, 0.41) 100%);
 
 }
+
+*{font-family: var(--font);}
 .roundEdge{
   border-radius: 10rem !important;
 }
@@ -94,6 +96,8 @@ div{text-transform: capitalize !important;}
     }
   }
 
+
+
 /* Normalise */
 /* .modal-content{
     background-color: var(--backgroundColor) !important;
@@ -104,13 +108,14 @@ div{text-transform: capitalize !important;}
 }
 .row.gap{grid-gap:1rem;}
 .trOccupy{min-width: 200px !important;}
-body{background-color: #EAF1FB !important;overflow: auto;height: 100%;position: relative;min-height: 100vh;}
-*{font-family: var(--font);font-size: var(--fontSize);}
+body{
+  /* background-color: #EAF1FB !important; */
+  overflow: auto;height: 100%;position: relative;min-height: 100vh;}
 .p-bg{background-color: var(--primaryColor) !important;}
 .p-text{color: var(--primaryColor);}
 
 .heading{font-size: 3rem !important;}
-.h1{font-size: 2.5rem !important;font-weight: 800 !important;}
+
 p{margin: 20px 0 !important;}
 .m-section{margin:3rem 0 !important;}
 .central{display: flex;align-items: center;
@@ -122,55 +127,21 @@ justify-content: center;}
     top: calc(var(--navHeight) + 50px);
     right: 0;
     width: calc(97.5% - 220px) ;
-    padding: 20px 5%;
- 
-    /* max-width: 800px; */
-
-
+    padding: 0 2rem;
 }
-.card{
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: .5rem;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
-    border-top: 0.2rem solid var(--secondaryColor);
 
-}
 .shadow{
     padding: 2rem;
     border-radius: .5rem;
  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important;
 
 }
-button{font-weight: bold !important;}
 .link{
     font-weight: bold;
     color: var(--secondaryColor) !important;
 }
-.input{
-    padding: 1rem !important;
-    border: none;
-    width: 100%;
-    min-height: 40px;
-    border-radius: .2rem !important;
-    outline: none;
-    transition: 0.3s linear;
-    background-color: var(--light);
-    font-weight: bold;
-    border-bottom: none !important;
-    color: var(--color);
-    }
-    .input:focus{
-        outline: 1px solid var(--primaryColor);
-    }
-    .btn{
-        padding: 1rem;
-        border-radius: .2rem;
-        border: none !important;
-        cursor: pointer;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+
+
     
     .primaryBtn{
         background-color: var(--primaryColor);
@@ -208,39 +179,16 @@ left: 0;
 width: var(--navWidth);
 z-index: 5;
 }
-.navigationBar{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-    border-radius: .5rem;
-    position: fixed;
-    top: 10px;
-    left: 2.5%;
-    width: var(--navWidth);
-    height: var(--navHeight);
-    z-index: 4;
-}
-.navLink{
-    font-weight: bold;
-    margin: 0 1rem;
-}
-.navLink > i{
-    color: var(--primaryColor);
-}
-.navigationBar .logo{
-    margin-right:2rem;
-    font-size: 1.5rem;
+.navDropMenu{
+  min-width: 200px !important;
+  right: 0 !important;
 }
 .leaveSidebar{
     position: fixed;
     top: 100px;
     left: 2.5%;
     width: 220px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-    padding: 1rem;
     height: calc(100% - 120px);
-    border-radius: .5rem;
     overflow: auto;
 }
 td{min-width: 100px !important;}
@@ -366,7 +314,7 @@ td{min-width: 100px !important;}
     justify-content: center;
     cursor: pointer;
 }
-.gradient{background: var(--linearGradient);}
+.blackOverlay{background: var(--linearGradient);}
 
 /* login */
 .loginLeft{
@@ -402,7 +350,7 @@ td{min-width: 100px !important;}
     .loginLeft{display: none;}
     .loginRight{position: static;width: 100%;}
 }
-.form{max-width: 500px;width: 100%;}
+.form{max-width: 450px;width: 100%;}
 
 .edgeDesign::after{
     content: "";

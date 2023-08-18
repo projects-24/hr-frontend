@@ -60,12 +60,8 @@ const [report, setreport] = useState("all")
     };
   
     useEffect(() => {
-      if(localStorage.getItem("token")  && !token ){
-          settoken(
-              JSON.parse(
-                  localStorage.getItem("token")
-              )
-          )
+      if(localStorage.getItem("user") && !user ){
+      
           setuser(
               JSON.parse(
                   localStorage.getItem("user")
@@ -255,11 +251,6 @@ const TriggerDrop = ()=>{
         id:"d3",
         name:"Position"
     }
-    // ,
-    // {
-    //     id:"d9",
-    //     name:"Retirement"
-    // }
     ,
     {
         id:"d10",
@@ -315,61 +306,24 @@ if(user){
             !print ?
             <Nav />
             : ""
-        }        {
-        //     !print ?
-        // <div className="row">
-        //     <div className="col sm-12 md-6 lg-6 padding">
-        //     <div className="h1">Staff Profiling</div>
-        //   <div className='text-bold section'>
-        //   Check all staffs, add and edit staff details and profile
-        //  </div>
-        //  <div className="section">
-        //     <Link href="/dashboard">
-        //        <div className="padding-top-10 text-bold p-text">
-        //         <i className="icon-grid"></i> BACK TO DASHBOARD
-        //        </div>
-        //     </Link>
-        //  </div>
-        //     </div>
-        //     <div className="col sm-12 md-6 lg-6 padding hide-small">
-        //         <img src="/collaborate.svg" className='fit' alt="" />
-        //     </div>
-        // </div>
-        // :""
-        }
-
+        }    
         <div className="">
         {
             !print ?
             <div>
-                <div className= 'section padding-bottom-30'>
-           <div className="white padding round-edge">
-           <div className="h1">Staff Profiling</div>
+                <div className= 'section'>
+           <div className="h4">Staff Profiling</div>
          <div className="section row-flex text-bold">
                     <Link href="/dashboard">Dashboard</Link>
                     /
                     <Link href="#">Staff profiling</Link>
                 </div>
-           </div>
         </div>
 
                 {
             !print ?
         <div className="row-flex fit space-between m-section">
-          {/* <div className="exportBtnContainer">
-            
-          <div className="dropDown">
-      <div className="dropContent up" style={{maxHeight:`${dropdown}px`,overflow:"auto"}}>
-        <div className='card'>
-            <button className='btn p-text minSection full-width' onClick={exportExcel}>Excel</button>
-            <button className='btn p-text minSection full-width' onClick={handlePrint}>PDF</button>
-        </div>
-      </div>
-      <div className=' trigger' onClick={TriggerDrop}>
-    <button className='exportBtn'><i className="lni lni-add-files"></i> Export Data</button>
-      </div>
-    </div>
-          </div> */}
+  
            {
             user.department === "Human Resource" ?
             <Link href="/form/personal">
@@ -392,13 +346,44 @@ if(user){
 
             :""}
  
-           <div className={"card"} style={{padding:"0px"}}>
+           <div className={"_card"} >
   
-            {
-              docs ?
-              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
-              :""
-            }
+              <DataTable hideEmail Docs={[
+                {
+                  id: 1,
+                  staffId: 'S123',
+                  firstname: 'John',
+                  middleName: 'Doe',
+                  lastName: 'Smith',
+                  email: 'john.smith@example.com',
+                  department: 'Human Resources',
+                  position: 'Manager',
+                  contact: 1234567890,
+                },
+                {
+                  id: 2,
+                  staffId: 'S124',
+                  firstname: 'Jane',
+                  middleName: 'E.',
+                  lastName: 'Doe',
+                  email: 'jane.doe@example.com',
+                  department: 'Finance',
+                  position: 'Accountant',
+                  contact: 9876543210,
+                },
+                {
+                  id: 3,
+                  staffId: 'S125',
+                  firstname: 'Michael',
+                  middleName: '',
+                  lastName: 'Johnson',
+                  email: 'michael.johnson@example.com',
+                  department: 'Marketing',
+                  position: 'Coordinator',
+                  contact: 5551234567,
+                },
+              ]} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
+       
            </div>
         </div>
     </div>

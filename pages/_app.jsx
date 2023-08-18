@@ -1,14 +1,17 @@
+import '../styles/_styles.css'
 import '../styles/style.css'
-import '../styles/fun.css'
 import '../styles/default.css'
 import '../styles/lineIcons/css/simple-line-icons.css'
-import type { AppProps } from 'next/app'
 import Head from 'next/head'
-
-export default function App({ Component, pageProps }: AppProps) {
+import 'funuicss/css/fun.css'
+export default function App({ Component, pageProps }) {
   return (
   <div>
     <Head>
+    <link
+          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+          rel="stylesheet"
+        />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
    <link rel="preconnect" href="https://fonts.gstatic.com" />
    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet" />

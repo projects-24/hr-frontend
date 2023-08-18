@@ -16,13 +16,15 @@ import MenuItem from '@mui/material/MenuItem';
 import grades from "../../data/grades"
 import Alert from '../../Funcss/Components/Alert';
 import positions from '../../data/positions';
-import Typography from './../../Funcss/Components/Typography';
+import Typography from 'funuicss/component/Typography';
+import Input from 'funuicss/component/Input';
+import Button from 'funuicss/component/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button } from '@mui/material';
+
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
@@ -215,7 +217,47 @@ export default function Personal() {
         setchildrens(availableChildren)
 
         const getYearOfBirth = dob.slice(0,4)
-
+        const staff = {
+            staff_id: "12345",
+            email: "example@example.com",
+            user_password: "password123",
+            first_name: "John",
+            last_name: "Doe",
+            title: "Mr.",
+            ghana_post_gps: "ABC123",
+            hometown: "Accra",
+            gender: "Male",
+            date_of_birth: "1990-01-01",
+            marital_status: "Married",
+            spouse_name: "Jane Doe",
+            nationality: "Ghanaian",
+            ghana_card_number: "1234567890",
+            ssnit_number: "9876543210",
+            contact_number: "123456789",
+            contact_number2: "987654321",
+            num_children: 2,
+            next_of_kin: true,
+            next_of_kin_name: "Sarah Doe",
+            next_of_kin_relation: "Sibling",
+            next_of_kin_address: "123 Main Street, Accra",
+            father_name: "John Doe Sr.",
+            father_occupation: "Engineer",
+            father_nationality: "Ghanaian",
+            father_date_of_birth: "1960-01-01",
+            father_hometown: "Kumasi",
+            mother_name: "Jane Doe Sr.",
+            mother_occupation: "Teacher",
+            mother_nationality: "Ghanaian",
+            mother_date_of_birth: "1965-01-01",
+            criminal_record: false,
+            crime_dismiss: true,
+            date_of_appointment: "2020-01-01",
+            region_id: "ABC123",
+            job_id: "12345",
+            directorate_id: "67890",
+            position_id: "54321",
+            employment_status: "Full-Time"
+          };
         const data  = {
         staffId:id,
         title:title,
@@ -434,7 +476,6 @@ export default function Personal() {
             setmessage("Make sure to enter all your school details")
         }
     }
- if(user){
     return (
         <div className="padding">
               <div className="message">
@@ -449,9 +490,12 @@ export default function Personal() {
             <div>
                 <img src="/avatar.svg" className='width-100-max fit' alt="" />
             </div>
-            <div className="h1">
-                Add a new staff
-                <div className="section row-flex">
+            <div>
+                <Typography
+                text='Add a new staff'
+                heading='h2'
+                />
+                <div className=" row-flex">
                     <Link href="/dashboard">Dashboard</Link>
                     /
                     <Link href="/staff/profiling">Staff profiling</Link>
@@ -478,19 +522,17 @@ export default function Personal() {
                     <div className="h4"><img src="/hand/person.svg" className="height-50"/> Personal Details</div>
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <TextField required variant="outlined" type="text"  name='id' fullWidth label='Staff ID' />
+                <Input  name='id' fullWidth label='Staff ID' />
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <TextField required variant="outlined" type="text"  name='email' fullWidth label='Email' />
+                <Input  name='email' fullWidth label='Email' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required variant="outlined"  type="text" name='firstName' fullWidth label='First Name' />
+                <Input name='firstName' fullWidth label='First Name' />
                 </div>
+              
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required variant="outlined"  type="text"  name='middleName' fullWidth label='Middle Name' />
-                </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required variant="outlined" type="text" name='lastName' fullWidth label='Last Name' />
+                <Input name='lastName' fullWidth label='Last Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField required select fullWidth type="text" name='title' label="Title">
@@ -595,7 +637,7 @@ export default function Personal() {
                 </div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required variant="outlined" type="text" name='tel' fullWidth label='Telephone Number' />
+                <Input name='tel' fullWidth label='Telephone Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <TextField required select fullWidth name="gender" label="Gender" id="" >
@@ -1580,7 +1622,5 @@ Education
         
         </div>
       )
- }else{
-    return ""
- }
+
 }

@@ -3,7 +3,7 @@ import { useEffect ,useState} from "react";
 import Loader from './loader';
 import endPoint from "./endPoint";
 import  Axios  from 'axios';
-import Navbar from 'funuicss/component/Navbar'
+import Navbar from 'funuicss/component/NavBar'
 import Typography from 'funuicss/component/Typography'
 import SidebarTrigger from 'funuicss/component/SidebarTrigger'
 import LinkWrapper from 'funuicss/component/LinkWrapper'

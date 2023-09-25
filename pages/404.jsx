@@ -1,5 +1,5 @@
 import React from 'react'
-import NotFound from 'funuicss/component/pages/NotFound'
+import NotFound from 'funuicss/ui/page/NotFound'
 export default function App() {
 
 return (

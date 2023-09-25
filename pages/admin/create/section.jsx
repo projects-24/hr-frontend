@@ -27,7 +27,7 @@ import endPoint from '../../../components/endPoint'
 import Success from '../../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
 import { GetRequest, PatchRequest } from '../../../components/Functions'
-export default function Region() {
+export default function Section() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
   const [update_doc, setupdate_doc] = useState("")
@@ -35,13 +35,21 @@ export default function Region() {
   const [success, setsuccess] = useState("")
   const [message, setmessage] = useState("")
   const [deleteId, setdeleteId] = useState("")
-  const [filter, setfilter] = useState("")
 
   const [docs, setdocs] = useState("")
+  const [directorates, setdirectorates] = useState("")
+
   useEffect(() => {
  if(!docs){
-  GetRequest("/region")
+  GetRequest("/section")
   .then( res => setdocs(res))
+  .catch(err => console.log(err))
+ }
+  })
+  useEffect(() => {
+ if(!directorates){
+  GetRequest("/directorate")
+  .then( res => setdirectorates(res))
   .catch(err => console.log(err))
  }
   })
@@ -62,12 +70,14 @@ const Close_Modal = () => {
 
 const Submit = () => {
   const val = FunGet.val("#input_val")
+  const val_directorate = FunGet.val("#input_directorate")
   setadd_data_modal(false)
   if(val){
     setloading(true)
-    if(update_doc){
-      PatchRequest( "/region" , update_doc.id , {
-        region:val
+    if(update_doc && val){
+      PatchRequest( "/section" , update_doc.id , {
+        section:val,
+        directorate_id:val_directorate
       })
       .then( (res) => {
        if(res){
@@ -82,11 +92,13 @@ const Submit = () => {
       })
 
     }else{
-    Axios.post(endPoint + "/region" , {
-      region:val
+    Axios.post(endPoint + "/section" , {
+      section:val ,
+      directorate_id:val_directorate
     })
     .then( (res) => {
            setloading(false)
+           console.log(res)
      if(res.data){
       setdocs("")
       setsuccess(true)
@@ -107,7 +119,7 @@ const Submit = () => {
     <div>
       {
         deleteId &&
-        <DeleteModal  route={"/region"} id={deleteId}/>
+        <DeleteModal route={"/section"} id={deleteId}/>
       }
          {
     message &&  <div>
@@ -134,16 +146,25 @@ const Submit = () => {
           <CloseModal onClick={Close_Modal} />
         }
         title={<>
-        <Text text={update_doc ? update_doc.title : 'Add/Modify Region'} light heading='h4' block/>
+        <Text text={update_doc ? update_doc.title : 'Add/Modify section'} light heading='h4' block/>
         </>}
-        sub_title={ <Text text='Add and modify region' emp/>}
+        sub_title={ <Text text='Add and modify section' emp/>}
         body={
         <div>
          <IconicInput 
     funcss="section" 
     leftIcon={ <PiCheck />}
-    input={<Input type="text" id='input_val' label="Region" funcss="full-width" defaultValue={update_doc ? update_doc.data : ''}  />}
+    input={<Input type="text" id='input_val' label="section" funcss="full-width" defaultValue={update_doc ? update_doc.section : ''}  />}
      />
+       <select  id='input_directorate' className="full-width input" defaultValue={update_doc ? update_doc.directorate : ''}  >
+        <option value={""}>Directorate</option>
+        {
+          directorates && 
+          directorates.map(res => (
+            <option value={res.id} key={res.id}>{res.directorate}</option>
+          ))
+        }
+        </select>
         </div>
         }
         footer={<RowFlex justify='flex-end'>
@@ -160,7 +181,7 @@ const Submit = () => {
         :''
        }
 
-        <Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add Region"} sub_title={"Add and manage regions"}/>
+<Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add Section"} sub_title={"Add and manage sections"}/>
 
         <div className='_card'>
        <div className="section">
@@ -168,7 +189,7 @@ const Submit = () => {
         <IconicInput 
     funcss="section width-500-max fit" 
     leftIcon={ <PiMagnifyingGlass />}
-    input={<Input type="text" label="Region" funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
+    input={<Input type="text" label="section" funcss="full-width" />}
      />
 
      <Button 
@@ -182,7 +203,7 @@ const Submit = () => {
    outlineSize={0.1}
    fillTextColor='dark900' 
     bg="primary" 
-    text="New Region"
+    text="New section"
     startIcon={<PiPlus />}
     />
         </RowFlex>
@@ -192,7 +213,8 @@ const Submit = () => {
        funcss='text-small'
        hoverable
        head={<>
-         <TableData>Region</TableData>
+         <TableData>section</TableData>
+         <TableData>Directorate</TableData>
          <TableData>Modify</TableData>
          <TableData>Delete</TableData>
        </>}
@@ -200,23 +222,15 @@ const Submit = () => {
            <>
              {
               docs &&
-              docs
-              .filter(res => {
-                if(filter){
-                    if(filter.toString().trim().toLowerCase().includes(res.region.slice(0, filter.trim().length).toString().trim().toLowerCase())){
-                        return res
-                    }
-                }else{
-                    return docs
-                }
-              }).map(res => (
+              docs.map(res => (
                 <TableRow key={res.id}>
-                <TableData>{res.region}</TableData>
+                <TableData>{res.section}</TableData>
+                <TableData>{res.directorate}</TableData>
                 <TableData>
                 <ToolTip>
                  <span  onClick={() => {
               new Promise((resolve, reject) => {
-               setupdate_doc({title:res.region, data:res.region , id:res.id})
+               setupdate_doc({title:res.section, section:res.section , id:res.id , directorate:res.directorateID})
                resolve()
               })
               .then(() => setadd_data_modal(true))

@@ -11,22 +11,18 @@ import endPoint from '../components/endPoint';
 import DaysLeft from './../components/daysLeft';
 import Typography from 'funuicss/component/Typography'
 import dynamic from 'next/dynamic'
+import { GetToken } from '../components/Functions';
 const _Bar = dynamic(()=>import("./../components/Chart/_Bar") ,{ssr:false})
 const _Liquid = dynamic(()=>import("./../components/Chart/_Liquid") ,{ssr:false})
-
 export default function Dashboard() {
-    const [user, setuser] = useState({
-      title: "Mr.",
-      firstname: "John",
-      middleName: "Doe",
-      lastName: "Smith",
-      position: "Manager",
-      department: "Human Resources",
-      status: "Active",
-      no_of_leave_days: 10,
-      address: "123 Main St, City",
-      section: "Admin",
-      retirementAge: 2050
+    const [user, setuser] = useState()
+    useEffect(() => {
+      if(!user ){
+        GetToken()
+        .then((res) => {
+          setuser(res.user)
+        })
+          }
     })  
 
     const data = [
@@ -56,116 +52,12 @@ export default function Dashboard() {
     const [isAdmin, setisAdmin] = useState(false)
     const [canUserApproveRequest, setcanUserApproveRequest] = useState(null)
   
-    // useEffect(() => {
-    // if(user && canUserApproveRequest === null){
-    //   if(user.position === "Deputy Director" ||
-    //     user.position === "Government Statistician (CEO)"
-    //     || user.position === "Deputy Gov Statistician (DGS)" ||
-    //     user.position === "Director" ||
-    //     user.position === "Deputy Director" ||
-    //     user.position === "Sectional Head"
-    //     ){
-    //       if(sessionStorage.getItem("userMode")){
-    //         if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
-    //     setcanUserApproveRequest(true)
-    //     setisAdmin(true)
-    //         }else{
-    //           setcanUserApproveRequest(false)
-    //           setisAdmin(false)
-    //         }
-    //       }
-    //   }else{
-    //   // user do not have previlage
-    //   }
-    // }
-    // })
 
-    // useEffect(() => {
-    //   if(!docs){
-    //   Axios.get(endPoint  + "/staff/showall" , {
-    //       headers:{
-    //           authorization:`Bearer ${token}`
-    //       }
-    //   }).then(dataDocs=>{
-    //     const getDocs = dataDocs.data.staff
-    //       setdocs(getDocs.filter(filt=>{
-    //         if(user.position === "Government Statistician (CEO)"
-    //          || user.position === "Deputy Gov Statistician (DGS)"
-    //           || user.department === "Human Resource"
-    //           || user.department.trim() + user.position.trim() === "AdministrationDirector"
-    //           ){
-    //            return getDocs
-    //        }else if(user.position === "Director" || user.position === "Deputy Director" ){
-    //            if(filt.department === user.department){
-    //                return filt
-    //            }
-    //        }else if(user.position === "Sectional Head"){
-    //                if(filt.section === user.section){
-    //                  return filt
-    //                }
-    //        }else if(user.position === "Unit Head"){
-    //            if(filt.section === user.unit){
-    //              return filt
-    //            }
-    //        }else{
-    //         getDocs.filter(filt =>{
-    //                if(filt.staffId === user.staffId){
-    //                    setdocs(filt)
-    //                }
-    //            }) 
-    //        }
-    //      }))
-    //   }).catch(err=>console.log(err.message))
-    //   }
-    //   })
-          
-// const [data, setdata] = useState(null)
-
-//   useEffect(()=>{
-//     if(docs && !data){
-//      new Promise((resolve, reject)=>{
-
-//       resolve()
-//      }).then(()=>{
-
-//       setdata([
-//         {
-//           name: 'All Staffs',
-//           number: docs ? docs.length : "",
-//         },
-//         {
-//           name: 'At Post',
-//           number:docs.filter(doc=>{
-//             if(doc.status.toString().trim() === "post"){
-//            return doc
-//             }
-//           }).length,
-//         },
-//         {
-//           name: 'On Leave',
-//           number:docs.filter(doc=>{
-//             if(doc.status.toString().trim() === "leave"){
-//            return doc
-//             }
-//           }).length,
-//         },
-//         {
-//           name: 'On Field',
-//           number:docs.filter(doc=>{
-//             if(doc.status.toString().trim() === "field"){
-//            return doc
-//             }
-//           }).length,
-//         }
-        
-//       ])
-//      })
-//     }
-//   })
+   if(user){
     return (
       <div className="">
         <div className='content'>
-          <Nav />
+          <Nav active={1} />
     
           <div className="">
             <div className="margin-bottom-30">
@@ -178,12 +70,12 @@ export default function Dashboard() {
               <Typography
               text={
                 <>
-                  Welcome  <span className="text-bold p-text">{user.title} {user.firstname}   {user.middleName} {user.lastName} </span>
+                  Welcome  <span className="text-bold p-text">{user.title} {user.first_name}   {user.middle_name} {user.last_name} </span>
                 </>
               }
               />
             </div>
-              <div className="_card relative">
+              {/* <div className="_card relative">
               <div className="_dashboard_image_wrapper lighter border">
               <img src="/avatar.svg" className='_dashboard_image' alt="" />
               </div>
@@ -228,7 +120,7 @@ export default function Dashboard() {
              
                 </div>
               </div>
-              </div>
+              </div> */}
 
                 <div>
                 {
@@ -314,4 +206,7 @@ export default function Dashboard() {
       </div>
       </div>
     )
+   }else{
+    return ""
+   }
           }

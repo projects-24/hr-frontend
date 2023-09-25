@@ -27,7 +27,7 @@ import endPoint from '../../../components/endPoint'
 import Success from '../../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
 import { GetRequest, PatchRequest } from '../../../components/Functions'
-export default function Region() {
+export default function Directorate() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
   const [update_doc, setupdate_doc] = useState("")
@@ -35,12 +35,11 @@ export default function Region() {
   const [success, setsuccess] = useState("")
   const [message, setmessage] = useState("")
   const [deleteId, setdeleteId] = useState("")
-  const [filter, setfilter] = useState("")
 
   const [docs, setdocs] = useState("")
   useEffect(() => {
  if(!docs){
-  GetRequest("/region")
+  GetRequest("/directorate")
   .then( res => setdocs(res))
   .catch(err => console.log(err))
  }
@@ -66,8 +65,8 @@ const Submit = () => {
   if(val){
     setloading(true)
     if(update_doc){
-      PatchRequest( "/region" , update_doc.id , {
-        region:val
+      PatchRequest( "/directorate" , update_doc.id , {
+        directorate:val
       })
       .then( (res) => {
        if(res){
@@ -82,8 +81,8 @@ const Submit = () => {
       })
 
     }else{
-    Axios.post(endPoint + "/region" , {
-      region:val
+    Axios.post(endPoint + "/directorate" , {
+      directorate:val
     })
     .then( (res) => {
            setloading(false)
@@ -107,7 +106,7 @@ const Submit = () => {
     <div>
       {
         deleteId &&
-        <DeleteModal  route={"/region"} id={deleteId}/>
+        <DeleteModal route={"/directorate"} id={deleteId}/>
       }
          {
     message &&  <div>
@@ -134,15 +133,15 @@ const Submit = () => {
           <CloseModal onClick={Close_Modal} />
         }
         title={<>
-        <Text text={update_doc ? update_doc.title : 'Add/Modify Region'} light heading='h4' block/>
+        <Text text={update_doc ? update_doc.title : 'Add/Modify directorate'} light heading='h4' block/>
         </>}
-        sub_title={ <Text text='Add and modify region' emp/>}
+        sub_title={ <Text text='Add and modify directorate' emp/>}
         body={
         <div>
          <IconicInput 
     funcss="section" 
     leftIcon={ <PiCheck />}
-    input={<Input type="text" id='input_val' label="Region" funcss="full-width" defaultValue={update_doc ? update_doc.data : ''}  />}
+    input={<Input type="text" id='input_val' label="directorate" funcss="full-width" defaultValue={update_doc ? update_doc.data : ''}  />}
      />
         </div>
         }
@@ -160,7 +159,7 @@ const Submit = () => {
         :''
        }
 
-        <Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add Region"} sub_title={"Add and manage regions"}/>
+        <Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add directorate"} sub_title={"Add and manage directorates"}/>
 
         <div className='_card'>
        <div className="section">
@@ -168,7 +167,7 @@ const Submit = () => {
         <IconicInput 
     funcss="section width-500-max fit" 
     leftIcon={ <PiMagnifyingGlass />}
-    input={<Input type="text" label="Region" funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
+    input={<Input type="text" label="directorate" funcss="full-width" />}
      />
 
      <Button 
@@ -182,7 +181,7 @@ const Submit = () => {
    outlineSize={0.1}
    fillTextColor='dark900' 
     bg="primary" 
-    text="New Region"
+    text="New directorate"
     startIcon={<PiPlus />}
     />
         </RowFlex>
@@ -192,7 +191,7 @@ const Submit = () => {
        funcss='text-small'
        hoverable
        head={<>
-         <TableData>Region</TableData>
+         <TableData>directorate</TableData>
          <TableData>Modify</TableData>
          <TableData>Delete</TableData>
        </>}
@@ -200,23 +199,14 @@ const Submit = () => {
            <>
              {
               docs &&
-              docs
-              .filter(res => {
-                if(filter){
-                    if(filter.toString().trim().toLowerCase().includes(res.region.slice(0, filter.trim().length).toString().trim().toLowerCase())){
-                        return res
-                    }
-                }else{
-                    return docs
-                }
-              }).map(res => (
+              docs.map(res => (
                 <TableRow key={res.id}>
-                <TableData>{res.region}</TableData>
+                <TableData>{res.directorate}</TableData>
                 <TableData>
                 <ToolTip>
                  <span  onClick={() => {
               new Promise((resolve, reject) => {
-               setupdate_doc({title:res.region, data:res.region , id:res.id})
+               setupdate_doc({title:res.directorate, data:res.directorate , id:res.id})
                resolve()
               })
               .then(() => setadd_data_modal(true))

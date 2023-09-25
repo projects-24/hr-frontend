@@ -9,7 +9,7 @@ import TableData from 'funuicss/ui/table/Data'
 import TableRow from 'funuicss/ui/table/Row'
 import Circle from 'funuicss/ui/specials/Circle'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
-import { PiCheck, PiMagnifyingGlass, PiPaperPlane, PiPen, PiPlus, PiTrash, PiX } from 'react-icons/pi'
+import { PiCheck, PiMagnifyingGlass, PiMoney, PiPaperPlane, PiPen, PiPlus, PiTrash, PiUser, PiX } from 'react-icons/pi'
 import ToolTip from 'funuicss/ui/tooltip/ToolTip'
 import Tip from 'funuicss/ui/tooltip/Tip'
 import Input from 'funuicss/ui/input/Input'
@@ -27,7 +27,7 @@ import endPoint from '../../../components/endPoint'
 import Success from '../../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
 import { GetRequest, PatchRequest } from '../../../components/Functions'
-export default function Region() {
+export default function job() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
   const [update_doc, setupdate_doc] = useState("")
@@ -38,13 +38,15 @@ export default function Region() {
   const [filter, setfilter] = useState("")
 
   const [docs, setdocs] = useState("")
+
   useEffect(() => {
  if(!docs){
-  GetRequest("/region")
+  GetRequest("/job")
   .then( res => setdocs(res))
   .catch(err => console.log(err))
  }
   })
+
   
   useEffect(()=>{
     setTimeout(()=>{
@@ -62,12 +64,14 @@ const Close_Modal = () => {
 
 const Submit = () => {
   const val = FunGet.val("#input_val")
+  const val_salaryLevel = FunGet.val("#input_salaryLevel")
   setadd_data_modal(false)
   if(val){
     setloading(true)
-    if(update_doc){
-      PatchRequest( "/region" , update_doc.id , {
-        region:val
+    if(update_doc && val_salaryLevel){
+      PatchRequest( "/job" , update_doc.id , {
+        job:val,
+        salaryLevel:val_salaryLevel
       })
       .then( (res) => {
        if(res){
@@ -82,11 +86,13 @@ const Submit = () => {
       })
 
     }else{
-    Axios.post(endPoint + "/region" , {
-      region:val
+    Axios.post(endPoint + "/job" , {
+      job:val ,
+      salaryLevel:val_salaryLevel
     })
     .then( (res) => {
            setloading(false)
+           console.log(res)
      if(res.data){
       setdocs("")
       setsuccess(true)
@@ -107,7 +113,7 @@ const Submit = () => {
     <div>
       {
         deleteId &&
-        <DeleteModal  route={"/region"} id={deleteId}/>
+        <DeleteModal route={"/job"} id={deleteId}/>
       }
          {
     message &&  <div>
@@ -134,16 +140,20 @@ const Submit = () => {
           <CloseModal onClick={Close_Modal} />
         }
         title={<>
-        <Text text={update_doc ? update_doc.title : 'Add/Modify Region'} light heading='h4' block/>
+        <Text text={update_doc ? update_doc.title : 'Add/Modify job'} light heading='h4' block/>
         </>}
-        sub_title={ <Text text='Add and modify region' emp/>}
+        sub_title={ <Text text='Add and modify job' emp/>}
         body={
         <div>
          <IconicInput 
-    funcss="section" 
-    leftIcon={ <PiCheck />}
-    input={<Input type="text" id='input_val' label="Region" funcss="full-width" defaultValue={update_doc ? update_doc.data : ''}  />}
+    leftIcon={ <PiUser />}
+    input={<Input type="text" id='input_val' label="job" funcss="full-width" defaultValue={update_doc ? update_doc.job : ''}  />}
      />
+         <IconicInput 
+    leftIcon={ <PiMoney />}
+    input={<Input type="text"   id='input_salaryLevel' label="Salary Level" funcss="full-width"  defaultValue={update_doc ? update_doc.salaryLevel : ''}  />}
+     />
+      
         </div>
         }
         footer={<RowFlex justify='flex-end'>
@@ -160,15 +170,15 @@ const Submit = () => {
         :''
        }
 
-        <Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add Region"} sub_title={"Add and manage regions"}/>
-
+        <Header sub_dir={"Configurations" } sub_dir_route={"/configurations"} title={ "Add job"} sub_title={"Add and manage jobs"}/>
+     
         <div className='_card'>
-       <div className="section">
+       <div className="job">
        <RowFlex justify='space-between' gap={1} responsiveSmall>
         <IconicInput 
-    funcss="section width-500-max fit" 
+    funcss="job width-500-max fit" 
     leftIcon={ <PiMagnifyingGlass />}
-    input={<Input type="text" label="Region" funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
+    input={<Input type="text" label="job" funcss="full-width" onChange={(e) => setfilter(e.target.value)} />}
      />
 
      <Button 
@@ -182,7 +192,7 @@ const Submit = () => {
    outlineSize={0.1}
    fillTextColor='dark900' 
     bg="primary" 
-    text="New Region"
+    text="New job"
     startIcon={<PiPlus />}
     />
         </RowFlex>
@@ -192,7 +202,8 @@ const Submit = () => {
        funcss='text-small'
        hoverable
        head={<>
-         <TableData>Region</TableData>
+         <TableData>job</TableData>
+         <TableData>Salary Level</TableData>
          <TableData>Modify</TableData>
          <TableData>Delete</TableData>
        </>}
@@ -203,20 +214,22 @@ const Submit = () => {
               docs
               .filter(res => {
                 if(filter){
-                    if(filter.toString().trim().toLowerCase().includes(res.region.slice(0, filter.trim().length).toString().trim().toLowerCase())){
+                    if(filter.toString().trim().toLowerCase().includes(res.job.slice(0, filter.trim().length).toString().trim().toLowerCase())){
                         return res
                     }
                 }else{
                     return docs
                 }
-              }).map(res => (
+              })
+              .map(res => (
                 <TableRow key={res.id}>
-                <TableData>{res.region}</TableData>
+                <TableData>{res.job}</TableData>
+                <TableData>{res.salaryLevel}</TableData>
                 <TableData>
                 <ToolTip>
                  <span  onClick={() => {
               new Promise((resolve, reject) => {
-               setupdate_doc({title:res.region, data:res.region , id:res.id})
+               setupdate_doc({title:res.job, job:res.job , id:res.id , salaryLevel:res.salaryLevel})
                resolve()
               })
               .then(() => setadd_data_modal(true))

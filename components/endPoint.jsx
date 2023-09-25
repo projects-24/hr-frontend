@@ -1,1 +1,1 @@
-export default "https://hrmis.onrender.com"
+export default "https://hrmis.onrender.com/api"

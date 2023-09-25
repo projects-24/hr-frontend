@@ -5,6 +5,10 @@ import Sections from '../data/sections'
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import DaysLeft from './daysLeft';
+import Button from 'funuicss/ui/button/Button'
+import { PiFile, PiMagnifyingGlass, PiPrinter } from 'react-icons/pi'
+import RowFlex from 'funuicss/ui/specials/RowFlex'
+import Text from 'funuicss/ui/text/Text'
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
 export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
@@ -69,7 +73,7 @@ new Promise((resolve, reject) => {
       <Excel Trigger = {exportTrigger} />
  
         <div className="">
-         <div className="tableFilter padding space-between">
+         <RowFlex responsiveSmall funcss='bb' justify='space-between'  gap={1}>
          <div>
         
             <div className="minSection">
@@ -79,10 +83,10 @@ new Promise((resolve, reject) => {
               }</div>
             </div>
          </div>
-            <div style={{display:"flex", gap:'2rem'}}>
-            <button className="secondary button  roundEdge full-width" onClick={()=>setopenHideModal(true)}>
-                Filter <i className="lni lni-list"></i>
-            </button>
+            <div style={{display:"flex", gap:'2rem' , alignItems:"center"}}>
+            <Button raised small bg='primary' startIcon={<PiMagnifyingGlass />} onClick={()=>setopenHideModal(true)}>
+                Filter 
+            </Button>
               <input type="text" className="input" onChange={(e)=>{
                 setsearch(e.target.value)
               setgetAll(!getAll)
@@ -101,9 +105,9 @@ new Promise((resolve, reject) => {
         :""
         }
             <div>
-            <button className=' button p-text success roundEdge text-white' onClick={exportExcel}>Export <i className="lni lni-share"></i></button>
+            <Button raised bg='violet' startIcon={<PiFile />} onClick={exportExcel}>Export </Button>
          </div>
-         </div>
+         </RowFlex>
        
          <div className=''>
         {
@@ -111,14 +115,14 @@ new Promise((resolve, reject) => {
           <>
            <div className="row hr">
             <div className="col sm-12 md-8 lg-8 padding">
-            <div className="h4 section">Showing data for</div>
+            <Text heading='h5' light>Showing data for</Text>
              <div className="row-flex">
              {
                                 columsHide && columsRender ?
                                 columsHide.map(doc=>(
-                                 <span className='text-bold light round-edge text-small' key={doc.id}  style={{padding:"0.2rem"}}>
+                                 <Button bg='primary' smaller rounded raised key={doc.id}  style={{padding:"0.2rem"}}>
                                      {doc.name}
-                                 </span>
+                                 </Button>
                                 )):""
                             }
              </div>
@@ -249,7 +253,7 @@ new Promise((resolve, reject) => {
             :""
         }
         <div className="dTableContainer">
-        <table className='dTable ' id='records'>
+        <table className='dTable stripped' id='records'>
             <thead>
             <tr>
             <td  style={{fontWeight:"bold", width:"200px"}}>Staff ID</td>

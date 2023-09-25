@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import Nav from '../../components/Nav';
 import { useState } from 'react';
-import Link from 'next/link';
 import Axios  from 'axios';
 import endPoint from '../../components/endPoint';
 import Loader from '../../components/loader';
@@ -14,16 +13,19 @@ import { useRouter } from 'next/router';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import grades from "../../data/grades"
-import Alert from '../../Funcss/Components/Alert';
+import Alert from 'funuicss/ui/alert/Alert';
 import positions from '../../data/positions';
 import Typography from 'funuicss/component/Typography';
-import Input from 'funuicss/component/Input';
-import Button from 'funuicss/component/Button';
+import Input from 'funuicss/ui/input/Input';
+import Button from 'funuicss/ui/button/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Header from '../../components/Header';
+import Text from 'funuicss/ui/text/Text';
+import { PiPlus } from 'react-icons/pi';
 
 
 export default function Personal() {
@@ -477,33 +479,16 @@ export default function Personal() {
         }
     }
     return (
-        <div className="padding">
+        <div className="container">
               <div className="message">
          {
             message ?
-            <Alert type="info" message={message}/>
+            <Alert type="info" message={message} fixed='top-middle' raised/>
             :""
          }
          </div>
             <div className="padding-top-80"></div>
-           <div className="row-flex"  style={{padding:"1rem"}}>
-            <div>
-                <img src="/avatar.svg" className='width-100-max fit' alt="" />
-            </div>
-            <div>
-                <Typography
-                text='Add a new staff'
-                heading='h2'
-                />
-                <div className=" row-flex">
-                    <Link href="/dashboard">Dashboard</Link>
-                    /
-                    <Link href="/staff/profiling">Staff profiling</Link>
-                    /
-                    <Link href="#">New Staff</Link>
-                </div>
-            </div>
-           </div>
+            <Header title={"Add New Staff"} sub_title={"Create a new staff."}/>
             <div className=''>
             <Nav noSideBar={true}/>
             {
@@ -517,9 +502,9 @@ export default function Personal() {
             <div className="">
                 <div className="row" style={{alignItems:"flex-start"}}>
                     <div className="col sm-12 md-6 lg-6 div">
-                    <div className="row card form-section">
+                    <div className="row _card">
                     <div className="col sm-12 md-12 lg-12 section padding">
-                    <div className="h4"><img src="/hand/person.svg" className="height-50"/> Personal Details</div>
+                    <div className="h4"><img src="/hand/person.svg" className="height-30"/> Personal Details</div>
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
                 <Input  name='id' fullWidth label='Staff ID' />
@@ -534,64 +519,71 @@ export default function Personal() {
                 <div className="col sm-12 md-6 lg-6 padding">
                 <Input name='lastName' fullWidth label='Last Name' />
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required select fullWidth type="text" name='title' label="Title">
-                    <MenuItem value="Prof">Prof</MenuItem>
-                    <MenuItem value="Dr.">Dr.</MenuItem>
-                    <MenuItem value="Mr">Mr</MenuItem>
-                    <MenuItem value="Mrs">Mrs</MenuItem>
-                    <MenuItem value="Ms">Ms</MenuItem>
-                    <MenuItem value="Miss">Miss</MenuItem>
-                    <MenuItem value="Rev(Mrs)">Rev(Mrs)</MenuItem>
-                    <MenuItem value="Rev(Mr)">Rev(Mr)</MenuItem>
-                </TextField>
-                </div>       
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField multiline rows={2} name='address' fullWidth label='Residence GPS' />
+                <select className='input full-width' name='title' >
+                    <option value="">Title</option>
+                    <option value="Prof">Prof</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Rev(Mrs)">Rev(Mrs)</option>
+                    <option value="Rev(Mr)">Rev(Mr)</option>
+                
+                </select>      
+             
+                    </div>
+                    <div className="col sm-12 md-12 lg-12 padding">
+                <Input multiline rows={2} name='address' fullWidth label='Residence GPS' />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField  name='hometown' fullWidth label='Home Town' />
+                <Input  name='hometown' fullWidth label='Home Town' />
                 </div>
                     </div>
-                    </div>
-       
+                    </div> 
                     <div className="col sm-12 md-6 lg-6 div">
 
-                    <div className="row card formSection">
+                    <div className="row _card formSection">
                 <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/underline.svg" className="width-50"/> Marital Details</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/underline.svg" className="width-50"/> Marital Details</div>
                 </div>
-                    <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="maritalStatus" id="" label="Marital Status" onChange={(e)=>setmarital(e.target.value)}>
-                    <MenuItem value="married">Married</MenuItem>
-                    <MenuItem value="single">Single</MenuItem>
-                    <MenuItem value="divorced">Divorced</MenuItem>
-                    <MenuItem value="widow">Widow</MenuItem>
-                    <MenuItem value="widower">Widower</MenuItem>
-                </TextField>
+                    <div className="col sm-12 md-12 lg-12 padding">
+                <select className='input full-width' name="maritalStatus"  onChange={(e)=>setmarital(e.target.value)}>
+                    <option value="">Marital Status</option>
+                    <option value="married">Married</option>
+                    <option value="single">Single</option>
+                    <option value="divorced">Divorced</option>
+                    <option value="widow">Widow</option>
+                    <option value="widower">Widower</option>
+                </select>
                 </div>
             
-                <div className="col sm-12 md-6 lg-6 padding">
+                <div className="col sm-12 md-12 lg-12 padding">
                {
                 marital === "married" || marital === "widow" || marital === "Co-Habition" ?
-                <TextField variant="outlined" type="text" name='spouse' fullWidth label='Name Of Spouse' />
+                <Input  type="text" name='spouse' fullWidth label='Name Of Spouse' />
                 :
               <div style={{opacity:0}}>
-                  <TextField variant="outlined" disabled type="text" name='spouse' fullWidth label='Name Of Spouse' />
+                  <Input  disabled type="text" name='spouse' fullWidth label='Name Of Spouse' />
                   </div>
                }
                 {/* disable is divoced or single */}
                 </div>
                     </div>
-                    <div className="row card formSection">
+                    <div className="row _card formSection">
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nationality' fullWidth label='Nationality' select>
-                    <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
-                    {/* <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem>  */}
-                </TextField>
+                <select className='input full-width' name='nationality'>
+                    <option value="">Nationality</option> 
+                    <option value="Ghanaian">Ghanaian</option> 
+                    {/* <option value="Non-Ghanaian">Non-Ghanaian</option>  */}
+                </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" onChange={(e)=>{
+                <Input status={ghaValid === null ?
+                        ""
+                        :
+                        ghaValid ? "success" : 'danger'}  type="text" onChange={(e)=>{
                     const getVal = e.target.value
                     if(
                         getVal.slice(0, 4) ===  "GHA-" &&
@@ -603,19 +595,14 @@ export default function Personal() {
                         setghaValid(false)
                     }
                 }} name='ghanaCard' fullWidth label='Ghana Card Number' />
-                <div>
-                    {
-                        ghaValid === null ?
-                        ""
-                        :
-                        ghaValid ?
-                        <div className="text-success text-small text-bold">Your ghana card is valid <i className="lni li-check"></i> </div>
-                        :<div className="text-danger text-small text-bold">Invalid Gha Card Number</div> 
-                    }
-                </div>
+        
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='ssnitNumber' fullWidth label='SSNIT Number'
+                <Input status={ssnitValid === null ?
+                         ""
+                         :ssnitValid ? "success" 
+                        : "danger"
+                        }  type="text" name='ssnitNumber' fullWidth label='SSNIT Number'
                 onChange={(e)=>{
                     const getVal = e.target.value
                     if(
@@ -626,85 +613,81 @@ export default function Personal() {
                         setssnitValid(false)
                     }
                 }} />
-                         <div>
-                    {
-                         ssnitValid === null ?
-                         ""
-                         :ssnitValid ?
-                        <div className="text-success text-small text-bold">Your SSNIT number is valid</div>
-                        :<div className="text-danger text-small text-bold">Invalid SSNIT Number</div>
-                    }
-                </div>
+               
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <Input name='tel' fullWidth label='Telephone Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField required select fullWidth name="gender" label="Gender" id="" >
-                    <MenuItem value="">Gender</MenuItem>
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                </TextField>
+                <Text text='Gender' size='small' emp/>
+                <select className='input full-width'  name="gender" id="" >
+                    <option value="">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="text-bold">Date of birth</div>
-                <TextField required variant="outlined" fullWidth type="date" name='dob'  />
+                  <Text text='Date of birth' size='small' emp/>
+                <Input required  fullWidth type="date" name='dob'  />
                 </div>
                     </div>
                     </div>
        
                     <div className="col sm-12 md-6 lg-6 div">
-                    <div className="card row formSection">
+                    <div className="_card row formSection">
                         
                         <div className="col sm-12 md-12 lg-12 padding">
-                            <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/> Directorate Details</div>
+                            <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/undraw_check.svg" className="height-30"/> Directorate Details</div>
                         </div>
                         <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField required fullWidth type="text" select name='department' label="Department" variant="outlined" onChange={(e)=>setDepartment(e.target.value)}>
+                        <select className='input full-width' name='department'  onChange={(e)=>setDepartment(e.target.value)}>
+                           <option value="">Department</option>
                             {
                                 departments.map(docs=>( 
-                                    <MenuItem value={docs.department} key={docs.department}>{docs.department}</MenuItem>
+                                    <option value={docs.department} key={docs.department}>{docs.department}</option>
                                 ))
                             }
-                    </TextField>
+                    </select>
                         </div>
                         <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField required fullWidth type="text" select label="Section" name='section' variant="outlined">
+                        <select className='input full-width'  name='section'>
+                            <option value="">Section</option>
                             {
                                 sections.filter(docs=>{
                                     if(Department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
                                         return docs
                                     }
                                 }).map(docs=>(
-                                    <MenuItem value={`${docs.section}`} key={docs.section}> {docs.section}</MenuItem>
+                                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
                                 ))
                             }
-                            </TextField>
+                            </select>
                         </div>
                         <div className="col sm-12 md-12 lg-12 padding">
-                        <TextField select fullWidth name="region" id="region" label="Region">
-                        <MenuItem value="HQ" > HQ </MenuItem>
+                        <select className='input full-width' name="region" id="region">
+                            <option value="">Region</option>
+                        <option value="HQ" > HQ </option>
                                     {
                                         regions.map(docs=>(
-                                            <MenuItem value={docs.name} key={docs._id}> {docs.name} </MenuItem>
+                                            <option value={docs.name} key={docs._id}> {docs.name} </option>
                                         ))
                                     }
-                                </TextField>
+                                </select>
                         </div>
                         <div className="col sm-12 md-12 lg-12 padding">
-                        <TextField disabled fullWidth name="unit" label="Unit" />
+                        <Input disabled fullWidth name="unit" label="Unit" />
                         </div>
                             </div>
                     </div>
        
                     <div className="col sm-12 md-6 lg-6 div">
-                        <div className="row card formSection">
+                        <div className="row _card formSection">
                             
                 <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/undraw_note.svg" className="height-50"/> Job Infomation</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/undraw_note.svg" className="height-30"/> Job Infomation</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth type="text" onChange={(e)=>{
+                <select className='input full-width' onChange={(e)=>{
                   jobTitles.filter(filt=>{
                         if(e.target.value === filt.title){
                             return filt
@@ -712,100 +695,110 @@ export default function Personal() {
                     }).map(doc=>{
                         setselectedSalary(doc.salary)
                     })
-                    }} select label="Job Title" name='jobTitle' variant="outlined">
-                        
+                    }} select label="Job Title" name='jobTitle' >
+                        <option value="">Job Title</option>
                     {
                         jobTitles.map(docs=>(
-                            <MenuItem value={`${docs.title}`} key={docs.title}> {docs.title}</MenuItem>
+                            <option value={`${docs.title}`} key={docs.title}> {docs.title}</option>
                         ))
                     }
-                    </TextField>
+                    </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField fullWidth type="text" select label="Grade" name='grade' variant="outlined" >
+                <select className='input full-width' name='grade'  >
+                    <option value="">Grade</option>
                     {
                         grades.map(docs=>(
-                            <MenuItem value={`${docs.grade}`} key={docs.grade}>{docs.grade}</MenuItem>
+                            <option value={`${docs.grade}`} key={docs.grade}>{docs.grade}</option>
                         ))
                     }
-                    </TextField>
+                    </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-            <TextField fullWidth type="text" select label="Position" name='position' variant="outlined">
+            <select className='input full-width' name='position' >
+                <option value="">Position</option>
                     {
                         positions.map(docs=>(
-                            <MenuItem value={`${docs.position}`} key={docs.position}> {docs.position}</MenuItem>
+                            <option value={`${docs.position}`} key={docs.position}> {docs.position}</option>
                         ))
                     }
-                    </TextField>
+                    </select>
             </div>
      
                 <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Salary Level</div>
-                <TextField variant="outlined" type="text" value={selectedSalary} name='salary' fullWidth disabled />
+                <Input  type="text" value={selectedSalary ? selectedSalary : ''} label='Salary Level' name='salary' fullWidth disabled />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="text-bold">Date of appointment</div>
-                <TextField variant="outlined" type="date" name='appointDate' fullWidth />
+                    <Text text='Date of appointment' size='small' emp/>
+                <Input  type="date" name='appointDate' fullWidth />
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <TextField select variant="outlined" type="text" name='employmentStatus' fullWidth label='Employment Status'>
-                <MenuItem value="permanent">Permanent</MenuItem>
-                <MenuItem value="Contract">Contract</MenuItem>
-                </TextField>
+                <Text text='Employment Status' size='small' emp/>
+                <select className='input full-width' name='employmentStatus' >
+                <option value="permanent">Permanent</option>
+                <option value="Contract">Contract</option>
+                </select>
                 </div>
            
                         </div>
                     </div>
        
                     <div className="col sm-12 md-12 lg-12 div">
-                        <div className="card formSection row">
+                        <div className=" _card formSection row">
                         <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/underline.svg" className="width-50"/> Dependancy</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/underline.svg" className="width-50"/> Dependancy</div>
                 </div>
                         
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="number" name='availableChildren' label="Available Children"  onChange={(e)=>setavailableChildren(e.target.value)}>
-                <MenuItem value={true}> Yes </MenuItem>
-                <MenuItem value={false}> No </MenuItem>
-                </TextField>
+                <select className='input full-width' name='availableChildren'   onChange={(e)=>setavailableChildren(e.target.value)}>
+               <option value="">Available Children</option>
+                <option value={true}> Yes </option>
+                <option value={false}> No </option>
+                </select>
     
                 </div>
         
                 <div className="col sm-6 md-6 lg-6 padding">
                     {
                         availableChildren ?
-                <TextField variant="outlined" type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
-                : <TextField variant="outlined" disabled type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                <Input  type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                : <Input  disabled type="number" name="numberChildren" value={0} fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
                     }
                 </div>
                 {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <TextField id='child' name='child' variant="outlined" type="text"  fullWidth label='Name Of Child'  />
+                                   <Text text='Name Of Child' size='small' emp/>
+                    <Input id='child' name='child'  type="text"  fullWidth label='Name Of Child'  />
                     </div>
                     :""
                 }
                 {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="text-bold">Date Of Birth</div>
-                    <TextField id='childDob' name='childDate' variant="standard" type="date"  fullWidth />
+                 <Text text='Date of Birth' size='small' emp/>
+                    <Input id='childDob' name='childDate'  type="date"  fullWidth />
                     </div>
                     :""
                 }
                 {
                     childNumber > 0 ?
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <button onClick={handleChild} className="button indigo text-white"><i className="lni lni-plus"></i> Add</button>
+                    <Button onClick={handleChild}
+                    text='Add Child'
+                    startIcon={<PiPlus />}
+                    raised
+                    bg='primary'
+                    small
+                    />
                     </div>
                     :""
                 }
                 {
                     childNumber > 0 ?
                
-                    <div className="col sm-12  md-6 lg-6 padding">
-                   <table className="table text-left">
+                    <div className="col sm-12  md-12 lg-12 padding section border" style={{borderRadius:"2rem"}}>
+                   <table className="table text-left stripped ">
                     <thead>
                         <td>Child</td>
                         <td>Date of birth</td>
@@ -815,7 +808,7 @@ export default function Personal() {
                     {
                         childrenDocs ?
                         childrenDocs.map(docs=>(
-                            <tr className="row-flex" key={docs.id}>
+                            <tr  key={docs.id}>
                                 <td className="padding">{docs.child}</td>
                                 <td className="padding">{docs.dob}</td>
                                 <td className="padding pointer hover-text-red" onClick={()=>{
@@ -841,46 +834,47 @@ export default function Personal() {
                     :""
                 }
                     <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKin' fullWidth label='Next of kin' />
+                <Input  type="text" name='nextKin' fullWidth label='Next of kin' />
                 </div>
             
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinRelation' fullWidth label='Relation with next of kin' />
+                <Input  type="text" name='nextKinRelation' fullWidth label='Relation with next of kin' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinTel' fullWidth label='Next of kin contact' />
+                <Input  type="text" name='nextKinTel' fullWidth label='Next of kin contact' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='nextKinAddress' fullWidth label='Next of kin address' />
+                <Input  type="text" name='nextKinAddress' fullWidth label='Next of kin address' />
                 </div>
         
                         </div>
                     </div>
        
                     <div className="col sm-12 md-6 lg-6 div">
-                    <div className="row card formSection">
+                    <div className="row _card formSection">
                     <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/person.svg" className="height-50"/> Father</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/person.svg" className="height-30"/> Father</div>
                 </div>
         
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='father' fullWidth label='Full Name' />
+                <Input  type="text" name='father' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='fatheroccupation' fullWidth label='Occupation' />
+                <Input  type="text" name='fatheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='fathernationality' fullWidth label='Nationality' select>
-                <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
-                <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
-                </TextField>
+                <Text text='Nationality' size='small' emp/>
+                <select className='input full-width' name='fathernationality' >
+                <option value="Ghanaian">Ghanaian</option> 
+                <option value="Non-Ghanaian">Non-Ghanaian</option> 
+                </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="text-bold">Date of birth</div>
-                <TextField variant="standard" type="date" name='fatherdob' fullWidth />
+                <Text text='Date of Birth' size='small' emp/>
+                <Input  type="date" name='fatherdob' fullWidth />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='fatherLife' label="Deceased or alive" onChange={(e)=>{
+                <select className='input full-width' name='fatherLife' onChange={(e)=>{
                     if(e.target.value === "Alive"){
                         setfather(true)
                     }else{
@@ -888,47 +882,50 @@ export default function Personal() {
 
                     }
                 }}> 
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Deceased">Deceased</MenuItem>
-                </TextField>
+                    <option value="">Deceased or alive</option>
+                    <option value="Alive">Alive</option>
+                    <option value="Deceased">Deceased</option>
+                </select>
                 </div>
                 {
                     father ?
                     <div className="col sm-12 md-12 lg-12 padding">
-                <TextField  variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
+                <Input   type="tel" fullWidth label='Contact' onChange={(e)=>setfatherContact(e.target.value)} />
                 </div>
                 :""
                 }     <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="text" name='fatherhometown' fullWidth label='Home Town' />
+                <Input  type="text" name='fatherhometown' fullWidth label='Home Town' />
                 </div>
                     </div>
                     </div>
        
                     <div className="col sm-12 md-6 lg-6 div">
-                        <div className="card row formSection">
+                        <div className="_card row formSection">
                             
                     <div className="col sm-12 md-12 lg-12 ">
-                    <div className="h4 padding"><img src="/hand/person.svg" className="height-50"/> Mother</div>
+                    <div className="h4 padding"><img src="/hand/person.svg" className="height-30"/> Mother</div>
                 </div>
               
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mother' fullWidth label='Full Name' />
+                <Input  type="text" name='mother' fullWidth label='Full Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='motheroccupation' fullWidth label='Occupation' />
+                <Input  type="text" name='motheroccupation' fullWidth label='Occupation' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='mothernationality' fullWidth label='Nationality' select>
-                <MenuItem value="Ghanaian">Ghanaian</MenuItem> 
-                    <MenuItem value="Non-Ghanaian">Non-Ghanaian</MenuItem> 
-                </TextField>
+                <Text text='Nationality' size='small' emp/>
+                <select className='input full-width' name='mothernationality'>
+                <option value="">Nationality</option> 
+                <option value="Ghanaian">Ghanaian</option> 
+                    <option value="Non-Ghanaian">Non-Ghanaian</option> 
+                </select>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <div className="text-bold">Date of birth</div>
-                <TextField variant="standard" type="date" name='motherdob' fullWidth />
+                <Text text='Date Of Birth' size='small' emp/>
+                <Input  type="date" name='motherdob' fullWidth />
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth name='motherLife' label="Deceased or alive"  onChange={(e)=>{
+                <select className='input full-width' name='motherLife'   onChange={(e)=>{
                     if(e.target.value === "Alive"){
                         setmother(true)
                     }else{
@@ -936,64 +933,67 @@ export default function Personal() {
 
                     }
                 }}>
-                    <MenuItem value="Alive">Alive</MenuItem>
-                    <MenuItem value="Deceased">Deceased</MenuItem>
-                </TextField>
+                    <option value="">Deceased or alive</option>
+                    <option value="Alive">Alive</option>
+                    <option value="Deceased">Deceased</option>
+                </select>
                 </div>
                 {
                     mother ?
                     <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="tel" fullWidth label='Contact' onChange={(e)=>setmotherContact(e.target.value)} />
+                <Input  type="tel" fullWidth label='Contact' onChange={(e)=>setmotherContact(e.target.value)} />
                 </div>
                 :""
                 }
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="text" name='motherhometown' fullWidth label='Home Town' />
+                <Input  type="text" name='motherhometown' fullWidth label='Home Town' />
                 </div>
                         </div>
                     </div>
                     <div className="col sm-12 md-12 lg-12 div">
-                        <div className="formSection row card" style={{justifyContent:"normal"}}>
+                        <div className="formSection row _card" style={{justifyContent:"normal"}}>
                         <div className="col sm-12 md-12 lg-12 ">
                     <div className="h4 padding">
-                        <img src="/hand/undraw_exclamation-point.svg" className="height-50"/> Criminal Details
+                        <img src="/hand/undraw_exclamation-point.svg" className="height-30"/> Criminal Details
                         </div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="crime" id="" label="Convicted Of A Crime" onChange={(e)=>{
+                <select className='input full-width' name="crime" onChange={(e)=>{
                     if(e.target.value === "yes"){
                         setcrime(true)
                     }else if (!e.target.value){
                         setcrime(false)
                     }
                 }}>
-                    <MenuItem value="no">No</MenuItem>
-                    <MenuItem value="yes">Yes</MenuItem>
-                </TextField>
+                    <option value="">Convicted Of A Crime</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
                 {
                     crime ?
                     <div className="section">
-                <TextField variant="outlined" type="text" name='crimereason' fullWidth label='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
+                <Input  type="text" name='crimereason' fullWidth label='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
                 </div>
                 :""
                 }
                 </div>
           
                           <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth name="service" id="" label="Ever dismissed from a public service" onChange={(e)=>{
+                <select className='input full-width' name="service" id=""  onChange={(e)=>{
                     if(e.target.value === "yes"){
                         setdismissed(true)
                     }else if (!e.target.value){
                         setdismissed(false)
                     }
                 }}>
-                    <MenuItem value='no'>No</MenuItem>
-                    <MenuItem value={"yes"}>Yes</MenuItem>
-                </TextField>
+                    <option value=''>Ever dismissed from a public service</option>
+                    <option value='no'>No</option>
+                    <option value={"yes"}>Yes</option>
+                </select>
                 {
                     dismissed ?
                     <div className="section">
-                <TextField variant="outlined" type="text" name='servicereason' fullWidth label='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
+                <Input  type="text" name='servicereason' fullWidth label='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
                 </div>
                 :""
                 }
@@ -1002,40 +1002,42 @@ export default function Personal() {
                         </div>
                     </div>
        
-                    <div className="col sm-12 md-12 lg-12 div">
-                        <div className="formSection card row">
-                            <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="col sm-12 md-12 lg-12 div _card">
+                        <div className="container">
+                        <div className="formSection  row">
+                            <div className="col sm-12 md-12 lg-12 padding">
                             <div className="row">
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>Education</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/undraw_check.svg" className="height-30"/>Education</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField variant="outlined" type="text" name='school'  id='school' fullWidth label='School' />
+                <Input  type="text" name='school'  id='school' fullWidth label='School' />
                 </div>
 
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField select fullWidth type="text" name='certificate' id='certificate' label="Type of certificate" >
-                    <MenuItem value="PhD"> PhD </MenuItem>
-                    <MenuItem value="Mphil"> Mphil </MenuItem>
-                    <MenuItem value="MA/Msc"> MA/Msc </MenuItem>
-                    <MenuItem value="Bsc/BA/BCOM"> Bsc/BA/BCOM </MenuItem>
-                    <MenuItem value="HND"> HND </MenuItem>
-                    <MenuItem value="WASSCE"> WASSCE </MenuItem>
-                    <MenuItem value="Other"> Other </MenuItem>
-                    </TextField> 
+                <select className='input full-width' name='certificate' id='certificate'  >
+                    <option value=""> Type of certificate </option>
+                    <option value="PhD"> PhD </option>
+                    <option value="Mphil"> Mphil </option>
+                    <option value="MA/Msc"> MA/Msc </option>
+                    <option value="Bsc/BA/BCOM"> Bsc/BA/BCOM </option>
+                    <option value="HND"> HND </option>
+                    <option value="WASSCE"> WASSCE </option>
+                    <option value="Other"> Other </option>
+                    </select> 
                 </div>
  
                 <div className="col sm-12 md-3 lg-3 padding">
-                <TextField variant="outlined" type="text" name='from' id='from' fullWidth label='From' />
+                <Input  type="text" name='from' id='from' fullWidth label='From' />
                 </div>
                 <div className="col sm-12 md-3 lg-3 padding">
-                <TextField variant="outlined" type="text" name='to'  id='to' fullWidth label='To' />
+                <Input  type="text" name='to'  id='to' fullWidth label='To' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='program' id='program' fullWidth label='program of study' />
+                <Input  type="text" name='program' id='program' fullWidth label='program of study' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                    <button className="button full-width secondary" onClick={handleSchool}>Add School</button>
+                    <Button onClick={handleSchool} startIcon={<PiPlus />} raised fullWidth bg='primary'>Add School</Button>
                 </div>
                
 
@@ -1045,18 +1047,18 @@ export default function Personal() {
                 
                     {
                     schoolDocs ?
-                    <div className="col sm-12 md-6 lg-6">
-                    <div className="card formSection">
+                    <div className="col sm-12 md-12 lg-12">
+                    <div className="">
                          
-            <div className="">
-              <table className='table section'>
+            <div className="padding">
+              <table className='table section border' style={{borderRadius:"2rem"}}>
                 <thead>
                     <th>School</th>
                     <th>program</th>
                     <th>certificate Type</th>
                     <th>From</th>
                     <th>To</th>
-                    <th className='text-danger'>Delete</th>
+                    <th className='text-error600'>Delete</th>
                 </thead>
                 <tbody>
                 {
@@ -1092,30 +1094,33 @@ export default function Personal() {
                 :""
                    }
                         </div>
+                        </div>
                     </div>
 
                    
-                    <div className="col sm-12 md-12 lg-12 div">
-                        <div className="formSection card row">
+                    <div className="col sm-12 md-12 lg-12 div _card margin-top-40">
+                        <div className="container ">
+
+                        <div className="  row">
                         <div className="row">
                     <div className="col sm-12 md-12 lg-12 padding">
-                    <div className="h4 "><img src="/hand/undraw_check.svg" className="height-50"/>Professional Certificates</div>
+                    <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/undraw_check.svg" className="height-30"/>Professional Certificates</div>
                 </div>
                 <div className="col sm-12 md-12 lg-12 padding">
-                <TextField select fullWidth type="text" onChange={(e)=>sethaveProfCert(e.target.value)} id='certificate' label="Do you have a professional certificate" >
-                    <MenuItem value={true}> Yes </MenuItem>
-                    <MenuItem value={false}> No </MenuItem>
-                    </TextField> 
+                <Input select fullWidth type="text" onChange={(e)=>sethaveProfCert(e.target.value)} id='certificate' label="Do you have a professional certificate" >
+                    <option value={true}> Yes </option>
+                    <option value={false}> No </option>
+                    </Input> 
                 </div>
                 {
                     haveProfCert ?
                     <div className="col sm-12 md-12 lg-12">
                         <div className="row">
                         <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" id='profCert' name='prof_certificate' fullWidth label='Certificate' />
+                <Input type="text" id='profCert' name='prof_certificate' fullWidth label='Certificate' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" id='certId' name='cert_number'  fullWidth label='Certificate Number' />
+                <Input  type="text" id='certId' name='cert_number'  fullWidth label='Certificate Number' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                <button className="button info text-white" onClick={handleProfCert}>Add certificate</button>
@@ -1166,27 +1171,34 @@ export default function Personal() {
           
                     </div>
                         </div>
+                        </div>
+
                     </div>
        
                    
-                  <button className="btn submitNewstaff" onClick={submitData}>
-                    Submit  <i className="icon-paper-plane"></i>
-                    </button>
-            
+                
+                    <button onClick={submitData} className="button raised gradient text-white width-200-min roundEdge" 
+            style={{position:"fixed" , 
+            bottom:"10px",
+            right:"10px",
+            zIndex:5
+            }}>
+            <i className="lni lni-user"></i> Submit
+             </button>
                 
            
                 {/* <div className="col sm-12 md-12 lg-12  ">
-                    <div className="h4 padding"><img src="/hand/undraw_camera.svg" className="height-50"/> Passport Details</div>
+                    <div className="h4 padding"><img src="/hand/undraw_camera.svg" className="height-30"/> Passport Details</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <TextField variant="outlined" type="text" name='passport' fullWidth label='Name' />
+                <Input  type="text" name='passport' fullWidth label='Name' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                     <div className="text-bold">Passport Date</div>
-                <TextField variant="outlined" type="date" name='passportdate' fullWidth label='Date' />
+                <Input  type="date" name='passportdate' fullWidth label='Date' />
                 </div>
                 <div className="col sm-12 md-12 lg-12  padding">
-                <TextField variant="outlined" type="text" name='passportplace' fullWidth label='Place Of Issue' />
+                <Input  type="text" name='passportplace' fullWidth label='Place Of Issue' />
                 </div> */}
     
                

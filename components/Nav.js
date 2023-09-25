@@ -19,7 +19,7 @@ import Button from 'funuicss/ui/button/Button'
 import AppBar from 'funuicss/ui/appbar/AppBar'
 import Text from 'funuicss/ui/text/Text'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
-import { PiCaretDown, PiGear, PiGraph, PiKey, PiSignOut, PiUser, PiUserCircle } from "react-icons/pi";
+import { PiCaretDown, PiGear, PiGraph, PiKey, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
 import { List, ListItem } from "@mui/material";
 import {GetToken, SignOut} from "../components/Functions"
 const Nav = ({noSideBar, active}) => {
@@ -199,7 +199,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
 
   <Link href="/configurations">
     <Button
-    style={{marginTop:'1rem' , display:'block'}}
+  style={{marginTop:'1rem' , display:'block'}}
     funcss={`text-left ${active == '2' ? 'card' : ''}`}
     text="Org Settings"
     rounded
@@ -207,10 +207,20 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
     startIcon={<PiGear />}
     />
     </Link>
+  <Link href="/staff/profiling">
+    <Button
+  style={{marginTop:'1rem' , display:'block'}}
+    funcss={`text-left ${active == '3' ? 'card' : ''}`}
+    text="Staff Profiling"
+    rounded
+    fullWidth
+    startIcon={<PiUsers />}
+    />
+    </Link>
  
  <div className="margin-top-100 padding-top-20 bt">
  <Button
-    style={{marginTop:'1rem' , display:'block'}}
+  style={{marginTop:'1rem' , display:'block'}}
     funcss={`text-left card `}
     bg="error100"
     color="error"

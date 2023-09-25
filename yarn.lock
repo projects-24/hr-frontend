@@ -3199,10 +3199,10 @@ functions-have-names@^1.2.2:
   resolved "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.3.tgz"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
-funuicss@^1.10.11:
-  version "1.10.11"
-  resolved "https://registry.npmjs.org/funuicss/-/funuicss-1.10.11.tgz"
-  integrity sha512-3ZW6xhYGJ1X/IzUBcFWSyN+5yCvAIKAteWIhYcK8yo+3nXxe8BHkUlaCusqpMFHY/gi5ZUz07EnhhSnwgdvI1w==
+funuicss@^1.11.4:
+  version "1.11.4"
+  resolved "https://registry.npmjs.org/funuicss/-/funuicss-1.11.4.tgz"
+  integrity sha512-+cQSHNIbjaEyyb+k0u7GpQ7+vfZ1DWenCkUGv6qM0wVOiJwS5Ej+hqvpUgHFMvq4noZV8ZvoSgKvaffM7K/ikQ==
   dependencies:
     boxicons "^2.1.4"
     next "^13.3.1"

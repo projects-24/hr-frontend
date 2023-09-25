@@ -32,7 +32,7 @@ import dynamic from "next/dynamic"
 import DataGridDemo from '../../components/table';
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import DataTable from './../../components/DataTable';
-
+import Header from '../../components/Header'
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -304,39 +304,31 @@ if(user){
         }
         {
             !print ?
-            <Nav />
+            <Nav active={3}/>
             : ""
         }    
         <div className="">
         {
             !print ?
             <div>
-                <div className= 'section'>
-           <div className="h4">Staff Profiling</div>
-         <div className="section row-flex text-bold">
-                    <Link href="/dashboard">Dashboard</Link>
-                    /
-                    <Link href="#">Staff profiling</Link>
-                </div>
-        </div>
-
+                 <Header title={"Staff Profiling"} sub_title={"Create and manage staff records and profiles."}/>
                 {
             !print ?
         <div className="row-flex fit space-between m-section">
   
            {
-            user.department === "Human Resource" ?
+            // user.department === "Human Resource" ?
             <Link href="/form/personal">
-            <button className="button indigo text-white width-200-min roundEdge" 
+            <button className="button raised gradient text-white width-200-min roundEdge" 
             style={{position:"fixed" , 
-            bottom:"5px",
-            right:"5px",
+            bottom:"10px",
+            right:"10px",
             zIndex:5
             }}>
             <i className="lni lni-user"></i> New Staff
              </button>
              </Link>
-             :""
+            //  :""
            }
         </div>
         :""

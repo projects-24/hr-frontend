@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import grades from "../../data/grades"
 import Alert from 'funuicss/ui/alert/Alert';
-import positions from '../../data/positions';
 import Typography from 'funuicss/component/Typography';
 import Input from 'funuicss/ui/input/Input';
 import Button from 'funuicss/ui/button/Button';
@@ -26,6 +25,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Header from '../../components/Header';
 import Text from 'funuicss/ui/text/Text';
 import { PiPlus } from 'react-icons/pi';
+import { GetRequest } from '../../components/Functions';
 
 
 export default function Personal() {
@@ -64,6 +64,50 @@ export default function Personal() {
     const [getCert, setgetCert] = useState(false)
     const [ghaValid, setghaValid] = useState(null)
     const [ssnitValid, setssnitValid] = useState(null)
+    const [regions, setregions] = useState('')
+    const [sections, setsections] = useState('')
+    const [directorates, setdirectorates] = useState('')
+    const [positions, setpositions] = useState('')
+    const [jobs, setjobs] = useState('')
+
+    useEffect(() => {
+        if(!regions){
+         GetRequest("/region")
+         .then( res => setregions(res))
+         .catch(err => console.log(err))
+        }
+         })
+         
+    useEffect(() => {
+        if(!directorates && regions){
+         GetRequest("/directorate")
+         .then( res => setdirectorates(res))
+         .catch(err => console.log(err))
+        }
+         })
+    useEffect(() => {
+        if(!sections && directorates){
+         GetRequest("/section")
+         .then( res => setsections(res))
+         .catch(err => console.log(err))
+        }
+         })
+         
+    useEffect(() => {
+        if(!jobs){
+         GetRequest("/job")
+         .then( res => setjobs(res))
+         .catch(err => console.log(err))
+        }
+         })
+    useEffect(() => {
+        if(!positions){
+         GetRequest("/position")
+         .then( res => setpositions(res))
+         .catch(err => console.log(err))
+        }
+         })
+         
     const handleClose = () => {
         setOpen(false);
         setloader(false)
@@ -134,7 +178,6 @@ export default function Personal() {
         }else if(parseInt(selectedSalary) < 15){
             setno_of_leave_days(36)
         }
-        setloader(true)
         e.preventDefault()
         const current = form.current
         const id = current["id"].value
@@ -144,14 +187,15 @@ export default function Personal() {
         const ghanaCard = current["ghanaCard"].value
         const firstName = current["firstName"].value
         const lastName = current["lastName"].value
-        const middleName = current["middleName"].value
+        const user_password = current["password"].value
+        const hometown = current["hometown"].value
   
         const gender = current["gender"].value
         const address = current["address"].value
         const nationality = current["nationality"].value
         const tel = current["tel"].value
+        const contact_number2 = current["contact_number2"].value
         const dob = current["dob"].value
-        // const placeOfBirth = current["placeofbirth"].value
 
         const title = current["title"].value
         const ssnitNumber = current["ssnitNumber"].value
@@ -170,22 +214,14 @@ export default function Personal() {
         const department = current["department"].value
         const section = current["section"].value
         const region = current["region"].value
-        const unit = current["unit"].value
 
 
         //job Info
-        const jobTitle = current["jobTitle"].value
-        const grade = current["grade"].value
+        const jobTitle = current["job"].value
         const employmentStatus = current["employmentStatus"].value
         const appointDate = current["appointDate"].value
-        const salary = current["salary"].value
         const position = current["position"].value
 
-
-        //passport
-        // const passport = current["passport"].value
-        // const passportIssueDate = current["passportdate"].value
-        // const passportplace = current["passportplace"].value
 
         //other
         const crime = current["crime"].value
@@ -198,20 +234,14 @@ export default function Personal() {
         const fatheroccupation = current["fatheroccupation"].value
         const fathernationality = current["fathernationality"].value
         const fatherdob = current["fatherdob"].value
-        const fatherLife = current["fatherLife"].value
+        const father_hometown = current["father_hometown"].value
 
         //mother
         const mother = current["mother"].value
         const motheroccupation = current["motheroccupation"].value
         const mothernationality = current["mothernationality"].value
         const motherdob = current["motherdob"].value
-        const motherLife = current["motherLife"].value
 
-        //school
-        // const school = current["school"].value
-        // const from = current["from"].value
-        // const to = current["to"].value
-        const type_of_certificate = current["certificate"].value
         const profCert = current["prof_certificate"] ? current["prof_certificate"].value : ""
         const profCertNum = current["certificate_number"] ? current["certificate_number"].value : ""
 
@@ -260,81 +290,60 @@ export default function Personal() {
             position_id: "54321",
             employment_status: "Full-Time"
           };
-        const data  = {
-        staffId:id,
-        title:title,
-        email:email,
-        firstname:firstName,
-        middleName:middleName,
-        lastName:lastName,
-        gender:gender,
-        address: address,
-        nationality:nationality,
-        ghanaCard:ghanaCard,
-        ssnitNumber:ssnitNumber,
-        contact: tel,
-        dob: dob,
-        maritalStatus:maritalStatus,
-        spouse:spouse,
-        availableChildren:availableChildren,
-        numberChildren:numberChildren,
-        children:childrenDocs,
-        nextKin:nextKin,
-        nextKin_Relation:nextKin_Relation,
-        nextKin_Tel: nextKin_Tel,
-        nextKin_Address:nextKin_Address,
-        department:department,
-        section:section,
-        region:region,
-        unit:unit,
-        jobTitle:jobTitle,
-        grade:grade,
-        employmentStatus:employmentStatus,
-        position:position,
-        appointDate:appointDate,
-        salaryLevel: salary,
-        status:"post",
-        passportNumber:"",
-        passportIssueDate:"",
-        placeIssue:"",
-       crimeConvict: crime == "yes" ? true : false,
-       detailReason: crimereason,
-       dismissedPublicService:service == "yes" ? true : false,
-       publicServiceReason: servicereason ,
-       father_fullName:father,
-       father_occupation: fatheroccupation,
-       father_contact:fatherContact,
-       father_nationality:fathernationality,
-       father_placeofBirth:fatherdob,
-       father_alive_or_dead:fatherLife,
-       mother_fullName:mother,
-       mother_occupation:motheroccupation,
-       mother_contact:motherContact,
-       mother_nationality:mothernationality,
-       mother_placeofBirth: motherdob,
-       mother_alive_or_dead: motherLife,
-       school: schoolDocs,
-       retirementAge: getYearOfBirth ? parseInt(getYearOfBirth) + 60 : 0,
-       no_of_leave_days:no_of_leave_days,
-       editfield:true,
-       professional_certificate: profCert,
-       professional_cert_number:profCertNum,
-       promotion_date:appointDate ? parseInt(appointDate.slice(0,4)) + 3 : new Date().getFullYear(),
-
-        }
+          const data = {
+  staff_id: id,
+  email: email,
+  user_password: user_password,  
+  first_name: firstName,
+  last_name: lastName,
+  title: title,
+  ghana_post_gps: address,
+  hometown: hometown,
+  gender: gender,
+  date_of_birth: dob,
+  marital_status: maritalStatus,
+  spouse_name: spouse,
+  nationality: nationality,
+  ghana_card_number: ghanaCard,
+  ssnit_number: ssnitNumber,
+  contact_number: tel,
+  contact_number2: contact_number2,
+  num_children: numberChildren,
+  next_of_kin: "",
+  next_of_kin_name: nextKin,
+  next_of_kin_relation: nextKin_Relation,
+  next_of_kin_address: nextKin_Address,
+  father_name: father,
+  father_occupation: fatheroccupation,
+  father_nationality: fathernationality,
+  father_date_of_birth: fatherdob,
+  father_hometown: father_hometown,
+  mother_name: mother,
+  mother_occupation: motheroccupation,
+  mother_nationality: mothernationality,
+  mother_date_of_birth: motherdob,
+  criminal_record: crimeConvict,
+  crime_dismiss: dismissedPublicService,
+  date_of_appointment: appointDate,
+  region_id: region,
+  job_id:jobTitle,
+  directorate_id: department,
+  position_id: position,
+  section_id: section,
+  employment_status: employmentStatus
+}
+        
+        console.log(data)
         if( email &&
             id &&
             firstName &&
             lastName &&
-            // address &&
             nationality &&
             tel &&
             department &&
             jobTitle &&
             maritalStatus &&
             department &&
-            // ghanaCard &&
-            // ssnitNumber &&
             gender &&
             dob &&
             department &&
@@ -342,21 +351,6 @@ export default function Personal() {
             jobTitle &&
             grade &&
             position 
-            // availableChildren &&
-            // nextKin &&
-            // nextKin_Relation &&
-            // nextKin_Address &&
-            // nextKin_Tel &&
-            // fatherLife &&
-            // father &&
-            // fatheroccupation &&
-            // fathernationality &&
-            // mother &&
-            // mother &&
-            // motherLife &&
-            // motheroccupation &&
-            // mothernationality
-
 
             ){
                 setpreview(data)
@@ -512,6 +506,9 @@ export default function Personal() {
                 <div className="col sm-6 md-6 lg-6 padding">
                 <Input  name='email' fullWidth label='Email' />
                 </div>
+                <div className="col sm-12 md-12 lg-12 padding">
+                <Input name='password' type='password' fullWidth label='Password' />
+                </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <Input name='firstName' fullWidth label='First Name' />
                 </div>
@@ -572,14 +569,7 @@ export default function Personal() {
                 </div>
                     </div>
                     <div className="row _card formSection">
-                    <div className="col sm-12 md-6 lg-6 padding">
-                <select className='input full-width' name='nationality'>
-                    <option value="">Nationality</option> 
-                    <option value="Ghanaian">Ghanaian</option> 
-                    {/* <option value="Non-Ghanaian">Non-Ghanaian</option>  */}
-                </select>
-                </div>
-                <div className="col sm-12 md-6 lg-6 padding">
+                    <div className="col sm-12 md-12 lg-12 padding">
                 <Input status={ghaValid === null ?
                         ""
                         :
@@ -597,6 +587,14 @@ export default function Personal() {
                 }} name='ghanaCard' fullWidth label='Ghana Card Number' />
         
                 </div>
+                    <div className="col sm-12 md-6 lg-6 padding">
+                <select className='input full-width' name='nationality'>
+                    <option value="">Nationality</option> 
+                    <option value="Ghanaian">Ghanaian</option> 
+                    {/* <option value="Non-Ghanaian">Non-Ghanaian</option>  */}
+                </select>
+                </div>
+               
                 <div className="col sm-12 md-6 lg-6 padding">
                 <Input status={ssnitValid === null ?
                          ""
@@ -616,7 +614,10 @@ export default function Personal() {
                
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <Input name='tel' fullWidth label='Telephone Number' />
+                <Input name='tel' fullWidth label='First Contact' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <Input name='contact_number2' fullWidth label='Second Contact' />
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <Text text='Gender' size='small' emp/>
@@ -641,10 +642,10 @@ export default function Personal() {
                         </div>
                         <div className="col sm-12 md-6 lg-6 padding">
                         <select className='input full-width' name='department'  onChange={(e)=>setDepartment(e.target.value)}>
-                           <option value="">Department</option>
-                            {
-                                departments.map(docs=>( 
-                                    <option value={docs.department} key={docs.department}>{docs.department}</option>
+                           <option value="">Directorate</option>
+                            {  directorates &&
+                                directorates.map(docs=>( 
+                                    <option value={docs.id} key={docs.id}>{docs.directorate}</option>
                                 ))
                             }
                     </select>
@@ -652,13 +653,13 @@ export default function Personal() {
                         <div className="col sm-12 md-6 lg-6 padding">
                         <select className='input full-width'  name='section'>
                             <option value="">Section</option>
-                            {
+                            { sections &&
                                 sections.filter(docs=>{
-                                    if(Department.toString().trim().toLowerCase() === docs.department.toString().trim().toLowerCase()){
+                                    if(Department.toString().trim().toLowerCase() === docs.directorateID.toString().trim().toLowerCase()){
                                         return docs
                                     }
                                 }).map(docs=>(
-                                    <option value={`${docs.section}`} key={docs.section}> {docs.section}</option>
+                                    <option value={`${docs.id}`} key={docs.id}> {docs.section}</option>
                                 ))
                             }
                             </select>
@@ -666,17 +667,14 @@ export default function Personal() {
                         <div className="col sm-12 md-12 lg-12 padding">
                         <select className='input full-width' name="region" id="region">
                             <option value="">Region</option>
-                        <option value="HQ" > HQ </option>
-                                    {
+                                    {   regions &&
                                         regions.map(docs=>(
-                                            <option value={docs.name} key={docs._id}> {docs.name} </option>
+                                            <option value={docs.id} key={docs.id}> {docs.region} </option>
                                         ))
                                     }
                                 </select>
                         </div>
-                        <div className="col sm-12 md-12 lg-12 padding">
-                        <Input disabled fullWidth name="unit" label="Unit" />
-                        </div>
+                   
                             </div>
                     </div>
        
@@ -687,47 +685,27 @@ export default function Personal() {
                     <div className="h5 row-flex gap" style={{gap:'1rem'}}><img src="/hand/undraw_note.svg" className="height-30"/> Job Infomation</div>
                 </div>
                 <div className="col sm-12 md-6 lg-6 padding">
-                <select className='input full-width' onChange={(e)=>{
-                  jobTitles.filter(filt=>{
-                        if(e.target.value === filt.title){
-                            return filt
-                        }
-                    }).map(doc=>{
-                        setselectedSalary(doc.salary)
-                    })
-                    }} select label="Job Title" name='jobTitle' >
+                <select className='input full-width'  label="Job Title" name='job' >
                         <option value="">Job Title</option>
-                    {
-                        jobTitles.map(docs=>(
-                            <option value={`${docs.title}`} key={docs.title}> {docs.title}</option>
+                    {   jobs &&
+                        jobs.map(docs=>(
+                            <option value={`${docs.title}`} key={docs.title}> {docs.job} {`(${docs.salaryLevel})`}</option>
                         ))
                     }
                     </select>
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <select className='input full-width' name='grade'  >
-                    <option value="">Grade</option>
-                    {
-                        grades.map(docs=>(
-                            <option value={`${docs.grade}`} key={docs.grade}>{docs.grade}</option>
-                        ))
-                    }
-                    </select>
-                </div>
+           
                 <div className="col sm-12 md-6 lg-6 padding">
             <select className='input full-width' name='position' >
                 <option value="">Position</option>
-                    {
+                    { positions &&
                         positions.map(docs=>(
-                            <option value={`${docs.position}`} key={docs.position}> {docs.position}</option>
+                            <option value={`${docs.id}`} key={docs.id}> {docs.position}</option>
                         ))
                     }
                     </select>
             </div>
-     
-                <div className="col sm-12 md-6 lg-6 padding">
-                <Input  type="text" value={selectedSalary ? selectedSalary : ''} label='Salary Level' name='salary' fullWidth disabled />
-                </div>
+            
                 <div className="col sm-12 md-6 lg-6 padding">
                     <Text text='Date of appointment' size='small' emp/>
                 <Input  type="date" name='appointDate' fullWidth />
@@ -753,7 +731,7 @@ export default function Personal() {
                 <select className='input full-width' name='availableChildren'   onChange={(e)=>setavailableChildren(e.target.value)}>
                <option value="">Available Children</option>
                 <option value={true}> Yes </option>
-                <option value={false}> No </option>
+                <option value={''}> No </option>
                 </select>
     
                 </div>
@@ -762,77 +740,11 @@ export default function Personal() {
                     {
                         availableChildren ?
                 <Input  type="number" name="numberChildren"  fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
-                : <Input  disabled type="number" name="numberChildren" value={0} fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
+                : <Input  disabled type="number"  name="numberChildren" value={0} fullWidth label='Number Of Children'  onChange={(e)=>setchildNumber(parseInt(e.target.value))}/>
                     }
                 </div>
-                {
-                    childNumber > 0 ?
-                    <div className="col sm-12 md-6 lg-6 padding">
-                                   <Text text='Name Of Child' size='small' emp/>
-                    <Input id='child' name='child'  type="text"  fullWidth label='Name Of Child'  />
-                    </div>
-                    :""
-                }
-                {
-                    childNumber > 0 ?
-                    <div className="col sm-12 md-6 lg-6 padding">
-                 <Text text='Date of Birth' size='small' emp/>
-                    <Input id='childDob' name='childDate'  type="date"  fullWidth />
-                    </div>
-                    :""
-                }
-                {
-                    childNumber > 0 ?
-                    <div className="col sm-12 md-6 lg-6 padding">
-                    <Button onClick={handleChild}
-                    text='Add Child'
-                    startIcon={<PiPlus />}
-                    raised
-                    bg='primary'
-                    small
-                    />
-                    </div>
-                    :""
-                }
-                {
-                    childNumber > 0 ?
-               
-                    <div className="col sm-12  md-12 lg-12 padding section border" style={{borderRadius:"2rem"}}>
-                   <table className="table text-left stripped ">
-                    <thead>
-                        <td>Child</td>
-                        <td>Date of birth</td>
-                        <td>Remove</td>
-                    </thead>
-                    <tbody>
-                    {
-                        childrenDocs ?
-                        childrenDocs.map(docs=>(
-                            <tr  key={docs.id}>
-                                <td className="padding">{docs.child}</td>
-                                <td className="padding">{docs.dob}</td>
-                                <td className="padding pointer hover-text-red" onClick={()=>{
-                                new Promise((resolve , reject)=>{
-                                    setchildrens(
-                                        childrens.filter(filt=>{
-                                            if(filt.id != docs.id){
-                                                return filt
-                                            }
-                                        })
-                                    )
-                                    resolve()
-                                        
-                                    }).then(()=>setgetChildrens(true))
-                                }}><i className="lni lni-trash-can"></i> Delete</td>
-                            </tr>
-                        ))
-                        :""
-                    }
-                    </tbody>
-                   </table>
-                </div>
-                    :""
-                }
+    
+        
                     <div className="col sm-12 md-6 lg-6 padding">
                 <Input  type="text" name='nextKin' fullWidth label='Next of kin' />
                 </div>
@@ -873,20 +785,7 @@ export default function Personal() {
                 <Text text='Date of Birth' size='small' emp/>
                 <Input  type="date" name='fatherdob' fullWidth />
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
-                <select className='input full-width' name='fatherLife' onChange={(e)=>{
-                    if(e.target.value === "Alive"){
-                        setfather(true)
-                    }else{
-                        setfather(false)
-
-                    }
-                }}> 
-                    <option value="">Deceased or alive</option>
-                    <option value="Alive">Alive</option>
-                    <option value="Deceased">Deceased</option>
-                </select>
-                </div>
+        
                 {
                     father ?
                     <div className="col sm-12 md-12 lg-12 padding">
@@ -894,7 +793,7 @@ export default function Personal() {
                 </div>
                 :""
                 }     <div className="col sm-12 md-12 lg-12 padding">
-                <Input  type="text" name='fatherhometown' fullWidth label='Home Town' />
+                <Input  type="text" name='father_hometown' fullWidth label='Home Town' />
                 </div>
                     </div>
                     </div>
@@ -924,30 +823,7 @@ export default function Personal() {
                 <Text text='Date Of Birth' size='small' emp/>
                 <Input  type="date" name='motherdob' fullWidth />
                 </div>
-                <div className="col sm-12 md-12 lg-12 padding">
-                <select className='input full-width' name='motherLife'   onChange={(e)=>{
-                    if(e.target.value === "Alive"){
-                        setmother(true)
-                    }else{
-                        setmother(false)
-
-                    }
-                }}>
-                    <option value="">Deceased or alive</option>
-                    <option value="Alive">Alive</option>
-                    <option value="Deceased">Deceased</option>
-                </select>
-                </div>
-                {
-                    mother ?
-                    <div className="col sm-12 md-12 lg-12 padding">
-                <Input  type="tel" fullWidth label='Contact' onChange={(e)=>setmotherContact(e.target.value)} />
-                </div>
-                :""
-                }
-                <div className="col sm-12 md-12 lg-12 padding">
-                <Input  type="text" name='motherhometown' fullWidth label='Home Town' />
-                </div>
+               
                         </div>
                     </div>
                     <div className="col sm-12 md-12 lg-12 div">
@@ -1002,7 +878,7 @@ export default function Personal() {
                         </div>
                     </div>
        
-                    <div className="col sm-12 md-12 lg-12 div _card">
+                    {/* <div className="col sm-12 md-12 lg-12 div _card">
                         <div className="container">
                         <div className="formSection  row">
                             <div className="col sm-12 md-12 lg-12 padding">
@@ -1095,10 +971,10 @@ export default function Personal() {
                    }
                         </div>
                         </div>
-                    </div>
+                    </div> */}
 
                    
-                    <div className="col sm-12 md-12 lg-12 div _card margin-top-40">
+                    {/* <div className="col sm-12 md-12 lg-12 div _card margin-top-40">
                         <div className="container ">
 
                         <div className="  row">
@@ -1173,7 +1049,7 @@ export default function Personal() {
                         </div>
                         </div>
 
-                    </div>
+                    </div> */}
        
                    
                 
@@ -1621,7 +1497,6 @@ Education
     <div>
 
     </div>
-
     </DialogContent>
         <DialogActions>
           <Button  color="error" onClick={handleClose}>Cancel</Button> 

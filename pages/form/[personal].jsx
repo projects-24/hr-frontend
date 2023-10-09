@@ -26,7 +26,8 @@ import Header from '../../components/Header';
 import Text from 'funuicss/ui/text/Text';
 import { PiPlus } from 'react-icons/pi';
 import { GetRequest, GetToken } from '../../components/Functions';
-
+import Modal from 'funuicss/ui/modal/Modal'
+import RowFlex from 'funuicss/ui/specials/RowFlex';
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
@@ -322,6 +323,7 @@ export default function Personal() {
   position_id: position,
   section_id: section,
   employment_status: employmentStatus ,
+  education:schools
 }
         
 
@@ -345,6 +347,7 @@ export default function Personal() {
             ){
                 setpreview(data)
                 setOpen(true)
+                console.log(data)
             }else{
                 setloader(false)
                 setmessage("Make sure to enter all compulsory fields before you can submit data")
@@ -372,7 +375,7 @@ export default function Personal() {
        setsuccess(true)
        setTimeout(() => {
        window.location.reload()
-       }, 2000);
+       }, 4000);
        }).catch(err=>{
  
        if(err.message === "Request failed with status code 422"){
@@ -448,9 +451,21 @@ export default function Personal() {
         const to = current["to"].value
         const program = current["program"].value
         const certificate = current["certificate"].value
-        if(school && from && to && certificate && program){
+        const certificate_number = current["certificate_number"].value
+        const certificate_name = current["certificate_name"].value
+        const doc = {
+            institution_name:school, 
+            certificate_type:certificate , 
+            certificate_name : certificate_name,
+            certificate_number : certificate_number ,
+            program_of_study :program,
+            start_year :from,
+            end_year :to , 
+       
+        }
+        if(school && from && to && certificate && program && certificate_number){
             new Promise((resolve , reject)=>{
-                schools.push({id:schools.length + 1,school:school, from:from,to:to , certificate:certificate , program:program})
+                schools.push(doc)
                 resolve()
             }).then(()=>{
              document.querySelector("#school").value = ""
@@ -858,7 +873,7 @@ export default function Personal() {
                         </div>
                     </div>
        
-                    {/* <div className="col sm-12 md-12 lg-12 div _card">
+                 <div className="col sm-12 md-12 lg-12 div _card">
                         <div className="container">
                         <div className="formSection  row">
                             <div className="col sm-12 md-12 lg-12 padding">
@@ -869,7 +884,15 @@ export default function Personal() {
                 <div className="col sm-12 md-12 lg-12 padding">
                 <Input  type="text" name='school'  id='school' fullWidth label='School' />
                 </div>
-
+                <div className="col sm-12 md-6 lg-6 padding">
+                <Input  type="text" name='certificate_name' id='certificate_name' fullWidth label='Certificate Name' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <Input  type="text" name='certificate_number' id='certificate_number' fullWidth label='Certificate Number' />
+                </div>
+                <div className="col sm-12 md-6 lg-6 padding">
+                <Input  type="text" name='program' id='program' fullWidth label='program of study' />
+                </div>
                 <div className="col sm-12 md-6 lg-6 padding">
                 <select className='input full-width' name='certificate' id='certificate'  >
                     <option value=""> Type of certificate </option>
@@ -883,17 +906,15 @@ export default function Personal() {
                     </select> 
                 </div>
  
-                <div className="col sm-12 md-3 lg-3 padding">
+                <div className="col sm-12 md-4 lg-4 padding">
                 <Input  type="text" name='from' id='from' fullWidth label='From' />
                 </div>
-                <div className="col sm-12 md-3 lg-3 padding">
+                <div className="col sm-12 md-4 lg-4 padding">
                 <Input  type="text" name='to'  id='to' fullWidth label='To' />
                 </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                <Input  type="text" name='program' id='program' fullWidth label='program of study' />
-                </div>
-                <div className="col sm-12 md-6 lg-6 padding">
-                    <Button onClick={handleSchool} startIcon={<PiPlus />} raised fullWidth bg='primary'>Add School</Button>
+      
+                <div className="col sm-12 md-4 lg-4 padding">
+                    <Button small onClick={handleSchool} startIcon={<PiPlus />} raised fullWidth bg='primary'>Add School</Button>
                 </div>
                
 
@@ -907,11 +928,13 @@ export default function Personal() {
                     <div className="">
                          
             <div className="padding">
-              <table className='table section border' style={{borderRadius:"2rem"}}>
+              <table className='table section border text-small' >
                 <thead>
-                    <th>School</th>
-                    <th>program</th>
+                    <th>Inst Name</th>
+                    <th>certificate Name</th>
+                    <th>certificate Number</th>
                     <th>certificate Type</th>
+                    <th>program</th>
                     <th>From</th>
                     <th>To</th>
                     <th className='text-error600'>Delete</th>
@@ -920,29 +943,32 @@ export default function Personal() {
                 {
                     schoolDocs ?
                     schoolDocs.map(docs=>(
-                        <tr className="" key={docs.id}>
-                            <td className="padding">{docs.school}</td>
-                            <td className="padding">{docs.program}</td>
-                            <td className="padding">{docs.certificate}</td>
-                            <td className="padding">{docs.from}</td>
-                            <td className="padding">{docs.to}</td>
+                        <tr className="" key={docs.certificate_number}>
+                            <td className="padding">{docs.institution_name}</td>
+                            <td className="padding">{docs.certificate_name}</td>
+                            <td className="padding">{docs.certificate_number}</td>
+                            <td className="padding">{docs.certificate_type}</td>
+                            <td className="padding">{docs.program_of_study}</td>
+                            <td className="padding">{docs.start_year}</td>
+                            <td className="padding">{docs.end_year}</td>
                             <td className="padding pointer hover-text-red" onClick={()=>{
                             new Promise((resolve , reject)=>{
                                setschools( schools.filter(filt=>{
-                                if(filt.id != docs.id){
+                                if(filt.certificate_number != docs.certificate_number){
                                     return filt
                                 }
                             }))
                                 resolve()
                                     
                                 }).then(()=>setgetSchools(true))
-                            }}><i className="lni lni-trash-can"></i> Delete</td>
+                            }}><i className="lni lni-trash-can"></i> </td>
                         </tr>
                     ))
                     :""
                 }
                 </tbody>
               </table>
+              
                 </div>
 
                     </div>
@@ -950,10 +976,10 @@ export default function Personal() {
                 :""
                    }
                         </div>
-                        </div>
-                    </div> */}
 
-                   
+                        </div>
+                    </div>  
+                    
                     {/* <div className="col sm-12 md-12 lg-12 div _card margin-top-40">
                         <div className="container ">
 
@@ -1029,7 +1055,7 @@ export default function Personal() {
                         </div>
                         </div>
 
-                    </div> */}
+                    </div>  */}
        
                    
                 
@@ -1085,12 +1111,14 @@ export default function Personal() {
 
                 {/* Preview */}
                 <div id="preview">
-                <Dialog fullWidth open={open} onClose={handleClose} >
-        <DialogTitle>
-            <Text color='error'>Do you want to submit this data! </Text>
-        </DialogTitle>
-        <DialogContent >
-       <div className='row'>
+                <Modal 
+                maxWidth='900px' 
+                backdrop
+                open={open}
+                title={<Text text='Submit Data!' heading='h4'/>}  
+                body={
+                    <div>
+                         <div className='row'>
 <div className="col sm-12 h4 lg-12 md-12 padding">
     Personal Details
 </div>
@@ -1209,30 +1237,7 @@ export default function Personal() {
 </div>
     </div>
 </div>
-<div className="col sm-12 h4 lg-12 md-12 padding section">
-Directorate
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding border round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Department:</div> <div className='text-small'>{preview.department}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding border round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Section:</div> <div className='text-small'>{preview.section}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding border round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Region:</div> <div className='text-small'>{preview.region}</div>
-</div>
-    </div>
-</div>
+
 
 <div className="col sm-12 h4 lg-12 md-12 padding section">
 Job Information
@@ -1377,35 +1382,43 @@ Criminal Details
     </div>
 
 </div>
-{/* <div className="col sm-12 h4 lg-12 md-12 padding section">
+<div className="col sm-12 h4 lg-12 md-12 padding section">
 Education
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding">
-<table className='table'>
-        <thead>
-            <th>School</th>
-            <th>program</th>
-            <th>certificate Type</th>
-            <th>From</th>
-            <th>To</th>
-        </thead>
-        <tbody>
-        {
-            preview.school ?
-            preview.school.map(docs=>(
-                <tr className="" key={docs.id}>
-                    <td className="pading">{docs.school}</td>
-                    <td className="padding">{docs.program}</td>
-                    <td className="padding">{docs.certificate}</td>
-                    <td className="padding">{docs.from}</td>
-                    <td className="padding">{docs.to}</td>
-                </tr>
-            ))
-            :""
-        }
-        </tbody>
-      </table>
-</div> */}
+<div className="" >
+<table className='table section border text-smaller' >
+                <thead>
+                    <th>Inst Name</th>
+                    <th>certificate Name</th>
+                    <th>certificate Number</th>
+                    <th>certificate Type</th>
+                    <th>program</th>
+                    <th>From</th>
+                    <th>To</th>
+                </thead>
+                <tbody >
+                {
+                     preview.education ?
+                     preview.education.map(docs=>(
+                        <tr className="" key={docs.id}>
+                            <td >{docs.institution_name}</td>
+                            <td >{docs.certificate_name}</td>
+                            <td >{docs.certificate_number}</td>
+                            <td >{docs.certificate_type}</td>
+                            <td >{docs.program_of_study}</td>
+                            <td >{docs.start_year}</td>
+                            <td >{docs.end_year}</td>
+                          
+                        </tr>
+                    ))
+                    :""
+                }
+                </tbody>
+              </table>
+</div>
+
+</div>
 
     </div>
 
@@ -1416,12 +1429,13 @@ Education
     <div>
 
     </div>
-    </DialogContent>
-        <DialogActions>
-          <Button  color="error" onClick={handleClose}>Cancel</Button> 
-          <Button  color="success" onClick={postData}>Yes, I want to submit</Button>
-        </DialogActions>
-      </Dialog>   
+                    </div>
+                }
+                footer={<RowFlex justify='flex-end' gap={1}>
+                          <Button  bg="error" raised small onClick={handleClose}>Cancel</Button> 
+          <Button  bg='primary' raised small onClick={postData}>Yes, I want to submit</Button>
+                </RowFlex>}
+                />  
                 </div>
 
         </div>

@@ -33,6 +33,7 @@ import DataGridDemo from '../../components/table';
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import DataTable from './../../components/DataTable';
 import Header from '../../components/Header'
+import { GetToken } from '../../components/Functions';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -60,15 +61,12 @@ const [report, setreport] = useState("all")
     };
   
     useEffect(() => {
-      if(localStorage.getItem("user") && !user ){
-      
-          setuser(
-              JSON.parse(
-                  localStorage.getItem("user")
-              )
-          )
-      }
-  })
+   GetToken()
+   .then(res => {
+    setuser(res.user)
+    settoken(res.token)
+   })
+  },[])
     const handlePrint = ()=>{
         new Promise((resolve, reject) => {
             setprint(true)
@@ -102,42 +100,14 @@ const [report, setreport] = useState("all")
 
 useEffect(() => {
 if(!docs){
-Axios.get(endPoint  + "/staff/showall" , {
+Axios.get(endPoint  + "/staff" , {
     headers:{
         authorization:`Bearer ${token}`
     }
 }).then(dataDocs=>{
-   const getDocs = dataDocs.data.staff
-   setdocs(
-    getDocs.filter(filt=>{
-      if(user.position === "Government Statistician (CEO)"
-       || user.position === "Deputy Gov Statistician (DGS)"
-        || user.department === "Human Resource"
-        || user.department.trim() + user.position.trim() === "AdministrationDirector"
-        ){
-            return getDocs
-     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-         if(filt.department === user.department){
-             return filt
-         }
-     }else if(user.position === "Sectional Head"){
-             if(filt.section === user.section){
-               return filt
-             }
-     }else if(user.position === "Unit Head"){
-         if(filt.section === user.unit){
-           return filt
-         }
-     }else{
-      getDocs.filter(filt =>{
-             if(filt.staffId === user.staffId){
-                 setdocs(filt)
-             }
-         }) 
-     }
-   })
-    
-    )
+   const getDocs = dataDocs.data
+   console.log(getDocs)
+   setdocs(getDocs)
 }).catch(err=>console.log(err.message))
 }
 })
@@ -338,45 +308,15 @@ if(user){
 
             :""}
  
-           <div className={"_card"} >
+           {
+            docs ?
+            <div className={"_card"} >
   
-              <DataTable hideEmail Docs={[
-                {
-                  id: 1,
-                  staffId: 'S123',
-                  firstname: 'John',
-                  middleName: 'Doe',
-                  lastName: 'Smith',
-                  email: 'john.smith@example.com',
-                  department: 'Human Resources',
-                  position: 'Manager',
-                  contact: 1234567890,
-                },
-                {
-                  id: 2,
-                  staffId: 'S124',
-                  firstname: 'Jane',
-                  middleName: 'E.',
-                  lastName: 'Doe',
-                  email: 'jane.doe@example.com',
-                  department: 'Finance',
-                  position: 'Accountant',
-                  contact: 9876543210,
-                },
-                {
-                  id: 3,
-                  staffId: 'S125',
-                  firstname: 'Michael',
-                  middleName: '',
-                  lastName: 'Johnson',
-                  email: 'michael.johnson@example.com',
-                  department: 'Marketing',
-                  position: 'Coordinator',
-                  contact: 5551234567,
-                },
-              ]} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
+              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
        
            </div>
+           : <Loader />
+           }
         </div>
     </div>
   )

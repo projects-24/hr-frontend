@@ -292,7 +292,7 @@ new Promise((resolve, reject) => {
             <td id="d9" style={{fontWeight:"bold", width:"200px"}} align="left">Retirement</td>
             :  ""}
             {  columsHide.find(doc=>doc.id === "d10") ?
-            <td id="d10" style={{fontWeight:"bold", width:"200px"}} align="left">Contact</td>
+            <td id="d10" style={{fontWeight:"bold", width:"200px"}} align="left">contact_number</td>
             :  ""}
             {  columsHide.find(doc=>doc.id === "d11") ?
             <td id="d11" style={{fontWeight:"bold", width:"200px"}} align="left">Marital Status</td>
@@ -404,39 +404,39 @@ new Promise((resolve, reject) => {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <td component="th" scope="row">
-                        {!staffDetails ? row.staffId : row.staffDetails.staffId}
+                        {!staffDetails ? row.id : ""}
                       </td>
                     {
                       !hideEmail ?
-                      <td align="left">{!staffDetails ? row.email : row.staffDetails.email}</td>
+                      <td align="left">{!staffDetails ? row.email : row.email}</td>
                       :""
                     }
-                      <td className='trOccupy' align="left">{!staffDetails ? row.firstname : row.staffDetails.firstname} {row.middleName} {row.lastName}</td>
+                      <td className='trOccupy' align="left">{!staffDetails ? row.firstName : row.lastName} {row.lastName}</td>
               
                       {
                       columsHide.find(doc=>doc.id === "d1") ?  
-                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.department : row.staffDetails.department}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.directorate : row.department}</td>
                       :  ""}
                       {  columsHide.find(doc=>doc.id === "d2") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.section : row.staffDetails.section }</td> : ""
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.section : row.section }</td> : ""
                       }
                       {  columsHide.find(doc=>doc.id === "d4") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.grade : row.staffDetails.grade }</td> : ""
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.grade : row.grade }</td> : ""
                       }
                       {
                       columsHide.find(doc=>doc.id === "d3") ?  
-                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.position : row.staffDetails.position}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.position : row.position}</td>
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d5") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.employmentStatus : row.staffDetails.employmentStatus}</td>
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.employmentStatus : row.employmentStatus}</td>
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d6") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.appointDate.toString().split("-").reverse().join("-") : row.staffDetails.appointDate.toString().split("-").reverse().join("-")}</td>
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.appointDate.toString().split("-").reverse().join("-") : row.appointDate.toString().split("-").reverse().join("-")}</td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d7") ?  
-                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.salaryLevel : row.staffDetails.salaryLevel}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.salaryLevel : row.salaryLevel}</td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d8") ?  
                       <td className='trOccupy' style={{ width:"300px"}} align="left">
@@ -459,12 +459,12 @@ new Promise((resolve, reject) => {
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d10") ?  
                       <td style={{ width:"200px"}} align="left">
-                        {row.contact.toString()}
+                        {row.contactNumber ? row.contactNumber.toString() : ''}
                       </td>
                       :  ""}{
                         columsHide.find(doc=>doc.id === "d11") ?  
                       <td  style={{width:"200px"}} align="left">
-                        {row.maritalStatus}
+                        {row.marital_status}
                       </td>
                       :  ""}
                       {
@@ -482,7 +482,7 @@ new Promise((resolve, reject) => {
                       {
                         action ?
                         <td  style={{width:"200px"}} align="left">
-                       <Link href={`/edit/${row.staffDetails ? row.staffDetails._id : row._id}`}>
+                       <Link href={`/edit/${row.staffDetails ? row._id : row._id}`}>
                        {action.action}
                        </Link>
                       </td>

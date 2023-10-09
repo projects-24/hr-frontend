@@ -25,7 +25,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Header from '../../components/Header';
 import Text from 'funuicss/ui/text/Text';
 import { PiPlus } from 'react-icons/pi';
-import { GetRequest } from '../../components/Functions';
+import { GetRequest, GetToken } from '../../components/Functions';
 
 
 export default function Personal() {
@@ -69,6 +69,16 @@ export default function Personal() {
     const [directorates, setdirectorates] = useState('')
     const [positions, setpositions] = useState('')
     const [jobs, setjobs] = useState('')
+
+    useEffect(() => {
+     if(!token){
+        GetToken()
+        .then(res => {
+         setuser(res.user)
+         settoken(res.token)
+        })
+     }
+       })
 
     useEffect(() => {
         if(!regions){
@@ -143,34 +153,15 @@ export default function Personal() {
             setgetSchools(false)
         }
     })
-    useEffect(() => {
-        if(!user){
-            if(localStorage.getItem("user")){
-                setuser(
-                    JSON.parse(
-                        localStorage.getItem("user")
-                    )
-                )
-            }
-        }
-    })
+
 
     const router = useRouter()
     const {personal } = router.query
     const form = useRef(null)
 
-    useEffect(() => {
-        if(localStorage.getItem("token")  && !token ){
-            settoken(
-                JSON.parse(
-                    localStorage.getItem("token")
-                )
-            )
-        }
-    })
-    
 
     const submitData = (e)=>{
+
         if(parseInt(selectedSalary) >= 23){
             setno_of_leave_days(36)
         }else if(parseInt(selectedSalary) >= 15 && parseInt(selectedSalary) <= 22){
@@ -322,18 +313,18 @@ export default function Personal() {
   mother_occupation: motheroccupation,
   mother_nationality: mothernationality,
   mother_date_of_birth: motherdob,
-  criminal_record: crimeConvict,
-  crime_dismiss: dismissedPublicService,
+  criminal_record: crime,
+  crime_dismiss: service,
   date_of_appointment: appointDate,
   region_id: region,
   job_id:jobTitle,
   directorate_id: department,
   position_id: position,
   section_id: section,
-  employment_status: employmentStatus
+  employment_status: employmentStatus ,
 }
         
-        console.log(data)
+
         if( email &&
             id &&
             firstName &&
@@ -349,7 +340,6 @@ export default function Personal() {
             department &&
             region &&
             jobTitle &&
-            grade &&
             position 
 
             ){
@@ -364,8 +354,10 @@ export default function Personal() {
 
     const postData = ()=>{
         setOpen(false)
+        console.log(token)
      if(ghaValid && ssnitValid){
-        Axios.post(endPoint + "/staff/register/",
+        setloader(true)
+        Axios.post(endPoint + "/staff",
         preview,
         {
          headers: {
@@ -477,7 +469,7 @@ export default function Personal() {
               <div className="message">
          {
             message ?
-            <Alert type="info" message={message} fixed='top-middle' raised/>
+            <Alert type="danger" message={<Text text={message} size='small' />} fixed='middle' raised />
             :""
          }
          </div>
@@ -689,7 +681,7 @@ export default function Personal() {
                         <option value="">Job Title</option>
                     {   jobs &&
                         jobs.map(docs=>(
-                            <option value={`${docs.title}`} key={docs.title}> {docs.job} {`(${docs.salaryLevel})`}</option>
+                            <option value={`${docs.id}`} key={docs.id}> {docs.job} {`(${docs.salaryLevel})`}</option>
                         ))
                     }
                     </select>
@@ -845,13 +837,7 @@ export default function Personal() {
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
                 </select>
-                {
-                    crime ?
-                    <div className="section">
-                <Input  type="text" name='crimereason' fullWidth label='Enter details' onChange={(e)=>setcrimereason(e.target.value)} />
-                </div>
-                :""
-                }
+          
                 </div>
           
                           <div className="col sm-12 md-6 lg-6 padding">
@@ -866,13 +852,7 @@ export default function Personal() {
                     <option value='no'>No</option>
                     <option value={"yes"}>Yes</option>
                 </select>
-                {
-                    dismissed ?
-                    <div className="section">
-                <Input  type="text" name='servicereason' fullWidth label='Enter details'  onChange={(e)=>setservicereason(e.target.value)} />
-                </div>
-                :""
-                }
+           
                 </div>
               
                         </div>
@@ -1105,55 +1085,48 @@ export default function Personal() {
 
                 {/* Preview */}
                 <div id="preview">
-                <Dialog open={open} onClose={handleClose} style={{width:"90vw"}}>
-        <DialogTitle>Do you want to submit this data </DialogTitle>
+                <Dialog fullWidth open={open} onClose={handleClose} >
+        <DialogTitle>
+            <Text color='error'>Do you want to submit this data! </Text>
+        </DialogTitle>
         <DialogContent >
-       
-
-<div className='row'>
+       <div className='row'>
 <div className="col sm-12 h4 lg-12 md-12 padding">
     Personal Details
 </div>
 <div className="col sm-12 lg-12 md-12 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Email:</div> <div className='text-small'>{preview.email}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>staffId:</div> <div className='text-small'>{preview.staffId}</div>
+    <div className='text-bold text-small'>staffId:</div> <div className='text-small'>{preview.staff_id}</div>
 </div>
     </div>
 </div>
 
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>First Name:</div> <div className='text-small'>{preview.firstname}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Middle Name:</div> <div className='text-small'>{preview.middleName}</div>
+    <div className='text-bold text-small'>First Name:</div> <div className='text-small'>{preview.first_name}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>last Name:</div> <div className='text-small'>{preview.lastName}</div>
+    <div className='text-bold text-small'>last Name:</div> <div className='text-small'>{preview.last_name}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Title:</div> <div className='text-small'>{preview.title}</div>
 </div>
@@ -1161,31 +1134,31 @@ export default function Personal() {
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Address:</div> <div className='text-small'>{preview.address}</div>
+    <div className='text-bold text-small'>Address:</div> <div className='text-small'>{preview.ghana_post_gps}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Marital status:</div> <div className='text-small'>{preview.maritalStatus}</div>
+    <div className='text-bold text-small'>Marital status:</div> <div className='text-small'>{preview.marital_status}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Spouse:</div> <div className='text-small'>{preview.spouse}</div>
+    <div className='text-bold text-small'>Spouse:</div> <div className='text-small'>{preview.spouse_name}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>staffId:</div> <div className='text-small'>{preview.nationality}</div>
 </div>
@@ -1193,7 +1166,7 @@ export default function Personal() {
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Ghana Card:</div> <div className='text-small'>{preview.ghanaCard}</div>
 </div>
@@ -1201,31 +1174,38 @@ export default function Personal() {
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Snnit Number:</div> <div className='text-small'>{preview.snnitNumber}</div>
+    <div className='text-bold text-small'>Snnit Number:</div> <div className='text-small'>{preview.ssnit_number}</div>
 </div>
     </div>
 </div>
   
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Contact:</div> <div className='text-small'>{preview.contact}</div>
+    <div className='text-bold text-small'>Contact:</div> <div className='text-small'>{preview.contact_number}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>2nd Contact:</div> <div className='text-small'>{preview.contact_number2}</div>
+</div>
+    </div>
+</div>
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Gender:</div> <div className='text-small'>{preview.gender}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of birth:</div> <div className='text-small'>{preview.dob}</div>
+    <div className='text-bold text-small'>Date of birth:</div> <div className='text-small'>{preview.date_of_birth}</div>
 </div>
     </div>
 </div>
@@ -1233,75 +1213,43 @@ export default function Personal() {
 Directorate
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Department:</div> <div className='text-small'>{preview.department}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Section:</div> <div className='text-small'>{preview.section}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Region:</div> <div className='text-small'>{preview.region}</div>
 </div>
     </div>
 </div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Unit:</div> <div className='text-small'>{preview.Unit}</div>
-</div>
-    </div>
-</div>
+
 <div className="col sm-12 h4 lg-12 md-12 padding section">
 Job Information
 </div>
+
+
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Job Title:</div> <div className='text-small'>{preview.jobTitle}</div>
+    <div className='text-bold text-small'>Date of appointment:</div> <div className='text-small'>{preview.date_of_appointment}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Grade:</div> <div className='text-small'>{preview.grade}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Position:</div> <div className='text-small'>{preview.position}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Salary Level:</div> <div className='text-small'>{preview.salaryLevel}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Date of appointment:</div> <div className='text-small'>{preview.appointDate}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Employment Status:</div> <div className='text-small'>{preview.employmentStatus}</div>
+    <div className='text-bold text-small'>Employment Status:</div> <div className='text-small'>{preview.employment_status}</div>
 </div>
     </div>
 </div>
@@ -1309,156 +1257,127 @@ Job Information
 Dependancy
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Available Children:</div> <div className='text-small'>{preview.availableChildren ? "Yes" : ""}</div>
+    <div className='text-bold text-small'>Available Children:</div> <div className='text-small'>{preview.num_children > 0 ? "Yes" : ""}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Number of Children:</div> <div className='text-small'>{preview.childNumber}</div>
+    <div className='text-bold text-small'>Number of Children:</div> <div className='text-small'>{preview.num_children}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin:</div> <div className='text-small'>{preview.nextKin}</div>
+    <div className='text-bold text-small'>Next of kin:</div> <div className='text-small'>{preview.next_of_kin_name}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Relation with next of kin:</div> <div className='text-small'>{preview.nextKin_Relation}</div>
+    <div className='text-bold text-small'>Relation with next of kin:</div> <div className='text-small'>{preview.next_of_kin_relation}</div>
 </div>
     </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin contact:</div> <div className='text-small'>{preview.nextKin_Tel}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
-    <div className="row-flex">
-    <div className='text-bold text-small'>Next of kin address:</div> <div className='text-small'>{preview.nextKin_Address}</div>
-</div>
-    </div>
-</div>
-<div className="col sm-12 h4 lg-12 md-12 padding">
-<table className='table'>
-<thead>
-    <th>Child Name</th>
-    <th>Date of birth</th>
-</thead>
-<tbody>
-{
-preview.children ?
-preview.children.map(docs=>(
-<tr key={docs.id}>
-<td className="padding">{docs.child}</td>
-<td className="padding">{docs.dob}</td>
-</tr>
-))
-:""
-}
-</tbody>
-</table>
 </div>
 
-<div className="col sm-12 h4 lg-12 md-12 padding section">
+<div className="col sm-6 lg-6 md-6 padding">
+    <div className="padding border round-edge">
+    <div className="row-flex">
+    <div className='text-bold text-small'>Next of kin address:</div> <div className='text-small'>{preview.next_of_kin_address}</div>
+</div>
+    </div>
+</div>
+
+
+<div className="col sm-12 h4 lg-12 md-12 padding margin-top-20">
 Father
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.father_fullName}</div>
+    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.father_name}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Dead/Alive:</div> <div className='text-small'>{preview.father_alive_or_dead}</div>
+    <div className='text-bold text-small'>Nationality:</div> <div className='text-small'>{preview.father_nationality}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Occupation:</div> <div className='text-small'>{preview.father_occupation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.fatherdob}</div>
+    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.father_date_of_birth}</div>
 </div>
     </div>
 </div>
-<div className="col sm-12 h4 lg-12 md-12 padding section">
+<div className="col sm-12 h4 lg-12 md-12 padding margin-top-20">
 Mother
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.mother_fullName}</div>
+    <div className='text-bold text-small'>Full Name:</div> <div className='text-small'>{preview.mother_name}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Dead/Alive:</div> <div className='text-small'>{preview.mother_alive_or_dead}</div>
+    <div className='text-bold text-small'>Nationality:</div> <div className='text-small'>{preview.mother_nationality}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Occupation:</div> <div className='text-small'>{preview.mother_occupation}</div>
 </div>
     </div>
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
-    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.motherdob}</div>
+    <div className='text-bold text-small'>Date of Birth:</div> <div className='text-small'>{preview.mother_date_of_birth}</div>
 </div>
     </div>
 </div>
 
-<div className="col sm-12 h4 lg-12 md-12 padding section">
+<div className="col sm-12 h4 lg-12 md-12 padding  margin-top-20">
 Criminal Details
 </div>
 
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Convicted of a crime:</div> <div className='text-small'>{preview.crimeConvict ? "Yes" : "No"}</div>
 </div>
     </div>
-<div className="minSection padding light round-edge">
-<div className='text-bold text-small'>Reason:</div> <div className='text-small'>{preview.crimereason}</div>
-</div>
+
 </div>
 <div className="col sm-6 lg-6 md-6 padding">
-    <div className="padding light round-edge">
+    <div className="padding border round-edge">
     <div className="row-flex">
     <div className='text-bold text-small'>Ever dismissed from public service:</div> <div className='text-small'>{preview.dismissedPublicService ? "Yes" : "No"}</div>
 </div>
     </div>
-<div className="minSection padding light round-edge">
-<div className='text-bold text-small'>Reason:</div> <div className='text-small'>{preview.servicereason}</div>
+
 </div>
-</div>
-<div className="col sm-12 h4 lg-12 md-12 padding section">
+{/* <div className="col sm-12 h4 lg-12 md-12 padding section">
 Education
 </div>
 <div className="col sm-12 h4 lg-12 md-12 padding">
@@ -1486,7 +1405,7 @@ Education
         }
         </tbody>
       </table>
-</div>
+</div> */}
 
     </div>
 

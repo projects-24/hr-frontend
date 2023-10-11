@@ -13,6 +13,7 @@ import IconicInput from 'funuicss/ui/input/Iconic'
 import {PiKey , PiPaperPlaneRight} from 'react-icons/pi'
 import { FunGet } from 'funuicss/js/Fun';
 import {SaveToken} from "../components/Functions"
+import Text from 'funuicss/ui/text/Text';
 
 export default function Home() {
 
@@ -79,8 +80,8 @@ export default function Home() {
          }
 
       <div className="width-900-max center">
-        <div className="row">
-          <div className="col sm-12 lg-6 md-6 padding-20">
+        <div className="row central">
+          <div className="col sm-12 lg-4 md-4 padding-20">
             <img src="/collaborate.svg" className='fit' alt="" />
           </div>
           <div className="col sm-12 lg-6 md-6">
@@ -88,10 +89,8 @@ export default function Home() {
             <div className="form">
     
     <div className="section">
-    <div className="h2">Login Account</div>
-     <div className=''>
-     Enter a valid email and password to login your account
-    </div>
+    <div className="h2">Welcome!</div>
+    <Text text='Enter email and password to login' />
     <div className='margin-top-40'>
     <IconicInput 
 funcss="section full-width" 

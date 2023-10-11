@@ -20,7 +20,7 @@
   border-radius: 10rem !important;
 }
 
-div{text-transform: capitalize !important;}
+/* div{text-transform: capitalize !important;} */
 .text-small{font-size: 11px !important;}
 .row-flex{grid-gap: 0.5rem;}
 .padding-5{
@@ -356,7 +356,7 @@ td{min-width: 100px !important;}
     .loginLeft{display: none;}
     .loginRight{position: static;width: 100%;}
 }
-.form{max-width: 400px;width: 100%;}
+.form{max-width: 300px;width: 100%;}
 
 .edgeDesign::after{
     content: "";

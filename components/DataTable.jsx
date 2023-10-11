@@ -6,11 +6,15 @@ import dynamic from "next/dynamic"
 import Link from "next/link"
 import DaysLeft from './daysLeft';
 import Button from 'funuicss/ui/button/Button'
-import { PiFile, PiMagnifyingGlass, PiPrinter } from 'react-icons/pi'
+import { PiFile, PiMagnifyingGlass, PiPrinter, PiTrash } from 'react-icons/pi'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
 import Text from 'funuicss/ui/text/Text'
+import ToolTip from 'funuicss/ui/tooltip/ToolTip'
+import Circle from 'funuicss/ui/specials/Circle'
+import Tip from 'funuicss/ui/tooltip/Tip'
+import DeleteModal from './modal/Delete'
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
-export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action}) {
+export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action , td}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
     const [columsRender, setcolumsRender] = useState(true)
     const [openHideModal, setopenHideModal] = useState(false)
@@ -68,10 +72,14 @@ new Promise((resolve, reject) => {
         setexportTrigger(false)
       })
       }
+      const [deleteId, setdeleteId] = useState("")
   return (
     <div>
       <Excel Trigger = {exportTrigger} />
- 
+      {
+        deleteId &&
+        <DeleteModal route={"/staff"} id={deleteId}/>
+      }
         <div className="">
          <RowFlex responsiveSmall funcss='bb' justify='space-between'  gap={1}>
          <div>
@@ -487,6 +495,18 @@ new Promise((resolve, reject) => {
                        </Link>
                       </td>
                       :""
+                      }
+                      {
+                       <td>
+                            <ToolTip>
+                <span onClick={() => setdeleteId(row.id) }>
+                <Circle size={2} funcss='raised' bg='error'>
+                   <PiTrash />
+                 </Circle>
+                </span>
+       <Tip funcss='z-index-5' tip="left"  animation="ScaleUp" duration={0.2} content="Delete Object"/>
+       </ToolTip>
+                       </td>
                       }
                     </tr>
                   ))

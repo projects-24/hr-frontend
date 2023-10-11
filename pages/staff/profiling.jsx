@@ -34,6 +34,7 @@ const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import DataTable from './../../components/DataTable';
 import Header from '../../components/Header'
 import { GetToken } from '../../components/Functions';
+import DeleteModal from '../../components/modal/Delete';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -232,6 +233,7 @@ const TriggerDrop = ()=>{
     }
 ]
 
+
 if(user){
   return (
     <div className={print ? "" : "content"}>
@@ -312,7 +314,7 @@ if(user){
             docs ?
             <div className={"_card"} >
   
-              <DataTable hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
+              <DataTable  hideEmail Docs={docs} Columns={columns}  showColumns={columns} hideInterval action={user.department === "Human Resource" ? {label:"Edit" , action:<button className='button edit'> <i className='bx bx-edit'></i> Edit </button>  } : false}/>
        
            </div>
            : <Loader />

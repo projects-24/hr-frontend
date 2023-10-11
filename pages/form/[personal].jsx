@@ -28,6 +28,7 @@ import { PiPlus } from 'react-icons/pi';
 import { GetRequest, GetToken } from '../../components/Functions';
 import Modal from 'funuicss/ui/modal/Modal'
 import RowFlex from 'funuicss/ui/specials/RowFlex';
+import Success from '../../components/default/success';
 
 export default function Personal() {
     const [crime, setcrime] = useState(false)
@@ -357,7 +358,7 @@ export default function Personal() {
 
     const postData = ()=>{
         setOpen(false)
-        console.log(token)
+        console.log(preview)
      if(ghaValid && ssnitValid){
         setloader(true)
         Axios.post(endPoint + "/staff",
@@ -487,9 +488,13 @@ export default function Personal() {
             <Alert type="danger" message={<Text text={message} size='small' />} fixed='middle' raised />
             :""
          }
+         {
+            success &&
+            <Success />
+         }
          </div>
             <div className="padding-top-80"></div>
-            <Header title={"Add New Staff"} sub_title={"Create a new staff."}/>
+            <Header sub_dir={"Profiling" } sub_dir_route={"/staff/profiling"} title={"Add New Staff"} sub_title={"Create a new staff."}/>
             <div className=''>
             <Nav noSideBar={true}/>
             {
@@ -508,7 +513,7 @@ export default function Personal() {
                     <div className="h4"><img src="/hand/person.svg" className="height-30"/> Personal Details</div>
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
-                <Input  name='id' fullWidth label='Staff ID' />
+                <Input type='number' name='id' fullWidth label='Staff ID' />
                 </div>
                 <div className="col sm-6 md-6 lg-6 padding">
                 <Input  name='email' fullWidth label='Email' />
@@ -907,10 +912,10 @@ export default function Personal() {
                 </div>
  
                 <div className="col sm-12 md-4 lg-4 padding">
-                <Input  type="text" name='from' id='from' fullWidth label='From' />
+                <Input  type="number"  min="1900" max="2022" step="1"  name='from' id='from' fullWidth label='From' />
                 </div>
                 <div className="col sm-12 md-4 lg-4 padding">
-                <Input  type="text" name='to'  id='to' fullWidth label='To' />
+                <Input  type="number"  min="1900" max="2022" step="1" name='to'  id='to' fullWidth label='To' />
                 </div>
       
                 <div className="col sm-12 md-4 lg-4 padding">

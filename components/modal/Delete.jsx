@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'funuicss/ui/modal/Modal'
 import Text from 'funuicss/ui/text/Text'
 import Circle from 'funuicss/ui/specials/Circle'
@@ -8,12 +8,29 @@ import Button from 'funuicss/ui/button/Button'
 import Loader from "../loader"
 import Axios from 'axios'
 import EndPoint from '../endPoint'
+import { GetToken } from '../Functions'
 export default function DeleteModal({route , id}) {
     const [loading, setloading] = useState(false)
-
+    const [user, setuser] = useState('')
+    const [token, settoken] = useState('')
+    useEffect(() => {
+        if(!token){
+           GetToken()
+           .then(res => {
+            setuser(res.user)
+            settoken(res.token)
+           })
+        }
+          })
     const Submit = () => {
         setloading(true)
-        Axios.delete(EndPoint + route + "/" + id)
+        Axios.delete(EndPoint + route + "/" + id ,  {
+            headers: {
+                 authorization: `Bearer ${token}`,
+               
+              }
+               
+           })
         .then(() => window.location.reload() )
         .catch(err => {
             window.location.reload()

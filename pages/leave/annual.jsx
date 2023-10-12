@@ -14,12 +14,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button } from '@mui/material';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import Departments from "../../data/departments"
 import { TextField, MenuItem } from '@mui/material';
 import Loader from '../../components/loader';
+import Header from '../../components/Header';
+import  Button  from 'funuicss/ui/button/Button';
+import Text from 'funuicss/ui/text/Text';
+import Input from 'funuicss/ui/input/Input';
 
 export default function Planing() {
   const [user, setuser] = useState(null)
@@ -168,48 +171,17 @@ useEffect(() => {
           authorization:`Bearer ${token}`
       }
   }).then(dataDocs=>{
-     const getDocs = dataDocs.data.annualleave
-   new Promise((resolve, reject) => {
- 
-resolve(    getDocs.filter(filt=>{
-  if(user.position === "Government Statistician (CEO)"
-    || user.position === "Deputy Gov Statistician (DGS)"
-    || user.department === "Human resource"
-    ){
-      return getDocs
-      // if(isAdmin){
-      //   return getDocs
-      // }else if(filt.staffDetails._id === user._id){
-      //     return filt
-      //   }
- }else if(user.position === "Director" || user.position === "Deputy Director" ){
-     if(filt.staffDetails.department === user.department){
-         return filt
-     }
- }else if(user.position === "Sectional Head"){
-         if(filt.staffDetails.section === user.section){
-           return filt
-         }
- }else if(user.position === "Unit Head"){
-     if(filt.staffDetails.section === user.unit){
-       return filt
-     }
- }else if(user.position === "Officer"){
-  if(filt.staffDetails._id === user._id){
-    return filt
-  }
- }
-}
-)
-)
-   }).then((getdoc)=>{
-    setdocs(
-      getdoc.filter(doc=> doc.staffDetails.position != "Director" && doc.staffDetails.position != "Deputy Director")
-      )
-      setdirectorDocs(
-        getdoc.filter(doc=>doc.staffDetails.position === "Director" || doc.staffDetails.position === "Deputy Director")
-      )
-   })
+//      const getDocs = dataDocs.data.annualleave
+//    new Promise((resolve, reject) => {
+// resolve(getDocs)
+//    }).then((getdoc)=>{
+//     setdocs(
+//       getdoc.filter(doc=> doc.staffDetails.position != "Director" && doc.staffDetails.position != "Deputy Director")
+//       )
+//       setdirectorDocs(
+//         getdoc.filter(doc=>doc.staffDetails.position === "Director" || doc.staffDetails.position === "Deputy Director")
+//       )
+//    })
   }).catch(err=>{
     clearTimeout()
     console.log(err.message) 
@@ -546,66 +518,19 @@ resolve(    getDocs.filter(filt=>{
            </div>
             :""
          }
-        <Nav/>
-        <div className="row-flex fit white round-edge padding section">
-            <img src="/leave.svg" className='width-100-max fit' alt="" />
-            <div>
-            <div className="h1">
-                Annual Leave
-        </div>
-        <div className="section row-flex text-bold">
-                    <Link href="/dashboard">Dashboard</Link>
-                    /
-                    <Link href="#">Annual Leave</Link>
-
-                </div>
-            </div>
-        </div>
+        <Nav active={4}/>
+        <Header sub_dir={"Leave Requests" } sub_dir_route={"/leave/requests"} title={"Annual Leave"} sub_title={"Request and manage your annual leave."}/>
         {/* {
           !isAdmin ? */}
           <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
-          <button className="btn p-text" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="btn primaryBtn" onClick={()=>{
+          <Button bg="primary" raised onClick={()=>{
             setrender("plan")
             setOpen(true)
-          }}>Request Leave</button>
+          }}>Request Leave</Button>
+          <Button  raised bg='dark200' onClick={()=>setrender("requests")}>Show all</Button>
+
         </div>
-        {/* :""} */}
-   
-        <div className="section padding row-flex">
-       {/* <div>
-       <div className="minSection text-bold">Select status</div>
-          <select name="" id="" className='input white' onChange={(e)=>setfilter(e.target.value)}>
-            <option value="">All</option>
-            <option value="approved">All Approved</option>
-            <option value="pending">Pending</option>
-            <option value="disapproved">Disapproved</option>
-          </select>
-       </div> */}
-       {
-        isCeo || isDirector ?
-        <div>
-       <div className="minSection text-bold">Show Type</div>
-          <select name="" id="" className='input white' onChange={(e)=>settype(e.target.value)}>
-          <option value="officers">Subordinates</option>
-            <option value="directors"> {isCeo ? "Heads" : "personal"} </option>
-          </select>
-       </div>
-       :""
-       }
-       <div>
-       <div className="minSection text-bold">Department</div>
-        <select className='input white' placeholder="Department" select name="" id=""  onChange={(e)=>setdepartment(e.target.value)}>
-        <option value="">All Departments</option>
-        {
-        Departments &&
-        Departments.map(docs=>(
-        <option value={docs.department} key={docs.department}> {docs.department} </option>
-        ))
-        }
-        </select>
-       </div>
-        </div>
+  
         <div className="section" >
           {
             render === "requests" ?
@@ -613,31 +538,29 @@ resolve(    getDocs.filter(filt=>{
               {
                 type === "officers" ?
                 <div className="card tableContainer">
-                <table className="table" id='records'>
+                <table className="table text-small" id='records'>
                   <thead>
-                  <th>Staff ID</th>
-                    <th>Full Name</th>
-                    <th>Department</th>
-                    <th>Section</th>
-                    {/* <th>Start Date</th>
-                    <th>End Date</th> */}
-                    <th>Home Address</th>
-                    <th>Leave Address</th>
-                    <th>Days Requested</th>
-                    <th>Officer Taking Officer</th>
-                    <th>Resumption Date</th>
+                  <th className=''>Staff ID</th>
+                    <th className=''>Full Name</th>
+                    <th className=''>Department</th>
+                    <th className=''>Section</th>
+                 
+                    <th className=''>Leave Address</th>
+                    <th className=''>Days Requested</th>
+                    <th className=''>Officer Taking Over</th>
+                    <th className=''>Resumption Date</th>
                     {
                       user.position != "Government Statistician (CEO)" ?
                       <>
-                     <th>Sectional Approval</th>
-                    <th>Divisional Approval</th>
-                    <th>HR Approval</th>
+                     <th className=''>Sectional Approval</th>
+                    <th className=''>Divisional Approval</th>
+                    <th className=''>HR Approval</th>
                       </>
                       :
                      <>
                       {
                         user.position === "Director" || user.position === "Government Statistician (CEO)" ?
-                        <th>CEO Approval</th>
+                        <th className=''>CEO Approval</th>
                         : ""
                       }  
                      </>
@@ -646,7 +569,7 @@ resolve(    getDocs.filter(filt=>{
             
                 {
                   canUserApprove ?
-                  <th>Approve/Declined</th>
+                  <th className=''>Approve/Declined</th>
                   :""
                 }
                   </thead>
@@ -766,21 +689,18 @@ resolve(    getDocs.filter(filt=>{
               {
                 directorDocs ?
                 <div className="card section tableContainer">
-       <table className="table" id='records'>
+       <table className="table text-small" id='records'>
                   <thead>
-                  <th>Staff ID</th>
-                    <th>Full Name</th>
-                    <th>Department</th>
-                    <th>Section</th>
-                    {/* <th>Start Date</th>
-                    <th>End Date</th> */}
-                    <th>Home Address</th>
-                    <th>Leave Address</th>
-                    <th>Days Requested</th>
-                    <th>Officer Taking Officer</th>
-                    <th>Resumption Date</th>
-                    <th>CEO Approval</th>
-                  <th>Approve/Declined</th>
+                  <th className=''>Staff ID</th>
+                    <th className=''>Full Name</th>
+                    <th className=''>Department</th>
+                    <th className=''>Section</th>
+                    <th className=''>Leave Address</th>
+                    <th className=''>Days Requested</th>
+                    <th className=''>Officer Taking Over</th>
+                    <th className=''>Resumption Date</th>
+                    <th className=''>CEO Approval</th>
+                  <th className=''>Approve/Declined</th>
                   </thead>
                   <tbody>
                     {
@@ -854,43 +774,46 @@ resolve(    getDocs.filter(filt=>{
   :  <div>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-            <div className="h1">Annual Leave</div>
-            <div className="section text-bold">Make sure to enter all details correctly</div></DialogTitle>
+           <Text text='Annual Leave' light />
+           <Text text='Make sure to enter all details correctly' size='small' block  />
+            
+            </DialogTitle>
         <DialogContent>
  
             <div className="">
            <form ref={form}>
            <div className="row">
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='days' defaultValue={36} disabled onChange={(e)=>setdays(e.target.value)} variant="outlined" label='Number Of Days' />
+                        <Input fullWidth type="text" name='days' defaultValue={36} disabled onChange={(e)=>setdays(e.target.value)} variant="outlined" label='Number Of Days' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='leaveaddress' variant="outlined" label='Leave Address' />
+                        <Input fullWidth type="text" name='leaveaddress' variant="outlined" label='Leave Address' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='homeaddress' variant="outlined" label='Home Address' />
+                        <Input fullWidth type="text" name='homeaddress' variant="outlined" label='Home Address' />
+                    </div>
+                 
+                    <div className="col sm-12 md-6 lg-6 padding">
+                        <Input fullWidth type="text" name='daysreferredonleave' onChange={(e)=>setreferred(e.target.value)} variant="outlined" label='Days referred On Last Year' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="text-bold">Date Of Leave</div>
-                        <TextField autoFocus fullWidth type="date" name='dateofleave' variant="standard" />
+                    <Text text='Date Of Leave' size='small' italic bold/>
+                        <Input autoFocus fullWidth type="date" name='dateofleave' variant="standard" />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='daysreferredonleave' onChange={(e)=>setreferred(e.target.value)} variant="outlined" label='Days referred On Last Year' />
-                    </div>
-                    <div className="col sm-12 md-6 lg-6 padding">
-                        <div className="text-bold">Number Of days Remaining</div>
-                        <TextField fullWidth type="number"
+                        <Text text='Number Of days Remaining' size='small' italic bold/>
+                        <Input fullWidth type="number"
                          value={parseInt(user.no_of_leave_days)} disabled autoFocus id='remaining' name='daysremaining' variant="outlined"  />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                        <TextField fullWidth type="text" name='daysrequested' variant="outlined" label='Number Of days Requested' />
+                        <Input fullWidth type="text" name='daysrequested' variant="outlined" label='Number Of days Requested' />
                     </div>
                     <div className="col sm-12 md-6 lg-6 padding">
-                    <TextField fullWidth type="text" name='officertakingover' variant="outlined" label='Officer Taking Over' />
+                    <Input fullWidth type="text" name='officertakingover' variant="outlined" label='Officer Taking Over' />
                     </div>
                     <div className="col sm-12 md-12 lg-12 padding">
-                        <div className="text-bold">Resumption date</div>
-                        <TextField fullWidth type="date" name='resumedate' />
+                        <Text text='Resumption date' size='small' italic bold/>
+                        <Input fullWidth type="date" name='resumedate' />
                     </div>
                 </div>
            </form>
@@ -898,7 +821,7 @@ resolve(    getDocs.filter(filt=>{
         </DialogContent>
         <DialogActions>
           <Button color='error' onClick={()=>setrender("requests")}>Cancel</Button>
-          <button className='primaryBtn btn ' onClick={handleRequest}> Submit Request <i className="icon-paper-plane"></i></button>
+          <Button bg='primary' raised small rounded onClick={handleRequest}> Submit Request</Button>
 
         </DialogActions>
       </Dialog>

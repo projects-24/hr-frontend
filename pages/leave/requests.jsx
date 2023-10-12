@@ -24,6 +24,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Annual from './annual';
+import Header from './../../components/Header';
+import Text from 'funuicss/ui/text/Text';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -168,35 +170,30 @@ const handleLeave = (e)=>{
   if(user){
     return (
       <div className={"content"}>
-        <Nav />
-          <div className="row-flex fit white round-edge padding section">
-            <img src="/leave.svg" className='width-200-max fit' alt="" />
-            <div>
-            <div className="h1">
-                Leave Request
-        </div>
-
-        <div className="section row-flex text-bold">
-                    <Link href="/dashboard">Dashboard</Link>
-                    /
-                    <Link href="#">Leave Request</Link>
-                </div>
-            </div>
-        </div>
+        <Nav active={4}/>
+       <div>
+       <Header title={"Leave Requests"} sub_title={"Create and manage leave requests."}/>
+       </div>
         <div className="m-section">
-        <div className="h4 text-bold padding">
-               Select your leave Request type
+        <div className=" padding">
+              <Text text=' Select your leave Request type' />
         </div>
           <div className="row">
             <div className="col sm-6 md-3 lg-3 padding">
            <Link href="/leave/annual">
-           <div className="card hover-up">
+           <div className="_card hover-up">
              <div className="row-flex space-between">
               <div>
-              <div className="h4">Annual</div>
-                <div className="minSection text-bold secondary-text">
-                Leave
-                </div>
+                <Text
+                  text='Request'
+                  block
+                  />
+                  <Text
+                  text='Annual'
+                  heading='h4'
+                  lighter
+                  color='dark300'
+                  />
               </div>
               <div>
               <i className="lni lni-chevron-right p-text"></i>
@@ -206,14 +203,21 @@ const handleLeave = (e)=>{
            </Link>
             </div>
             <div className="col sm-6 md-3 lg-3 padding">
-           <Link href="/leave/casual">
-           <div className="card hover-up">
+           <Link href="/leave/annual">
+           <div className="_card hover-up">
              <div className="row-flex space-between">
               <div>
-              <div className="h4">Casual</div>
-                <div className="minSection text-bold secondary-text">
-                Leave
-                </div>
+         
+                <Text
+                  text='Request'
+                  block
+                  />
+                  <Text
+                  text='Casual'
+                  heading='h4'
+                  lighter
+                  color='dark300'
+                  />
               </div>
               <div>
               <i className="lni lni-chevron-right p-text"></i>
@@ -223,14 +227,21 @@ const handleLeave = (e)=>{
            </Link>
             </div>
             <div className="col sm-6 md-3 lg-3 padding">
-           <Link href="/leave/maternity">
-           <div className="card hover-up">
+           <Link href="/leave/annual">
+           <div className="_card hover-up">
              <div className="row-flex space-between">
               <div>
-              <div className="h4">Maternity</div>
-                <div className="minSection text-bold secondary-text">
-                Leave
-                </div>
+            
+                <Text
+                  text='Request'
+                  block
+                  />
+                  <Text
+                  text='Maternity'
+                  heading='h4'
+                  lighter
+                  color='dark300'
+                  />
               </div>
               <div>
               <i className="lni lni-chevron-right p-text"></i>
@@ -240,14 +251,20 @@ const handleLeave = (e)=>{
            </Link>
             </div>
             <div className="col sm-6 md-3 lg-3 padding">
-           <Link href="/leave/study">
-           <div className="card hover-up">
+           <Link href="/leave/annual">
+           <div className="_card hover-up">
              <div className="row-flex space-between">
               <div>
-              <div className="h4">Study</div>
-                <div className="minSection text-bold secondary-text">
-                Leave
-                </div>
+              <Text
+                  text='Request'
+                  block
+                  />
+                  <Text
+                  text='Study'
+                  heading='h4'
+                  lighter
+                  color='dark300'
+                  />
               </div>
               <div>
               <i className="lni lni-chevron-right p-text"></i>

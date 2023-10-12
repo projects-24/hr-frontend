@@ -78,15 +78,12 @@ export default function Home() {
           <Success message="Login successfully" />
           :""
          }
+ <div className="login_container">
+  <div className="container_left">
 
-      <div className="width-900-max center">
-        <div className="row central">
-          <div className="col sm-12 lg-4 md-4 padding-20">
-            <img src="/collaborate.svg" className='fit' alt="" />
-          </div>
-          <div className="col sm-12 lg-6 md-6">
-            <div className="central">
-            <div className="form">
+  </div>
+  <div className="container_right">
+  <div className="form">
     
     <div className="section">
     <div className="h2">Welcome!</div>
@@ -114,11 +111,9 @@ input={<Input id='password' type="password" label="Password" funcss="full-width"
     </div>
     </div>
    </div>
-            </div>
-          </div>
-        </div>
+  </div>
+ </div>
 
-      </div>
 
     </div>
   )

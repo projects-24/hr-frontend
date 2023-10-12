@@ -588,3 +588,28 @@ td{min-width: 100px !important;}
  * ---------------------------------------------- */
 @-webkit-keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes slide-in-fwd-center{0%{-webkit-transform:translateZ(-1400px);transform:translateZ(-1400px);opacity:0}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
 
+.login_container{
+  position: relative;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+.container_left{
+  position: absolute;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-image: url("../public/home.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.container_right{
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}

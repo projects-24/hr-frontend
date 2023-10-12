@@ -12,6 +12,8 @@ import DaysLeft from './../components/daysLeft';
 import Typography from 'funuicss/component/Typography'
 import dynamic from 'next/dynamic'
 import { GetToken } from '../components/Functions';
+import Text from 'funuicss/ui/text/Text';
+import Header from '../components/Header';
 const _Bar = dynamic(()=>import("./../components/Chart/_Bar") ,{ssr:false})
 const _Liquid = dynamic(()=>import("./../components/Chart/_Liquid") ,{ssr:false})
 export default function Dashboard() {
@@ -61,19 +63,10 @@ export default function Dashboard() {
     
           <div className="">
             <div className="margin-bottom-30">
-              <Typography
-              text="Dashboard And Analytics"
-              lighter
-              heading='h2'
-              />
-              <div />
-              <Typography
-              text={
-                <>
+            <Header title={"Dashboard And Analytics"} sub_title={  <>
                   Welcome  <span className="text-bold p-text">{user.title} {user.first_name}   {user.middle_name} {user.last_name} </span>
-                </>
-              }
-              />
+                </>}/>
+            
             </div>
               {/* <div className="_card relative">
               <div className="_dashboard_image_wrapper lighter border">
@@ -174,28 +167,16 @@ export default function Dashboard() {
                       </div>
                   </div>
                   <div className="m-section">
-                    <div className="row-flex">
-                      <div className="">
-                      <div className="_card" style={{overflowX:"auto"}}>
-                   <div className="section">
-                   <Typography
-                    text="Staff"
-                    />
-                    <div />
-                    <Typography
-                    text="Status"
-                    heading="h4"
-                    />
+                <div className="_card dark200" style={{overflowX:"auto"}}>
+                   <div className="margin-bottom-20">
+                  <Text text='Staff'/>
+                  <Text text='Status' heading='h3' block/>
                    </div>
                   <_Bar data={data} />
                   </div>
-                      </div>
-                     
-                    </div>
+                </div>
               
               </div>
-              </div>
-             
               </>
               :""
             }

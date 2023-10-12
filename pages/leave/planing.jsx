@@ -14,11 +14,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button } from '@mui/material';
 import dynamic from "next/dynamic"
 const Excel = dynamic(()=>import("./../../components/Excel") ,{ssr:false})
 import Departments from "../../data/departments"
-
+import Header from '../../components/Header';
+import Button from 'funuicss/ui/button/Button';
+import Text from 'funuicss/ui/text/Text';
 export default function Planing() {
   const [user, setuser] = useState(null)
   const [token, settoken] = useState("")
@@ -308,28 +309,16 @@ useEffect(() => {
            </div>
             :""
          }
-        <Nav/>
+        <Nav active={4}/>
        <div className="padding">
-       <div className="row-flex fit white round-edge padding section">
-            <img src="/leave.svg" className='width-100-max fit' alt="" />
-            <div>
-            <div className="h1">
-                Leave Planing
-        </div>
-        <div className="section row-flex text-bold">
-                    <Link href="/dashboard">Dashboard</Link>
-                    /
-                    <Link href="#">Leave planing</Link>
-
-                </div>
-            </div>
-        </div>
+       <Header sub_dir={"Leave Requests" } sub_dir_route={"/leave/requests"} title={"Leave Planing"} sub_title={"Plan and manage your leave."}/>
        </div>
         {
           !user.auth_level ?
         <div className='row-flex fit padding-top-30' style={{justifyContent:"flex-end"}}>
-          <button className="button light" onClick={()=>setrender("requests")}>Show all</button>
-          <button className="button primary" onClick={()=>setrender("plan")}>Plan Leave</button>
+          <Button raised bg="primary " onClick={()=>setrender("plan")}>Plan Leave</Button>
+          <Button raised bg="dark200 " onClick={()=>setrender("requests")}>Show all</Button>
+
         </div>
                   :""
                 }
@@ -430,49 +419,21 @@ useEffect(() => {
   <div className="row">
       <div className="col sm-6 lg-6 md-6 padding">
       <div className="_card fit">
-      <div className="text-bold minSection">Proposed Start Date</div>
+      <Text size='small' bold color='primary'>Proposed Start Date</Text>
       <input type="date" id='startDate' className='input full-width borderedInput' name='startdate' />
   </div>
       </div>
       <div className="col sm-6 lg-6 md-6 padding">
       <div className="_card fit">
-      <div className="text-bold minSection">Proposed End Date</div>
+      <Text size='small' bold color='primary'>Proposed End Date</Text>
       <input type="date" id='endDate' className='input full-width borderedInput' name='enddate' />
   </div>
       </div>
+
+
       <div className=" col sm-12 md-12 lg-12 padding">
     <div className="_card">
-      <div className="h4 padding">Personal details</div>
-      <div className="row">
-        <div className="col sm-12 md-6 lg-6 padding">
-          <div className="minSection text-bold">Staff ID</div>
-          <input type="text" name='staffId' disabled className='input full-width borderedInput' defaultValue={user.staffId} placeholder='Staff ID'/>
-        </div>
-        <div className="col sm-12 md-6 lg-6 padding">
-          <div className="minSection text-bold">Full Name</div>
-          <input type="text" name='fullname' disabled className='input full-width borderedInput' defaultValue={user.firstname + " " + user.middleName + " " + user.lastName} placeholder='Staff ID'/>
-        </div>
-      </div>
-    </div>
-      </div>
-      <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="_card">
-      <div className="h4 padding">Department Details</div>
-      <div className="row">
-        <div className="col sm-12 md-6 lg-6 padding">
-          <div className="minSection text-bold">Department</div>
-          <input type="text" name='department' disabled className='input full-width borderedInput' defaultValue={user.department}/>
-        </div>
-        <div className="col sm-12 md-6 lg-6 padding">
-          <div className="minSection text-bold">Section</div>
-          <input type="text" name='section' disabled className='input full-width borderedInput' defaultValue={user.section} />
-        </div>
-      </div>
-    </div>
-      </div>
-      <div className=" col sm-12 md-12 lg-12 padding">
-    <div className="_card">
-      <div className="h4 padding">Type of Leave</div>
+      <Text size='small' bold color='primary'>type of leave</Text>
      <div className="padding">
       <select name="leavetype" id="leaveType" className="input borderedInput full-width">
       <option value="annual">Annual</option>
@@ -486,10 +447,12 @@ useEffect(() => {
 </div>
   </form>
 
- {/* Submit btn */}
-<button className="button submitNewstaff" onClick={handlePlaning}>
+<div className="padding text-right">
+   {/* Submit btn */}
+<Button bg='gradient' raised onClick={handlePlaning}>
 Submit  <i className="icon-paper-plane"></i>
-</button>
+</Button>
+</div>
 </div>
 
           }

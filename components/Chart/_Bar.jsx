@@ -5,7 +5,7 @@ import { Bar } from '@ant-design/plots';
 const _Bar = ({data}) => {
  
   const config = {
-    width:1000 ,
+    width:900 ,
     height:200,
     data,
     xField: 'number',

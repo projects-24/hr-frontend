@@ -19,12 +19,12 @@ import Button from 'funuicss/ui/button/Button'
 import AppBar from 'funuicss/ui/appbar/AppBar'
 import Text from 'funuicss/ui/text/Text'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
-import { PiCaretDown, PiGear, PiGraph, PiKey, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
+import { PiBriefcase, PiCards, PiCaretDown, PiGear, PiGraph, PiKey, PiLeaf, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
 import { List, ListItem } from "@mui/material";
 import {GetToken, SignOut} from "../components/Functions"
 const Nav = ({noSideBar, active}) => {
   const [mode, setmode] = useState("")
-  const [dropdown, setdropdown] = useState(0)
+  const [dropdown, setdropdown] = useState(false)
   const [dropdown2, setdropdown2] = useState(0)
   const [user, setuser] = useState("")  
   const [dropTrigger, setdropTrigger] = useState(false)
@@ -217,12 +217,51 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
     startIcon={<PiUsers />}
     />
     </Link>
+    <Button
+  style={{marginTop:'1rem' , display:'block'}}
+    funcss={`text-left ${active == '4' ? 'card' : ''}`}
+    text="Leave R & P"
+    rounded
+    fullWidth
+    startIcon={<PiLeaf />}
+    onClick={() => {
+      setdropdown(!dropdown)
+    } }
+    />
+
+{
+  dropdown &&
+  <div>
+  <div className="dark700 round-edge padding text-dark100">
+   <Link href="/leave/requests">
+   <Button
+ style={{marginTop:'1rem' , display:'block'}}
+   funcss={`text-left`}
+   text="Leave Request"
+   rounded
+   fullWidth
+   startIcon={<PiBriefcase />}
+   />
+   </Link>
+   <Link href="/leave/planing">
+   <Button
+ style={{marginTop:'1rem' , display:'block'}}
+   funcss={`text-left`}
+   text="Leave Planing"
+   rounded
+   fullWidth
+   startIcon={<PiCards />}
+   />
+   </Link>
+   </div>
+  </div>
+}
  
  <div className="margin-top-100 padding-top-20 bt">
  <Button
   style={{marginTop:'1rem' , display:'block'}}
     funcss={`text-left card `}
-    bg="error100"
+    bg="error200"
     color="error"
     text="Sign Out"
     rounded

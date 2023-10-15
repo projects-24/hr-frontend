@@ -19,7 +19,7 @@ import Button from 'funuicss/ui/button/Button'
 import AppBar from 'funuicss/ui/appbar/AppBar'
 import Text from 'funuicss/ui/text/Text'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
-import { PiBriefcase, PiCards, PiCaretDown, PiGear, PiGraph, PiKey, PiLeaf, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
+import { PiBriefcase, PiCards, PiCaretDown, PiGear, PiGearLight, PiGraph, PiKey, PiLeaf, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
 import { List, ListItem } from "@mui/material";
 import {GetToken, SignOut} from "../components/Functions"
 const Nav = ({noSideBar, active}) => {
@@ -233,7 +233,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
   dropdown &&
   <div>
   <div className="dark700 round-edge padding text-dark100">
-   <Link href="/leave/requests">
+   <Link href="/leave/request">
    <Button
  style={{marginTop:'1rem' , display:'block'}}
    funcss={`text-left`}
@@ -251,6 +251,16 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
    rounded
    fullWidth
    startIcon={<PiCards />}
+   />
+   </Link>
+   <Link href="/leave/configuration">
+   <Button
+ style={{marginTop:'1rem' , display:'block'}}
+   funcss={`text-left`}
+   text="Configuration"
+   rounded
+   fullWidth
+   startIcon={<PiGearLight />}
    />
    </Link>
    </div>

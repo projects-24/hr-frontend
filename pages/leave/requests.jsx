@@ -26,6 +26,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Annual from './annual';
 import Header from './../../components/Header';
 import Text from 'funuicss/ui/text/Text';
+import { GetToken } from '../../components/Functions';
 export default function Profiling() {
     const [search, setsearch] = useState("")
     const [inputData, setinputData] = useState("")
@@ -53,19 +54,14 @@ export default function Profiling() {
     };
   
     useEffect(() => {
-      if(localStorage.getItem("token")  && !token ){
-          settoken(
-              JSON.parse(
-                  localStorage.getItem("token")
-              )
-          )
-          setuser(
-              JSON.parse(
-                  localStorage.getItem("user")
-              )
-          )
+      if(!token){
+         GetToken()
+         .then(res => {
+          setuser(res.user)
+          settoken(res.token)
+         })
       }
-  })
+        })
     const handlePrint = ()=>{
         new Promise((resolve, reject) => {
             setprint(true)

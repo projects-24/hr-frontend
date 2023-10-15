@@ -20,6 +20,7 @@ import Departments from "../../data/departments"
 import Header from '../../components/Header';
 import Button from 'funuicss/ui/button/Button';
 import Text from 'funuicss/ui/text/Text';
+import { GetToken } from '../../components/Functions';
 export default function Planing() {
   const [user, setuser] = useState(null)
   const [token, settoken] = useState("")
@@ -36,26 +37,16 @@ export default function Planing() {
   const [startDate, setstartDate] = useState("")
   const [endDate, setendDate] = useState("")
 const [isAdmin, setisAdmin] = useState(false)
-  useEffect(() => {
-  if(user && !canUserApprove){
-    if(user.position === "Deputy Director" ||
-      user.position === "Government Statistician (CEO)"
-      || user.position === "Deputy Gov Statistician (DGS)" ||
-      user.position === "Director" ||
-      user.position === "Deputy Director" ||
-      user.position === "Sectional Head"
-      ){
-      setcanUserApprove(true)
-    }
-    if(sessionStorage.getItem("userMode")){
-      if(JSON.parse(sessionStorage.getItem("userMode")) === "admin"){
-  setisAdmin(true)
-      }else{
-        setisAdmin(false)
-      }
-    }
+useEffect(() => {
+  if(!token){
+     GetToken()
+     .then(res => {
+      setuser(res.user)
+      settoken(res.token)
+     })
   }
-  })
+    })
+
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -131,128 +122,10 @@ Axios.post(endPoint + "/leaveplanner/register" , data , {
   clearTimeout()
 }
 }
-useEffect(() => {
-  if(!docs && user){
-  Axios.get(endPoint  + "/leaveplanner/showall" , {
-      headers:{
-          authorization:`Bearer ${token}`
-      }
-  }).then(dataDocs=>{
-     const getDocs = dataDocs.data.LeavePlanner
-     setdocs(getDocs.filter(filt=>{
-      if(user.position === "Government Statistician (CEO)"
-        || user.position === "Deputy Gov Statistician (DGS)"
-        || user.department === "Human resource"
-        ){
-          setisAdmin(true)
-          return getDocs
-          // if(isAdmin){
-          //   return getDocs
-          // }else if(filt.staffDetails._id === user._id){
-          //     return filt
-          //   }
-     }else if(user.position === "Director" || user.position === "Deputy Director" ){
-         if(filt.staffDetails.department === user.department){
-             return filt
-         }
-     }else if(user.position === "Sectional Head"){
-             if(filt.staffDetails.section === user.section){
-               return filt
-             }
-     }else if(user.position === "Unit Head"){
-         if(filt.staffDetails.section === user.unit){
-           return filt
-         }
-     }else{
-      if(filt.staffDetails._id === user._id){
-        return filt
-      }
-     }
-   }))
-  }).catch(err=>{
-    clearTimeout()
-    console.log(err.message) 
-  })
-  }
-  })
+
 
   const handleClose = ()=>{
     setOpen(false)
-  }
-
-  const Approved = ()=>{
-    var locale = "en-us";
-    var today = new Date();
-    var day = today.getDate();
-    var fullDay = ("0" + day).slice(-2);
-    var longMonth = today.toLocaleString(locale, { month: "long" });
-    var year = today.getFullYear();
-    const fullDate = longMonth + " " + fullDay + ", " + year
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:true, isPending:false} , {
-      headers:{
-        authorization:`Bearer ${token}`
-      }
-    }).then(()=>{
-      const location = window.location.href
-      Axios.post(endPoint + "/notification",{
-        sender_id:user._id,
-        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave plan have been approved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-        link:location,
-        receiver:userDoc.staffDetails._id,
-        date:fullDate
-      }, {
-        headers:{
-          authorization:`Bearer ${token}`
-        }
-      } 
-      ).then(()=>{
-        setsuccess("Approved successfully")
-        setOpen(false)
-        setdocs(null)
-      })
-
-    }).catch(err=>{
-      setmessage(err.message)
-      setOpen(false)
-    })
-  }
-  const disApproved = ()=>{
-    var locale = "en-us";
-    var today = new Date();
-    var day = today.getDate();
-    var fullDay = ("0" + day).slice(-2);
-    var longMonth = today.toLocaleString(locale, { month: "long" });
-    var year = today.getFullYear();
-    const fullDate = longMonth + " " + fullDay + ", " + year
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    Axios.patch(endPoint + "/leaveplanner/update/" +  userDoc._id , {approval:false , isPending:false} , {
-      headers:{
-        authorization:`Bearer ${token}`
-      }
-    }).then(()=>{
-      const location = window.location.href
-      Axios.post(endPoint + "/notification",{
-        sender_id:user._id,
-        message:`${userDoc.staffDetails.firstname} ${userDoc.staffDetails.middleName} ${userDoc.staffDetails.lastName}, your leave plan have been disapproved by ${user.firstname} ${user.middleName} ${user.lastName} (${user.position})`,
-        link:location,
-        receiver:userDoc.staffDetails._id,
-        date:fullDate
-      }, {
-        headers:{
-          authorization:`Bearer ${token}`
-        }
-      } 
-      ).then(()=>{
-        setsuccess("disapproved")
-        setOpen(false)
-        setdocs(null)
-      })
-
-    }).catch(err=>{
-      setmessage(err.message)
-      setOpen(false)
-    })
   }
 
   const exportExcel = ()=>{

@@ -42,11 +42,20 @@ export const SignOut = () => {
 
 export const GetRequest = (route) => {
 return new Promise((resolve, reject) => {
-    Axios.get(endPoint + route)
-    .then( res => {
-        resolve(res.data)
+    GetToken()
+    .then(res => {
+        Axios.get(endPoint + route ,  {
+            headers: {
+                 authorization: `Bearer ${res.token}`,
+              }
+               
+           })
+        .then( res => {
+            resolve(res.data)
+        })
+        .catch(err => reject(err))
     })
-    .catch(err => reject(err))
+ 
 })
 }
 export const PatchRequest = (route, id , data) => {

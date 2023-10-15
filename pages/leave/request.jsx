@@ -243,7 +243,7 @@ console.log(doc)
         <IconicInput 
     funcss="section width-500-max fit" 
     leftIcon={ <PiMagnifyingGlass />}
-    input={<Input type="text" label="search..." funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
+    input={<Input type="text" label="Staff ID" funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
      />
 
      <Button 
@@ -269,7 +269,8 @@ console.log(doc)
        hoverable
        head={<>
          <TableData>Staff Id</TableData>
-         <TableData>Email</TableData>
+         {/* <TableData>Email</TableData> */}
+         <TableData>Leave</TableData>
          <TableData>Effective</TableData>
          <TableData>Resume</TableData>
          <TableData>Sectional</TableData>
@@ -278,7 +279,7 @@ console.log(doc)
          <TableData>GS</TableData>
          <TableData>Status</TableData>
          {/* <TableData>Modify</TableData> */}
-         <TableData>Delete</TableData>
+         {/* <TableData>Delete</TableData> */}
        </>}
        body={
            <>
@@ -287,7 +288,7 @@ console.log(doc)
               docs
               .filter(res => {
                 if(filter){
-                    if(filter.toString().trim().toLowerCase().includes(res.leaveTypeName.slice(0, filter.trim().length).toString().trim().toLowerCase())){
+                    if(filter.toString().trim().toLowerCase().includes(res.staffId.toString().slice(0, filter.trim().length).toString().trim().toLowerCase())){
                         return res
                     }
                 }else{
@@ -296,7 +297,8 @@ console.log(doc)
               }).map(res => (
                 <TableRow key={res.id}>
                 <TableData>{res.staffId}</TableData>
-                <TableData>{FormatEmail(res.addedEmail)}</TableData>
+                {/* <TableData>{FormatEmail(res.addedEmail)}</TableData> */}
+                <TableData>{res.leaveTypeName}</TableData>
                 <TableData>{FormatDate(res.dateEffective).date}</TableData>
                 <TableData>{FormatDate(res.resumptionDate).date}</TableData>
                 <TableData>{
@@ -375,7 +377,7 @@ console.log(doc)
        </ToolTip>
              
                 </TableData> */}
-                <TableData>
+                {/* <TableData>
                 <ToolTip>
                 <span onClick={() => setdeleteId(res.id) }>
                 <Circle size={2} funcss='raised' bg='error'>
@@ -385,7 +387,7 @@ console.log(doc)
        <Tip funcss='z-index-5' tip="left"  animation="ScaleUp" duration={0.2} content="Delete Object"/>
        </ToolTip>
              
-                </TableData>
+                </TableData> */}
               </TableRow>
               ))
              }

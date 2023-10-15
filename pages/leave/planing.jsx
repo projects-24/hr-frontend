@@ -251,7 +251,6 @@ const Submit = () => {
          <TableData>End Date</TableData>
          <TableData>By</TableData>
          <TableData>Created</TableData>
-         {/* <TableData>Modify</TableData> */}
          <TableData>Delete</TableData>
        </>}
        body={
@@ -269,7 +268,7 @@ const Submit = () => {
                 }
               }).map(res => (
                 <TableRow key={res.id}>
-                <TableData>{res.leaveTypeId}</TableData>
+                <TableData>{res.leaveTypeName}</TableData>
                 <TableData>{FormatDate(res.proposedStartDate).date}</TableData>
                 <TableData>{FormatDate(res.proposedEndDate).date}</TableData>
                 <TableData>{res.addedEmail.slice(0, res.addedEmail.indexOf("@"))}</TableData>

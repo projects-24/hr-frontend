@@ -26,7 +26,8 @@ import Axios from 'axios'
 import endPoint from '../../components/endPoint'
 import Success from '../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
-import { GetRequest, GetToken, PatchRequest } from '../../components/Functions'
+import { FormatDate, FormatEmail, GetRequest, GetToken, PatchRequest } from '../../components/Functions'
+
 export default function LeaveRquest() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
@@ -51,7 +52,7 @@ export default function LeaveRquest() {
 
   useEffect(() => {
  if(!docs && token){
-  GetRequest("/leavetype")
+  GetRequest("/leaverequest")
   .then( res => setdocs(res))
   .catch(err => console.log(err))
  }
@@ -110,10 +111,10 @@ const Submit = () => {
     }
 console.log(doc)
   setadd_data_modal(false)
-  if(leave_type_name && leave_description && maximum_number_days){
+  if(requested_days && leave_address && resumption_date && date_effective && leave_type_id){
     setloading(true)
     if(update_doc){
-      PatchRequest( "/leave" , update_doc.id , {
+      PatchRequest( "/leaverequest" , update_doc.id , {
         leavetype:val
       })
       .then( (res) => {
@@ -129,7 +130,7 @@ console.log(doc)
       })
 
     }else{
-    Axios.post(endPoint + "/leavetype" , doc)
+    Axios.post(endPoint + "/leaverequest" , doc)
     .then( (res) => {
            setloading(false)
            console.log(res)
@@ -211,7 +212,7 @@ console.log(doc)
            {
             leaves &&
             leaves.map(res => (
-                <option value="" key={res.id}>{res.leaveTypeName}</option>
+                <option value={res.id} key={res.id}>{res.leaveTypeName}</option>
             ))
            }
            </select>
@@ -261,17 +262,22 @@ console.log(doc)
     />
         </RowFlex>
        </div>
-       <Table 
+      <div style={{overflowX:"auto"}}>
+      <Table 
        stripped
        funcss='text-small'
        hoverable
        head={<>
-         <TableData>Name</TableData>
-         <TableData>Maximum Days</TableData>
-         <TableData>Added By</TableData>
-         <TableData>Created</TableData>
-         <TableData>Updated</TableData>
-         <TableData>Modify</TableData>
+         <TableData>Staff Id</TableData>
+         <TableData>Email</TableData>
+         <TableData>Effective</TableData>
+         <TableData>Resume</TableData>
+         <TableData>Sectional</TableData>
+         <TableData>Director</TableData>
+         <TableData>HR</TableData>
+         <TableData>GS</TableData>
+         <TableData>Status</TableData>
+         {/* <TableData>Modify</TableData> */}
          <TableData>Delete</TableData>
        </>}
        body={
@@ -289,12 +295,69 @@ console.log(doc)
                 }
               }).map(res => (
                 <TableRow key={res.id}>
-                <TableData>{res.leaveTypeName}</TableData>
-                <TableData>{res.maximumNumberDays}</TableData>
-                <TableData>{res.addedEmail}</TableData>
-                <TableData>{res.createdAt}</TableData>
-                <TableData>{res.updatedAt}</TableData>
-                <TableData>
+                <TableData>{res.staffId}</TableData>
+                <TableData>{FormatEmail(res.addedEmail)}</TableData>
+                <TableData>{FormatDate(res.dateEffective).date}</TableData>
+                <TableData>{FormatDate(res.resumptionDate).date}</TableData>
+                <TableData>{
+                  res.sectionalHeadApproval ? 
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='success'>
+                     <PiCheck />
+                   </Circle>
+                  </span>
+                  :
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='light-danger' >
+                     <PiX />
+                   </Circle>
+                  </span>
+                  }</TableData>
+                <TableData>{
+                  res.directorApproval ? 
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='success'>
+                     <PiCheck />
+                   </Circle>
+                  </span>
+                  :
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='light-danger' >
+                     <PiX />
+                   </Circle>
+                  </span>
+                  }</TableData>
+                <TableData>{
+                  res.hrApproval ? 
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='success'>
+                     <PiCheck />
+                   </Circle>
+                  </span>
+                  :
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='light-danger' >
+                     <PiX />
+                   </Circle>
+                  </span>
+                  }</TableData>
+                <TableData>{
+                  res.gsApproval ? 
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='success'>
+                     <PiCheck />
+                   </Circle>
+                  </span>
+                  :
+                  <span >
+                  <Circle size={1.5} funcss='raised' bg='light-danger' >
+                     <PiX />
+                   </Circle>
+                  </span>
+                  }</TableData>
+         
+                <TableData>{res.leaveStatus ? "On Leave" : "On Post"}</TableData>
+                {/* <TableData>
                 <ToolTip>
                  <span  onClick={() => {
               new Promise((resolve, reject) => {
@@ -311,7 +374,7 @@ console.log(doc)
        <Tip funcss='z-index-5' tip="right"  animation="ScaleUp" duration={0.2} content="Edit Object"/>
        </ToolTip>
              
-                </TableData>
+                </TableData> */}
                 <TableData>
                 <ToolTip>
                 <span onClick={() => setdeleteId(res.id) }>
@@ -331,6 +394,7 @@ console.log(doc)
            </>
        }
        />
+      </div>
        </div>
       </div>
     </div>

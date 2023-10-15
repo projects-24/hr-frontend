@@ -69,3 +69,17 @@ return new Promise((resolve, reject) => {
     .catch(err => reject(err))
 })
 }
+
+export const FormatDate = (date) => {
+const req = date 
+const spl_date = req.slice(0 , req.indexOf("T")).split("-").reverse().join('-')
+const sl_date = spl_date
+
+// const sl_time = req.slice(0 , req.indexOf("T"))
+return {
+    date:sl_date
+}
+}
+export const FormatEmail = (email) => {
+return email.slice(0, email.indexOf("@"))
+}

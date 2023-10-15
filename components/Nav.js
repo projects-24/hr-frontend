@@ -3,17 +3,7 @@ import { useEffect ,useState} from "react";
 import Loader from './loader';
 import endPoint from "./endPoint";
 import  Axios  from 'axios';
-import Navbar from 'funuicss/component/NavBar'
-import Typography from 'funuicss/component/Typography'
-import SidebarTrigger from 'funuicss/component/SidebarTrigger'
-import LinkWrapper from 'funuicss/component/LinkWrapper'
-import NavLink from 'funuicss/component/NavLink'
 import Icon from 'funuicss/component/Icon'
-import NavLogo from 'funuicss/component/NavLogo'
-import Div from 'funuicss/component/Div'
-import DropDown from 'funuicss/component/DropDown'
-import DropMenu from 'funuicss/component/DropMenu'
-import DropItem from 'funuicss/component/DropItem'
 
 import Button from 'funuicss/ui/button/Button'
 import AppBar from 'funuicss/ui/appbar/AppBar'
@@ -21,7 +11,14 @@ import Text from 'funuicss/ui/text/Text'
 import RowFlex from 'funuicss/ui/specials/RowFlex'
 import { PiBriefcase, PiCards, PiCaretDown, PiGear, PiGearLight, PiGraph, PiKey, PiLeaf, PiSignOut, PiUser, PiUserCircle, PiUsers } from "react-icons/pi";
 import { List, ListItem } from "@mui/material";
-import {GetToken, SignOut} from "../components/Functions"
+import {GetToken, SignOut} from "./Functions"
+
+import DropUp from 'funuicss/ui/drop/Up'
+import Hr from 'funuicss/ui/specials/Hr'
+import DropDown from 'funuicss/ui/drop/Down'
+import DropItem from 'funuicss/ui/drop/Item'
+import DropMenu from 'funuicss/ui/drop/Menu'
+
 const Nav = ({noSideBar, active}) => {
   const [mode, setmode] = useState("")
   const [dropdown, setdropdown] = useState(false)
@@ -149,23 +146,25 @@ left = {
 
 right={
 <>
-<DropDown >
+<DropDown side="right">
 <Button funcss={"myBtn"}  text={`${user.first_name} ${user.last_name}`} startIcon={<PiUser />} endIcon={<PiCaretDown />} />
 <DropMenu 
-state={drop1}
 animation="ScaleUp" 
+width="180px"
 hoverable="hoverable" 
-funcss="navDropMenu "
-duration={0.5}>
+duration={0.2}>
+
 <Button
 text="Account"
 startIcon={<PiUser />}
 />
 <Button
-text="Change Password"
+text=" Password"
 startIcon={<PiKey />}
 />
-  <DropItem funcss="bt">
+
+    <Hr />
+    <DropItem>
   <Button
   onClick={() => SignOut()}
 text="Sign Out"
@@ -173,6 +172,7 @@ startIcon={<PiSignOut />}
 /></DropItem>
 </DropMenu>
 </DropDown>
+
 </>
 }
 sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}

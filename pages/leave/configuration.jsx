@@ -79,18 +79,18 @@ const Submit = () => {
 
   const doc = {
     leaveTypeName:leave_type_name , 
-    leave_description:leave_description,
-    maximum_number_days:maximum_number_days ,
-    addedEmail:user.email
+    leaveDescription:leave_description,
+    maximumNumberOfDays:maximum_number_days ,
+    addedBy:user.email
 }
-console.log(doc)
+
+
   setadd_data_modal(false)
   if(leave_type_name && leave_description && maximum_number_days){
     setloading(true)
+
     if(update_doc){
-      PatchRequest( "/leavetype" , update_doc.id , {
-        leavetype:val
-      })
+      PatchRequest( "/leavetype" , update_doc.id , doc)
       .then( (res) => {
        if(res){
         setsuccess(true)

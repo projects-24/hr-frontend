@@ -9,15 +9,16 @@ import Account from "./account"
 import  Axios from 'axios';
 import endPoint from '../components/endPoint';
 import DaysLeft from './../components/daysLeft';
-import Typography from 'funuicss/component/Typography'
 import dynamic from 'next/dynamic'
-import { GetToken } from '../components/Functions';
+import { GetRequest, GetToken } from '../components/Functions';
 import Text from 'funuicss/ui/text/Text';
 import Header from '../components/Header';
 const _Bar = dynamic(()=>import("./../components/Chart/_Bar") ,{ssr:false})
 const _Liquid = dynamic(()=>import("./../components/Chart/_Liquid") ,{ssr:false})
 export default function Dashboard() {
-    const [user, setuser] = useState()
+    const [user, setuser] = useState("")
+    const [data, setdata] = useState("")
+  
     useEffect(() => {
       if(!user ){
         GetToken()
@@ -26,27 +27,17 @@ export default function Dashboard() {
         })
           }
     })  
-
-    const data = [
-      {
-        name: 'All Staffs',
-        number: 100,
-      },
-      {
-        name: 'At Post',
-        number: 25, // Replace with the actual number of staff at post
-      },
-      {
-        name: 'On Leave',
-        number: 10, // Replace with the actual number of staff on leave
-      },
-      {
-        name: 'On Field',
-        number: 15, // Replace with the actual number of staff on field
+    
+    useEffect(() => {
+      if(!data){
+       GetRequest("/dashboard")
+       .then( res => setdata(res))
+       .catch(err => console.log(err))
       }
-    ];
+       })
 
-    const [docs, setdocs] = useState(null)
+ 
+
     const [token, settoken] = useState("")
     const [post, setpost] = useState(0)
     const [field, setfield] = useState(0)
@@ -127,7 +118,7 @@ export default function Dashboard() {
                       All staffs
                   </div>
                   <div className="h2">
-                    {200}
+                    {data && data[0].number}
                   </div>
               </div>
           </div>
@@ -138,8 +129,7 @@ export default function Dashboard() {
                               On post
                           </div>
                           <div className="h2">
-               
-                          {20}
+                          {data && data[1].number}
                           </div>
                       </div>
                   </div>
@@ -150,7 +140,7 @@ export default function Dashboard() {
                               On leave
                           </div>
                           <div className="h2">
-                              {20}
+                          {data && data[2].number}
                           </div>
                       </div>
                   </div>
@@ -162,7 +152,7 @@ export default function Dashboard() {
                                On Field
                           </div>
                           <div className="h2"> 
-                          {20}
+                          {data && data[3].number}
                           </div>
                       </div>
                   </div>
@@ -172,7 +162,9 @@ export default function Dashboard() {
                   <Text text='Staff'/>
                   <Text text='Status' heading='h3' block/>
                    </div>
-                  <_Bar data={data} />
+                {
+                  data &&   <_Bar data={data} />
+                }
                   </div>
                 </div>
               
@@ -188,6 +180,6 @@ export default function Dashboard() {
       </div>
     )
    }else{
-    return ""
+    return <Loader />
    }
           }

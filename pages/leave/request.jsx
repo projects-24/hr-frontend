@@ -82,22 +82,38 @@ const Close_Modal = () => {
 }
 
 const Submit = () => {
-  const leave_type_name = FunGet.val("#leave_type_name")
-  const leave_description = FunGet.val("#leave_description")
-  const maximum_number_days = FunGet.val("#maximum_number_days")
+  const requested_days = FunGet.val("#requested_days")
+  const leave_address = FunGet.val("#leave_address")
+  const resumption_date = FunGet.val("#resumption_date")
+  const date_effective = FunGet.val("#date_effective")
+  const number_of_days_remaining = FunGet.val("#number_of_days_remaining")
+//   const maximum_number_days = FunGet.val("#leave_allocation_id")
+  const leave_type_id = FunGet.val("#leave_type_id")
 
-  const doc = {
-    leaveTypeName:leave_type_name , 
-    leave_description:leave_description,
-    maximum_number_days:maximum_number_days ,
-    addedEmail:user.email
-}
+
+  const doc = 
+    {
+        "requestedDays": requested_days,
+        "leaveAddress": leave_address,
+        "resumptionDate": resumption_date,
+        "dateEffective": date_effective,
+        "numberOfDaysRemaining": number_of_days_remaining,
+        "sectionalHeadApproval": false,
+        "directorApproval": false,
+        "hrApproval": false,
+        "leaveStatus": true,
+        "staffId": user.staff_id,
+        "leaveAllocationId": null,
+        "leaveTypeId": leave_type_id,
+        "gsApproval": null,
+        "addedEmail": user.email
+    }
 console.log(doc)
   setadd_data_modal(false)
   if(leave_type_name && leave_description && maximum_number_days){
     setloading(true)
     if(update_doc){
-      PatchRequest( "/leavetype" , update_doc.id , {
+      PatchRequest( "/leave" , update_doc.id , {
         leavetype:val
       })
       .then( (res) => {

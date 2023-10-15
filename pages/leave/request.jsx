@@ -27,7 +27,7 @@ import endPoint from '../../components/endPoint'
 import Success from '../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
 import { GetRequest, GetToken, PatchRequest } from '../../components/Functions'
-export default function leavetype() {
+export default function LeaveRquest() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
   const [update_doc, setupdate_doc] = useState("")

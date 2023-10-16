@@ -26,7 +26,7 @@ import Axios from 'axios'
 import endPoint from '../../components/endPoint'
 import Success from '../../components/default/success'
 import Alert from 'funuicss/ui/alert/Alert'
-import { GetRequest, GetToken, PatchRequest } from '../../components/Functions'
+import { FormatDate, FormatEmail, GetRequest, GetToken, PatchRequest } from '../../components/Functions'
 export default function LeaveType() {
    const [loading, setloading] = useState(false)
   const [add_data_modal, setadd_data_modal] = useState(false)
@@ -195,7 +195,7 @@ const Submit = () => {
         <IconicInput 
     funcss="section width-500-max fit" 
     leftIcon={ <PiMagnifyingGlass />}
-    input={<Input type="text" label="search..." funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
+    input={<Input type="text" label="Leave Name..." funcss="full-width"  onChange={(e) => setfilter(e.target.value)}  />}
      />
 
      <Button 
@@ -244,9 +244,9 @@ const Submit = () => {
                 <TableRow key={res.id}>
                 <TableData>{res.leaveTypeName}</TableData>
                 <TableData>{res.maximumNumberDays}</TableData>
-                <TableData>{res.addedEmail}</TableData>
-                <TableData>{res.createdAt}</TableData>
-                <TableData>{res.updatedAt}</TableData>
+                <TableData>{FormatEmail(res.addedEmail)}</TableData>
+                <TableData>{FormatDate(res.createdAt).date}</TableData>
+                <TableData>{FormatDate(res.updatedAt).date}</TableData>
                 <TableData>
                 <ToolTip>
                  <span  onClick={() => {

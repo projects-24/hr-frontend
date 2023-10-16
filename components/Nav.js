@@ -220,7 +220,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
     <Button
   style={{marginTop:'1rem' , display:'block'}}
     funcss={`text-left ${active == '4' ? 'card' : ''}`}
-    text="Leave R & P"
+    text="Leave Mng"
     rounded
     fullWidth
     startIcon={<PiLeaf />}

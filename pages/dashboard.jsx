@@ -156,17 +156,34 @@ export default function Dashboard() {
                           </div>
                       </div>
                   </div>
-                  <div className="m-section">
+                  {/* <div className="m-section">
                 <div className="_card dark200" style={{overflowX:"auto"}}>
                    <div className="margin-bottom-20">
                   <Text text='Staff'/>
                   <Text text='Status' heading='h3' block/>
                    </div>
                 {
-                  data &&   <_Bar data={data} />
+                  data &&   <_Bar data={[
+                    {
+                        "name": "All Staffs",
+                        "number": 9
+                    },
+                    {
+                        "name": "At Post",
+                        "number": 9
+                    },
+                    {
+                        "name": "On Leave",
+                        "number": 0
+                    },
+                    {
+                        "name": "On Field",
+                        "number": 0
+                    }
+                ]} />
                 }
                   </div>
-                </div>
+                </div> */}
               
               </div>
               </>

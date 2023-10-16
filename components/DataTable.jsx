@@ -13,6 +13,7 @@ import ToolTip from 'funuicss/ui/tooltip/ToolTip'
 import Circle from 'funuicss/ui/specials/Circle'
 import Tip from 'funuicss/ui/tooltip/Tip'
 import DeleteModal from './modal/Delete'
+import { FormatEmail } from './Functions'
 const Excel = dynamic(()=>import("./Excel") ,{ssr:false})
 export default function DataTable({Docs, Columns, showColumns, hideInterval, hideEmail, staffDetails, action , td}) {
     const [columsHide, setcolumsHide] = useState(showColumns ? showColumns : [])
@@ -397,8 +398,8 @@ new Promise((resolve, reject) => {
                 }).filter((filtDoc)=>{
                   if(search){
                     if(
-                      search.trim().toLowerCase().includes(filtDoc.staffId.trim().toLowerCase().slice(0, search.length)) ||
-                      search.trim().toLowerCase().includes(filtDoc.email.trim().toLowerCase().slice(0, search.length))
+                      search.trim().toLowerCase().includes(filtDoc.id.toString().trim().toLowerCase().slice(0, search.length)) ||
+                      search.trim().toLowerCase().includes(filtDoc.email.toString().trim().toLowerCase().slice(0, search.length))
                       ){
                       return filtDoc
                     }
@@ -416,24 +417,24 @@ new Promise((resolve, reject) => {
                       </td>
                     {
                       !hideEmail ?
-                      <td align="left">{!staffDetails ? row.email : row.email}</td>
+                      <td align="left">{!staffDetails ? FormatEmail(row.email) : FormatEmail(row.email)}</td>
                       :""
                     }
                       <td className='trOccupy' align="left">{!staffDetails ? row.firstName : row.lastName} {row.lastName}</td>
               
                       {
                       columsHide.find(doc=>doc.id === "d1") ?  
-                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.directorate : row.department}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ?  row.directorate.slice(0, 10) :  row.directorate.slice(0, 10)}...</td>
                       :  ""}
                       {  columsHide.find(doc=>doc.id === "d2") ?  
-                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.section : row.section }</td> : ""
+                      <td style={{ width:"200px"}} align="left">{!staffDetails ? row.section.slice(0, 10) : row.section.slice(0, 10) }...</td> : ""
                       }
                       {  columsHide.find(doc=>doc.id === "d4") ?  
                       <td style={{ width:"200px"}} align="left">{!staffDetails ? row.grade : row.grade }</td> : ""
                       }
                       {
                       columsHide.find(doc=>doc.id === "d3") ?  
-                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.position : row.position}</td>
+                      <td  style={{width:"200px"}} align="left">{!staffDetails ? row.position.slice(0, 10) : row.position.slice(0, 10)}...</td>
                       :  ""}
                       {
                       columsHide.find(doc=>doc.id === "d5") ?  

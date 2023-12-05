@@ -7,7 +7,6 @@ export default function MyModal({title , sub_title , body, maxwidth ,footer ,clo
     <Modal
     open={true}
     maxWidth={maxwidth ? maxwidth : '500px'}
-    backdrop
     animation='ScaleUp'
     duration={0.2}
     title={<>

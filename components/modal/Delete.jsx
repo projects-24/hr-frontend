@@ -44,7 +44,7 @@ export default function DeleteModal({route , id}) {
      <Modal
     open={loading ? false : true}
     maxWidth='400px'
-    backdrop
+    
     body={
         <RowFlex gap={1}>
         <Circle size={2} bg='error'>

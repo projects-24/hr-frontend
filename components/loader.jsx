@@ -5,6 +5,6 @@ export default function Loader() {
    <FunLoader 
    size="100px"
    color={"primary"}
-   variant='duotone' fixed backdrop />
+   variant='duotone' fixed  />
   )
 }

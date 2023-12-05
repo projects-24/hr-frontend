@@ -94,6 +94,7 @@ funcss="section full-width"
 leftIcon={ <PiPaperPlaneRight />}
 input={<Input id='email' type="email" label="Email" funcss="full-width" bordered />}
 />
+<p />
 <IconicInput 
 funcss="section full-width" 
 leftIcon={ <PiKey />}
@@ -102,7 +103,7 @@ input={<Input id='password' type="password" label="Password" funcss="full-width"
     </div>
    {
     message &&  <div>
-    <Alert type='warning' funcss='raised' fullWidth message={message}/>
+    <Alert type='warning'   fixed='top-right' message={message}/>
   </div>
    }
   

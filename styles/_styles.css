@@ -26,6 +26,10 @@
 
 }
 
+
+.flex-start{
+    justify-content: flex-start !important;
+}
 /* Scrool bar */
 
 *::-webkit-scrollbar-track

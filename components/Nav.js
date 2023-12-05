@@ -139,7 +139,7 @@ if(user){
     <div>
 <AppBar
 fixedTop
-funcss="card raised"
+funcss="height-70"
 left = {
 <img src="/logo.png" className="height-40-max" />
 }
@@ -189,7 +189,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
 
   <Link href="/dashboard">
     <Button
-    funcss={`text-left ${active == '1' ? 'card' : ''}`}
+    funcss={`text-left flex-start ${active == '1' ? 'card' : ''}`}
     text="Dashboard"
     rounded
     fullWidth
@@ -200,7 +200,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
   <Link href="/configurations">
     <Button
   style={{marginTop:'1rem' , display:'block'}}
-    funcss={`text-left ${active == '2' ? 'card' : ''}`}
+    funcss={`text-left flex-start ${active == '2' ? 'card' : ''}`}
     text="Org Settings"
     rounded
     fullWidth
@@ -210,7 +210,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
   <Link href="/staff/profiling">
     <Button
   style={{marginTop:'1rem' , display:'block'}}
-    funcss={`text-left ${active == '3' ? 'card' : ''}`}
+    funcss={`text-left flex-start ${active == '3' ? 'card' : ''}`}
     text="Staff Profiling"
     rounded
     fullWidth
@@ -219,7 +219,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
     </Link>
     <Button
   style={{marginTop:'1rem' , display:'block'}}
-    funcss={`text-left ${active == '4' ? 'card' : ''}`}
+    funcss={`text-left flex-start ${active == '4' ? 'card' : ''}`}
     text="Leave Mng"
     rounded
     fullWidth
@@ -236,7 +236,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
    <Link href="/leave/request">
    <Button
  style={{marginTop:'1rem' , display:'block'}}
-   funcss={`text-left`}
+   funcss={`text-left flex-start`}
    text="Leave Request"
    rounded
    fullWidth
@@ -246,7 +246,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
    <Link href="/leave/planing">
    <Button
  style={{marginTop:'1rem' , display:'block'}}
-   funcss={`text-left`}
+   funcss={`text-left flex-start`}
    text="Leave Planing"
    rounded
    fullWidth
@@ -256,7 +256,7 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
    <Link href="/leave/configuration">
    <Button
  style={{marginTop:'1rem' , display:'block'}}
-   funcss={`text-left`}
+   funcss={`text-left flex-start`}
    text="Configuration"
    rounded
    fullWidth
@@ -267,12 +267,11 @@ sidebarTrigger={<Icon icon="fas fa-bars"  onClick={()=>setopen(true)}/>}
   </div>
 }
  
- <div className="margin-top-100 padding-top-20 bt">
+ <div className="margin-top-100 padding-top-20 ">
  <Button
   style={{marginTop:'1rem' , display:'block'}}
-    funcss={`text-left card `}
-    bg="error200"
-    color="error"
+  raised
+    bg="error"
     text="Sign Out"
     rounded
     fullWidth

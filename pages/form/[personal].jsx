@@ -445,7 +445,8 @@ export default function Personal() {
               <div className="message">
          {
             message ?
-            <Alert type="danger" message={<Text text={message} size='small' />} fixed='middle' raised />
+            <Alert 
+            type="warning" message={<Text text={message} size='small' />} fixed='top-right'  />
             :""
          }
          {
